@@ -29,7 +29,7 @@ set(MODULE_SOURCES
   io_renderer_2d.cpp
   io_renderer_axes.cpp
   io_renderer.cpp
-  io_renderer_dxf.cpp
+  # io_renderer_dxf.cpp
   io_renderer_gd.cpp
   io_renderer_opengl.cpp
   io_renderer_plplot.cpp

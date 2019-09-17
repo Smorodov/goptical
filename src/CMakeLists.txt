@@ -9,7 +9,7 @@ endforeach(subdir)
 message(STATUS ${SOURCES})
 
 find_package(GSL REQUIRED)
-find_package(Dime REQUIRED)
+# find_package(Dime REQUIRED)
 find_package(GD REQUIRED)
 find_package(PLplot REQUIRED)
 
