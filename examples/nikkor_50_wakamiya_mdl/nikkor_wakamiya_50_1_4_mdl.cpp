@@ -71,30 +71,46 @@ int main()
 
   //               roc,            ap.radius, thickness,
 
-  lens.add_surface(1/0.031186861,  14.934638, 4.627804137,
-                   ref<material::AbbeVd>::create(1.607170, 59.5002));
+  lens.add_surface(78.687,  38.00, 9.884,
+                   ref<material::AbbeVd>::create(1.8, 45.6));
 
-  lens.add_surface(0,              14.934638, 5.417429465);
+  lens.add_surface(471.434,              38.0, 0.194);
 
-  lens.add_surface(1/-0.014065441, 12.766446, 3.728230979,
-                   ref<material::AbbeVd>::create(1.575960, 41.2999));
+  lens.add_surface(50.297, 32.0, 9.108,
+                   ref<material::AbbeVd>::create(1.773, 49.6));
 
-  lens.add_surface(1/0.034678487,  11.918098, 4.417903733);
+  lens.add_surface(74.376,  31.0, 2.946);
 
-  lens.add_stop   (                12.066273, 2.288913925);
+  lens.add_surface(138.143, 30.0, 2.326,
+                   ref<material::AbbeVd>::create(1.673, 32.2));
 
-  lens.add_surface(0,              12.372318, 1.499288597,
-                   ref<material::AbbeVd>::create(1.526480, 51.4000));
+  lens.add_surface(34.326,  25.5, 16.070);
 
-  lens.add_surface(1/0.035104369,  14.642815, 7.996205852,
-                   ref<material::AbbeVd>::create(1.623770, 56.8998));
+  lens.add_stop   (                24.6, 13.0);
 
-  lens.add_surface(1/-0.021187519, 14.642815, 85.243965130);
+  lens.add_surface(-34.407,  24.4, 1.938,
+                   ref<material::AbbeVd>::create(1.74, 28.3));
+
+  lens.add_surface(-2906.977,              28.5, 12.403,
+                   ref<material::AbbeVd>::create(1.773, 49.6));
+
+  lens.add_surface(-59.047,  30.0, 0.388);
+
+  lens.add_surface(-150.021, 33.4, 8.333,
+                   ref<material::AbbeVd>::create(1.788, 47.5));
+
+  lens.add_surface(-57.890,  33.9, 0.194);
+
+  lens.add_surface(284.630, 33.0, 5.039,
+                   ref<material::AbbeVd>::create(1.788, 47.5));
+
+  lens.add_surface(-253.217,  33.0, 74.064);
+
 
   sys.add(lens);
   /* anchor end */
 
-  sys::Image      image(math::Vector3(0, 0, 125.596), 5);
+  sys::Image      image(math::Vector3(0, 0, 155.878), 41.0);
   sys.add(image);
 
   /* anchor sources */
