@@ -1,8 +1,11 @@
-This is my fork of:
-Goptical fork by Dmitry Galchinsky <galchinsky@gmail.com>. Very WIP.
+This is derivative of [Goptical - GNU Optical design and simulation library](https://www.gnu.org/software/goptical/) by Alexandre Becoulet.
 
-* different directory structure
-* cmake instead of autotools
+Forked from [Goptical fork by Dmitry Galchinsky](https://github.com/galchinsky/goptical).
+
+## Changes from original
+
+* Different directory structure
+* CMake instead of autotools
 
 ## Compiling on Linux Mint 
 
