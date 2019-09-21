@@ -57,62 +57,78 @@
 #include <goptical/core/io/RendererSvg>
 #include <goptical/core/io/Rgb>
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+
 using namespace goptical;
 
-int main()
+int main(int argc, const char *argv[])
 {
   //**********************************************************************
   // Optical system definition
+
+  if (argc != 2) {
+    fprintf(stderr, "Please supply a data file\n");
+    exit(1);
+  }
+  FILE *fp = fopen(argv[1], "r");
+  if (fp == NULL) {
+    fprintf(stderr, "Unable to open file %s: %s\n", argv[1], strerror(errno));
+    exit(1);
+  }
 
   sys::system   sys;
 
   /* anchor lens */
   sys::Lens     lens(math::Vector3(0, 0, 0));
 
-  //               roc,            ap.radius, thickness,
-
-  lens.add_surface(78.687,  38.00, 9.884,
-                   ref<material::AbbeVd>::create(1.8, 45.6));
-
-  lens.add_surface(471.434,              38.0, 0.194);
-
-  lens.add_surface(50.297, 32.0, 9.108,
-                   ref<material::AbbeVd>::create(1.773, 49.6));
-
-  lens.add_surface(74.376,  31.0, 2.946);
-
-  lens.add_surface(138.143, 30.0, 2.326,
-                   ref<material::AbbeVd>::create(1.673, 32.2));
-
-  lens.add_surface(34.326,  25.5, 16.070);
-
-  lens.add_stop   (                24.6, 13.0);
-
-  lens.add_surface(-34.407,  24.4, 1.938,
-                   ref<material::AbbeVd>::create(1.74, 28.3));
-
-  lens.add_surface(-2906.977,              28.5, 12.403,
-                   ref<material::AbbeVd>::create(1.773, 49.6));
-
-  lens.add_surface(-59.047,  30.0, 0.388);
-
-  lens.add_surface(-150.021, 33.4, 8.333,
-                   ref<material::AbbeVd>::create(1.788, 47.5));
-
-  lens.add_surface(-57.890,  33.9, 0.194);
-
-  lens.add_surface(284.630, 33.0, 5.039,
-                   ref<material::AbbeVd>::create(1.788, 47.5));
-
-  lens.add_surface(-253.217,  33.0, 74.064);
-
-  double image_pos = 9.884 + 0.194 + 9.108 + 2.946 + 2.326 + 16.070
-    + 13.0 + 1.938 + 12.403 + 0.388 + 8.333 + 0.194 + 5.039 + 74.064;
+  double image_height = 42.42;
+  double image_pos = 0;
+  char line[128];
+  while (fgets(line, sizeof line, fp) != NULL) {
+    line[sizeof line - 1] = 0;
+    if (line[0] == '#')
+      continue;
+    int stop = 0;
+    double roc = 0, 
+      ap_radius = 0, 
+      thickness = 0, 
+      refractive_index = 0, 
+      abbe_vd = 0;
+    sscanf(line, "%d %lf %lf %lf %lf %lf", &stop, &roc, &ap_radius, &thickness, &refractive_index, &abbe_vd);
+    if (stop == 0) {
+      image_height = roc;
+      printf("Image height=%f\n", image_height);
+    }
+    else if (stop == 3) {
+      lens.add_stop   (                ap_radius, thickness);
+      printf("Added stop thickness=%f aperture_radius=%f\n",
+        thickness, ap_radius);
+    }
+    else if (stop == 2) {
+      //               roc,            ap.radius, thickness,
+      lens.add_surface(roc,  ap_radius, thickness);
+      printf("Added surface radius=%f thickness=%f aperture_radius=%f\n",
+        roc, thickness, ap_radius);
+    }
+    else {
+      //               roc,            ap.radius, thickness,
+      lens.add_surface(roc,  ap_radius, thickness,
+                   ref<material::AbbeVd>::create(refractive_index, abbe_vd));
+      printf("Added surface radius=%f thickness=%f index=%f v no=%f aperture_radius=%f\n",
+        roc, thickness, refractive_index, abbe_vd, ap_radius);
+    }
+    image_pos += thickness;
+  }
+  printf("Image position is at %f\n", image_pos);
+  fclose(fp);
 
   sys.add(lens);
   /* anchor end */
 
-  sys::Image      image(math::Vector3(0, 0, image_pos), 42.42);
+  sys::Image      image(math::Vector3(0, 0, image_pos), image_height);
   sys.add(image);
 
   /* anchor sources */
