@@ -149,11 +149,11 @@ int main()
 
   lens.add_surface(
     ref<AsphericCurve>::create(-77.2943, 14.1597, 8.65514e-06, 4.1594e-09, 1.25812e-11, 1.22728e-14),
-    ref<shape::Disk>::create(17.0), 38.7);
+    ref<shape::Disk>::create(18.0), 38.7);
 
 
   double image_pos = 6.0 + 0.1 + 6.0 + 1.5 + 4.1038 + 1.5
-    + 6.0 + 6.0 + 1.7 + 7.0 + 0.1 + 6.0 + 1.5 + 6.0 + 40.0;
+    + 6.0 + 6.0 + 1.7 + 7.0 + 0.1 + 6.0 + 1.5 + 6.0 + 41.25;
   printf("Image pos at %f\n", image_pos);
 
   sys.add(lens);
