@@ -110,50 +110,50 @@ int main()
 
   lens.add_surface(
     ref<AsphericCurve>::create(52.8577, 0.5721, 1.10084e-07, 6.21998e-10, -4.25694e-13),
-    ref<shape::Disk>::create(25.0), 6.0, ref<material::AbbeVd>::create(1.744430, 49.53));
+    ref<shape::Disk>::create(24.765), 6.0, ref<material::AbbeVd>::create(1.744430, 49.53));
 
-  lens.add_surface(229.3475,              25.0, 0.1);
+  lens.add_surface(229.3475,              23.61, 0.1);
 
-  lens.add_surface(40.3738, 21.0, 6.0,
+  lens.add_surface(40.3738, 19.79, 6.0,
                    ref<material::AbbeVd>::create(1.7550, 52.34));
 
-  lens.add_surface(354.9744, 21.0, 1.5,
+  lens.add_surface(354.9744, 19.79, 1.5,
                    ref<material::AbbeVd>::create(1.48749, 70.31));
 
-  lens.add_surface(42.4134,  18.0, 4.1038);
+  lens.add_surface(42.4134,  17.53, 4.1038);
 
-  lens.add_surface(290.8467, 19.0, 1.5,
+  lens.add_surface(290.8467, 17.01, 1.5,
                   ref<material::AbbeVd>::create(1.688930, 31.16));
 
-  lens.add_surface(31.6359,  17.0, 6.0);
+  lens.add_surface(31.6359,  16.54, 6.0);
 
 
-  lens.add_stop   (                16.5, 6.0);
+  lens.add_stop   (                14.1, 6.0);
 
-  lens.add_surface(-30.7873,  16.0, 1.7,
+  lens.add_surface(-30.7873,  15.02, 1.7,
                    ref<material::AbbeVd>::create(1.72825, 28.46));
 
-  lens.add_surface(35.1427,   18.0, 7.0,
+  lens.add_surface(35.1427,   16.85, 7.0,
                    ref<material::AbbeVd>::create(1.883, 40.66));
 
-  lens.add_surface(-131.1407,  18.0, 0.1);
+  lens.add_surface(-131.1407,  16.85, 0.1);
 
-  lens.add_surface(118.7661, 18.0, 6.0,
+  lens.add_surface(118.7661, 17.06, 6.0,
                    ref<material::AbbeVd>::create(1.883, 40.66));
 
-  lens.add_surface(-44.2318, 18.0, 1.5,
+  lens.add_surface(-44.2318, 17.06, 1.5,
                    ref<material::AbbeVd>::create(1.53172, 48.78));
 
-  lens.add_surface(44.2683, 18.0, 6.0,
+  lens.add_surface(44.2683, 17.06, 6.0,
                    ref<material::AbbeVd>::create(1.7443, 49.53));
 
   lens.add_surface(
     ref<AsphericCurve>::create(-77.2943, 14.1597, 8.65514e-06, 4.1594e-09, 1.25812e-11, 1.22728e-14),
-    ref<shape::Disk>::create(18.0), 38.7);
+    ref<shape::Disk>::create(17.06), 38.7);
 
 
   double image_pos = 6.0 + 0.1 + 6.0 + 1.5 + 4.1038 + 1.5
-    + 6.0 + 6.0 + 1.7 + 7.0 + 0.1 + 6.0 + 1.5 + 6.0 + 41.25;
+    + 6.0 + 6.0 + 1.7 + 7.0 + 0.1 + 6.0 + 1.5 + 6.0 + 38.7;
   printf("Image pos at %f\n", image_pos);
 
   sys.add(lens);
@@ -163,10 +163,10 @@ int main()
   sys.add(image);
 
   /* anchor sources */
-  sys::SourceRays  source_rays(math::Vector3(0, 27.5, -1000));
+  sys::SourceRays  source_rays(math::Vector3(0, 27.5, -10000));
 
   sys::SourcePoint source_point(sys::SourceAtFiniteDistance,
-                                math::Vector3(0, 27.5, -1000));
+                                math::Vector3(0, 27.5, -10000));
 
   // add sources to system
   sys.add(source_rays);
@@ -177,9 +177,7 @@ int main()
   source_rays.add_marginal_rays(sys, 14);
 
   source_point.clear_spectrum();
-  source_point.add_spectral_line(light::SpectralLine::C);
-  source_point.add_spectral_line(light::SpectralLine::e);
-  source_point.add_spectral_line(light::SpectralLine::F);
+  source_point.add_spectral_line(light::SpectralLine::d);
   /* anchor end */
 
   /* anchor seq */

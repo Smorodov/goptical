@@ -167,10 +167,10 @@ int main(int argc, const char *argv[])
   sys.add(image);
 
   /* anchor sources */
-  sys::SourceRays  source_rays(math::Vector3(0, 27.5, -1000));
+  sys::SourceRays  source_rays(math::Vector3(0, 27.5, -100000));
 
   sys::SourcePoint source_point(sys::SourceAtFiniteDistance,
-                                math::Vector3(0, 27.5, -1000));
+                                math::Vector3(0, 27.5, -100000));
 
   // add sources to system
   sys.add(source_rays);
@@ -181,9 +181,7 @@ int main(int argc, const char *argv[])
   source_rays.add_marginal_rays(sys, 14);
 
   source_point.clear_spectrum();
-  source_point.add_spectral_line(light::SpectralLine::C);
-  source_point.add_spectral_line(light::SpectralLine::e);
-  source_point.add_spectral_line(light::SpectralLine::F);
+  source_point.add_spectral_line(light::SpectralLine::d);
   /* anchor end */
 
   /* anchor seq */
