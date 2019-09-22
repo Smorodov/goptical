@@ -41,7 +41,9 @@
 
 #include <goptical/core/curve/Sphere>
 #include <goptical/core/curve/Rotational>
+
 #include <goptical/core/shape/Disk>
+
 
 #include <goptical/core/trace/Tracer>
 #include <goptical/core/trace/Result>
@@ -57,11 +59,6 @@
 
 #include <goptical/core/io/RendererSvg>
 #include <goptical/core/io/Rgb>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <string.h>
 
 using namespace goptical;
 
@@ -99,71 +96,70 @@ private:
     double _A14;
 };
 
-int main(int argc, const char *argv[])
+int main()
 {
   //**********************************************************************
   // Optical system definition
-
-  if (argc != 2) {
-    fprintf(stderr, "Please supply a data file\n");
-    exit(1);
-  }
-  FILE *fp = fopen(argv[1], "r");
-  if (fp == NULL) {
-    fprintf(stderr, "Unable to open file %s: %s\n", argv[1], strerror(errno));
-    exit(1);
-  }
 
   sys::system   sys;
 
   /* anchor lens */
   sys::Lens     lens(math::Vector3(0, 0, 0));
 
-  double image_height = 42.42;
-  double image_pos = 0;
-  char line[128];
-  while (fgets(line, sizeof line, fp) != NULL) {
-    line[sizeof line - 1] = 0;
-    if (line[0] == '#')
-      continue;
-    int stop = 0;
-    double roc = 0, 
-      ap_radius = 0, 
-      thickness = 0, 
-      refractive_index = 0, 
-      abbe_vd = 0;
-    sscanf(line, "%d %lf %lf %lf %lf %lf", &stop, &roc, &ap_radius, &thickness, &refractive_index, &abbe_vd);
-    if (stop == 0) {
-      image_height = roc;
-      printf("Image height=%f\n", image_height);
-    }
-    else if (stop == 3) {
-      lens.add_stop   (                ap_radius, thickness);
-      printf("Added stop thickness=%f aperture_radius=%f\n",
-        thickness, ap_radius);
-    }
-    else if (stop == 2) {
-      //               roc,            ap.radius, thickness,
-      lens.add_surface(roc,  ap_radius, thickness);
-      printf("Added surface radius=%f thickness=%f aperture_radius=%f\n",
-        roc, thickness, ap_radius);
-    }
-    else {
-      //               roc,            ap.radius, thickness,
-      lens.add_surface(roc,  ap_radius, thickness,
-                   ref<material::AbbeVd>::create(refractive_index, abbe_vd));
-      printf("Added surface radius=%f thickness=%f index=%f v no=%f aperture_radius=%f\n",
-        roc, thickness, refractive_index, abbe_vd, ap_radius);
-    }
-    image_pos += thickness;
-  }
-  printf("Image position is at %f\n", image_pos);
-  fclose(fp);
+  //               roc,            ap.radius, thickness,
+
+  lens.add_surface(
+    ref<AsphericCurve>::create(52.8577, 0.5721, 1.10084e-07, 6.21998e-10, -4.25694e-13),
+    ref<shape::Disk>::create(25.0), 6.0, ref<material::AbbeVd>::create(1.744430, 49.53));
+
+  lens.add_surface(229.3475,              25.0, 0.1);
+
+  lens.add_surface(40.3738, 21.0, 6.0,
+                   ref<material::AbbeVd>::create(1.7550, 52.34));
+
+  lens.add_surface(354.9744, 21.0, 1.5,
+                   ref<material::AbbeVd>::create(1.48749, 70.31));
+
+  lens.add_surface(42.4134,  18.0, 4.1038);
+
+  lens.add_surface(290.8467, 19.0, 1.5,
+                  ref<material::AbbeVd>::create(1.688930, 31.16));
+
+  lens.add_surface(31.6359,  17.0, 6.0);
+
+
+  lens.add_stop   (                16.5, 6.0);
+
+  lens.add_surface(-30.7873,  16.0, 1.7,
+                   ref<material::AbbeVd>::create(1.72825, 28.46));
+
+  lens.add_surface(35.1427,   18.0, 7.0,
+                   ref<material::AbbeVd>::create(1.883, 40.66));
+
+  lens.add_surface(-131.1407,  18.0, 0.1);
+
+  lens.add_surface(118.7661, 18.0, 6.0,
+                   ref<material::AbbeVd>::create(1.883, 40.66));
+
+  lens.add_surface(-44.2318, 18.0, 1.5,
+                   ref<material::AbbeVd>::create(1.53172, 48.78));
+
+  lens.add_surface(44.2683, 18.0, 6.0,
+                   ref<material::AbbeVd>::create(1.7443, 49.53));
+
+  lens.add_surface(
+    ref<AsphericCurve>::create(-77.2943, 14.1597, 8.65514e-06, 4.1594e-09, 1.25812e-11, 1.22728e-14),
+    ref<shape::Disk>::create(17.0), 38.7);
+
+
+  double image_pos = 6.0 + 0.1 + 6.0 + 1.5 + 4.1038 + 1.5
+    + 6.0 + 6.0 + 1.7 + 7.0 + 0.1 + 6.0 + 1.5 + 6.0 + 40.0;
+  printf("Image pos at %f\n", image_pos);
 
   sys.add(lens);
   /* anchor end */
 
-  sys::Image      image(math::Vector3(0, 0, image_pos), image_height);
+  sys::Image      image(math::Vector3(0, 0, image_pos), 42.42);
   sys.add(image);
 
   /* anchor sources */
