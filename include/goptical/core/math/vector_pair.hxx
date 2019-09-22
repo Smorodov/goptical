@@ -229,7 +229,7 @@ namespace _goptical {
     {
     }
 
-    double VectorPair<2>::ln_intersect_ln_scale(const VectorPair<2> &line) const throw (Error)
+    double VectorPair<2>::ln_intersect_ln_scale(const VectorPair<2> &line) const
     {
       // based on http://geometryalgorithms.com/Archive/algorithm_0104/algorithm_0104B.htm
 
@@ -245,13 +245,13 @@ namespace _goptical {
       return s;
     }
 
-    Vector<2> VectorPair<2>::ln_intersect_ln(const VectorPair<2> &line) const throw (Error)
+    Vector<2> VectorPair<2>::ln_intersect_ln(const VectorPair<2> &line) const
     {
       return _v[0] + _v[1] * ln_intersect_ln_scale(line);
     }
 
     template <bool infinite_1st, bool infinite_2nd>
-    Vector<2> VectorPair<2>::seg_intersect_seg(const VectorPair<2> &s) const throw (Error)
+    Vector<2> VectorPair<2>::seg_intersect_seg(const VectorPair<2> &s) const
     {
       double d= ((s.x1()-s.x0())*y1() + (s.x0()-s.x1())*y0() + (s.y0()-s.y1())*x1() + (s.y1()-s.y0())*x0());
       double t1= ((s.x1()-s.x0())*y1() + (s.y0()-s.y1())*x1() + s.x0()*s.y1() - s.x1()*s.y0()) / d;
@@ -350,7 +350,7 @@ namespace _goptical {
       return _v[1].z();
     }
 
-    double VectorPair<3>::ln_ln_clst_pt_scale(const VectorPair<3> &line) const throw (Error)
+    double VectorPair<3>::ln_ln_clst_pt_scale(const VectorPair<3> &line) const
     {
       // based on http://geometryalgorithms.com/Archive/algorithm_0106/algorithm_0106.htm
 
@@ -368,7 +368,7 @@ namespace _goptical {
       return (b * (v * w) - c * (u * w)) / k;
     }
 
-    Vector<3> VectorPair<3>::ln_ln_clst_pt(const VectorPair<3> &line) const throw (Error)
+    Vector<3> VectorPair<3>::ln_ln_clst_pt(const VectorPair<3> &line) const
     {
       return _v[0] + _v[1] * ln_ln_clst_pt_scale(line);
     }

@@ -256,7 +256,7 @@ namespace dpp {
 
     /** @This returns reference to object at given position in pool
 	with bound checking */
-    inline const X & at(unsigned int i) const throw (std::out_of_range)
+    inline const X & at(unsigned int i) const
     {
       if (i >= size())
 	throw std::out_of_range("vector_pool access out of bounds");
@@ -265,7 +265,7 @@ namespace dpp {
 
     /** @This returns reference to object at given position in pool
 	with bound checking */
-    inline X & at(unsigned int i) throw (std::out_of_range)
+    inline X & at(unsigned int i)
     {
       if (i >= size())
 	throw std::out_of_range("vector_pool access out of bounds");

@@ -171,7 +171,7 @@ namespace _goptical {
           @this throws if lines are almost parallel.
           @see ln_intersect_ln_scale
       */
-      inline Vector<2> ln_intersect_ln(const VectorPair<2> &line) const throw (Error);
+      inline Vector<2> ln_intersect_ln(const VectorPair<2> &line) const;
 
       /** Consider the @ref VectorPair as a line with origin and
           direction vectors and find the intersection point with an
@@ -181,7 +181,7 @@ namespace _goptical {
           @this throws if lines are almost parallel.
           @see ln_intersect_ln
       */
-      inline double ln_intersect_ln_scale(const VectorPair<2> &line) const throw (Error);
+      inline double ln_intersect_ln_scale(const VectorPair<2> &line) const;
 
       /** Consider the @ref VectorPair as a segment with two point
           vectors and find the intersection point with an other segment.
@@ -194,7 +194,7 @@ namespace _goptical {
           point lies outside segment and associated test is enabled.
       */
       template <bool infinite_1st, bool infinite_2nd>
-      inline Vector<2> seg_intersect_seg(const VectorPair<2> &segment) const throw (Error);
+      inline Vector<2> seg_intersect_seg(const VectorPair<2> &segment) const;
     };
 
     /**
@@ -238,7 +238,7 @@ namespace _goptical {
           @this throws if lines are almost parallel.
           @see ln_ln_clst_pt_scale
       */
-      inline Vector<3> ln_ln_clst_pt(const VectorPair<3> &line) const throw (Error);
+      inline Vector<3> ln_ln_clst_pt(const VectorPair<3> &line) const;
 
       /** Consider the @ref VectorPair as a line with origin and
           direction vectors and find the closest point on this line to
@@ -248,7 +248,7 @@ namespace _goptical {
           @this throws if lines are almost parallel.
           @see ln_ln_clst_pt
       */
-      inline double ln_ln_clst_pt_scale(const VectorPair<3> &line) const throw (Error);
+      inline double ln_ln_clst_pt_scale(const VectorPair<3> &line) const;
 
       /** Consider the @ref VectorPair as a plane and find
           intersection point with a line. Plane is defined by origin
