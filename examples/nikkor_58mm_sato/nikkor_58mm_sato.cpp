@@ -151,6 +151,7 @@ int main()
     ref<AsphericCurve>::create(-77.2943, 14.1597, 8.65514e-06, 4.1594e-09, 1.25812e-11, 1.22728e-14),
     ref<shape::Disk>::create(17.06), 38.7);
 
+  auto& s1 = lens.get_surface(0);
 
   double image_pos = 6.0 + 0.1 + 6.0 + 1.5 + 4.1038 + 1.5
     + 6.0 + 6.0 + 1.7 + 7.0 + 0.1 + 6.0 + 1.5 + 6.0 + 38.7;
@@ -162,19 +163,26 @@ int main()
   sys::Image      image(math::Vector3(0, 0, image_pos), 42.42);
   sys.add(image);
 
-  /* anchor sources */
-  sys::SourceRays  source_rays(math::Vector3(0, 27.5, -10000));
+  sys.set_entrance_pupil(s1);
 
-  sys::SourcePoint source_point(sys::SourceAtFiniteDistance,
-                                math::Vector3(0, 27.5, -10000));
+  /* anchor sources */
+//  sys::SourceRays  source_rays(math::Vector3(0, 127.5, -10000));
+
+//  sys::SourcePoint source_point(sys::SourceAtFiniteDistance,
+//                                math::Vector3(0, 27.5, -10000));
+
+//  sys::SourcePoint source_point(sys::SourceAtInfinity,
+//                                math::Vector3(0, 0, 1));
+  sys::SourcePoint source_point(sys::SourceAtInfinity,
+                                  math::Vector3(0, .2, 1));
 
   // add sources to system
-  sys.add(source_rays);
+//  sys.add(source_rays);
   sys.add(source_point);
 
   // configure sources
-  source_rays.add_chief_rays(sys);
-  source_rays.add_marginal_rays(sys, 14);
+//  source_rays.add_chief_rays(sys);
+//  source_rays.add_marginal_rays(sys, 20.0);
 
   source_point.clear_spectrum();
   source_point.add_spectral_line(light::SpectralLine::d);
@@ -183,7 +191,7 @@ int main()
   /* anchor seq */
   trace::Sequence seq(sys);
 
-  sys.get_tracer_params().set_sequential_mode(seq);
+  //sys.get_tracer_params().set_sequential_mode(seq);
   std::cout << "system:" << std::endl << sys;
   std::cout << "sequence:" << std::endl << seq;
   /* anchor end */
@@ -206,13 +214,21 @@ int main()
 #endif
 
     trace::tracer tracer(sys);
-
+#if 0
     // trace and draw rays from rays source
     sys.enable_single<sys::Source>(source_rays);
     tracer.get_trace_result().set_generated_save_state(source_rays);
 
     tracer.trace();
     tracer.get_trace_result().draw_2d(renderer);
+#else
+    // trace and draw rays from source
+    tracer.get_params().set_default_distribution(
+        trace::Distribution(trace::MeridionalDist, 10));
+    tracer.get_trace_result().set_generated_save_state(source_point);
+    tracer.trace();
+    tracer.get_trace_result().draw_2d(renderer);
+#endif
     /* anchor end */
   }
 
@@ -221,7 +237,7 @@ int main()
     sys.enable_single<sys::Source>(source_point);
 
     sys.get_tracer_params().set_default_distribution(
-      trace::Distribution(trace::HexaPolarDist, 12));
+      trace::Distribution(trace::HexaPolarDist, 20));
 
     analysis::Spot spot(sys);
 
@@ -244,6 +260,25 @@ int main()
     /* anchor end */
     }
   }
+
+//  {
+//    /* anchor spot */
+//    io::RendererSvg            renderer("spot2.svg",        300 * 3, 300 * 2, io::rgb_black);
+//
+//    renderer.set_margin_ratio(.35, .25, .1, .1);
+//    renderer.set_page_layout(3, 2);
+//
+//    for (int i = 0; i < 6; i++)
+//    {
+//      analysis::Spot spot(sys);
+//
+//      renderer.set_page(i);
+//      spot.draw_diagram(renderer);
+//
+//      source_point.rotate(0, .1, 0);
+//    }
+//  }
+
 
   {
     /* anchor opd_fan */

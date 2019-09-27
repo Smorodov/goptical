@@ -162,23 +162,33 @@ int main(int argc, const char *argv[])
 
   sys.add(lens);
   /* anchor end */
+  auto& s1 = lens.get_surface(0);
 
   sys::Image      image(math::Vector3(0, 0, image_pos), image_height);
   sys.add(image);
 
-  /* anchor sources */
-  sys::SourceRays  source_rays(math::Vector3(0, 27.5, -100000));
+  sys.set_entrance_pupil(s1);
 
-  sys::SourcePoint source_point(sys::SourceAtFiniteDistance,
-                                math::Vector3(0, 27.5, -100000));
+  /* anchor sources */
+//  sys::SourceRays  source_rays(math::Vector3(0, 27.5, -100000));
+//
+//  sys::SourcePoint source_point(sys::SourceAtFiniteDistance,
+//                                math::Vector3(0, 27.5, -100000));
+
+//  sys::SourcePoint source_point(sys::SourceAtInfinity,
+//                                math::Vector3(0, 0, 1));
+
+  sys::SourcePoint source_point(sys::SourceAtInfinity,
+                                math::Vector3(0, 0.3, 1));
 
   // add sources to system
-  sys.add(source_rays);
+//  sys.add(source_rays);
   sys.add(source_point);
 
+
   // configure sources
-  source_rays.add_chief_rays(sys);
-  source_rays.add_marginal_rays(sys, 14);
+//  source_rays.add_chief_rays(sys);
+//  source_rays.add_marginal_rays(sys, 14);
 
   source_point.clear_spectrum();
   source_point.add_spectral_line(light::SpectralLine::d);
@@ -187,7 +197,7 @@ int main(int argc, const char *argv[])
   /* anchor seq */
   trace::Sequence seq(sys);
 
-  sys.get_tracer_params().set_sequential_mode(seq);
+//  sys.get_tracer_params().set_sequential_mode(seq);
   std::cout << "system:" << std::endl << sys;
   std::cout << "sequence:" << std::endl << seq;
   /* anchor end */
@@ -211,6 +221,7 @@ int main(int argc, const char *argv[])
 
     trace::tracer tracer(sys);
 
+#if 0
     // trace and draw rays from rays source
     sys.enable_single<sys::Source>(source_rays);
     tracer.get_trace_result().set_generated_save_state(source_rays);
@@ -218,6 +229,14 @@ int main(int argc, const char *argv[])
     tracer.trace();
     tracer.get_trace_result().draw_2d(renderer);
     /* anchor end */
+#else
+    // trace and draw rays from source
+    tracer.get_params().set_default_distribution(
+        trace::Distribution(trace::MeridionalDist, 10));
+    tracer.get_trace_result().set_generated_save_state(source_point);
+    tracer.trace();
+    tracer.get_trace_result().draw_2d(renderer);
+#endif
   }
 
   {
@@ -225,7 +244,7 @@ int main(int argc, const char *argv[])
     sys.enable_single<sys::Source>(source_point);
 
     sys.get_tracer_params().set_default_distribution(
-      trace::Distribution(trace::HexaPolarDist, 12));
+      trace::Distribution(trace::HexaPolarDist, 20));
 
     analysis::Spot spot(sys);
 
