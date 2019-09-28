@@ -58,12 +58,12 @@ namespace _goptical {
 
       /** Create a new sequence and insert all elements present in the
           system. This is equivalent to calling add() on empty sequence. */
-      Sequence(const sys::system &system);
+      Sequence(const sys::System &system);
 
       /** Add all elements from the given system. Element are sorted
           in axis order starting from left; reflecting elements do reverse
           direction. */
-      void add(const sys::system &system);
+      void add(const sys::System &system);
 
       /** Insert an element at end of sequence.
           @return position of the element in the sequence

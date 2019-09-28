@@ -46,7 +46,7 @@ namespace _goptical
   namespace analysis
   {
 
-    Spot::Spot(sys::system &system)
+    Spot::Spot(sys::System &system)
       : PointImage(system),
         _processed_analysis(false)
     {

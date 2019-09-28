@@ -105,7 +105,7 @@ int main()
   sys::Image    image(math::Vector3(0, 0, 3014.5),  // position
                       60);                           // square size,
                                                                   /* anchor sys */
-  sys::system   sys;
+  sys::System   sys;
 
   // add components
   sys.add(source);

@@ -38,7 +38,7 @@ namespace _goptical {
     {
     }
 
-    Sequence::Sequence(const sys::system &system)
+    Sequence::Sequence(const sys::System &system)
       : _list()
     {
       add(system);
@@ -50,7 +50,7 @@ namespace _goptical {
       return a->get_position().z() < b->get_position().z();
     }
 
-    void Sequence::add(const sys::system &system)
+    void Sequence::add(const sys::System &system)
     {
       _list.clear();
       add(static_cast<const sys::Container&>(system));

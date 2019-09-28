@@ -147,7 +147,7 @@ int main()
   // Secondary mirror conic constant            -5.0434
 
   /* anchor rc */
-  sys::system             sys;
+  sys::System             sys;
 
   // Ring shaped segmented mirror with conic curve
   HexSegMirror            primary(math::Vector3(0, 0, 800),

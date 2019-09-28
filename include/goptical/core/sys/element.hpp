@@ -56,7 +56,7 @@ namespace _goptical {
     class Element : public ref_base<Element>
     {
       friend class Container;
-      friend class system;
+      friend class System;
       friend class Group;
       friend std::ostream & operator<<(std::ostream &o, const Element &e);
 
@@ -147,7 +147,7 @@ namespace _goptical {
       inline unsigned int id() const;
 
       /** Get a pointer to system */
-      inline system * get_system() const;
+      inline System * get_system() const;
 
       /** Get a pointer to parent element, if any. */
       Group * get_parent() const;
@@ -209,7 +209,7 @@ protected:
 
       /** This function is called from the @ref system class when the
           element is added to a system */
-      virtual void system_register(system &s);
+      virtual void system_register(System &s);
 
       /** This function is called from the @ref system class when the
           element is removed from a system */
@@ -220,7 +220,7 @@ protected:
       virtual void system_moved();
 
 private:
-      system *_system;
+      System *_system;
       Container *_container;
 
       bool      _enabled;

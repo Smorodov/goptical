@@ -49,7 +49,7 @@ namespace _goptical
   namespace analysis
   {
 
-    RayFan::RayFan(const sys::system &system, enum rayfan_plane_e plane)
+    RayFan::RayFan(const sys::System &system, enum rayfan_plane_e plane)
       : _tracer(system),
         _processed_trace(false),
         _entrance(0),
@@ -76,7 +76,7 @@ namespace _goptical
       if (!_processed_trace)
         {
           trace::Result &result = _tracer.get_trace_result();
-          const sys::system &sys = _tracer.get_system();
+          const sys::System &sys = _tracer.get_system();
 
           if (!_entrance)
             _entrance = &sys.get_entrance_pupil();

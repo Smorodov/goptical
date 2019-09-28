@@ -50,14 +50,14 @@ namespace _goptical {
 
        @xsee {tuto_system}
     */
-    class system : public ref_base<system>, public Container
+    class System : public ref_base<System>, public Container
     {
       friend class Element;
 
     public:
       /** Create a new empty system. */
-      system();
-      virtual ~system();
+      System();
+      virtual ~System();
 
       /** Define an entrance pupil surface used to project source rays */
       inline void set_entrance_pupil(const const_ref<Surface> &entrance);

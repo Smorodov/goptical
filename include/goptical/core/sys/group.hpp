@@ -67,7 +67,7 @@ namespace _goptical {
       void added(Element &e);
       void removed(Element &e);
 
-      void system_register(system &s);
+      void system_register(System &s);
       void system_unregister();
       void system_moved();
 

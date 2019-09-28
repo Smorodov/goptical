@@ -58,13 +58,13 @@ namespace _goptical {
       SourceRays(const math::Vector3 &object = math::vector3_0);
 
       /** Add chief rays to system entrance pupil for all defined wavelengths. */
-      void add_chief_rays(const sys::system &sys);
+      void add_chief_rays(const sys::System &sys);
       /** Add chief rays to specified surface for all defined wavelengths. */
       void add_chief_rays(const sys::Surface &s);
 
       /** Add marginal rays to system entrance pupil for all defined
           wavelengths. @see __add_marginal_rays2__ */
-      void add_marginal_rays(const sys::system &sys, double entrance_height = 0.);
+      void add_marginal_rays(const sys::System &sys, double entrance_height = 0.);
 
       /** Add marginal rays to specified surface for all defined wavelengths.
        @pb Source direction (rotation) is used to determine tangential plane.

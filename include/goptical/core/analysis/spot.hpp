@@ -54,7 +54,7 @@ namespace _goptical
     class Spot : public PointImage
     {
     public:
-      Spot(sys::system &system);
+      Spot(sys::System &system);
 
       inline void invalidate();
 

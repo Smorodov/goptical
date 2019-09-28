@@ -214,7 +214,7 @@ namespace _goptical {
       throw Error("this element is not designed to process incoming light rays in polarized ray trace mode");
     }
 
-    void Element::system_register(system &s)
+    void Element::system_register(System &s)
     {
       assert(!_system);
       _system = &s;

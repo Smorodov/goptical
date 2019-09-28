@@ -55,7 +55,7 @@ namespace _goptical {
     {
     public:
       /** @experimental */
-      ref<sys::system> import_design(const std::string &filename);
+      ref<sys::System> import_design(const std::string &filename);
 
       /** Set glass catalogs default path */
       inline ImportZemax& set_catalog_path(const std::string &path);
@@ -82,7 +82,7 @@ namespace _goptical {
       static std::string basename(const std::string &path);
 
       const_ref<shape::Base> get_ap_shape(const struct zemax_surface_s &surf, double unit_factor) const;
-      const_ref<material::Base> get_glass(sys::system &sys, const struct zemax_surface_s &surf) const;
+      const_ref<material::Base> get_glass(sys::System &sys, const struct zemax_surface_s &surf) const;
 
       typedef std::map<std::string, ref<material::Catalog> > cat_map_t;
 

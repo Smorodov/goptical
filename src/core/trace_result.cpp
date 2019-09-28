@@ -100,7 +100,7 @@ namespace _goptical {
         }
     }
 
-    void Result::init(const sys::system &system)
+    void Result::init(const sys::System &system)
     {
       static const struct element_result_s er = { 0 };
 
@@ -115,7 +115,7 @@ namespace _goptical {
 
     void Result::init(const sys::Element &element)
     {
-      const sys::system *system = element.get_system();
+      const sys::System *system = element.get_system();
 
       assert(system != 0);
 

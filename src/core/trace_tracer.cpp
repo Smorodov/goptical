@@ -41,7 +41,7 @@ namespace _goptical {
 
   namespace trace {
 
-    tracer::tracer(const const_ref<sys::system> &system)
+    tracer::tracer(const const_ref<sys::System> &system)
       : _system(system),
         _params(system->get_tracer_params()),
         _result(),

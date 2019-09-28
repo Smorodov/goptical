@@ -472,7 +472,7 @@ namespace _goptical {
     using namespace goptical::sys;
 
     class Container;
-    class system;
+    class System;
     class Element;
     class Surface;
     class Image;

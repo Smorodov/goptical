@@ -51,7 +51,7 @@ public:
   void redraw();
   void resize(int width, int height);
 
-  sys::system sys;
+  sys::System sys;
   trace::tracer tracer;
 };
 

@@ -49,7 +49,7 @@ namespace _goptical {
         e.system_unregister();
     }
 
-    void Group::system_register(system &s)
+    void Group::system_register(System &s)
     {
       Element::system_register(s);
 

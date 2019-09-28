@@ -67,7 +67,7 @@ namespace _goptical {
       return _system_id;
     }
 
-    system * Element::get_system() const
+    System * Element::get_system() const
     {
       return _system;
     }

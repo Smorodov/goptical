@@ -105,7 +105,7 @@ namespace _goptical {
                                const math::VectorPair3 &local, const math::VectorPair3 &intersect) const;
 
       /** @override */
-      void system_register(system &s);
+      void system_register(System &s);
 
       /** @override */
       void system_unregister();

@@ -37,7 +37,7 @@ namespace _goptical
   namespace analysis
   {
 
-    Focus::Focus(sys::system &system)
+    Focus::Focus(sys::System &system)
       : PointImage(system),
         _processed_focus(false)
     {

@@ -58,7 +58,7 @@ int main()
   // Optical system definition
 
                                                                   /* anchor telescope */
-  sys::system             sys;
+  sys::System             sys;
 
   // light source
   sys::SourcePoint        source(sys::SourceAtInfinity, math::vector3_001);

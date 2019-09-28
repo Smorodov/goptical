@@ -116,7 +116,7 @@ int main(int argc, const char *argv[]) {
     exit(1);
   }
 
-  sys::system sys;
+  sys::System sys;
 
   /* anchor lens */
   sys::Lens lens(math::Vector3(0, 0, 0));

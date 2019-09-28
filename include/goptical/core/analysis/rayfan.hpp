@@ -82,7 +82,7 @@ namespace _goptical
           TangentialAberration = 1
         };
 
-      RayFan(const sys::system &system, enum rayfan_plane_e plane = TangentialAberration);
+      RayFan(const sys::System &system, enum rayfan_plane_e plane = TangentialAberration);
 
       /** Set entrance pupil ray distribution plane. */
       void set_plane(enum rayfan_plane_e plane);

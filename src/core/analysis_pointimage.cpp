@@ -36,7 +36,7 @@ namespace _goptical
 
   namespace analysis
   {
-    PointImage::PointImage(sys::system &system)
+    PointImage::PointImage(sys::System &system)
       : _system(system), _tracer(system),
         _processed_trace(false),
         _image(0),

@@ -41,7 +41,7 @@ namespace _goptical {
 
   namespace sys {
 
-    system::system()
+    System::System()
       : _version(0),
         _env_proxy(material::air),
         _tracer_params(),
@@ -54,20 +54,20 @@ namespace _goptical {
       _index_map[0] = (Element*)1;
     }
 
-    system::~system()
+    System::~System()
     {
       transform_cache_flush();
       remove_all();
     }
 
-    void system::added(Element &e)
+    void System::added(Element &e)
     {
       e.system_register(*this);
 
       update_version();
     }
 
-    void system::removed(Element &e)
+    void System::removed(Element &e)
     {
       e.system_unregister();
 
@@ -80,13 +80,13 @@ namespace _goptical {
       update_version();
     }
 
-    void system::set_environment(const const_ref<material::Base> &env)
+    void System::set_environment(const const_ref<material::Base> &env)
     {
       update_version();
       _env_proxy.set_material(env);
     }
 
-    const math::Transform<3> & system::transform_l2g_cache_update(const Element &element) const
+    const math::Transform<3> & System::transform_l2g_cache_update(const Element &element) const
     {
       math::Transform<3> * & e = transform_cache_entry(element.id(), 0);
 
@@ -109,7 +109,7 @@ namespace _goptical {
       return *e;
     }
 
-    const math::Transform<3> & system::transform_g2l_cache_update(const Element &element) const
+    const math::Transform<3> & System::transform_g2l_cache_update(const Element &element) const
     {
       math::Transform<3> * & e = transform_cache_entry(0, element.id());
 
@@ -119,7 +119,7 @@ namespace _goptical {
       return *e;
     }
 
-    const math::Transform<3> & system::transform_cache_update(const Element &from, const Element &to) const
+    const math::Transform<3> & System::transform_cache_update(const Element &from, const Element &to) const
     {
       assert(&from != &to);
 
@@ -140,7 +140,7 @@ namespace _goptical {
       return *e;
     }
 
-    void system::transform_cache_flush(const Element &element)
+    void System::transform_cache_flush(const Element &element)
     {
       for (unsigned int x = 0; x < _e_count; x++)
         {
@@ -158,7 +158,7 @@ namespace _goptical {
         }
     }
 
-    void system::transform_cache_flush()
+    void System::transform_cache_flush()
     {
       for (unsigned int x = 0; x < _e_count; x++)
         for (unsigned int y = 0; y < _e_count; y++)
@@ -169,7 +169,7 @@ namespace _goptical {
             }
     }
 
-    void system::transform_cache_resize(unsigned int newsize)
+    void System::transform_cache_resize(unsigned int newsize)
     {
       unsigned int oldsize = _e_count;
 
@@ -199,7 +199,7 @@ namespace _goptical {
 
     }
 
-    unsigned int system::index_get(Element &element)
+    unsigned int System::index_get(Element &element)
     {
       std::vector<Element*>::iterator i;
       unsigned int index;
@@ -221,13 +221,13 @@ namespace _goptical {
       return index;
     }
 
-    void system::index_put(const Element &element)
+    void System::index_put(const Element &element)
     {
       transform_cache_flush(element);
       _index_map[element.id()] = 0;
     }
 
-    void system::transform_cache_dump(std::ostream &o) const
+    void System::transform_cache_dump(std::ostream &o) const
     {
       o << "system transform cache size is " << _e_count << "x" << _e_count << std::endl;
 
@@ -237,7 +237,7 @@ namespace _goptical {
             o << "from " << from << " to " << to << ":" << std::endl << *t << std::endl;
     }
 
-    const Surface & system::get_entrance_pupil() const
+    const Surface & System::get_entrance_pupil() const
     {
       const Surface *res = 0;
 
@@ -257,7 +257,7 @@ namespace _goptical {
 
     /** FIXME write an optimized version of this function which uses
         some kind of data structure (bsp tree?) */
-    Surface *system::colide_next(const trace::Params &params,
+    Surface *System::colide_next(const trace::Params &params,
                                  math::VectorPair3 &intersect,
                                  const trace::Ray &ray) const
     {

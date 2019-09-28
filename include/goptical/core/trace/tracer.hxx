@@ -47,7 +47,7 @@ namespace _goptical {
       return *(_result_ptr = &_result);
     }
 
-    const sys::system & tracer::get_system() const
+    const sys::System & tracer::get_system() const
     {
       return *_system;
     }

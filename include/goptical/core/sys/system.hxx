@@ -38,25 +38,25 @@ namespace _goptical {
 
   namespace sys {
 
-    void system::set_entrance_pupil(const const_ref<Surface> &entrance)
+    void System::set_entrance_pupil(const const_ref<Surface> &entrance)
     {
       _entrance = entrance;
       update_version();
     }
 
-    void system::undef_entrance_pupil()
+    void System::undef_entrance_pupil()
     {
       _entrance.invalidate();
       update_version();
    }
 
-    void system::set_exit_pupil(const const_ref<Surface> &exit)
+    void System::set_exit_pupil(const const_ref<Surface> &exit)
     {
       _exit = exit;
       update_version();
     }
 
-    const Surface & system::get_exit_pupil() const
+    const Surface & System::get_exit_pupil() const
     {
       if (!_exit.valid())
         throw Error("system has no exit pupil defined");
@@ -64,33 +64,33 @@ namespace _goptical {
       return *_exit;
     }
 
-    bool system::has_exit_pupil() const
+    bool System::has_exit_pupil() const
     {
       return _exit.valid();
     }
 
-    bool system::has_entrance_pupil() const
+    bool System::has_entrance_pupil() const
     {
       return _entrance.valid();
     }
 
-    const trace::Params & system::get_tracer_params() const
+    const trace::Params & System::get_tracer_params() const
     {
       return _tracer_params;
     }
 
-    trace::Params & system::get_tracer_params()
+    trace::Params & System::get_tracer_params()
     {
       update_version();
       return _tracer_params;
     }
 
-    math::Transform<3> * & system::transform_cache_entry(unsigned int from, unsigned int to) const
+    math::Transform<3> * & System::transform_cache_entry(unsigned int from, unsigned int to) const
     {
       return const_cast<math::Transform<3> * &>(_transform_cache[from * _e_count + to]);
     }
 
-    const math::Transform<3> & system::get_transform(const Element &from, const Element &to) const
+    const math::Transform<3> & System::get_transform(const Element &from, const Element &to) const
     {
       math::Transform<3> * &e = transform_cache_entry(from.id(), to.id());
 
@@ -100,7 +100,7 @@ namespace _goptical {
       return *e;
     }
 
-    const math::Transform<3> & system::get_global_transform(const Element &from) const
+    const math::Transform<3> & System::get_global_transform(const Element &from) const
     {
       math::Transform<3> * &e = transform_cache_entry(from.id(), 0);
 
@@ -110,7 +110,7 @@ namespace _goptical {
       return *e;
     }
 
-    const math::Transform<3> & system::get_local_transform(const Element &to) const
+    const math::Transform<3> & System::get_local_transform(const Element &to) const
     {
       math::Transform<3> * &e = transform_cache_entry(0, to.id());
 
@@ -120,33 +120,33 @@ namespace _goptical {
       return *e;
     }
 
-    void system::update_version()
+    void System::update_version()
     {
       _version++;
     }
 
-    unsigned int system::get_version() const
+    unsigned int System::get_version() const
     {
       return _version;
     }
 
-    unsigned int system::get_element_count() const
+    unsigned int System::get_element_count() const
     {
       return _e_count - 1;
     }
 
-    Element & system::get_element(unsigned int index) const
+    Element & System::get_element(unsigned int index) const
     {
       assert(index > 0 && index <= _e_count);
       return *_index_map[index];
     }
 
-    const material::Base & system::get_environment() const
+    const material::Base & System::get_environment() const
     {
       return _env_proxy.get_material();
     }
 
-    const material::Base & system::get_environment_proxy() const
+    const material::Base & System::get_environment_proxy() const
     {
       return _env_proxy;
     }

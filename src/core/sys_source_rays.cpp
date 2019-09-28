@@ -60,7 +60,7 @@ namespace _goptical {
         _wl_map.erase(i);
     }
 
-    void SourceRays::add_chief_rays(const sys::system &sys)
+    void SourceRays::add_chief_rays(const sys::System &sys)
     {
       add_chief_rays(sys.get_entrance_pupil());
     }
@@ -77,7 +77,7 @@ namespace _goptical {
       }
     }
 
-    void SourceRays::add_marginal_rays(const sys::system &sys, double entrance_height)
+    void SourceRays::add_marginal_rays(const sys::System &sys, double entrance_height)
     {
       add_marginal_rays(sys.get_entrance_pupil(), entrance_height);
     }

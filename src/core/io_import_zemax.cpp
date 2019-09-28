@@ -204,7 +204,7 @@ namespace _goptical {
         }
     }
 
-    const_ref<material::Base> ImportZemax::get_glass(sys::system &sys, const struct zemax_surface_s &surf) const
+    const_ref<material::Base> ImportZemax::get_glass(sys::System &sys, const struct zemax_surface_s &surf) const
     {
       switch (surf.gl_type)
         {
@@ -232,7 +232,7 @@ namespace _goptical {
         }
     }
 
-    ref<sys::system> ImportZemax::import_design(const std::string &filename)
+    ref<sys::System> ImportZemax::import_design(const std::string &filename)
     {
       std::ifstream file(filename.c_str());
       std::string line;
@@ -243,7 +243,7 @@ namespace _goptical {
       if (!file)
         throw Error("Unable to open file");
 
-      ref<sys::system> sys = GOPTICAL_REFNEW(sys::system);
+      ref<sys::System> sys = GOPTICAL_REFNEW(sys::System);
 
       while (std::getline(file, line))
         {

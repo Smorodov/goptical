@@ -60,7 +60,7 @@ public:
   void resize(int width, int height);
 
   io::ImportZemax zemax;
-  ref<sys::system> system;
+  ref<sys::System> system;
   trace::tracer tracer;
 
 };

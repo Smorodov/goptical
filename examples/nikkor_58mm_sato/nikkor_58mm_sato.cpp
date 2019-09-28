@@ -99,7 +99,7 @@ int main() {
   //**********************************************************************
   // Optical system definition
 
-  sys::system sys;
+  sys::System sys;
 
   /* anchor lens */
   sys::Lens lens(math::Vector3(0, 0, 0));
