@@ -2,9 +2,11 @@ This is derivative of [Goptical - GNU Optical design and simulation library](htt
 
 Forked from [Goptical fork by Dmitry Galchinsky](https://github.com/galchinsky/goptical).
 
-## Changes from original
+## Changes from original (done by Dmitry)
 
 * Different directory structure
+* Namespaces are lower case
+* Some classes are lower case too
 * CMake instead of autotools
 
 ## Compiling on Linux Mint 
@@ -57,11 +59,10 @@ sudo yum install opencv
 sudo yum install opencv-devel
 ```
 
-I had to disable DIME as I could not imstall the dependency.
+I had to disable DIME as I could not install the dependency.
+It also seems that removing the two render examples also removes dependency on OpenGL, GLUT, OpenCV and X11.
 
-I installed CMake manually.
-Rest of the instructions are the same.
-
+I am using CMake 3.14 which I installed manually.
 
 
 ## LICENSE
