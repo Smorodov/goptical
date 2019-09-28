@@ -4,7 +4,7 @@
 
 namespace goptical {
   namespace trace {
-    using _goptical::trace::tracer;
+    using _goptical::trace::Tracer;
   }
 }
 

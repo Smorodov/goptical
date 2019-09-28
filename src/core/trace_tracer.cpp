@@ -41,7 +41,7 @@ namespace _goptical {
 
   namespace trace {
 
-    tracer::tracer(const const_ref<sys::System> &system)
+    Tracer::Tracer(const const_ref<sys::System> &system)
       : _system(system),
         _params(system->get_tracer_params()),
         _result(),
@@ -49,11 +49,11 @@ namespace _goptical {
     {
     }
 
-    tracer::~tracer()
+    Tracer::~Tracer()
     {
     }
 
-    template <IntensityMode m> void tracer::trace_seq_template()
+    template <IntensityMode m> void Tracer::trace_seq_template()
     {
       Result &result = *_result_ptr;
 
@@ -118,7 +118,7 @@ namespace _goptical {
       result._generated_queue = 0;
     }
 
-    template <IntensityMode m> void tracer::trace_template()
+    template <IntensityMode m> void Tracer::trace_template()
     {
       Result            &result = *_result_ptr;
 
@@ -213,7 +213,7 @@ namespace _goptical {
       result._generated_queue = 0;
     }
 
-    void tracer::trace()
+    void Tracer::trace()
     {
       Result    &result = *_result_ptr;
 

@@ -61,7 +61,7 @@ public:
 
   io::ImportZemax zemax;
   ref<sys::System> system;
-  trace::tracer tracer;
+  trace::Tracer tracer;
 
 };
 

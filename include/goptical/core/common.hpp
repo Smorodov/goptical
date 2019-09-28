@@ -493,7 +493,7 @@ namespace _goptical {
     using namespace goptical::trace;
 
     class Distribution;
-    class tracer;
+    class Tracer;
     class Params;
     class Ray;
     class Result;

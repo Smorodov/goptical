@@ -141,7 +141,7 @@ int main()
 #endif
   {
                                                                   /* anchor trace */
-  trace::tracer tracer(sys);
+  trace::Tracer tracer(sys);
   tracer.trace();
                                                                   /* anchor end */
   }
@@ -157,7 +157,7 @@ int main()
   sys.draw_2d_fit(renderer);
   sys.draw_2d(renderer);
 
-  trace::tracer tracer(sys);
+  trace::Tracer tracer(sys);
 
   // trace and draw rays from source
   tracer.get_params().set_default_distribution(

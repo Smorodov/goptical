@@ -49,14 +49,14 @@ namespace _goptical {
 
        @xsee {tuto_seqtrace}
      */
-    class tracer
+    class Tracer
     {
     public:
 
       /** Create a new light porpagator object */
-      tracer(const const_ref<sys::System> &system);
+      Tracer(const const_ref<sys::System> &system);
 
-      ~tracer();
+      ~Tracer();
 
       /** Set the Result object which must be used to store ray
           tracing data. a new Result object will be allocated on

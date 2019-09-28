@@ -54,10 +54,10 @@ namespace _goptical
 
       /** return tracer object used for ray tracing. This will
           invalidate current analysis data */
-      inline trace::tracer & get_tracer();
+      inline trace::Tracer & get_tracer();
 
       /** return tracer object used for ray tracing */
-      inline const trace::tracer & get_tracer() const;
+      inline const trace::Tracer & get_tracer() const;
 
       /** invalidate current analysis data */
       virtual void invalidate() = 0;
@@ -67,7 +67,7 @@ namespace _goptical
       void trace();
 
       sys::System &     _system;
-      trace::tracer     _tracer;
+      trace::Tracer     _tracer;
       bool              _processed_trace;
       sys::Image *      _image;
       const trace::rays_queue_t *_intercepts;

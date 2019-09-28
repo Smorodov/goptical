@@ -32,32 +32,32 @@ namespace _goptical {
 
   namespace trace {
 
-    void tracer::set_trace_result(Result &res)
+    void Tracer::set_trace_result(Result &res)
     {
       _result_ptr = &res;
     }
 
-    trace::Result & tracer::get_trace_result() const
+    trace::Result & Tracer::get_trace_result() const
     {
       return *_result_ptr;
     }
 
-    trace::Result & tracer::set_default_trace_result()
+    trace::Result & Tracer::set_default_trace_result()
     {
       return *(_result_ptr = &_result);
     }
 
-    const sys::System & tracer::get_system() const
+    const sys::System & Tracer::get_system() const
     {
       return *_system;
     }
 
-    const Params & tracer::get_params() const
+    const Params & Tracer::get_params() const
     {
       return _params;
     }
 
-    Params & tracer::get_params()
+    Params & Tracer::get_params()
     {
       return _params;
     }

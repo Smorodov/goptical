@@ -50,7 +50,7 @@ namespace _goptical {
     class Sequence : public ref_base<Sequence>
     {
       friend std::ostream & operator<<(std::ostream &o, const Sequence &s);
-      friend class tracer;
+      friend class Tracer;
 
     public:
       /** Create a new empty sequence */

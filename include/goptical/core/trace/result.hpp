@@ -58,7 +58,7 @@ namespace _goptical {
     */
     class Result
     {
-      friend class tracer;
+      friend class Tracer;
 
     public:
       typedef std::vector<const sys::Source *> sources_t;

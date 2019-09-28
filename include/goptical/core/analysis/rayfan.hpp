@@ -134,7 +134,7 @@ namespace _goptical
       double get_image_angle(const trace::Ray &r, const trace::Ray &chief) const;
       double get_exit_angle(const trace::Ray &r, const trace::Ray &chief) const;
 
-      trace::tracer     _tracer;
+      trace::Tracer     _tracer;
       bool              _processed_trace;
 
       const sys::Surface *_entrance;

@@ -52,7 +52,7 @@ namespace _goptical {
      */
     class Params
     {
-      friend class tracer;
+      friend class Tracer;
 
     public:
       inline Params();

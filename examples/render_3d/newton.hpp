@@ -52,7 +52,7 @@ public:
   void resize(int width, int height);
 
   sys::System sys;
-  trace::tracer tracer;
+  trace::Tracer tracer;
 };
 
 template <class X>

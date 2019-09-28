@@ -173,7 +173,7 @@ int main()
 //  primary.get_segment(5).rotate(0.001, 0, 0);
 
   /* anchor layout */
-  trace::tracer         tracer(sys);
+  trace::Tracer         tracer(sys);
 
   // trace rays through the system
   tracer.get_trace_result().set_generated_save_state(source);

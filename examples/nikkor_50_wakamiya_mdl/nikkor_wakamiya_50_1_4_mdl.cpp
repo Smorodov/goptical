@@ -160,7 +160,7 @@ int main()
     lens.draw_2d(renderer);
 #endif
 
-    trace::tracer tracer(sys);
+    trace::Tracer tracer(sys);
 
     // trace and draw rays from rays source
     sys.enable_single<sys::Source>(source_rays);

@@ -40,14 +40,14 @@ namespace _goptical
       _image = image;
     }
 
-    trace::tracer & PointImage::get_tracer()
+    trace::Tracer & PointImage::get_tracer()
     {
       invalidate();
       return _tracer;
     }
 
     /** return tracer object used for ray tracing */
-    const trace::tracer & PointImage::get_tracer() const
+    const trace::Tracer & PointImage::get_tracer() const
     {
       return _tracer;
     }

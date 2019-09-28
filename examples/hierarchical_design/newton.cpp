@@ -115,7 +115,7 @@ int main()
 
 
   {
-  trace::tracer         tracer(sys);
+  trace::Tracer         tracer(sys);
 
   // set system entrance pupil (needed by non-sequential ray trace)
   sys.set_entrance_pupil(newton.get_primary());

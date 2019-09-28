@@ -217,7 +217,7 @@ int main(int argc, const char *argv[]) {
     lens.draw_2d(renderer);
 #endif
 
-    trace::tracer tracer(sys);
+    trace::Tracer tracer(sys);
 
 #if 0
     // trace and draw rays from rays source
