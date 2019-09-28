@@ -1,8 +1,8 @@
 /*
 
-      This file is part of the <goptical/core Core library.
+      This file is part of the Goptical Core library.
   
-      The <goptical/core library is free software; you can redistribute it
+      The Goptical library is free software; you can redistribute it
       and/or modify it under the terms of the GNU General Public
       License as published by the Free Software Foundation; either
       version 3 of the License, or (at your option) any later version.
