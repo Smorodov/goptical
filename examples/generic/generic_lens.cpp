@@ -66,6 +66,7 @@
 #include <iterator>
 #include <string>
 #include <vector>
+#include <memory>
 
 using namespace goptical;
 
@@ -161,8 +162,8 @@ public:
   }
   double get_abbe_vd() const { return abbe_vd_; }
   void set_abbe_vd(double abbe_vd) { abbe_vd_ = abbe_vd; }
-  const AsphericalData *get_aspherical_data() const { return aspherical_data_; }
-  void set_aspherical_data(const AsphericalData *aspherical_data) {
+  std::shared_ptr<AsphericalData> get_aspherical_data() const { return aspherical_data_; }
+  void set_aspherical_data(std::shared_ptr<AsphericalData> aspherical_data) {
     aspherical_data_ = aspherical_data;
   }
   int get_id() const { return id_; }
@@ -178,7 +179,7 @@ private:
   double ap_radius_;
   double refractive_index_;
   double abbe_vd_;
-  const AsphericalData *aspherical_data_;
+  std::shared_ptr<AsphericalData> aspherical_data_;
 };
 
 class LensSystem {
@@ -237,7 +238,7 @@ private:
   DescriptiveData descriptive_data_;
   std::vector<Variable> variables_;
   std::vector<SurfaceBuilder> surfaces_;
-  std::vector<AsphericalData> aspherical_data_;
+  std::vector<std::shared_ptr<AsphericalData>> aspherical_data_;
 };
 
 double SurfaceBuilder::add_surface(sys::Lens &lens) {
@@ -259,7 +260,7 @@ double SurfaceBuilder::add_surface(sys::Lens &lens) {
     }
     return thickness_;
   }
-  double k = aspherical_data_->data(1);
+  double k = aspherical_data_->data(1)+1.0;
   double a4 = aspherical_data_->data(2);
   double a6 = aspherical_data_->data(3);
   double a8 = aspherical_data_->data(4);
@@ -470,9 +471,9 @@ bool LensSystem::parseFile(const std::string &file_name) {
     } break;
     case 4: {
       int id = atoi(words[0]);
-      AsphericalData aspherical_data(id);
+      auto aspherical_data = std::make_shared<AsphericalData>(id);
       for (int i = 1; i < words.size(); i++) {
-        aspherical_data.add_data(strtod(words[i], NULL));
+        aspherical_data->add_data(strtod(words[i], NULL));
       }
       aspherical_data_.push_back(aspherical_data);
       SurfaceBuilder *surface_builder = find_surface(id);
@@ -481,7 +482,7 @@ bool LensSystem::parseFile(const std::string &file_name) {
                 id);
       } else {
         surface_builder->set_aspherical_data(
-            &aspherical_data_[aspherical_data_.size() - 1]);
+            aspherical_data_.back());
       }
     } break;
     default:
