@@ -1,6 +1,6 @@
 /*
 
-      This file is part of the <goptical/core Core library.
+      This file is part of the Goptical Core library.
   
       The <goptical/core library is free software; you can redistribute it
       and/or modify it under the terms of the GNU General Public
