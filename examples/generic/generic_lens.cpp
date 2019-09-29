@@ -144,8 +144,7 @@ class SurfaceBuilder {
 public:
   SurfaceBuilder(int id)
       : id_(id), surface_type_(LensSurfaceType::surface), radius_(0),
-        thickness_(0), ap_radius_(0), refractive_index_(0), abbe_vd_(0),
-        aspherical_data_(nullptr) {}
+        thickness_(0), ap_radius_(0), refractive_index_(0), abbe_vd_(0) {}
   LensSurfaceType get_surface_type() const { return surface_type_; }
   void set_surface_type(LensSurfaceType surface_type) {
     surface_type_ = surface_type;
@@ -188,7 +187,7 @@ public:
   double add_surfaces(sys::Lens &lens) {
     double total = 0.0;
     for (int i = 0; i < surfaces_.size(); i++) {
-      double thickness = surfaces_[i].add_surface(lens);
+      double thickness = surfaces_[i]->add_surface(lens);
       if (thickness < 0.0)
         return thickness;
       total += thickness;
@@ -197,13 +196,13 @@ public:
     return total;
   }
 
-  const Variable *find_variable(const char *name) const {
+  std::shared_ptr<Variable> find_variable(const char *name) const {
     for (int i = 0; i < variables_.size(); i++) {
-      if (strcmp(name, variables_[i].name().c_str()) == 0) {
-        return &variables_[i];
+      if (strcmp(name, variables_[i]->name().c_str()) == 0) {
+        return variables_[i];
       }
     }
-    return nullptr;
+    return std::shared_ptr<Variable>();
   }
 
   double get_image_height() const {
@@ -214,8 +213,8 @@ public:
     if (value[0] == 0)
       return 0.0;
     if (isalpha(value[0])) {
-      const Variable *var = find_variable(value);
-      if (var != nullptr) {
+      auto var = find_variable(value);
+      if (var) {
         return strtod(var->value().c_str(), NULL);
       } else {
         fprintf(stderr, "Variable %s was not found\n", value);
@@ -226,18 +225,18 @@ public:
     }
   }
 
-  SurfaceBuilder *find_surface(int id) {
+  std::shared_ptr<SurfaceBuilder> find_surface(int id) {
     for (int i = 0; i < surfaces_.size(); i++) {
-      if (surfaces_[i].get_id() == id)
-        return &surfaces_[i];
+      if (surfaces_[i]->get_id() == id)
+        return surfaces_[i];
     }
-    return nullptr;
+    return std::shared_ptr<SurfaceBuilder>();
   }
 
 private:
   DescriptiveData descriptive_data_;
-  std::vector<Variable> variables_;
-  std::vector<SurfaceBuilder> surfaces_;
+  std::vector<std::shared_ptr<Variable>> variables_;
+  std::vector<std::shared_ptr<SurfaceBuilder>> surfaces_;
   std::vector<std::shared_ptr<AsphericalData>> aspherical_data_;
 };
 
@@ -246,7 +245,7 @@ double SurfaceBuilder::add_surface(sys::Lens &lens) {
     lens.add_stop(ap_radius_, thickness_);
     return thickness_;
   }
-  if (aspherical_data_ == nullptr) {
+  if (!aspherical_data_) {
     if (refractive_index_ != 0.0) {
       if (abbe_vd_ == 0.0) {
         fprintf(stderr, "Abbe vd not specified for surface %d\n", id_);
@@ -431,8 +430,8 @@ bool LensSystem::parseFile(const std::string &file_name) {
       }
       break;
     case 2:
-      if (words.size() == 2) {
-        variables_.push_back(Variable(words[0], words[1]));
+      if (words.size() >= 2) {
+        variables_.push_back(std::make_shared<Variable>(words[0], words[1]));
       }
       break;
     case 3: {
@@ -460,13 +459,13 @@ bool LensSystem::parseFile(const std::string &file_name) {
       if (words.size() >= 6 && strlen(words[5]) > 0) {
         abbe_vd = get_variable_or_value(words[5]);
       }
-      SurfaceBuilder surface_data(id);
-      surface_data.set_abbe_vd(abbe_vd);
-      surface_data.set_ap_radius(ap_radius);
-      surface_data.set_refractive_index(refractive_index);
-      surface_data.set_radius(radius);
-      surface_data.set_thickness(thickness);
-      surface_data.set_surface_type(type);
+      auto surface_data = std::make_shared<SurfaceBuilder>(id);
+      surface_data->set_abbe_vd(abbe_vd);
+      surface_data->set_ap_radius(ap_radius);
+      surface_data->set_refractive_index(refractive_index);
+      surface_data->set_radius(radius);
+      surface_data->set_thickness(thickness);
+      surface_data->set_surface_type(type);
       surfaces_.push_back(surface_data);
     } break;
     case 4: {
@@ -476,13 +475,12 @@ bool LensSystem::parseFile(const std::string &file_name) {
         aspherical_data->add_data(strtod(words[i], NULL));
       }
       aspherical_data_.push_back(aspherical_data);
-      SurfaceBuilder *surface_builder = find_surface(id);
-      if (surface_builder == nullptr) {
+      auto surface_builder = find_surface(id);
+      if (!surface_builder) {
         fprintf(stderr, "Ignoring aspherical data as no surface numbered %d\n",
                 id);
       } else {
-        surface_builder->set_aspherical_data(
-            aspherical_data_.back());
+        surface_builder->set_aspherical_data(aspherical_data);
       }
     } break;
     default:
