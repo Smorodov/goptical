@@ -9,14 +9,14 @@ set(MODULE_SOURCES
   curve_conic_base.cpp
   curve_conic.cpp
   curve_flat.cpp
-  curve_foucault.cpp
+  # curve_foucault.cpp
   curve_grid.cpp
   curve_parabola.cpp
   curve_polynomial.cpp
   curve_rotational.cpp
   curve_sphere.cpp
   curve_spline.cpp
-  curve_zernike.cpp
+  # curve_zernike.cpp
   data_discrete_set.cpp
   data_grid.cpp
   data_interpolate_1d_.hxx
@@ -24,19 +24,20 @@ set(MODULE_SOURCES
   data_sample_set.cpp
   data_set1d.cpp
   data_set.cpp
-  io_import_oslo.cpp
-  io_import_zemax.cpp
+  drand48.cpp
+#  io_import_oslo.cpp
+#  io_import_zemax.cpp
   io_renderer_2d.cpp
   io_renderer_axes.cpp
   io_renderer.cpp
   # io_renderer_dxf.cpp
-  io_renderer_gd.cpp
-  io_renderer_opengl.cpp
-  io_renderer_plplot.cpp
+  # io_renderer_gd.cpp
+  # io_renderer_opengl.cpp
+  # io_renderer_plplot.cpp
   io_renderer_svg.cpp
   io_renderer_viewport.cpp
-  io_renderer_x11.cpp
-  io_renderer_x3d.cpp
+  # io_renderer_x11.cpp
+  # io_renderer_x3d.cpp
   io_rgb.cpp
   light_ray.cpp
   light_spectral_line.cpp
@@ -85,6 +86,9 @@ set(MODULE_SOURCES
   trace_result.cpp
   trace_sequence.cpp
   trace_tracer.cpp
+  linear.c
+  deriv.c
+  ffs.c
   )
 
 set(MODULE_SOURCES_WITH_DIR "")
@@ -96,6 +100,3 @@ message(STATUS ${MODULE_SOURCES_WITH_DIR})
 
 list(APPEND SOURCES ${MODULE_SOURCES_WITH_DIR})
 set(SOURCES "${SOURCES}" PARENT_SCOPE)
-
-
-  
