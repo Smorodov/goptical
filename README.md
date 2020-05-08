@@ -1,5 +1,4 @@
 This is derivative of [Goptical - GNU Optical design and simulation library](https://www.gnu.org/software/goptical/) by Alexandre Becoulet.
-
 Forked from [Goptical fork by Dmitry Galchinsky](https://github.com/galchinsky/goptical).
 
 ## Changes from original (done by Dmitry)
@@ -9,61 +8,33 @@ Forked from [Goptical fork by Dmitry Galchinsky](https://github.com/galchinsky/g
 * Some classes are lower case too
 * CMake instead of autotools
 
-## Compiling on Linux Mint 
+## Additional changes (this project)
 
-Tested for Linux Mint 18.3, but should also work for other Ubuntu-type Linux distributions:
+* Windows/MSVC port - remove use of features unsupported by MSVC such as VLAs. 
+* Remove all output options other than SVG 
+* Embed required components from GNU Scientific Library
+* Remove all external dependencies
+* WIP add a driver program that can generate output from a specificatin given in a text file.
+* WIP add support aspherical surfaces as specified in patent literature.
 
-```
-     $ sudo apt-get install libgsl-dev libgsl2 gsl-bin libgd3 libgd-tools libgd-dev libplplot-dev libplplot-c++11 freeglut3 freeglut3-dev libopencv-dev libdime-dev libxmu-dev libxmuu-dev
-```
+## Issues
 
-First, clone the github repo by:
+* Some components are disabled for now - see the `CMakeLists.txt` in the `src\core` folder.
 
-```
-     $ git clone https://github.com/galchinsky/goptical.git
-     $ cd goptical
-```
+## Building on Linux
 
-Then create a directory `build` and `cd` there:
+Create a directory `build` and `cd` there:
 
 ```
      $ mkdir build
      $ cd build
-```
-
-For creating the Makefiles via `cmake`, use:
-
-```
-     $ cmake ../
-```
-
-After successfully creating the Makefiles, perform `make`:
-
-```
+     $ cmake ..
      $ make
 ```
 
-As a result, you should find lots of examples in the `examples` sub directory which can be executed and the plots can be inspected by using, e.g., `inkscape`.
+# Building on Windows
 
-## Compiling on Redhat 7.7
-
-#### Install pre-requisites
-
-```
-sudo yum install gsl-devel.x86_6
-sudo yum install gd-devel
-sudo yum install plplot-devel
-sudo yum install mesa-libGL
-sudo yum install freeglut-devel
-sudo yum install opencv
-sudo yum install opencv-devel
-```
-
-I had to disable DIME as I could not install the dependency.
-It also seems that removing the two render examples also removes dependency on OpenGL, GLUT, OpenCV and X11.
-
-I am using CMake 3.14 which I installed manually.
-
+Similar to above except that `cmake` creates Visual Studio solution, so you can build using Visual Studio 2019.
 
 ## LICENSE
 
