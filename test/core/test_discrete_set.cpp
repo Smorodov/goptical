@@ -53,6 +53,7 @@ static inline bool test_eq(double a, double b)
 
 static void test(const char *name, data::Interpolation i)
 {
+  std::cerr << name << "\n";
   d.set_interpolation(i);
   std::string str(srcdir ? srcdir : ".");
   str += "/test_discrete_set-";
