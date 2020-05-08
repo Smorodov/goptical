@@ -17,9 +17,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#include <stdlib.h>
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_deriv.h>
+#include <stdlib.h>
+
+static inline double maximum(double a, double b) {
+  return a < b ? b: a;
+}
 
 static void
 central_deriv (const gsl_function * f, double x, double h,
@@ -46,7 +50,8 @@ central_deriv (const gsl_function * f, double x, double h,
 
   /* The next term is due to finite precision in x+h = O (eps * x) */
 
-  double dy = max (fabs (r3 / h), fabs (r5 / h)) *(fabs (x) / h) * GSL_DBL_EPSILON;
+  double dy =
+      maximum(fabs(r3 / h), fabs(r5 / h)) *(fabs (x) / h) * GSL_DBL_EPSILON;
 
   /* The truncation error in the r5 approximation itself is O(h^4).
      However, for safety, we estimate the error from r5-r3, which is
@@ -120,7 +125,8 @@ forward_deriv (const gsl_function * f, double x, double h,
 
   /* The next term is due to finite precision in x+h = O (eps * x) */
 
-  double dy = max (fabs (r2 / h), fabs (r4 / h)) * fabs (x / h) * GSL_DBL_EPSILON;
+  double dy =
+      maximum(fabs(r2 / h), fabs(r4 / h)) * fabs (x / h) * GSL_DBL_EPSILON;
 
   /* The truncation error in the r4 approximation itself is O(h^3).
      However, for safety, we estimate the error from r4-r2, which is
