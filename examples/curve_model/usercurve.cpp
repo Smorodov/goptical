@@ -44,7 +44,7 @@
 #include <goptical/core/trace/Params>
 
 #include <goptical/core/analysis/Spot>
-#include <goptical/core/analysis/Focus>
+#include <goptical/core/analysis/focus.hpp>
 
 #include <goptical/core/io/RendererPlplot>
 #include <goptical/core/io/RendererSvg>

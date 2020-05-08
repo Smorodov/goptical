@@ -1745,7 +1745,7 @@ Optical systems analysis tools
 @subheading Declaration
 
 @example
-#include <goptical/core/analysis/focus>
+#include <goptical/core/analysis/focus.cpp>
 
 namespace goptical @{
   namespace analysis @{

@@ -24,7 +24,7 @@
 
 
 #include <goptical/core/math/VectorPair>
-#include <goptical/core/analysis/Focus>
+#include <goptical/core/analysis/focus.hpp>
 #include <goptical/core/trace/Tracer>
 #include <goptical/core/sys/Image>
 #include <goptical/core/trace/Ray>

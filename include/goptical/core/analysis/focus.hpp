@@ -63,9 +63,26 @@ namespace _goptical
       bool              _processed_focus;
       math::VectorPair3 _best_focus;
     };
+    void Focus::invalidate ()
+    {
+      _processed_focus = false;
+      _processed_trace = false;
+    }
 
+    const math::VectorPair3 &Focus::get_best_focus ()
+    {
+      process_focus ();
+
+      return _best_focus;
+    }
   }
 }
+
+namespace goptical {
+  namespace analysis {
+    using _goptical::analysis::Focus;
+  }
+} // namespace goptical
 
 #endif
 
