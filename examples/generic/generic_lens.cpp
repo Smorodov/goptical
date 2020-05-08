@@ -52,7 +52,7 @@
 #include <goptical/core/light/SpectralLine>
 
 #include <goptical/core/analysis/rayfan.hpp>
-#include <goptical/core/analysis/Spot>
+#include <goptical/core/analysis/spot.hpp>
 #include <goptical/core/data/Plot>
 
 #include <goptical/core/io/RendererSvg>

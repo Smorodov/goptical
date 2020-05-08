@@ -43,7 +43,7 @@
 #include <goptical/core/trace/Distribution>
 #include <goptical/core/trace/Params>
 
-#include <goptical/core/analysis/Spot>
+#include <goptical/core/analysis/spot.hpp>
 #include <goptical/core/analysis/focus.hpp>
 
 #include <goptical/core/io/RendererPlplot>

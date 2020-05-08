@@ -109,8 +109,57 @@ namespace _goptical
       io::RendererAxes _axes;
     };
 
+    void Spot::invalidate()
+    {
+      _processed_trace = false;
+      _processed_analysis = false;
+    }
+
+    double Spot::get_max_radius()
+    {
+      process_analysis();
+
+      return _max_radius;
+    }
+
+    double Spot::get_rms_radius()
+    {
+      process_analysis();
+
+      return _rms_radius;
+    }
+
+    double Spot::get_total_intensity()
+    {
+      process_analysis();
+
+      return _tot_intensity;
+    }
+
+    const math::Vector3 & Spot::get_centroid()
+    {
+      process_analysis();
+
+      return _centroid;
+    }
+
+    void Spot::set_useful_radius(double radius)
+    {
+      _useful_radius = radius;
+    }
+
+    io::RendererAxes & Spot::get_diagram_axes()
+    {
+      return _axes;
+    }
+
   }
 }
 
+namespace goptical {
+  namespace analysis {
+    using _goptical::analysis::Spot;
+  }
+}
 #endif
 

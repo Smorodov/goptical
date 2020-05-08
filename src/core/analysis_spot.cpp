@@ -23,7 +23,7 @@
 */
 
 
-#include <goptical/core/analysis/Spot>
+#include <goptical/core/analysis/spot.hpp>
 #include <goptical/core/sys/Image>
 
 #include <goptical/core/trace/Tracer>
