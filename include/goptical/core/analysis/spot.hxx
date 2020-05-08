@@ -30,7 +30,7 @@
 #include "goptical/core/math/vector.hxx"
 #include "goptical/core/data/plot.hxx"
 
-#include "goptical/core/analysis/pointimage.hxx"
+#include "goptical/core/analysis/pointimage.hpp"
 
   namespace _goptical
   {

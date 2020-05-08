@@ -29,7 +29,8 @@
 #include <goptical/core/sys/Image>
 #include <goptical/core/sys/Surface>
 
-#include <goptical/core/analysis/PointImage>
+#include <goptical/core/analysis/pointimage.hpp>
+#include "goptical/core/sys/system.hxx"
 
 namespace _goptical
 {

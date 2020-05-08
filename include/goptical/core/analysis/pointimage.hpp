@@ -75,8 +75,32 @@ namespace _goptical
     private:
     };
 
+    void PointImage::set_image(sys::Image *image)
+    {
+      _image = image;
+    }
+
+    trace::Tracer & PointImage::get_tracer()
+    {
+      invalidate();
+      return _tracer;
+    }
+
+    /** return tracer object used for ray tracing */
+    const trace::Tracer & PointImage::get_tracer() const
+    {
+      return _tracer;
+    }
+
   }
 }
+
+namespace goptical {
+  namespace analysis {
+    using _goptical::analysis::PointImage;
+  }
+}
+
 
 #endif
 
