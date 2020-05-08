@@ -49,8 +49,10 @@ namespace _goptical
                       std::numeric_limits<double>::min());
 
       unsigned int d = get_dimensions();
-      unsigned int x[d];
-      unsigned int c[d];
+      // unsigned int x[d];
+      unsigned int* x = (unsigned int*)calloc(d, sizeof(unsigned int));
+      //unsigned int c[d];
+      unsigned int* c = (unsigned int*)calloc(d, sizeof(unsigned int));
 
       for (unsigned int i = 0; i < d; i++)
         {
@@ -87,6 +89,8 @@ namespace _goptical
                 }
             }
         }
+      free(x);
+      free(c);
     }
 
 

@@ -1,10 +1,26 @@
 *~
-#*
+
 *.o
 *.dylib
 *.so
+*.obj
+*.exe
 Makefile
 build/
-CMakeFiles/
-CMakeCache.txt
 
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+# Jetbrains
+.idea/
+out/
+cmake-build-*/
+
+# VSCode
+.vscode/

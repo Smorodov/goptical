@@ -23,8 +23,9 @@
 */
 
 
-#include <strings.h>
+//#include <strings.h>
 
+#include <goptical/core/common.hpp>
 #include <goptical/core/io/RendererAxes>
 #include <goptical/core/math/Vector>
 
@@ -59,7 +60,7 @@ namespace _goptical {
 
     void RendererAxes::set_tics_step(double step, AxisMask a_)
     {
-      for (int i, a = a_; (i = ffs(a) - 1) >= 0; a &= ~(1 << i))
+      for (int i, a = a_; (i = find_first_bit_set(a) - 1) >= 0; a &= ~(1 << i))
         {
           _axes[i]._step_base = step;
           _axes[i]._step_mode = step_interval;
@@ -68,7 +69,7 @@ namespace _goptical {
 
     void RendererAxes::set_tics_count(unsigned int count, AxisMask a_)
     {
-      for (int i, a = a_; (i = ffs(a) - 1) >= 0; a &= ~(1 << i))
+      for (int i, a = a_; (i = find_first_bit_set(a) - 1) >= 0; a &= ~(1 << i))
         {
           _axes[i]._count = count;
           _axes[i]._step_mode = step_count;
@@ -77,7 +78,7 @@ namespace _goptical {
 
     void RendererAxes::set_tics_base(unsigned int min_count, double base, AxisMask a_)
     {
-      for (int i, a = a_; (i = ffs(a) - 1) >= 0; a &= ~(1 << i))
+      for (int i, a = a_; (i = find_first_bit_set(a) - 1) >= 0; a &= ~(1 << i))
         {
           _axes[i]._count = min_count;
           _axes[i]._step_base = base;
@@ -107,13 +108,13 @@ namespace _goptical {
 
     void RendererAxes::set_show_axes(bool show, AxisMask a_)
     {
-      for (int i, a = a_; (i = ffs(a) - 1) >= 0; a &= ~(1 << i))
+      for (int i, a = a_; (i = find_first_bit_set(a) - 1) >= 0; a &= ~(1 << i))
         _axes[i]._axis = show;
     }
 
     void RendererAxes::set_show_tics(bool show, AxisMask a_)
     {
-      for (int i, a = a_; (i = ffs(a) - 1) >= 0; a &= ~(1 << i))
+      for (int i, a = a_; (i = find_first_bit_set(a) - 1) >= 0; a &= ~(1 << i))
         {
           _axes[i]._tics = show;
           _axes[i]._axis |= show;
@@ -122,7 +123,7 @@ namespace _goptical {
 
     void RendererAxes::set_show_values(bool show, AxisMask a_)
     {
-      for (int i, a = a_; (i = ffs(a) - 1) >= 0; a &= ~(1 << i))
+      for (int i, a = a_; (i = find_first_bit_set(a) - 1) >= 0; a &= ~(1 << i))
         {
           _axes[i]._values = show;
           _axes[i]._tics |= show;
@@ -133,7 +134,7 @@ namespace _goptical {
     void RendererAxes::set_label(const std::string &label,
                                  AxisMask a_)
     {
-      for (int i, a = a_; (i = ffs(a) - 1) >= 0; a &= ~(1 << i))
+      for (int i, a = a_; (i = find_first_bit_set(a) - 1) >= 0; a &= ~(1 << i))
         _axes[i]._label = label;
     }
 
@@ -141,7 +142,7 @@ namespace _goptical {
                                 bool si_prefix, int pow10,
                                 AxisMask a_)
     {
-      for (int i, a = a_; (i = ffs(a) - 1) >= 0; a &= ~(1 << i))
+      for (int i, a = a_; (i = find_first_bit_set(a) - 1) >= 0; a &= ~(1 << i))
         {
           _axes[i]._si_prefix = si_prefix;
           _axes[i]._unit = unit;
@@ -154,7 +155,7 @@ namespace _goptical {
     void RendererAxes::set_range(const math::range_t &r,
                                  AxisMask a_)
     {
-      for (int i, a = a_; (i = ffs(a) - 1) >= 0; a &= ~(1 << i))
+      for (int i, a = a_; (i = find_first_bit_set(a) - 1) >= 0; a &= ~(1 << i))
         _axes[i]._range = r;
     }
 

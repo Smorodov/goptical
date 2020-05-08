@@ -166,9 +166,16 @@ namespace dpp {
 	buffer array of integers along with a @ref vlarray object and
 	pass the buffer array as storage space to the @ref vlarray
 	constructor. @hidecontent */
+#ifndef _MSC_VER
 #define DPP_VLARRAY(type, size, name)		\
   uint64_t _##name[sizeof(type) * size / 8 + 1];	\
   ::dpp::vlarray<type> name(_##name, size); /* FIXME size alignment */
+#else
+#define DPP_VLARRAY(type, size, name)		\
+  auto _##name_ptr = std::unique_ptr<uint64_t>(new uint64_t[sizeof(type) * size / 8 + 1]); \
+  uint64_t *_##name = _##name_ptr.get(); \
+  ::dpp::vlarray<type> name(_##name, size); /* FIXME size alignment */
+#endif
 
     typedef X value_type;
     typedef X & reference;

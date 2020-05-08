@@ -46,15 +46,17 @@ namespace _goptical {
     void Interpolate1d<X>::compute_cubic_2nd_deriv(unsigned int n, double dd[],
                                                       double d0, double dn) const
     {
-      double eq[n][3];
+      //double eq[n][3];
+      double *eq = (double *)calloc(n*3, sizeof(double));
+      _goptical::util::ArrayIndex2D _ = { n, 3 };
 
       // first and last tridiag system equations
       switch (de)
         {
         case Cubic2ndDerivQuadratic:
           dd[0  ] = dd[n-1] = 0.0;
-          eq[0  ][1] = eq[n-1][1] = 1.0;
-          eq[1  ][0] = eq[n-2][2] = -1.0;
+          eq[_(0,1)] = eq[_(n-1,1)] = 1.0;
+          eq[_(1,0)] = eq[_(n-2,2)] = -1.0;
           break;
 
         case Cubic2ndDerivFirst: {
@@ -64,10 +66,10 @@ namespace _goptical {
 
           dd[0  ] = (X::get_y_value(1) - X::get_y_value(0)) / x0 - d0;
           dd[n-1] = dn - (X::get_y_value(n - 1) - X::get_y_value(n - 2)) / xn;
-          eq[0  ][1] = x0 / 3.0;
-          eq[1  ][0] = x0 / 6.0;
-          eq[n-2][2] = xn / 6.0;
-          eq[n-1][1] = xn / 3.0;
+          eq[_(0,1)] = x0 / 3.0;
+          eq[_(1,0)] = x0 / 6.0;
+          eq[_(n-2,2)] = xn / 6.0;
+          eq[_(n-1,1)] = xn / 3.0;
           break;
         }
 
@@ -75,8 +77,8 @@ namespace _goptical {
           // second derivative is prescribed for first and last point
           dd[0  ] = d0;
           dd[n-1] = dn;
-          eq[1  ][0] = eq[n-2][2] = 0.0;
-          eq[0  ][1] = eq[n-1][1] = 1.0;
+          eq[_(1,0)] = eq[_(n-2,2)] = 0.0;
+          eq[_(0,1)] = eq[_(n-1,1)] = 1.0;
           break;
         }
 
@@ -85,9 +87,9 @@ namespace _goptical {
       // middle tridiag system equations
       for (i = 1; i < (int)n - 1; i++)
         {
-          eq[i-1][2] = X::get_x_interval(i - 1) / 6.0;
-          eq[i  ][1] = X::get_x_interval(i - 1, i + 1) / 3.0;
-          eq[i+1][0] = X::get_x_interval(i) / 6.0;
+          eq[_(i-1,2)] = X::get_x_interval(i - 1) / 6.0;
+          eq[_(i,1)] = X::get_x_interval(i - 1, i + 1) / 3.0;
+          eq[_(i+1,0)] = X::get_x_interval(i) / 6.0;
           dd[i] = ( X::get_y_value(i + 1) - X::get_y_value(i) ) / X::get_x_interval(i)
                 - ( X::get_y_value(i) - X::get_y_value(i - 1) ) / X::get_x_interval(i - 1);
         }
@@ -96,8 +98,8 @@ namespace _goptical {
       // forward substitution
       for (i = 1; i < (int)n; i++)
         {
-          double f = eq[i-1][2] / eq[i-1][1];
-          eq[i][1] -= f * eq[i][0];
+          double f = eq[_(i-1,2)] / eq[_(i-1,1)];
+          eq[_(i,1)] -= f * eq[_(i,0)];
           dd[i]    -= f * dd[i-1];
         }
 
@@ -105,10 +107,12 @@ namespace _goptical {
       double k = 0;
       for (i = n - 1; i >= 0; i--)
         {
-          double ddi = (dd[i] - k) / eq[i][1];
+          double ddi = (dd[i] - k) / eq[_(i,1)];
           dd[i] = ddi;
-          k = eq[i][0] * ddi;
+          k = eq[_(i,0)] * ddi;
         }
+
+      free(eq);
     }
 
     template <class X>
@@ -502,7 +506,8 @@ namespace _goptical {
 
       double d0 = (X::get_y_value(1) - X::get_y_value(0)) / X::get_x_interval(0);
       double dn = (X::get_y_value(n - 1) - X::get_y_value(n - 2)) / X::get_x_interval(n - 2);
-      double dd[n];
+      // double dd[n];
+      double *dd = (double *) calloc(n, sizeof(double));
 
       compute_cubic_2nd_deriv<Cubic2ndDerivFirst>(n, dd, d0, dn);
 
@@ -517,6 +522,8 @@ namespace _goptical {
       set_linear_poly(poly[n], X::get_x_value(n-1), X::get_y_value(n-1), dn);
 
       this_->_interpolate = &Interpolate1d::interpolate_cubic;
+
+      free(dd);
 
       return interpolate_cubic(d, x);
 
@@ -537,7 +544,8 @@ namespace _goptical {
 
       double d0 = (X::get_y_value(1) - X::get_y_value(0)) / X::get_x_interval(0);
       double dn = (X::get_y_value(n - 1) - X::get_y_value(n - 2)) / X::get_x_interval(n - 2);
-      double dd[n];
+      //double dd[n];
+      double *dd = (double *) calloc(n, sizeof(double));
 
       compute_cubic_2nd_deriv<Cubic2ndDerivFirst>(n, dd, d0, dn);
 
@@ -557,6 +565,8 @@ namespace _goptical {
 
       this_->_interpolate = &Interpolate1d::interpolate_cubic;
 
+      free(dd);
+
       return interpolate_cubic(d, x);
 
     }
@@ -574,7 +584,8 @@ namespace _goptical {
 
       poly.resize(n + 1);
 
-      double dd[n];
+      //double dd[n];
+      double *dd = (double *)calloc(n, sizeof(double));
       double d0 = X::get_d_value(0);
       double dn = X::get_d_value(n - 1);
 
@@ -592,6 +603,8 @@ namespace _goptical {
 
       this_->_interpolate = &Interpolate1d::interpolate_cubic;
 
+      free(dd);
+
       return interpolate_cubic(d, x);
     }
 
@@ -608,7 +621,8 @@ namespace _goptical {
 
       poly.resize(n + 1);
 
-      double dd[n];
+      //double dd[n];
+      double *dd = (double *)calloc(n, sizeof(double));
       double d0 = X::get_d_value(0);
       double dn = X::get_d_value(n - 1);
 
@@ -629,6 +643,8 @@ namespace _goptical {
                          dn, dd[n-1]);
 
       this_->_interpolate = &Interpolate1d::interpolate_cubic;
+
+      free(dd);
 
       return interpolate_cubic(d, x);
     }

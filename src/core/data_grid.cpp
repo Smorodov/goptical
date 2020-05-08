@@ -325,13 +325,17 @@ namespace _goptical {
     {
       unsigned int n = _size[v];
 
-      double eq[n][3];
-      double dd[n];
+      //double eq[n][3];
+      double *eq = (double*)calloc(n * 3, sizeof(double));
+      _goptical::util::ArrayIndex2D _ = { n, 3 };
+
+      //double dd[n];
+      double* dd = (double*)calloc(n, sizeof(double));
 
       // tridiag system equations
       dd[0  ] = dd[n-1] = 0.0;
-      eq[0  ][1] = eq[n-1][1] = 1.0;
-      eq[1  ][0] = eq[n-2][2] = -1.0;
+      eq[_(0,1)] = eq[_(n-1,1)] = 1.0;
+      eq[_(1,0)] = eq[_(n-2,2)] = -1.0;
 
       int i, j = 0;
 
@@ -339,9 +343,9 @@ namespace _goptical {
         {
           j = o + i * w;
 
-          eq[i-1][2] = _step[v] / 6.0;
-          eq[i  ][1] = _step[v] * 2.0 / 3.0;
-          eq[i+1][0] = _step[v] / 6.0;
+          eq[_(i-1,2)] = _step[v] / 6.0;
+          eq[_(i,1)] = _step[v] * 2.0 / 3.0;
+          eq[_(i+1,0)] = _step[v] / 6.0;
           dd[i] = (_y_data[j+w] - _y_data[j]) / _step[v]
                 - (_y_data[j] - _y_data[j-w]) / _step[v];
         }
@@ -350,8 +354,8 @@ namespace _goptical {
       // forward substitution
       for (i = 1; i < (int)n; i++)
         {
-          double f = eq[i-1][2] / eq[i-1][1];
-          eq[i][1] -= f * eq[i][0];
+          double f = eq[_(i-1,2)] / eq[_(i-1,1)];
+          eq[_(i,1)] -= f * eq[_(i,0)];
           dd[i]    -= f * dd[i-1];
         }
 
@@ -359,10 +363,12 @@ namespace _goptical {
       double k = 0;
       for (i = n - 1; i >= 0; i--)
         {
-          double ddi = (dd[i] - k) / eq[i][1];
+          double ddi = (dd[i] - k) / eq[_(i,1)];
           dd[i] = ddi;
-          k = eq[i][0] * ddi;
+          k = eq[_(i,0)] * ddi;
         }
+
+      free(eq);
 
       // here with have the continuous second derivative in dd[],
       // compute smooth 1st derivative
@@ -379,6 +385,8 @@ namespace _goptical {
       d[j + w][v] =
         + (_y_data[j+w] - _y_data[j])
         + (dt * dt) * ((dd[i] + dt * (0.5 * (dd[i+1] - dd[i]) / dt)) - (dd[i+1] / 6.0 + dd[i] / 3.0));
+
+      free(dd);
     }
 
     void Grid::update_bicubic(unsigned int x[2], const math::Vector2 & v) const
@@ -391,7 +399,8 @@ namespace _goptical {
       const unsigned int s0 = _size[0] - 1;
       this_->_poly.resize(s0 * (_size[1] - 1));
 
-      double cd[_size[0] * _size[1]];
+      //double cd[_size[0] * _size[1]];
+      double *cd = (double *)calloc(_size[0] * _size[1], sizeof(double));
       get_cross_deriv_diff(cd);
 
       const unsigned int w = _size[0];
@@ -436,7 +445,7 @@ namespace _goptical {
       this_->_lookup = &Grid::lookup_interval;
       this_->_interpolate_y = &Grid::interpolate_bicubic_y;
       this_->_interpolate_d = &Grid::interpolate_bicubic_d;
-
+      free(cd);
       return lookup_interval(x, v);
     }
 
@@ -450,7 +459,9 @@ namespace _goptical {
       const unsigned int s0 = _size[0] - 1;
       this_->_poly.resize(s0 * (_size[1] - 1));
 
-      double cd[_size[0] * _size[1]];
+      //double cd[_size[0] * _size[1]];
+      double *cd = (double *)calloc(_size[0] * _size[1], sizeof(double));
+
       get_cross_deriv_diff(cd);
 
       DPP_VLARRAY(math::Vector2, _size[0] * _size[1], d);
@@ -489,7 +500,7 @@ namespace _goptical {
       this_->_lookup = &Grid::lookup_interval;
       this_->_interpolate_y = &Grid::interpolate_bicubic_y;
       this_->_interpolate_d = &Grid::interpolate_bicubic_d;
-
+      free(cd);
       return lookup_interval(x, v);
     }
 
@@ -503,7 +514,9 @@ namespace _goptical {
       const unsigned int s0 = _size[0] - 1;
       this_->_poly.resize(s0 * (_size[1] - 1));
 
-      double cd[_size[0] * _size[1]];
+      //double cd[_size[0] * _size[1]];
+      double *cd = (double *)calloc(_size[0] * _size[1], sizeof(double));
+
       get_cross_deriv_diff(cd);
 
       const unsigned int w = _size[0];
@@ -539,7 +552,7 @@ namespace _goptical {
       this_->_lookup = &Grid::lookup_interval;
       this_->_interpolate_y = &Grid::interpolate_bicubic_y;
       this_->_interpolate_d = &Grid::interpolate_bicubic_d;
-
+      free(cd);
       return lookup_interval(x, v);
     }
 

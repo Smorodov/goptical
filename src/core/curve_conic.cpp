@@ -161,7 +161,10 @@ namespace _goptical {
 
     double Conic::fit(const Rotational &c, double radius, unsigned int count)
     {
-      double X[count], Y[count];
+//      double X[count], Y[count];
+      double *X, *Y;
+      X = (double *) calloc(count, sizeof(double));
+      Y = (double *) calloc(count, sizeof(double));
 
       double step = radius / (double)count;
       double y = step / 2.0;
@@ -184,6 +187,9 @@ namespace _goptical {
 
       _sh = -c1;
       _roc = c0 / 2.0;
+
+      free(X);
+      free(Y);
 
       return sqrt(chisq / count); // FIXME bad rms error
     }

@@ -24,6 +24,7 @@
 
 #include <cstdlib>
 
+#include <goptical/core/common.hpp>
 #include <goptical/core/trace/Distribution>
 #include <goptical/core/math/Triangle>
 

@@ -38,11 +38,15 @@
 #include <vector>
 #include <deque>
 #include <functional>
+#include <algorithm>
+#include <memory>
 
 #include "goptical/core/vector_pool"
 #include "goptical/core/ref"    /* mkdoc:skip */
 #include "goptical/core/fstring"        /* mkdoc:skip */
 #include "goptical/core/vlarray"        /* mkdoc:skip */
+
+#include <gsl/gsl_math.h>
 
 #include <math.h>
 
@@ -624,7 +628,21 @@ namespace _goptical {
     class RayFan;
   }
 
+  namespace util {
+      class ArrayIndex2D {
+      public:
+          unsigned rowSize;
+          unsigned colSize;
+          unsigned operator()(unsigned row, unsigned col) {
+              return colSize * row + col;
+          }
+      };
+  }
+
 }
+
+extern "C" int find_first_bit_set (int i);
+extern double drand48();
 
 #endif
 

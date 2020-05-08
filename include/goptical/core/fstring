@@ -35,7 +35,7 @@
 
 /** @file @module{Formatted string} */
 
-#ifdef __GNUC__
+#ifndef __GNUC__
 # define _DPP_FORMAT_CHK(archetype, string_index, first_to_check)
 #else
 # define _DPP_FORMAT_CHK(archetype, string_index, first_to_check) \

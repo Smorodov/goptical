@@ -45,7 +45,7 @@ namespace _goptical {
      */
     template <int N, typename T> struct VectorBase
     {
-      template <int, typename> friend class VectorBase;
+      template <int, typename> friend struct VectorBase;
 
       /** Set the whole vector to the specified value */
       inline void set(T value);
