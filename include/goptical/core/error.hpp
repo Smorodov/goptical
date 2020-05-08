@@ -50,5 +50,9 @@ public:
 
 }
 
+namespace goptical {
+  using _goptical::Error;
+}
+
 #endif
 

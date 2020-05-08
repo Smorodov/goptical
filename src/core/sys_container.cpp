@@ -28,7 +28,7 @@
 #include <goptical/core/math/Transform>
 #include <goptical/core/io/RendererViewport>
 
-#include <goptical/core/Error>
+#include <goptical/core/error.hpp>
 
 #include <limits>
 

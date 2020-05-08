@@ -25,7 +25,7 @@
 #include <limits>
 #include <iostream>
 
-#include <goptical/core/Error>
+#include <goptical/core/error.hpp>
 #include <goptical/core/data/Set>
 
 namespace _goptical

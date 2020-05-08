@@ -27,7 +27,7 @@
 #include <goptical/core/sys/Group>
 #include <goptical/core/sys/Container>
 
-#include <goptical/core/Error>
+#include <goptical/core/error.hpp>
 #include <goptical/core/sys/Surface>
 #include <goptical/core/sys/Source>
 #include <goptical/core/sys/OpticalSurface>

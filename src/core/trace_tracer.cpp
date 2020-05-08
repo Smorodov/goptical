@@ -31,7 +31,7 @@
 #include <goptical/core/trace/Ray>
 #include <goptical/core/sys/System>
 #include <goptical/core/sys/Source>
-#include <goptical/core/Error>
+#include <goptical/core/error.hpp>
 #include <goptical/core/sys/Surface>
 #include <goptical/core/math/VectorPair>
 #include <goptical/core/trace/Distribution>

@@ -23,7 +23,7 @@
 */
 
 #include <goptical/core/io/ImportOslo>
-#include <goptical/core/Error>
+#include <goptical/core/error.hpp>
 
 #include <goptical/core/material/Dielectric>
 #include <goptical/core/material/Catalog>

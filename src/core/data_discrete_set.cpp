@@ -24,7 +24,7 @@
 
 #include <iostream>
 
-#include <goptical/core/Error>
+#include <goptical/core/error.hpp>
 #include <goptical/core/data/DiscreteSet>
 
 #include "data_interpolate_1d_.hxx"

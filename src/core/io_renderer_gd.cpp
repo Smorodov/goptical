@@ -30,7 +30,7 @@
 #include <goptical/core/io/RendererGd>
 #include <goptical/core/trace/Result>
 #include <goptical/core/trace/Ray>
-#include <goptical/core/Error>
+#include <goptical/core/error.hpp>
 
 namespace _goptical {
 

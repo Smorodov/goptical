@@ -23,7 +23,7 @@
 */
 
 #include <goptical/core/io/ImportZemax>
-#include <goptical/core/Error>
+#include <goptical/core/error.hpp>
 
 #include <goptical/core/shape/Infinite>
 #include <goptical/core/shape/Disk>

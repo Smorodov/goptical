@@ -1,7 +1,0 @@
-
-#include "goptical/core/error.hpp"
-
-namespace goptical {
-  using _goptical::Error;
-}
-

@@ -54,7 +54,7 @@
 #include <goptical/core/math/VectorPair>
 #include <goptical/core/math/Vector>
 
-#include <goptical/core/Error>
+#include <goptical/core/error.hpp>
 
 using namespace goptical;
 

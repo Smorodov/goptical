@@ -24,7 +24,7 @@
 
 #include <limits>
 
-#include <goptical/core/Error>
+#include <goptical/core/error.hpp>
 
 #include <goptical/core/data/Plot>
 #include <goptical/core/data/PlotData>

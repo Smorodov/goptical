@@ -23,7 +23,7 @@
 */
 
 #include <goptical/core/data/Grid>
-#include <goptical/core/Error>
+#include <goptical/core/error.hpp>
 
 namespace _goptical {
 
