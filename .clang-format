@@ -51,7 +51,7 @@ ConstructorInitializerIndentWidth: 2
 ContinuationIndentWidth: 2
 ForEachMacros: []
 IndentCaseLabels: false
-NamespaceIndentation: None
+NamespaceIndentation: All
 PenaltyBreakBeforeFirstCallParameter: 100
 PointerAlignment: Right
 SortIncludes: false
