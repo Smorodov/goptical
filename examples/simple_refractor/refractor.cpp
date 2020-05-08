@@ -48,7 +48,7 @@
 
 #include <goptical/core/light/SpectralLine>
 
-#include <goptical/core/analysis/RayFan>
+#include <goptical/core/analysis/rayfan.hpp>
 #include <goptical/core/data/Plot>
 
 #include <goptical/core/io/Rgb>

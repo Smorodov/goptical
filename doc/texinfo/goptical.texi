@@ -1821,7 +1821,7 @@ invalidate current analysis data
 @subheading Declaration
 
 @example
-#include <goptical/core/analysis/RayFan>
+#include <goptical/core/analysis/rayfan.hpp>
 
 namespace goptical @{
   namespace analysis @{

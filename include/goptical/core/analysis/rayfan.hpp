@@ -146,6 +146,32 @@ namespace _goptical
       enum rayfan_plane_e _ab_plane;
     };
 
+    void RayFan::set_entrance_surface(const sys::Surface &s)
+    {
+      _entrance = &s;
+    }
+
+    void RayFan::set_target_surface(const sys::Surface &s)
+    {
+      _exit = &s;
+    }
+
+    void RayFan::set_aberration_plane(enum rayfan_plane_e plane)
+    {
+      assert(plane == 0 || plane == 1);
+      _ab_plane = plane;
+    }
+
+    trace::Distribution & RayFan::get_distribution()
+    {
+      return _dist;
+    }
+  }
+}
+
+namespace goptical {
+  namespace analysis {
+    using _goptical::analysis::RayFan;
   }
 }
 

@@ -26,7 +26,7 @@
 #include <goptical/core/sys/Surface>
 #include <goptical/core/sys/Image>
 
-#include <goptical/core/analysis/RayFan>
+#include <goptical/core/analysis/rayfan.hpp>
 
 #include <goptical/core/data/Plot>
 #include <goptical/core/data/PlotData>
