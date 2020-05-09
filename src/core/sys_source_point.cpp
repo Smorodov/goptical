@@ -43,6 +43,7 @@ namespace _goptical {
     SourcePoint::SourcePoint(SourceInfinityMode m, const math::Vector3 &pos_dir)
       : Source(m == SourceAtInfinity
          // position of infinity source is only used for trace::Sequence sort
+		      // See https://lists.gnu.org/archive/html/goptical/2013-06/msg00004.html
                ? math::VectorPair3(pos_dir * -1e9, pos_dir)
                : math::VectorPair3(pos_dir, math::vector3_001)),
         _mode(m)
