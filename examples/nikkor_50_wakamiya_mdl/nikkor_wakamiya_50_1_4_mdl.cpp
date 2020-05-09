@@ -52,6 +52,7 @@
 
 #include <goptical/core/analysis/rayfan.hpp>
 #include <goptical/core/analysis/spot.hpp>
+#include <goptical/core/analysis/focus.hpp>
 #include <goptical/core/data/Plot>
 
 #include <goptical/core/io/RendererSvg>
@@ -120,6 +121,8 @@ int main()
 
   sys::SourcePoint source_point(sys::SourceAtFiniteDistance,
                                 math::Vector3(0, 27.5, -1000));
+//  sys::SourcePoint source_point(sys::SourceAtInfinity,
+//				math::Vector3(0, 0, 1));
 
   // add sources to system
   sys.add(source_rays);
@@ -142,6 +145,14 @@ int main()
   std::cout << "system:" << std::endl << sys;
   std::cout << "sequence:" << std::endl << seq;
   /* anchor end */
+
+  {
+    /* anchor focus */
+    analysis::Focus               focus(sys);
+
+    image.set_plane(focus.get_best_focus());
+    /* anchor end */
+  }
 
   //**********************************************************************
   // Drawing rays and layout
