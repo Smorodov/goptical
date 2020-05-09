@@ -1,5 +1,4 @@
-This is derivative of [Goptical - GNU Optical design and simulation library](https://www.gnu.org/software/goptical/) by Alexandre Becoulet.
-Forked from [Goptical fork by Dmitry Galchinsky](https://github.com/galchinsky/goptical).
+This is derivative of [Goptical - GNU Optical design and simulation library](https://www.gnu.org/software/goptical/) by Alexandre Becoulet. Forked via [Goptical fork by Dmitry Galchinsky](https://github.com/galchinsky/goptical).
 
 ## Changes from original (done by Dmitry)
 
@@ -32,9 +31,16 @@ Create a directory `build` and `cd` there:
      $ make
 ```
 
-# Building on Windows
+## Building on Windows
 
 Similar to above except that `cmake` creates Visual Studio solution, so you can build using Visual Studio 2019.
+
+## Running Goptical on example lenses
+
+See the data files in `data` folder. The lens prescriptions are taken from [Photons To Photos](https://www.photonstophotos.net/) 
+site. 
+
+To run `Goptical` on these data files, execute the `gopt` command line utility built under `cmd`. Just provide a data file as an argument. Output will be generated in the current folder.
 
 ## LICENSE
 
