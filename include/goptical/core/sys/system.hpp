@@ -59,6 +59,9 @@ namespace _goptical {
       System();
       virtual ~System();
 
+      System(const System&) = delete;
+      System& operator=(const System&) = delete;
+
       /** Define an entrance pupil surface used to project source rays */
       inline void set_entrance_pupil(const const_ref<Surface> &entrance);
       /** Discard defined entrance pupil */

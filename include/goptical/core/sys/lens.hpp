@@ -82,6 +82,9 @@ namespace _goptical {
            const const_ref<material::Base> &glass0,
            const const_ref<material::Base> &env = material::none);
 
+      Lens(const Lens&) = delete;
+      Lens& operator=(const Lens&) = delete;
+
       virtual ~Lens();
 
       /** @alias add_surface1
