@@ -622,9 +622,10 @@ namespace goptical {
     }
 
     BClaffLensImporter::BClaffLensImporter ()
+		: specs_(new LensSpecifications()),
+			image_(ref<sys::Image>::create(_goptical::math::VectorPair3(), 0)),
+			sys_(ref<sys::System>::create())
     {
-      specs_ = std::make_unique<LensSpecifications> ();
-      sys_ = ref<sys::System>::create();
     }
     BClaffLensImporter::~BClaffLensImporter () {}
 
@@ -657,7 +658,7 @@ namespace goptical {
       sys_->add (image_);
 
       /* FIXME is this correct? */
-      auto &s1 = lens->get_surface (0);
+      auto &s1 = lens->get_surface (0); // Note: must be a reference
       sys_->set_entrance_pupil (s1);
 
       return true;
