@@ -53,6 +53,7 @@
 
 #include <goptical/core/analysis/rayfan.hpp>
 #include <goptical/core/analysis/spot.hpp>
+#include <goptical/core/analysis/focus.hpp>
 #include <goptical/core/data/Plot>
 
 #include <goptical/core/io/RendererSvg>
@@ -145,15 +146,19 @@ main (int argc, const char *argv[])
 {
   //**********************************************************************
   // Optical system definition
-
-  if (argc != 2)
+    bool parallel_rays = true;
+    bool refocus = false;
+  if (argc < 2)
     {
       fprintf (stderr, "Please supply a data file\n");
       exit (1);
     }
   if (argc > 2)
     {
+      parallel_rays = strchr(argv[2], 's') == nullptr;
+      refocus = strchr(argv[2], 'f') != nullptr;
     }
+
 
   io::BClaffLensImporter importer;
   unsigned scenario = 0;
@@ -177,7 +182,7 @@ main (int argc, const char *argv[])
   double angleOfView = importer.getAngleOfViewInRadians (scenario);
 
   /* anchor sources */
-  auto source_point = setup_point_source (sys, angleOfView, false);
+  auto source_point = setup_point_source (sys, angleOfView, parallel_rays);
 
   /* anchor seq */
   trace::Sequence seq (sys);
@@ -187,6 +192,11 @@ main (int argc, const char *argv[])
   std::cout << "sequence:" << std::endl << seq;
   /* anchor end */
 
+  if (refocus) {
+      /* anchor focus */
+      analysis::Focus focus(sys);
+      importer.get_image()->set_plane(focus.get_best_focus());
+  }
   layout (sys, source_point);
   analysis_spot (sys, source_point);
   analysis_fan (sys, source_point);
