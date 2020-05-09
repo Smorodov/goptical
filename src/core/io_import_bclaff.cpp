@@ -624,11 +624,12 @@ namespace goptical {
     BClaffLensImporter::BClaffLensImporter ()
     {
       specs_ = std::make_unique<LensSpecifications> ();
+      sys_ = ref<sys::System>::create();
     }
     BClaffLensImporter::~BClaffLensImporter () {}
 
     bool BClaffLensImporter::parseFile (const std::string &file_name,
-					sys::System &sys, unsigned scenario)
+					unsigned scenario)
     {
       if (!specs_->parse_file (file_name))
 	{
@@ -637,7 +638,7 @@ namespace goptical {
 
       /* anchor lens */
       auto lens = ref<sys::Lens>::create (_goptical::math::Vector3 (0, 0, 0));
-      sys.add (lens);
+      sys_->add (lens);
 
       double image_pos = 0.0;
       auto surfaces = specs_->get_surfaces ();
@@ -653,11 +654,11 @@ namespace goptical {
       image_
 	= ref<sys::Image>::create (_goptical::math::Vector3 (0, 0, image_pos),
 				   specs_->get_image_height ());
-      sys.add (image_);
+      sys_->add (image_);
 
       /* FIXME is this correct? */
       auto &s1 = lens->get_surface (0);
-      sys.set_entrance_pupil (s1);
+      sys_->set_entrance_pupil (s1);
 
       return true;
     }

@@ -1,3 +1,2 @@
-add_subdirectory(generic)
 add_subdirectory(tessar_lens)
 add_subdirectory(nikkor_50_wakamiya_mdl)
