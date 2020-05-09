@@ -4,6 +4,7 @@ set(MODULE_SOURCES
   analysis_rayfan.cpp
   analysis_spot.cpp
   curve_array.cpp
+  curve_asphere.cpp
   curve_base.cpp
   curve_composer.cpp
   curve_conic_base.cpp
@@ -25,8 +26,9 @@ set(MODULE_SOURCES
   data_set1d.cpp
   data_set.cpp
   drand48.cpp
-#  io_import_oslo.cpp
-#  io_import_zemax.cpp
+  io_import_bclaff.cpp
+  # io_import_oslo.cpp
+  # io_import_zemax.cpp
   io_renderer_2d.cpp
   io_renderer_axes.cpp
   io_renderer.cpp

@@ -296,7 +296,34 @@ namespace dpp {
       return ref(obj);
     }
 
-    /** @This performs a dynamic cast to @ref ref of given type */
+      template <typename A0, typename A1, typename A2,
+              typename A3, typename A4, typename A5, typename A6>
+      static ref create(const A0 &a0, const A1 &a1, const A2 &a2,
+                        const A3 &a3, const A4 &a4, const A5 &a5,
+		                const A6 &a6)
+      {
+          X *obj = new X(a0, a1, a2, a3, a4, a5, a6);
+          obj->template _set_clone<X>();
+          obj->_dynamic = true;
+          obj->_ref_count = 1;
+          return ref(obj);
+      }
+
+      template <typename A0, typename A1, typename A2,
+              typename A3, typename A4, typename A5, typename A6, typename A7>
+      static ref create(const A0 &a0, const A1 &a1, const A2 &a2,
+                        const A3 &a3, const A4 &a4, const A5 &a5,
+                        const A6 &a6, const A7 &a7)
+      {
+          X *obj = new X(a0, a1, a2, a3, a4, a5, a6, a7);
+          obj->template _set_clone<X>();
+          obj->_dynamic = true;
+          obj->_ref_count = 1;
+          return ref(obj);
+      }
+
+
+      /** @This performs a dynamic cast to @ref ref of given type */
     template <class T>
     ref<T> dynamiccast() const
     {
