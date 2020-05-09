@@ -16,6 +16,7 @@
 #include <cassert>
 #include <cmath>
 #include <cstdio>
+#include <goptical/core/analysis/focus.hpp>
 
 namespace goptical {
   namespace io {
@@ -624,7 +625,7 @@ namespace goptical {
     {
       specs_ = std::make_unique<LensSpecifications> ();
     }
-    BClaffLensImporter::~BClaffLensImporter() {}
+    BClaffLensImporter::~BClaffLensImporter () {}
 
     bool BClaffLensImporter::parseFile (const std::string &file_name,
 					sys::System &sys, unsigned scenario)
@@ -647,12 +648,12 @@ namespace goptical {
 	    return false;
 	  image_pos += thickness;
 	}
-      //printf ("Image position is at %f\n", image_pos);
+      // printf ("Image position is at %f\n", image_pos);
 
-      auto image
+      image_
 	= ref<sys::Image>::create (_goptical::math::Vector3 (0, 0, image_pos),
 				   specs_->get_image_height ());
-      sys.add (image);
+      sys.add (image_);
 
       /* FIXME is this correct? */
       auto &s1 = lens->get_surface (0);
@@ -664,7 +665,8 @@ namespace goptical {
     double BClaffLensImporter::getAngleOfViewInRadians (unsigned scenario)
     {
       auto view_angles = specs_->find_variable ("Angle of View");
-      return _goptical::math::degree2rad(view_angles->get_value_as_double (0) / 2.0);
+      return _goptical::math::degree2rad (view_angles->get_value_as_double (0)
+					  / 2.0);
     }
 
   } // namespace io

@@ -2,6 +2,7 @@
 #define GOPTICAL_IMPORT_BCLAFF_HPP
 
 #include <goptical/core/sys/System>
+#include <goptical/core/sys/Image>
 
 #include <memory>
 
@@ -18,9 +19,11 @@ namespace goptical {
       bool parseFile (const std::string &file_name, sys::System &sys,
 			unsigned scenario = 0);
       double getAngleOfViewInRadians (unsigned scenario = 0);
+      ref<sys::Image> get_image() const { return image_; }
 
     private:
       std::unique_ptr<LensSpecifications> specs_;
+      ref<sys::Image> image_;
     };
 
   } // namespace io
