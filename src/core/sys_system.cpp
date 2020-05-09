@@ -201,30 +201,27 @@ namespace _goptical {
 
     unsigned int System::index_get(Element &element)
     {
-      std::vector<Element*>::iterator i;
-      unsigned int index;
-
-      i = std::find(_index_map.begin(), _index_map.end(), (Element*)0);
-
-      if (i == _index_map.end())
-        {
-          index = _e_count;
-          transform_cache_resize(index + 1);
-        }
-      else
-        {
-          index = _index_map.begin() - i;
-        }
-
+      for (unsigned int i = 0; i < _index_map.size(); i++) {
+          if (_index_map[i] == nullptr) {
+              _index_map[i] = &element;
+	      //fprintf(stderr, "Re-Assigned %u to element %p\n", i, &element);
+              return i;
+          }
+      }
+      unsigned int index = _e_count;
+      transform_cache_resize(index + 1);
+      assert(index+1 == _index_map.size());
       _index_map[index] = &element;
-
+      //fprintf(stderr, "Assigned %u to element %p\n", index, &element);
       return index;
     }
 
     void System::index_put(const Element &element)
     {
       transform_cache_flush(element);
+      assert(element.id() < _index_map.size());
       _index_map[element.id()] = 0;
+      //fprintf(stderr, "Freed %u previously assigned to element %p\n", element.id(), &element);
     }
 
     void System::transform_cache_dump(std::ostream &o) const
