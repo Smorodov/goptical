@@ -148,14 +148,17 @@ namespace _goptical {
 
       for (auto& s : sl)
         {
-          const trace::rays_queue_t &rl = result.get_generated(*(sys::Element*)s);
+          try {
+              const trace::rays_queue_t& rl = result.get_generated(*(sys::Element*)s);
 
-          for(auto& r : rl)
-            {
-              group_begin("ray");
-              draw_traced_ray_recurs<D, false>(*r, lost_len, ref, hit_image);
-              group_end();
-            }
+              for (auto& r : rl)
+              {
+                  group_begin("ray");
+                  draw_traced_ray_recurs<D, false>(*r, lost_len, ref, hit_image);
+                  group_end();
+              }
+          }
+          catch (Error& e) {}
         }
     }
 
