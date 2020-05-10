@@ -51,17 +51,10 @@ namespace _goptical {
       friend class Element;
 
     public:
-      typedef std::list <ref<Element> > element_list_t;
+      typedef std::list <std::shared_ptr<Element> > element_list_t;
 
       Container();
       virtual ~Container();
-
-      /** Add an element */
-      void add_front(const ref<Element> &e);
-      void add(const ref<Element> &e);
-
-      /** Remove an element */
-      void remove(Element &e);
 
       /** Find first element of type X in container and subcontainers */
       template <class X> inline X* find() const;
@@ -104,13 +97,21 @@ namespace _goptical {
 
     protected:
 
+      /** Add an element */
+      void add_front(const std::shared_ptr<Element> &e);
+      void add(const std::shared_ptr<Element> &e);
+
+      /** Remove an element */
+      void remove(const std::shared_ptr<Element> &e);
+      void remove(const Element *e);
+
       /** remove all elements in container */
       void remove_all();
 
-      /** called when elements are inserted or removed */
-      virtual void added(Element &e) = 0;
-      /** called when elements are inserted or removed */
-      virtual void removed(Element &e) = 0;
+//      /** called when elements are inserted or removed */
+//      virtual void added(const std::shared_ptr<Element>& e) {}
+//      /** called when elements are inserted or removed */
+//      virtual void removed(const std::shared_ptr<Element>& e) {}
 
     private:
 

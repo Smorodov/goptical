@@ -50,7 +50,7 @@ namespace _goptical
     class Focus : public PointImage
     {
     public:
-      Focus(sys::System &system);
+      Focus(std::shared_ptr<sys::System> &system);
 
       inline void invalidate();
 

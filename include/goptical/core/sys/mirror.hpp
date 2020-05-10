@@ -68,21 +68,21 @@ namespace _goptical {
           curve. Default is to reflect light coming from left using
           @ref material::mirror material. */
       Mirror(const math::VectorPair3 &p,
-             const const_ref<curve::Base> &curve,
-             const const_ref<shape::Base> &shape,
+             const std::shared_ptr<curve::Base> &curve,
+             const std::shared_ptr<shape::Base> &shape,
              bool light_from_left = true,
-             const const_ref<material::Base> &metal = material::mirror,
-             const const_ref<material::Base> &env = material::none);
+             const std::shared_ptr<material::Base> &metal = material::mirror,
+             const std::shared_ptr<material::Base> &env = material::none);
 
       /** Create a circular aperture mirror at given position with
           given curve. Default is to reflect light coming from left
           using @ref material::mirror material. */
       Mirror(const math::VectorPair3 &p,
-             const const_ref<curve::Base> &curve,
+             const std::shared_ptr<curve::Base> &curve,
              double ap_radius,
              bool light_from_left = true,
-             const const_ref<material::Base> &metal = material::mirror,
-             const const_ref<material::Base> &env = material::none);
+             const std::shared_ptr<material::Base> &metal = material::mirror,
+             const std::shared_ptr<material::Base> &env = material::none);
 
       /** Create a conic mirror with circular aperture at given
           position. Default is to reflect light coming from left using @ref
@@ -91,8 +91,8 @@ namespace _goptical {
              double roc, double sc,
              double ap_radius,
              bool light_from_left = true,
-             const const_ref<material::Base> &metal = material::mirror,
-             const const_ref<material::Base> &env = material::none);
+             const std::shared_ptr<material::Base> &metal = material::mirror,
+             const std::shared_ptr<material::Base> &env = material::none);
 
     };
 

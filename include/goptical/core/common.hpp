@@ -42,7 +42,6 @@
 #include <memory>
 
 #include "goptical/core/vector_pool"
-#include "goptical/core/ref"    /* mkdoc:skip */
 #include "goptical/core/fstring"        /* mkdoc:skip */
 #include "goptical/core/vlarray"        /* mkdoc:skip */
 
@@ -53,8 +52,6 @@
 #include <limits>
 
 #define PATH_SEPARATOR '/'
-
-#define GOPTICAL_REFNEW(...) DPP_REFNEW(__VA_ARGS__)
 
 #ifdef CONFIG_GOPTICAL_DEBUG
 # define GOPTICAL_DEBUG(s) std::cerr << s << std::endl

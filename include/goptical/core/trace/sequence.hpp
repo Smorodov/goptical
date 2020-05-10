@@ -47,7 +47,7 @@ namespace _goptical {
        used by sequential light propagation algorithm implemented in
        the @ref tracer class.
      */
-    class Sequence : public ref_base<Sequence>
+    class Sequence
     {
       friend std::ostream & operator<<(std::ostream &o, const Sequence &s);
       friend class Tracer;
@@ -68,10 +68,10 @@ namespace _goptical {
       /** Insert an element at end of sequence.
           @return position of the element in the sequence
       */
-      inline unsigned int append(const sys::Element &element);
+      inline unsigned int append(const std::shared_ptr<sys::Element> &element);
 
       /** Insert an element in sequence at given position */
-      inline void insert(unsigned int index, const sys::Element &element);
+      inline void insert(unsigned int index, const std::shared_ptr<sys::Element> &element);
 
       /** Remove an element from sequence */
       inline void remove(unsigned int index);
@@ -85,7 +85,7 @@ namespace _goptical {
     private:
       void add(const sys::Container &c);
 
-      std::vector<const_ref<sys::Element> > _list;
+      std::vector<std::shared_ptr<sys::Element> > _list;
     };
 
     std::ostream & operator<<(std::ostream &o, const Sequence &s);

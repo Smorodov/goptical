@@ -181,7 +181,7 @@ int main()
   source.add_spectral_line(light::SpectralLine::F);
 
   // get transverse aberration plot
-  ref<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight,
+  std::shared_ptr<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight,
                                           analysis::RayFan::TransverseDistance);
 
   fan_plot->draw(renderer);

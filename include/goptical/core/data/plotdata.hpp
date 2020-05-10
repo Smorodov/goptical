@@ -52,7 +52,7 @@ namespace _goptical {
     public:
       /** Create a new data plot descriptor which describe the
           specified dataset. */
-      inline Plotdata(const const_ref<Set> &s);
+      inline Plotdata(const std::shared_ptr<Set> &s);
 
       /** Get the described data set */
       inline const Set & get_set() const;
@@ -77,7 +77,7 @@ namespace _goptical {
       inline PlotStyleMask get_style() const;
 
     private:
-      const_ref<Set>    _set;
+      std::shared_ptr<Set>    _set;
       io::Rgb           _color;
       PlotStyleMask     _style;
       std::string       _label;

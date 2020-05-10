@@ -67,7 +67,7 @@ namespace _goptical {
       return _system_id;
     }
 
-    System * Element::get_system() const
+    std::shared_ptr<System> Element::get_system() const
     {
       return _system;
     }

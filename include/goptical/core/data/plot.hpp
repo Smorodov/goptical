@@ -53,14 +53,14 @@ namespace _goptical {
        various analysis functions. They can be rendered on a @ref
        io::RendererViewport object with the @ref draw function.
      */
-    class Plot : public ref_base<Plot>
+    class Plot
     {
     public:
       /** Create a new empty plot */
       Plot();
 
       /** Create and add plot data from specified data set. */
-      Plotdata & add_plot_data(const Set &data,
+      Plotdata & add_plot_data(const std::shared_ptr<Set> &data,
                                const io::Rgb &color = io::rgb_red,
                                const std::string &label = "data",
                                PlotStyleMask style = InterpolatePlot | PointPlot);

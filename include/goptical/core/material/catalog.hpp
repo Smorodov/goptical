@@ -43,7 +43,7 @@ namespace _goptical {
        @module {Core}
        @main
      */
-    class Catalog : public ref_base<Catalog>
+    class Catalog
     {
     public:
       /** Create a catalog with given name */
@@ -59,14 +59,14 @@ namespace _goptical {
 
       /** Add a material to catalog. material object will be deleted
           on catalog destruction if owner is set. */
-      void add_material(const std::string &material_name, const const_ref<Base> &material);
+      void add_material(const std::string &material_name, const std::shared_ptr<Base> &material);
 
       /** Remove a material from catalog */
       void del_material(const std::string &material_name);
 
     private:
 
-      typedef std::map<std::string, const_ref<Base> > catalog_map_t;
+      typedef std::map<std::string, std::shared_ptr<Base> > catalog_map_t;
 
       std::string _name;
       catalog_map_t _list;

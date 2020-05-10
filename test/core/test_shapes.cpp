@@ -83,11 +83,11 @@ int main()
 
   shape::Composer *compose1 = new shape::Composer;
 
-  compose1->add_shape(ref<shape::Disk>::create(30.))
+  compose1->add_shape(std::shared_ptr<shape::Disk>::create(30.))
     .translate(20.)
-    .exclude(ref<shape::Rectangle>::create(20.));
+    .exclude(std::shared_ptr<shape::Rectangle>::create(20.));
 
-  compose1->add_shape(ref<shape::Disk>::create(20.))
+  compose1->add_shape(std::shared_ptr<shape::Disk>::create(20.))
     .translate(-20.);
 
   shape_test_s st[] = {

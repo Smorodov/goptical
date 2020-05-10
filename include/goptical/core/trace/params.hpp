@@ -76,7 +76,7 @@ namespace _goptical {
         "physical light propagation mode. @experimental @hidden");
 
       /** Set sequential ray tracing mode */
-      inline void set_sequential_mode(const const_ref<Sequence> &seq);
+      inline void set_sequential_mode(const std::shared_ptr<Sequence> &seq);
 
       /** Set non sequential ray tracing mode (default) */
       inline void set_nonsequential_mode();
@@ -96,7 +96,7 @@ namespace _goptical {
     private:
       typedef std::map<const sys::Surface *, Distribution> _s_distribution_map_t;
 
-      const_ref<Sequence>       _sequence;
+      std::shared_ptr<Sequence>       _sequence;
       Distribution              _default_distribution;
       _s_distribution_map_t     _s_distribution;
       unsigned int              _max_bounce;

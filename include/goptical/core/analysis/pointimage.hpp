@@ -46,7 +46,7 @@ namespace _goptical
     class PointImage
     {
     public:
-      PointImage(sys::System &system);
+      PointImage(std::shared_ptr<sys::System> &system);
       virtual ~PointImage();
 
       /** set Image which collect rays for analysis */
@@ -66,7 +66,7 @@ namespace _goptical
       void get_default_image();
       void trace();
 
-      sys::System &     _system;
+      std::shared_ptr<sys::System>     _system;
       trace::Tracer     _tracer;
       bool              _processed_trace;
       sys::Image *      _image;

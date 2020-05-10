@@ -41,7 +41,7 @@ namespace _goptical {
 
   namespace trace {
 
-    Tracer::Tracer(const const_ref<sys::System> &system)
+    Tracer::Tracer(const std::shared_ptr<sys::System> &system)
       : _system(system),
         _params(system->get_tracer_params()),
         _result(),
@@ -57,7 +57,7 @@ namespace _goptical {
     {
       Result &result = *_result_ptr;
 
-      result.init(*_system);
+      result.init(_system);
 
       // stack of rays to propagate
       rays_queue_t tmp[2];
@@ -65,24 +65,24 @@ namespace _goptical {
       unsigned int swaped = 0;
       rays_queue_t *generated;
       rays_queue_t *source_rays = &tmp[1];
-      const std::vector<const_ref<sys::Element> > &seq = _params._sequence->_list;
+      const std::vector<std::shared_ptr<sys::Element> > &seq = _params._sequence->_list;
       const sys::Element *entrance = 0;
 
       // find entry element (first non source)
       for (unsigned int i = 0; i < seq.size(); i++)
         {
-          if (!dynamic_cast<const sys::Source *>(seq[i].ptr()))
+          if (!dynamic_cast<const sys::Source *>(seq[i].get()))
             {
-              entrance = seq[i].ptr();
+              entrance = seq[i].get();
               break;
             }
         }
 
       for (unsigned int i = 0; i < seq.size(); i++)
         {
-          const sys::Element *element = seq[i].ptr();
+          const sys::Element *element = seq[i].get();
 
-          if (_system != element->get_system())
+          if (_system.get() != element->get_system().get())
             throw Error("Sequence contains element which is not part of the system");
 
           if (!element->is_enabled())
@@ -122,7 +122,7 @@ namespace _goptical {
     {
       Result            &result = *_result_ptr;
 
-      result.init(*_system);
+      result.init(_system);
 
       if (_params._propagation_mode != RayPropagation)
         throw Error("Diffractive propagation not supported in non sequential mode");
@@ -142,7 +142,7 @@ namespace _goptical {
         {
           const sys::Source &source = *s;
 
-          if (_system != source.get_system())
+          if (_system.get() != source.get_system().get())
             throw Error("can not trace with Source which is not part of the system");
 
           if (!source.is_enabled())

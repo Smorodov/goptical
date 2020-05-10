@@ -29,14 +29,14 @@ namespace _goptical {
 
   namespace trace {
 
-    unsigned int Sequence::append(const sys::Element &element)
+    unsigned int Sequence::append(const std::shared_ptr<sys::Element> &element)
     {
       _list.push_back(element);
 
       return _list.size() - 1;
     }
 
-    void Sequence::insert(unsigned int index, const sys::Element &element)
+    void Sequence::insert(unsigned int index, const std::shared_ptr<sys::Element> &element)
     {
       _list.insert(_list.begin() + index, element);
     }

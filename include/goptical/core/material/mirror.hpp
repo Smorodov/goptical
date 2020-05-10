@@ -63,7 +63,7 @@ namespace _goptical {
     };
 
     /** A global instance of material::Mirror material. */
-    extern Mirror mirror;
+    extern std::shared_ptr<Mirror> mirror;
 
   }
 }

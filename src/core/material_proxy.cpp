@@ -29,7 +29,7 @@ namespace _goptical {
 
   namespace material {
 
-    Proxy::Proxy(const const_ref<Base> &m)
+    Proxy::Proxy(const std::shared_ptr<Base> &m)
       : _m(m)
     {
     }

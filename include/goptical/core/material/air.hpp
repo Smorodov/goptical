@@ -83,10 +83,10 @@ namespace _goptical {
     };
 
     /** A global read only instance of @ref AirBirch94 material with standard parameters. */
-    extern const AirBirch94 std_air;
+    extern const std::shared_ptr<AirBirch94> std_air;
 
     /** A global instance of @ref AirBirch94 material. */
-    extern AirBirch94 air;
+    extern std::shared_ptr<AirBirch94> air;
 
   }
 }

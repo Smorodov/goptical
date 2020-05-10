@@ -46,25 +46,23 @@ namespace _goptical {
   namespace sys {
 
     Lens::Lens(const math::VectorPair3 &p, double offset,
-               const const_ref<material::Base> &env)
+               const std::shared_ptr<material::Base> &env)
       : Group(p),
         _last_pos(offset),
-        _surfaces(_surfaces_storage),
         _next_mat(env)
     {
     }
 
     Lens::Lens(const math::VectorPair3 &p,
-               const const_ref<curve::Base> &curve0,
-               const const_ref<shape::Base> &shape0,
-               const const_ref<curve::Base> &curve1,
-               const const_ref<shape::Base> &shape1,
+               const std::shared_ptr<curve::Base> &curve0,
+               const std::shared_ptr<shape::Base> &shape0,
+               const std::shared_ptr<curve::Base> &curve1,
+               const std::shared_ptr<shape::Base> &shape1,
                double thickness0,
-               const const_ref<material::Base> &glass0,
-               const const_ref<material::Base> &env)
+               const std::shared_ptr<material::Base> &glass0,
+               const std::shared_ptr<material::Base> &env)
       : Group(p),
         _last_pos(0),
-        _surfaces(_surfaces_storage),
         _next_mat(env)
     {
       _surfaces.reserve(2);
@@ -76,11 +74,10 @@ namespace _goptical {
                double roc0, double ap_radius0,
                double roc1, double ap_radius1,
                double thickness0,
-               const const_ref<material::Base> &glass0,
-               const const_ref<material::Base> &env)
+               const std::shared_ptr<material::Base> &glass0,
+               const std::shared_ptr<material::Base> &env)
       : Group(p),
         _last_pos(0),
-        _surfaces(_surfaces_storage),
         _next_mat(env)
     {
       _surfaces.reserve(2);
@@ -92,15 +89,16 @@ namespace _goptical {
     {
     }
 
-    unsigned int Lens::add_surface(const const_ref<curve::Base> &curve,
-                                   const const_ref<shape::Base> &shape,
+    unsigned int Lens::add_surface(const std::shared_ptr<curve::Base> &curve,
+                                   const std::shared_ptr<shape::Base> &shape,
                                    double thickness,
-                                   const const_ref<material::Base> &glass)
+                                   const std::shared_ptr<material::Base> &glass)
     {
       assert(thickness >= 0.);
 
-      OpticalSurface &s = _surfaces.create(math::VectorPair3(0, 0, _last_pos),
+      auto s = std::make_shared<OpticalSurface>(math::VectorPair3(0, 0, _last_pos),
                                            curve, shape, _next_mat, glass);
+      _surfaces.push_back(s);
 
       _next_mat = glass;
       _last_pos += thickness;
@@ -110,40 +108,40 @@ namespace _goptical {
 
     unsigned int Lens::add_surface(double roc, double radius,
                                    double thickness,
-                                   const const_ref<material::Base> &glass)
+                                   const std::shared_ptr<material::Base> &glass)
     {
-      const_ref<curve::Base> curve;
+      std::shared_ptr<curve::Base> curve;
 
       if (roc == 0.)
         curve = curve::flat;
       else
-        curve = ref<curve::Sphere>::create(roc);
+        curve = std::make_shared<curve::Sphere>(roc);
 
-      return add_surface(curve, ref<shape::Disk>::create(radius), thickness, glass);
+      return add_surface(curve, std::make_shared<shape::Disk>(radius), thickness, glass);
     }
 
-    void Lens::add_stop(const const_ref<shape::Base> &shape, double thickness)
+    void Lens::add_stop(const std::shared_ptr<shape::Base> &shape, double thickness)
     {
-      if (_stop.valid())
+      if (_stop)
         throw Error("Can not add more than one stop per Lens");
 
-      _stop = ref<Stop>::create(math::VectorPair3(0, 0, _last_pos), shape);
+      _stop = std::make_shared<Stop>(math::VectorPair3(0, 0, _last_pos), shape);
 
       _last_pos += thickness;
-      Container::add(*_stop);
+      Container::add(_stop);
     }
 
     void Lens::add_stop(double radius, double thickness)
     {
-      return add_stop(ref<shape::Disk>::create(radius), thickness);
+      return add_stop(std::make_shared<shape::Disk>(radius), thickness);
     }
 
     double Lens::get_thickness(unsigned int index) const
     {
       double z = index + 1 == _surfaces.size()
-        ? _last_pos : _surfaces.at(index + 1).get_local_position().z();
+        ? _last_pos : _surfaces.at(index + 1)->get_local_position().z();
 
-      return z - _surfaces.at(index).get_local_position().z();
+      return z - _surfaces.at(index)->get_local_position().z();
     }
 
     void Lens::set_thickness(double thickness, unsigned int index)
@@ -152,55 +150,55 @@ namespace _goptical {
 
       for (unsigned int i = index; i < _surfaces.size(); i++)
         {
-          math::Vector3 p = _surfaces[i].get_local_position();
+          math::Vector3 p = _surfaces[i]->get_local_position();
           p.z() += diff;
-          _surfaces[i].set_local_position(p);
+          _surfaces[i]->set_local_position(p);
         }
 
       _last_pos += diff;
     }
 
-    void Lens::set_left_material(const const_ref<material::Base> &m)
+    void Lens::set_left_material(const std::shared_ptr<material::Base> &m)
     {
-      _surfaces.front().set_material(0, m);
+      _surfaces.front()->set_material(0, m);
     }
 
-    void Lens::set_right_material(const const_ref<material::Base> &m)
+    void Lens::set_right_material(const std::shared_ptr<material::Base> &m)
     {
-      _surfaces.back().set_material(1, m);
+      _surfaces.back()->set_material(1, m);
     }
 
-    void Lens::set_glass_material(const const_ref<material::Base> &m,
+    void Lens::set_glass_material(const std::shared_ptr<material::Base> &m,
                                   unsigned int index)
     {
-      _surfaces.at(index+1).set_material(0, m);
-      _surfaces.at(index).set_material(1, m);
+      _surfaces.at(index+1)->set_material(0, m);
+      _surfaces.at(index)->set_material(1, m);
     }
 
-    void Lens::set_left_curve(const const_ref<curve::Base> &c)
+    void Lens::set_left_curve(const std::shared_ptr<curve::Base> &c)
     {
-      _surfaces.front().set_curve(c);
+      _surfaces.front()->set_curve(c);
     }
 
-    void Lens::set_right_curve(const const_ref<curve::Base> &c)
+    void Lens::set_right_curve(const std::shared_ptr<curve::Base> &c)
     {
-      _surfaces.back().set_curve(c);
+      _surfaces.back()->set_curve(c);
     }
 
-    void Lens::set_curve(const const_ref<curve::Base> &c, unsigned int index)
+    void Lens::set_curve(const std::shared_ptr<curve::Base> &c, unsigned int index)
     {
-      _surfaces.at(index).set_curve(c);
+      _surfaces.at(index)->set_curve(c);
     }
 
-    void Lens::set_shape(const const_ref<shape::Base> &s)
+    void Lens::set_shape(const std::shared_ptr<shape::Base> &s)
     {
       for (unsigned int i = 0; i < _surfaces.size(); i++)
-        _surfaces[i].set_shape(s);
+        _surfaces[i]->set_shape(s);
     }
 
-    void Lens::set_shape(const const_ref<shape::Base> &s, unsigned int index)
+    void Lens::set_shape(const std::shared_ptr<shape::Base> &s, unsigned int index)
     {
-      _surfaces.at(index).set_shape(s);
+      _surfaces.at(index)->set_shape(s);
     }
 
     math::VectorPair3 Lens::get_exit_plane() const
@@ -330,63 +328,120 @@ namespace _goptical {
     {
       bool grp = false;
 
-      if (_stop.valid())
-        _stop.staticcast<Element>()->draw_2d_e(r, ref);
+      if (_stop)
+	(static_cast<Element *>(_stop.get()))->draw_2d_e(r, ref);
 
       if (_surfaces.empty())
         return;
 
-      const OpticalSurface &first = _surfaces[0];
-      if (&first.get_material(1) != &first.get_material(0))
+      auto const &first = _surfaces[0];
+      if (&first->get_material(1) != &first->get_material(0))
         {
           GRP_BEGIN;
-          static_cast<const Element&>(first).draw_2d_e(r, ref);              
+	  (static_cast<Element *>(first.get()))->draw_2d_e(r, ref);
         }
 
       for (unsigned int i = 0; i < _surfaces.size() - 1; i++)
         {
-          const OpticalSurface &left = _surfaces[i];
-          const OpticalSurface &right = _surfaces[i+1];
+          auto const &left = _surfaces[i];
+          auto const &right = _surfaces[i+1];
 
-          if (!dynamic_cast<const material::Solid*>(&left.get_material(1)))
+          if (!dynamic_cast<const material::Solid*>(&left->get_material(1)))
             {
               GRP_END;
             }
           else
             {
               // draw outter edges
-              double left_top_edge =  left.get_shape().get_outter_radius(math::vector2_01);
-              double left_bot_edge =  -left.get_shape().get_outter_radius(-math::vector2_01);
-              double right_top_edge = right.get_shape().get_outter_radius(math::vector2_01);
-              double right_bot_edge = -right.get_shape().get_outter_radius(-math::vector2_01);
+              double left_top_edge =  left->get_shape().get_outter_radius(math::vector2_01);
+              double left_bot_edge =  -left->get_shape().get_outter_radius(-math::vector2_01);
+              double right_top_edge = right->get_shape().get_outter_radius(math::vector2_01);
+              double right_bot_edge = -right->get_shape().get_outter_radius(-math::vector2_01);
 
-              draw_2d_edge(r, left, left_top_edge, right, right_top_edge, StraightEdge, ref);
-              draw_2d_edge(r, left, left_bot_edge, right, right_bot_edge, StraightEdge, ref);
+              draw_2d_edge(r, *left, left_top_edge, *right, right_top_edge, StraightEdge, ref);
+              draw_2d_edge(r, *left, left_bot_edge, *right, right_bot_edge, StraightEdge, ref);
 
               // draw hole edges if not coincident
-              double left_top_hole =  left.get_shape().get_hole_radius(math::vector2_01);
-              double left_bot_hole =  -left.get_shape().get_hole_radius(-math::vector2_01);
-              double right_top_hole = right.get_shape().get_hole_radius(math::vector2_01);
-              double right_bot_hole = -right.get_shape().get_hole_radius(-math::vector2_01);
+              double left_top_hole =  left->get_shape().get_hole_radius(math::vector2_01);
+              double left_bot_hole =  -left->get_shape().get_hole_radius(-math::vector2_01);
+              double right_top_hole = right->get_shape().get_hole_radius(math::vector2_01);
+              double right_bot_hole = -right->get_shape().get_hole_radius(-math::vector2_01);
 
               if (fabs(left_bot_hole - left_top_hole) > 1e-6 ||
                   fabs(right_bot_hole - right_top_hole) > 1e-6)
                 {
-                  draw_2d_edge(r, left, left_top_hole, right, right_top_hole, SlopeEdge, ref);
-                  draw_2d_edge(r, left, left_bot_hole, right, right_bot_hole, SlopeEdge, ref);
+                  draw_2d_edge(r, *left, left_top_hole, *right, right_top_hole, SlopeEdge, ref);
+                  draw_2d_edge(r, *left, left_bot_hole, *right, right_bot_hole, SlopeEdge, ref);
                 }
             }
 
-          if (&right.get_material(1) != &right.get_material(0))
+          if (&right->get_material(1) != &right->get_material(0))
             {
               GRP_BEGIN;
-              static_cast<const Element&>(right).draw_2d_e(r, ref);
+	      (static_cast<Element *>(right.get()))->draw_2d_e(r, ref);
             }
         }
 
       GRP_END;
     }
 
+    unsigned int LensBuilder::add_surface(
+        std::shared_ptr<Lens>& lens,
+        const std::shared_ptr<curve::Base>& curve,
+        const std::shared_ptr<shape::Base>& shape,
+        double thickness,
+        const std::shared_ptr<material::Base>& glass)
+    {
+        assert(thickness >= 0.);
+
+        auto s = std::make_shared<OpticalSurface>(math::VectorPair3(0, 0, lens->_last_pos),
+            curve, shape, lens->_next_mat, glass);
+        lens->_surfaces.push_back(s);
+        s->set_parent(lens);
+
+        lens->_next_mat = glass;
+        lens->_last_pos += thickness;
+        lens->Container::add(s);
+        return lens->_surfaces.size() - 1;
+    }
+
+    unsigned int LensBuilder::add_surface(
+        std::shared_ptr<Lens>& lens,
+        double roc, double radius,
+        double thickness,
+        const std::shared_ptr<material::Base>& glass)
+    {
+        std::shared_ptr<curve::Base> curve;
+
+        if (roc == 0.)
+            curve = curve::flat;
+        else
+            curve = std::make_shared<curve::Sphere>(roc);
+
+        return add_surface(lens, curve, std::make_shared<shape::Disk>(radius), thickness, glass);
+    }
+
+    void LensBuilder::add_stop(
+        std::shared_ptr<Lens>& lens,
+        const std::shared_ptr<shape::Base>& shape, 
+        double thickness)
+    {
+        if (lens->_stop)
+            throw Error("Can not add more than one stop per Lens");
+
+        lens->_stop = std::make_shared<Stop>(math::VectorPair3(0, 0, lens->_last_pos), shape);
+
+        lens->_last_pos += thickness;
+        lens->Container::add(lens->_stop);
+        lens->_stop->set_parent(lens);
+    }
+
+    void LensBuilder::add_stop(
+        std::shared_ptr<Lens>& lens,
+        double radius, double thickness)
+    {
+        return add_stop(lens, std::make_shared<shape::Disk>(radius), thickness);
+    }
   }
 
 }

@@ -35,12 +35,12 @@ namespace _goptical {
         {
           X *e;
 
-          if ((e = dynamic_cast<X*>(i.ptr())))
+          if ((e = dynamic_cast<X*>(i.get())))
             return e;
 
           Container *g;
 
-          if ((g = dynamic_cast<Container*>(i.ptr())) &&
+          if ((g = dynamic_cast<Container*>(i.get())) &&
               (e = g->find<X>()))
             return e;
         }
@@ -55,12 +55,12 @@ namespace _goptical {
         {
           X     *e;
 
-          if ((e = dynamic_cast<X*>(i.ptr())))
+          if ((e = dynamic_cast<X*>(i.get())))
             d(*e);
 
           Container *g;
 
-          if ((g = dynamic_cast<Container*>(i.ptr())))
+          if ((g = dynamic_cast<Container*>(i.get())))
             g->get_elements<X>(d);
         }
     }
@@ -72,12 +72,12 @@ namespace _goptical {
         {
           X     *e;
 
-          if ((e = dynamic_cast<X*>(i.ptr())))
+          if ((e = dynamic_cast<X*>(i.get())))
             e->set_enable_state(e == &e_);
 
           Container *g;
 
-          if ((g = dynamic_cast<Container*>(i.ptr())))
+          if ((g = dynamic_cast<Container*>(i.get())))
             g->enable_single<X>(e_);
         }
     }

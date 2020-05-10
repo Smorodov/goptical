@@ -38,7 +38,7 @@ namespace _goptical {
 
   namespace sys {
 
-    void System::set_entrance_pupil(const const_ref<Surface> &entrance)
+    void System::set_entrance_pupil(const std::shared_ptr<Surface> &entrance)
     {
       _entrance = entrance;
       update_version();
@@ -46,11 +46,11 @@ namespace _goptical {
 
     void System::undef_entrance_pupil()
     {
-      _entrance.invalidate();
+      _entrance.reset();
       update_version();
    }
 
-    void System::set_exit_pupil(const const_ref<Surface> &exit)
+    void System::set_exit_pupil(const std::shared_ptr<Surface> &exit)
     {
       _exit = exit;
       update_version();
@@ -58,7 +58,7 @@ namespace _goptical {
 
     const Surface & System::get_exit_pupil() const
     {
-      if (!_exit.valid())
+      if (!_exit)
         throw Error("system has no exit pupil defined");
 
       return *_exit;
@@ -66,12 +66,12 @@ namespace _goptical {
 
     bool System::has_exit_pupil() const
     {
-      return _exit.valid();
+      return _exit.operator bool();
     }
 
     bool System::has_entrance_pupil() const
     {
-      return _entrance.valid();
+      return _entrance.operator bool();
     }
 
     const trace::Params & System::get_tracer_params() const
@@ -87,7 +87,9 @@ namespace _goptical {
 
     math::Transform<3> * & System::transform_cache_entry(unsigned int from, unsigned int to) const
     {
-      return const_cast<math::Transform<3> * &>(_transform_cache[from * _e_count + to]);
+      auto offset = from * _e_count + to;
+      assert(offset < _transform_cache.size());
+      return const_cast<math::Transform<3> * &>(_transform_cache[offset]);
     }
 
     const math::Transform<3> & System::get_transform(const Element &from, const Element &to) const
@@ -141,12 +143,16 @@ namespace _goptical {
       return *_index_map[index];
     }
 
-    const material::Base & System::get_environment() const
+    const std::shared_ptr<material::Base> & System::get_environment() const
     {
-      return _env_proxy.get_material();
+      material::Base *base = _env_proxy.get();
+      material::Proxy *proxy = dynamic_cast<material::Proxy *> (base);
+      if (!proxy)
+	throw Error("Invalid proxy type");
+      return proxy->get_material();
     }
 
-    const material::Base & System::get_environment_proxy() const
+    const std::shared_ptr<material::Base> & System::get_environment_proxy() const
     {
       return _env_proxy;
     }

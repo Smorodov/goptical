@@ -49,7 +49,7 @@ namespace _goptical
   namespace analysis
   {
 
-    RayFan::RayFan(const sys::System &system, enum rayfan_plane_e plane)
+    RayFan::RayFan(const std::shared_ptr<sys::System> &system, enum rayfan_plane_e plane)
       : _tracer(system),
         _processed_trace(false),
         _entrance(0),
@@ -197,10 +197,10 @@ namespace _goptical
       throw Error("unable to find chief ray intercept");
     }
 
-    ref<data::Plot> RayFan::get_plot(enum rayfan_plot_type_e x,
+    std::shared_ptr<data::Plot> RayFan::get_plot(enum rayfan_plot_type_e x,
                                      enum rayfan_plot_type_e y)
     {
-      ref<data::Plot> plot = GOPTICAL_REFNEW(data::Plot);
+      std::shared_ptr<data::Plot> plot = std::make_shared<data::Plot>();
 
       plot->get_axes().set_position(math::vector3_0);
 
@@ -313,7 +313,7 @@ namespace _goptical
 
           // extract data for each ray
 
-          ref<data::DiscreteSet> s = GOPTICAL_REFNEW(data::DiscreteSet);
+          std::shared_ptr<data::DiscreteSet> s = std::make_shared<data::DiscreteSet>();
           s->set_interpolation(data::Cubic);
 
           for(auto& i : intercepts)
@@ -342,7 +342,7 @@ namespace _goptical
           if (!s->get_count())
             continue;
 
-          data::Plotdata p(*s);
+          data::Plotdata p(s);
           p.set_color(light::SpectralLine::get_wavelen_color(w));
           plot->add_plot_data(p);
         }

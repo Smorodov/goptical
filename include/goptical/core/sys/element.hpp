@@ -53,11 +53,12 @@ namespace _goptical {
        handle incoming rays.
      */
 
-    class Element : public ref_base<Element>
+    class Element
     {
       friend class Container;
       friend class System;
       friend class Group;
+      friend class SystemBuilder;
       friend std::ostream & operator<<(std::ostream &o, const Element &e);
 
     public:
@@ -147,7 +148,7 @@ namespace _goptical {
       inline unsigned int id() const;
 
       /** Get a pointer to system */
-      inline System * get_system() const;
+      inline std::shared_ptr<System> get_system() const;
 
       /** Get a pointer to parent element, if any. */
       Group * get_parent() const;
@@ -183,6 +184,9 @@ namespace _goptical {
       virtual void draw_3d_e(io::Renderer &r, const Element *ref) const;
 
       virtual void print(std::ostream &o) const;
+      void set_parent(std::shared_ptr<Group> group) {
+          this->_group = group;
+      }
 
 protected:
 
@@ -207,21 +211,26 @@ protected:
       virtual void process_rays_polarized(trace::Result &result,
                                           trace::rays_queue_t *input) const;
 
-      /** This function is called from the @ref system class when the
-          element is added to a system */
-      virtual void system_register(System &s);
 
-      /** This function is called from the @ref system class when the
-          element is removed from a system */
-      virtual void system_unregister();
 
       /** This function is called from the @ref Element base class
           when the local 3d transform has been updated. */
       virtual void system_moved();
 
+
+
+    protected:
+      /** This function is called from the @ref system class when the
+    element is added to a system */
+      virtual void system_register(std::shared_ptr<System>& s);
+
+      /** This function is called from the @ref system class when the
+          element is removed from a system */
+      virtual void system_unregister();
+
 private:
-      System *_system;
-      Container *_container;
+      std::shared_ptr<System> _system;
+      std::shared_ptr<Group> _group;
 
       bool      _enabled;
       // must be incremented each time a change is made to element properties

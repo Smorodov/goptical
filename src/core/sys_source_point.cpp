@@ -92,7 +92,7 @@ namespace _goptical {
               r.set_creator(this);
               r.set_intensity(l.get_intensity()); // FIXME depends on distance from source and pattern density
               r.set_wavelen(l.get_wavelen());
-              r.set_material(_mat.valid() ? _mat.ptr() : &get_system()->get_environment_proxy());
+              r.set_material(_mat.operator bool() ? _mat.get() : get_system()->get_environment_proxy().get());
           }
       };
       

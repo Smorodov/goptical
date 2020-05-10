@@ -54,7 +54,7 @@ namespace _goptical
     class Spot : public PointImage
     {
     public:
-      Spot(sys::System &system);
+      Spot(std::shared_ptr<sys::System> &system);
 
       inline void invalidate();
 
@@ -77,7 +77,7 @@ namespace _goptical
       double get_encircled_intensity(double radius);
 
       /** Get encircled energy plot */
-      ref<data::Plot> get_encircled_intensity_plot(int zones = 100);
+      std::shared_ptr<data::Plot> get_encircled_intensity_plot(int zones = 100);
 
       /** Set radius used for diagram drawing and encircled
           plots. Updated with spot max radius on ray trace */

@@ -42,7 +42,6 @@ namespace _goptical {
 
     Element::Element(const math::VectorPair3 &plane)
       : _system(0),
-        _container(0),
         _enabled(true),
         _version(0),
         _system_id(0),
@@ -53,8 +52,15 @@ namespace _goptical {
 
     Element::~Element()
     {
-      if (_container)
-        _container->remove(*this);
+      if (_system)
+	{
+	  _system->remove (this);
+	  system_unregister();
+	}
+      if (_group)
+	{
+	  _group->remove (this);
+	}
     }
 
     void Element::set_local_direction(const math::Vector3 &v)
@@ -193,7 +199,7 @@ namespace _goptical {
 
     Group * Element::get_parent() const
     {
-      return dynamic_cast<Group*>(_container);
+      return _group.get();
     }
 
     void Element::process_rays_simple(trace::Result &result,
@@ -214,18 +220,18 @@ namespace _goptical {
       throw Error("this element is not designed to process incoming light rays in polarized ray trace mode");
     }
 
-    void Element::system_register(System &s)
+    void Element::system_register(std::shared_ptr<System> &s)
     {
       assert(!_system);
-      _system = &s;
-      _system_id = s.index_get(*this);
+      _system = s;
+      _system_id = s->index_get(*this);
     }
 
     void Element::system_unregister()
     {
       assert(_system);
       _system->index_put(*this);
-      _system = 0;
+      _system.reset();
       _system_id = 0;
     }
 
@@ -240,7 +246,7 @@ namespace _goptical {
     {
       Element *e;
 
-      for (e = this; e; e = dynamic_cast<Element *>(e->_container))
+      for (e = this; e; e = e->_group.get())
         e->_version++;
 
       if (_system)

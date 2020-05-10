@@ -40,7 +40,7 @@
   sys.add(src1);
 
   // dynamically allocated object added to the system
-  ref<sys::SourceRays> src2 = ref<sys::SourceRays>::create(math::vector3_0);
+  std::shared_ptr<sys::SourceRays> src2 = std::shared_ptr<sys::SourceRays>::create(math::vector3_0);
   sys.add(src2);
     @end code
   @end section

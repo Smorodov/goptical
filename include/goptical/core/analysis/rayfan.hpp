@@ -82,7 +82,7 @@ namespace _goptical
           TangentialAberration = 1
         };
 
-      RayFan(const sys::System &system, enum rayfan_plane_e plane = TangentialAberration);
+      RayFan(const std::shared_ptr<sys::System> &system, enum rayfan_plane_e plane = TangentialAberration);
 
       /** Set entrance pupil ray distribution plane. */
       void set_plane(enum rayfan_plane_e plane);
@@ -112,7 +112,7 @@ namespace _goptical
 
       /** Get aberration plot, requested x value is plotted against
           requested y value. */
-      ref<data::Plot> get_plot(enum rayfan_plot_type_e x,
+      std::shared_ptr<data::Plot> get_plot(enum rayfan_plot_type_e x,
                                enum rayfan_plot_type_e y);
 
       /** Invalidate current analysis data and raytrace again on next

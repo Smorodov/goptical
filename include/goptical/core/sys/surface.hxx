@@ -36,7 +36,7 @@ namespace _goptical {
 
   namespace sys {
 
-    void Surface::set_curve(const const_ref<curve::Base> &c)
+    void Surface::set_curve(const std::shared_ptr<curve::Base> &c)
     {
       _curve = c;
     }
@@ -46,7 +46,7 @@ namespace _goptical {
       return *_curve;
     }
 
-    void Surface::set_shape(const const_ref<shape::Base> &s)
+    void Surface::set_shape(const std::shared_ptr<shape::Base> &s)
     {
       _shape = s;
     }

@@ -42,7 +42,7 @@ namespace _goptical {
 
   namespace sys {
 
-    Stop::Stop(const math::VectorPair3 &p, const const_ref<shape::Base> &shape)
+    Stop::Stop(const math::VectorPair3 &p, const std::shared_ptr<shape::Base> &shape)
       : Surface(p, curve::flat, shape),
         _intercept_reemit(false)
     {
@@ -50,7 +50,7 @@ namespace _goptical {
     }
 
     Stop::Stop(const math::VectorPair3 &p, double r)
-      : Surface(p, curve::flat, ref<shape::Disk>::create(r)),
+      : Surface(p, curve::flat, std::make_shared<shape::Disk>(r)),
         _intercept_reemit(false)
     {
       _external_radius = r * 2.0;

@@ -35,7 +35,7 @@ namespace _goptical {
     {
     }
 
-    void Catalog::add_material(const std::string &material_name, const const_ref<Base> &material)
+    void Catalog::add_material(const std::string &material_name, const std::shared_ptr<Base> &material)
     {
       if (!_list.insert(catalog_map_t::value_type(material_name, material)).second)
         throw Error("material already present in catalog");

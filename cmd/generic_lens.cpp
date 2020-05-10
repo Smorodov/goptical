@@ -76,11 +76,11 @@
 using namespace goptical;
 
 void
-analysis_fan (sys::System &sys, const ref<sys::SourcePoint> &source_point);
+analysis_fan (std::shared_ptr<sys::System> &sys, const std::shared_ptr<sys::SourcePoint> &source_point);
 void
-analysis_spot (sys::System &sys, ref<sys::SourcePoint> &source_point);
+analysis_spot (std::shared_ptr <sys::System> &sys, std::shared_ptr<sys::SourcePoint> &source_point);
 void
-layout (const sys::System &sys, const ref<sys::SourcePoint> &source_point);
+layout (const std::shared_ptr <sys::System> &sys, const std::shared_ptr<sys::SourcePoint> &source_point);
 
 static std::string
 get_base_name (const std::string &name)
@@ -91,8 +91,8 @@ get_base_name (const std::string &name)
   return name.substr (0, pos);
 }
 
-ref<sys::SourcePoint>
-setup_point_source (sys::System &sys, double angleOfView, bool parallel)
+std::shared_ptr<sys::SourcePoint>
+setup_point_source(std::shared_ptr< sys::System>& sys, double angleOfView, bool parallel)
 {
   sys::SourceInfinityMode mode = sys::SourceAtInfinity;
   auto unit_vector = math::vector3_001;
@@ -103,14 +103,14 @@ setup_point_source (sys::System &sys, double angleOfView, bool parallel)
       double y1 = sin (angleOfView);
       unit_vector = math::Vector3 (0, y1, z1);
     }
-  ref<sys::SourcePoint> source_point
-    = ref<sys::SourcePoint>::create (mode, unit_vector);
+  auto source_point
+    = std::make_shared<sys::SourcePoint>(mode, unit_vector);
   source_point->clear_spectrum ();
   source_point->add_spectral_line (light::SpectralLine::d);
   source_point->add_spectral_line (light::SpectralLine::C);
   source_point->add_spectral_line (light::SpectralLine::F);
-
-  sys.add (source_point);
+  _goptical::sys::SystemBuilder builder;
+  builder.add (sys, source_point);
 
   return source_point;
 }
@@ -178,15 +178,15 @@ main (int argc, const char *argv[])
       exit (1);
     }
 
-  sys::System &sys = *importer.get_system ();
+  auto sys = importer.get_system ();
   double angleOfView = importer.getAngleOfViewInRadians (scenario);
 
   /* anchor sources */
   auto source_point = setup_point_source (sys, angleOfView, parallel_rays);
 
   /* anchor seq */
-  trace::Sequence seq (sys);
-  sys.get_tracer_params ().set_sequential_mode (seq);
+  auto seq = std::make_shared<trace::Sequence>(*sys);
+  sys->get_tracer_params ().set_sequential_mode (seq);
 
   std::cout << "system:" << std::endl << sys;
   std::cout << "sequence:" << std::endl << seq;
@@ -207,7 +207,7 @@ main (int argc, const char *argv[])
 // Drawing rays and layout
 
 void
-layout (const sys::System &sys, const ref<sys::SourcePoint> &source_point)
+layout (const std::shared_ptr<sys::System> &sys, const std::shared_ptr<sys::SourcePoint> &source_point)
 {
   {
     /* anchor layout */
@@ -215,8 +215,8 @@ layout (const sys::System &sys, const ref<sys::SourcePoint> &source_point)
 
 #if 1
     // draw 2d system layout
-    sys.draw_2d_fit (renderer);
-    sys.draw_2d (renderer);
+    sys->draw_2d_fit (renderer);
+    sys->draw_2d (renderer);
 #else
     // draw 2d layout of lens only
     lens.draw_2d_fit (renderer);
@@ -243,12 +243,12 @@ layout (const sys::System &sys, const ref<sys::SourcePoint> &source_point)
   }
 }
 void
-analysis_spot (sys::System &sys, ref<sys::SourcePoint> &source_point)
+analysis_spot (std::shared_ptr<sys::System> &sys, std::shared_ptr<sys::SourcePoint> &source_point)
 {
   /* anchor spot */
-  sys.enable_single<sys::Source> (*source_point);
+  sys->enable_single<sys::Source> (*source_point);
 
-  sys.get_tracer_params ().set_default_distribution (
+  sys->get_tracer_params ().set_default_distribution (
     trace::Distribution (trace::HexaPolarDist, 20));
 
   analysis::Spot spot (sys);
@@ -266,17 +266,17 @@ analysis_spot (sys::System &sys, ref<sys::SourcePoint> &source_point)
     /* anchor spot_plot */
     io::RendererSvg renderer ("spot_intensity.svg", 640, 480);
 
-    ref<data::Plot> plot = spot.get_encircled_intensity_plot (50);
+    std::shared_ptr<data::Plot> plot = spot.get_encircled_intensity_plot (50);
 
     plot->draw (renderer);
     /* anchor end */
   }
 }
 void
-analysis_fan (sys::System &sys, const ref<sys::SourcePoint> &source_point)
+analysis_fan (std::shared_ptr<sys::System> &sys, const std::shared_ptr<sys::SourcePoint> &source_point)
 {
   /* anchor opd_fan */
-  sys.enable_single<sys::Source> (*source_point);
+  sys->enable_single<sys::Source> (*source_point);
 
   analysis::RayFan fan (sys);
 
@@ -285,7 +285,7 @@ analysis_fan (sys::System &sys, const ref<sys::SourcePoint> &source_point)
     /* anchor opd_fan */
     io::RendererSvg renderer ("opd_fan.svg", 640, 480);
 
-    ref<data::Plot> fan_plot = fan.get_plot (analysis::RayFan::EntranceHeight,
+    std::shared_ptr<data::Plot> fan_plot = fan.get_plot (analysis::RayFan::EntranceHeight,
 					     analysis::RayFan::OpticalPathDiff);
 
     fan_plot->draw (renderer);
@@ -297,7 +297,7 @@ analysis_fan (sys::System &sys, const ref<sys::SourcePoint> &source_point)
     /* anchor transverse_fan */
     io::RendererSvg renderer ("transverse_fan.svg", 640, 480);
 
-    ref<data::Plot> fan_plot
+    std::shared_ptr<data::Plot> fan_plot
       = fan.get_plot (analysis::RayFan::EntranceHeight,
 		      analysis::RayFan::TransverseDistance);
 
@@ -310,7 +310,7 @@ analysis_fan (sys::System &sys, const ref<sys::SourcePoint> &source_point)
     /* anchor longitudinal_fan */
     io::RendererSvg renderer ("longitudinal_fan.svg", 640, 480);
 
-    ref<data::Plot> fan_plot
+    std::shared_ptr<data::Plot> fan_plot
       = fan.get_plot (analysis::RayFan::EntranceHeight,
 		      analysis::RayFan::LongitudinalDistance);
 

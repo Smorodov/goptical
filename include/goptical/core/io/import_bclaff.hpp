@@ -19,12 +19,12 @@ namespace goptical {
       bool parseFile (const std::string &file_name,
 			unsigned scenario = 0);
       double getAngleOfViewInRadians (unsigned scenario = 0);
-      ref<sys::Image> get_image() const { return image_; }
-      ref<sys::System> get_system() const { return sys_; }
+      std::shared_ptr<sys::Image> get_image() const { return image_; }
+      std::shared_ptr<sys::System> get_system() const { return sys_; }
     private:
       std::unique_ptr<LensSpecifications> specs_;
-      ref<sys::Image> image_;
-      ref<sys::System> sys_;
+      std::shared_ptr<sys::Image> image_;
+      std::shared_ptr<sys::System> sys_;
     };
 
   } // namespace io

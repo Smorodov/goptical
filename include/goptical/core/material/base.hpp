@@ -43,7 +43,7 @@ namespace _goptical {
        light.
      */
 
-    class Base : public ref_base<Base>
+    class Base
     {
     public:
       /** material base constuctor. Set material temperature to 20. */
@@ -100,7 +100,7 @@ namespace _goptical {
     };
 
     /** material null pointer */
-    static const const_ref<Base> none;
+    static const std::shared_ptr<Base> none;
 
   }
 

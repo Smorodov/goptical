@@ -54,7 +54,7 @@ namespace _goptical {
        Containers with more than one dimension will require x0, x1,
        ..., xn known parameters to access the stored y value.
     */
-    class Set : public ref_base<Set>
+    class Set
     {
       friend std::ostream & operator<<(std::ostream &o, const Set &s);
 

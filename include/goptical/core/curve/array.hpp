@@ -55,7 +55,7 @@ namespace _goptical {
           Hexagonal,
         };
 
-      Array(const const_ref<Base> &curve, double pitch, enum pattern_e p = Square);
+      Array(const std::shared_ptr<Base> &curve, double pitch, enum pattern_e p = Square);
 
       /** @override */
       double sagitta(const math::Vector2 & xy) const;
@@ -72,7 +72,7 @@ namespace _goptical {
       math::Vector2 transform_hexagonal(const math::Vector2 &v) const;
       math::Vector2 transform_hexagonal_center(const math::Vector2 &v) const;
 
-      const_ref<Base> _curve;
+      std::shared_ptr<Base> _curve;
       double _pitch;
       transform_t _transform;
     };
