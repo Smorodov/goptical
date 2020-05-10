@@ -29,6 +29,9 @@ namespace _goptical {
 
   namespace sys {
 
+    // Finds an element of type X
+    // Looks in the elements and sub elements
+    // Returns first match
     template <class X> X* Container::find() const
     {
       for(auto& i : _list)
