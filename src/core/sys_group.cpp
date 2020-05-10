@@ -35,21 +35,21 @@ namespace _goptical {
       remove_all();
     }
 
-    void Group::added(Element &e)
-    {
-      // register new element if group is part of a system
-      if (_system)
-        e.system_register(*_system);
-    }
+//    void Group::added(Element &e)
+//    {
+//      // register new element if group is part of a system
+//      if (_system)
+//        e.system_register(_system);
+//    }
+//
+//    void Group::removed(Element &e)
+//    {
+//      // unregister removed element if group is part of a system
+//      if (_system)
+//        e.system_unregister();
+//    }
 
-    void Group::removed(Element &e)
-    {
-      // unregister removed element if group is part of a system
-      if (_system)
-        e.system_unregister();
-    }
-
-    void Group::system_register(System &s)
+    void Group::system_register(std::shared_ptr<System> &s)
     {
       Element::system_register(s);
 

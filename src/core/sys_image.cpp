@@ -32,14 +32,14 @@ namespace _goptical {
   namespace sys {
 
     Image::Image(const math::VectorPair3 &p,
-                 const const_ref<curve::Base> &curve,
-                 const const_ref<shape::Base> &shape)
+                 const std::shared_ptr<curve::Base> &curve,
+                 const std::shared_ptr<shape::Base> &shape)
       : Surface(p, curve, shape)
     {
     }
 
     Image::Image(const math::VectorPair3 &p, double radius)
-      : Surface(p, curve::flat, ref<shape::Rectangle>::create(radius * 2.))
+      : Surface(p, curve::flat, std::make_shared<shape::Rectangle>(radius * 2.))
     {
     }
 

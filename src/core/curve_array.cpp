@@ -29,7 +29,7 @@ namespace _goptical {
 
   namespace curve {
 
-    Array::Array(const const_ref<Base> &curve, double pitch, enum pattern_e p)
+    Array::Array(const std::shared_ptr<Base> &curve, double pitch, enum pattern_e p)
       : _curve(curve),
         _pitch(pitch)
     {

@@ -48,7 +48,7 @@ namespace _goptical {
       if (!file)
         throw Error("Unable to open file");
 
-      ref<material::Catalog> cat = GOPTICAL_REFNEW(material::Catalog, filename);
+      std::shared_ptr<material::Catalog> cat = std::make_shared<material::Catalog>(filename);
 
       // skip header line
       std::getline(file, line);
@@ -75,7 +75,7 @@ namespace _goptical {
           for (i = 0; i < coeffcnt; i++)
             coef[i] = std::strtod(buf, (char**)&buf);
 
-          ref<material::Dielectric> mat;
+          std::shared_ptr<material::Dielectric> mat;
 
           switch (formula)
             {

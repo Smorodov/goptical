@@ -562,7 +562,7 @@ namespace goptical {
       return aspherical_data_;
     }
 
-    double add_surface (sys::Lens &lens, const Surface &surface,
+    double add_surface (std::shared_ptr<sys::Lens> &lens, const Surface &surface,
 			unsigned scenario = 0)
     {
       double thickness = surface.get_thickness (scenario);
@@ -570,9 +570,10 @@ namespace goptical {
       double aperture_radius = surface.get_diameter () / 2.0;
       double refractive_index = surface.get_refractive_index ();
       double abbe_vd = surface.get_abbe_vd ();
+	  _goptical::sys::LensBuilder builder;
       if (surface.get_surface_type () == SurfaceType::aperture_stop)
 	{
-	  lens.add_stop (aperture_radius, thickness);
+	  builder.add_stop (lens, aperture_radius, thickness);
 	  return thickness;
 	}
       auto aspherical_data = surface.get_aspherical_data ();
@@ -586,13 +587,13 @@ namespace goptical {
 			   surface.get_id ());
 		  return -1.0;
 		}
-	      lens.add_surface (radius, aperture_radius, thickness,
-				ref<material::AbbeVd>::create (refractive_index,
+		  builder.add_surface (lens, radius, aperture_radius, thickness,
+				std::make_shared<material::AbbeVd>(refractive_index,
 							       abbe_vd));
 	    }
 	  else
 	    {
-	      lens.add_surface (radius, aperture_radius, thickness);
+	      builder.add_surface (lens, radius, aperture_radius, thickness);
 	    }
 	  return thickness;
 	}
@@ -606,16 +607,16 @@ namespace goptical {
 
       if (refractive_index > 0.0)
 	{
-	  lens.add_surface (
-	    ref<curve::Asphere>::create (radius, k, a4, a6, a8, a10, a12, a14),
-	    ref<shape::Disk>::create (aperture_radius), thickness,
-	    ref<material::AbbeVd>::create (refractive_index, abbe_vd));
+	  builder.add_surface (lens,
+	    std::make_shared<curve::Asphere>(radius, k, a4, a6, a8, a10, a12, a14),
+	    std::make_shared<shape::Disk>(aperture_radius), thickness,
+	    std::make_shared<material::AbbeVd>(refractive_index, abbe_vd));
 	}
       else
 	{
-	  lens.add_surface (ref<curve::Asphere>::create (radius, k, a4, a6, a8,
+	  builder.add_surface (lens, std::make_shared<curve::Asphere>(radius, k, a4, a6, a8,
 							 a10, a12, a14),
-			    ref<shape::Disk>::create (aperture_radius),
+			    std::make_shared<shape::Disk>(aperture_radius),
 			    thickness);
 	}
       return thickness;
@@ -623,8 +624,8 @@ namespace goptical {
 
     BClaffLensImporter::BClaffLensImporter ()
 		: specs_(new LensSpecifications()),
-			image_(ref<sys::Image>::create(_goptical::math::VectorPair3(), 0)),
-			sys_(ref<sys::System>::create())
+			image_(std::make_shared<sys::Image>(_goptical::math::VectorPair3(), 0)),
+			sys_(std::make_shared<sys::System>())
     {
     }
     BClaffLensImporter::~BClaffLensImporter () {}
@@ -637,25 +638,26 @@ namespace goptical {
 	  return false;
 	}
 
+      _goptical::sys::SystemBuilder builder;
       /* anchor lens */
-      auto lens = ref<sys::Lens>::create (_goptical::math::Vector3 (0, 0, 0));
+      auto lens = std::make_shared<sys::Lens>(_goptical::math::Vector3 (0, 0, 0));
 
       double image_pos = 0.0;
       auto surfaces = specs_->get_surfaces ();
       for (int i = 0; i < surfaces.size (); i++)
 	{
-	  double thickness = add_surface (*lens, *surfaces[i], scenario);
+	  double thickness = add_surface (lens, *surfaces[i], scenario);
 	  if (thickness < 0.0)
 	    return false;
 	  image_pos += thickness;
 	}
       // printf ("Image position is at %f\n", image_pos);
-	  sys_->add(lens);
+	  builder.add(sys_, lens);
 
       image_
-	= ref<sys::Image>::create (_goptical::math::Vector3 (0, 0, image_pos),
+	= std::make_shared<sys::Image>(_goptical::math::Vector3 (0, 0, image_pos),
 				   specs_->get_image_height ());
-      sys_->add (image_);
+      builder.add(sys_, image_);
 
       /* FIXME is this correct? */
       auto &s1 = lens->get_surface (0); // Note: must be a reference

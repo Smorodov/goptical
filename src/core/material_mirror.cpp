@@ -58,7 +58,7 @@ namespace _goptical {
       return 9999.0;
     }
 
-    Mirror mirror;
+    std::shared_ptr<Mirror> mirror = std::make_shared<Mirror>();
 
   }
 

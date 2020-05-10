@@ -64,8 +64,8 @@ class HexSegMirror : public sys::Group
 public:
 
   HexSegMirror(const math::VectorPair3 &pos,
-               const const_ref<curve::Base> &curve,
-               const const_ref<shape::Base> &shape,
+               const std::shared_ptr<curve::Base> &curve,
+               const std::shared_ptr<shape::Base> &shape,
                double seg_radius, double separation)
     : sys::Group(pos)
   {
@@ -98,13 +98,13 @@ public:
             double z_offset = curve->sagitta(p);
 
             // create a composer curve for this segment and use it to translate main curve
-            ref<curve::Composer> seg_curve = ref<curve::Composer>::create();
+            std::shared_ptr<curve::Composer> seg_curve = std::shared_ptr<curve::Composer>::create();
 
             seg_curve->add_curve(curve).xy_translate(-p).z_offset(-z_offset);
 /* anchor hexseg5 */
             // create a segment mirror with hexagonal shape and translated curve
-            ref<sys::Mirror> seg = ref<sys::Mirror>::create(math::Vector3(p, z_offset), seg_curve,
-                                             ref<shape::RegularPolygon>::create(seg_radius, 6));
+            std::shared_ptr<sys::Mirror> seg = std::shared_ptr<sys::Mirror>::create(math::Vector3(p, z_offset), seg_curve,
+                                             std::shared_ptr<shape::RegularPolygon>::create(seg_radius, 6));
 
             // attach the new segment to our group component
             add(seg);
@@ -151,8 +151,8 @@ int main()
 
   // Ring shaped segmented mirror with conic curve
   HexSegMirror            primary(math::Vector3(0, 0, 800),
-                                  ref<curve::Conic>::create(-1600, -1.0869),
-                                  ref<shape::Ring>::create(300, 85),
+                                  std::shared_ptr<curve::Conic>::create(-1600, -1.0869),
+                                  std::shared_ptr<shape::Ring>::create(300, 85),
                                   28, 30);
   sys.add(primary);
 

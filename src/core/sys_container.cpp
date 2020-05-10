@@ -44,51 +44,61 @@ namespace _goptical {
     Container::~Container()
     {
       // all container elements become orphan
-      for (auto&i : _list) {
-        i->_container = 0;
-      }
+//      for (auto&i : _list) {
+//        i->_container = 0;
+//      }
     }
 
     void Container::remove_all()
     {
       while (!_list.empty())
-        remove(*_list.front());
+        remove(_list.front());
     }
 
-    void Container::add_front(const ref<Element> &e)
+    void Container::add_front(const std::shared_ptr<Element> &e)
     {
-      if (e->_container)
-        e->_container->remove(*e);
+//      if (e->_container)
+//        e->_container->remove(e);
 
       _list.insert(_list.begin(), e);
 
-      e->_container = this;
-
-      added(*e);
+//      e->_container = this;
+//
+//      added(e);
     }
 
 
-    void Container::add(const ref<Element> &e)
+    void Container::add(const std::shared_ptr<Element> &e)
     {
-      if (e->_container)
-        e->_container->remove(*e);
+//      if (e->_container)
+//        e->_container->remove(e);
 
       _list.push_back(e);
 
-      e->_container = this;
-
-      added(*e);
+//      e->_container = this;
+//
+//      added(e);
     }
 
-    void Container::remove(Element &e)
+    void Container::remove(const std::shared_ptr<Element> &e)
     {
-      removed(e);
-
-      assert(e._container == this);
-
-      e._container = 0;
+//      removed(e);
+//
+//      assert(e->_container == this);
+//
+//      e->_container = nullptr;
 
       _list.remove(e);
+    }
+
+    void Container::remove(const Element *e)
+    {
+	// FIXME
+    	auto result = std::find_if(std::begin(_list), std::end(_list), [&](const std::shared_ptr<Element> other) { return other.get() == e; });
+	if (result != std::end(_list))
+	  {
+	    remove(*result);
+	  }
     }
 
     math::VectorPair3 Container::get_bounding_box() const

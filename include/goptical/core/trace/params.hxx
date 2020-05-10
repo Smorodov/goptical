@@ -51,7 +51,7 @@ namespace _goptical {
       _sequential_mode = false;
     }
 
-    void Params::set_sequential_mode(const const_ref<Sequence> &seq)
+    void Params::set_sequential_mode(const std::shared_ptr<Sequence> &seq)
     {
       _sequential_mode = true;
       _sequence = seq;

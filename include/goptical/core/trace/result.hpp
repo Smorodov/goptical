@@ -139,7 +139,7 @@ namespace _goptical {
                    const sys::Element *ref = 0) const;
 
     private:
-      void init(const sys::System &system);
+      void init(std::shared_ptr<sys::System> &system);
       void init(const sys::Element &element);
 
       void prepare();
@@ -163,7 +163,7 @@ namespace _goptical {
       rays_queue_t              *_generated_queue;
       trace::Result::sources_t  _sources;
       unsigned int              _bounce_limit_count;
-      const sys::System         *_system;
+      std::shared_ptr<sys::System> _system;
       const trace::Params       *_params;
       //  tracer::Mode          _mode;
     };

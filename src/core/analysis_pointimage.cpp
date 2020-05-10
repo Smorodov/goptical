@@ -37,7 +37,7 @@ namespace _goptical
 
   namespace analysis
   {
-    PointImage::PointImage(sys::System &system)
+    PointImage::PointImage(std::shared_ptr<sys::System>& system)
       : _system(system), _tracer(system),
         _processed_trace(false),
         _image(0),
@@ -53,7 +53,7 @@ namespace _goptical
     void PointImage::get_default_image()
     {
       if (!_image)
-        _image = _system.find<sys::Image>();
+        _image = _system->find<sys::Image>();
 
       if (!_image)
         throw Error("no image found for analysis");

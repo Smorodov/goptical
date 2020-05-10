@@ -100,26 +100,26 @@ namespace _goptical {
         }
     }
 
-    void Result::init(const sys::System &system)
+    void Result::init(std::shared_ptr<sys::System>& system)
     {
       static const struct element_result_s er = { 0 };
 
       if (!_system)
-        _system = &system;
+        _system = system;
 
-      if(_system != &system)
+      if(_system.get() != system.get())
         throw Error("trace::Result used with multiple sys::system objects");
 
-      _elements.resize(system.get_element_count(), er);
+      _elements.resize(system->get_element_count(), er);
     }
 
     void Result::init(const sys::Element &element)
     {
-      const sys::System *system = element.get_system();
+      auto system = element.get_system();
 
-      assert(system != 0);
+      assert(system);
 
-      init(*system);
+      init(system);
     }
 
     void Result::set_intercepted_save_state(const sys::Element &e, bool enabled)

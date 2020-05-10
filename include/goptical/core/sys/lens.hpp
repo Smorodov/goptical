@@ -55,22 +55,23 @@ namespace _goptical {
 
     class Lens : public Group
     {
+        friend class LensBuilder;
     public:
       /** Create an empty lens. Surfaces can be added with the @mref
           add_surface functions. */
       Lens(const math::VectorPair3 &p, double offset = 0.,
-           const const_ref<material::Base> &env = material::none);
+           const std::shared_ptr<material::Base> &env = material::none);
 
       /** Create a lens at given position with given thickness,
           shapes, curvatures and glass. @see __add_surface1__ */
       Lens(const math::VectorPair3 &p,
-           const const_ref<curve::Base> &curve0,
-           const const_ref<shape::Base> &shape0,
-           const const_ref<curve::Base> &curve1,
-           const const_ref<shape::Base> &shape1,
+           const std::shared_ptr<curve::Base> &curve0,
+           const std::shared_ptr<shape::Base> &shape0,
+           const std::shared_ptr<curve::Base> &curve1,
+           const std::shared_ptr<shape::Base> &shape1,
            double thickness0,
-           const const_ref<material::Base> &glass0,
-           const const_ref<material::Base> &env = material::none);
+           const std::shared_ptr<material::Base> &glass0,
+           const std::shared_ptr<material::Base> &env = material::none);
 
       /** Create a circular lens with flat or spherical surfaces at
           given position with given thickness, radius of curvature,
@@ -79,21 +80,22 @@ namespace _goptical {
            double roc0, double ap_radius0,
            double roc1, double ap_radius1,
            double thickness,
-           const const_ref<material::Base> &glass0,
-           const const_ref<material::Base> &env = material::none);
+           const std::shared_ptr<material::Base> &glass0,
+           const std::shared_ptr<material::Base> &env = material::none);
 
       Lens(const Lens&) = delete;
       Lens& operator=(const Lens&) = delete;
 
       virtual ~Lens();
 
+    private:
       /** @alias add_surface1
           Add an optical surface with given curve, shape, thickness and material.
       */
-      unsigned int add_surface(const const_ref<curve::Base> &curve,
-                               const const_ref<shape::Base> &shape,
+      unsigned int add_surface(const std::shared_ptr<curve::Base> &curve,
+                               const std::shared_ptr<shape::Base> &shape,
                                double thickness = 0.,
-                               const const_ref<material::Base> &glass = material::none);
+                               const std::shared_ptr<material::Base> &glass = material::none);
 
       /** @alias add_surface2
           Add a spherical or flat optical surface with circular aperture.
@@ -106,12 +108,12 @@ namespace _goptical {
       unsigned int add_surface(double roc,
                                double ap_radius,
                                double thickness = 0.,
-                               const const_ref<material::Base> &glass = material::none);
+                               const std::shared_ptr<material::Base> &glass = material::none);
 
       /** @alias add_stop1
           Add an aperture stop with given, shape and thickness.
       */
-      void add_stop(const const_ref<shape::Base> &shape,
+      void add_stop(const std::shared_ptr<shape::Base> &shape,
                     double thickness);
 
       /** @alias add_stop2
@@ -122,48 +124,49 @@ namespace _goptical {
       */
       void add_stop(double ap_radius, double thickness);
 
-      /** Adjust thickness between two surfaces */
+    public:
+        /** Adjust thickness between two surfaces */
       void set_thickness(double thickness, unsigned int index = 0);
       /** Get thickness between two surfaces */
       double get_thickness(unsigned int index = 0) const;
 
       /** Set glass material */
-      void set_glass_material(const const_ref<material::Base> &m,
+      void set_glass_material(const std::shared_ptr<material::Base> &m,
                               unsigned int index = 0);
 
       /** Set left material */
-      void set_left_material(const const_ref<material::Base> &m);
+      void set_left_material(const std::shared_ptr<material::Base> &m);
       /** Set left material */
-      void set_right_material(const const_ref<material::Base> &m);
+      void set_right_material(const std::shared_ptr<material::Base> &m);
 
       /** Set left curve */
-      void set_left_curve(const const_ref<curve::Base> &c);
+      void set_left_curve(const std::shared_ptr<curve::Base> &c);
       /** Set right curve */
-      void set_right_curve(const const_ref<curve::Base> &c);
+      void set_right_curve(const std::shared_ptr<curve::Base> &c);
 
       /** Set curve of given surface index */
-      void set_curve(const const_ref<curve::Base> &c, unsigned int index);
+      void set_curve(const std::shared_ptr<curve::Base> &c, unsigned int index);
 
       /** Set lens shape (all surfaces) */
-      void set_shape(const const_ref<shape::Base> &s);
+      void set_shape(const std::shared_ptr<shape::Base> &s);
 
       /** Set lens shape of given surface index */
-      void set_shape(const const_ref<shape::Base> &s, unsigned int index);
+      void set_shape(const std::shared_ptr<shape::Base> &s, unsigned int index);
 
       /** Get a reference to optical surface at given index */
-      inline const OpticalSurface & get_surface(unsigned int index) const;
+      inline const std::shared_ptr<OpticalSurface> & get_surface(unsigned int index) const;
       /** Get a reference to optical surface at given index */
-      inline OpticalSurface & get_surface(unsigned int index);
+      inline std::shared_ptr<OpticalSurface> & get_surface(unsigned int index);
 
       /** Get a reference to right optical surface element */
-      inline const OpticalSurface & get_right_surface() const;
+      inline const std::shared_ptr<OpticalSurface> & get_right_surface() const;
       /** Get a reference to right optical surface element */
-      inline OpticalSurface & get_right_surface();
+      inline std::shared_ptr<OpticalSurface> & get_right_surface();
 
       /** Get a reference to left optical surface element */
-      inline const OpticalSurface & get_left_surface() const;
+      inline const std::shared_ptr<OpticalSurface> & get_left_surface() const;
       /** Get a reference to left optical surface element */
-      inline OpticalSurface & get_left_surface();
+      inline std::shared_ptr<OpticalSurface> & get_left_surface();
 
       /** Get plane of last surface + thickness z offset */
       math::VectorPair3 get_exit_plane() const;
@@ -171,7 +174,7 @@ namespace _goptical {
     private:
 
       /** prevent use of @ref Container::add */
-      inline void add(const ref<Element> &e);
+      inline void add(const std::shared_ptr<Element> &e);
       /** prevent use of @ref Container::remove */
       inline void remove(Element &e);
 
@@ -189,11 +192,49 @@ namespace _goptical {
       double _last_pos;
 
       // preallocated static storage for 8 surface
-      vector_pool<OpticalSurface, 8>::block_type _surfaces_storage;
-      vector_pool<OpticalSurface, 8> _surfaces;
+      //vector_pool<OpticalSurface, 8>::block_type _surfaces_storage;
+      std::vector<std::shared_ptr<OpticalSurface>> _surfaces;
 
-      ref<Stop> _stop;
-      const_ref<material::Base> _next_mat;
+      std::shared_ptr<Stop> _stop;
+      std::shared_ptr<material::Base> _next_mat;
+    };
+
+    class LensBuilder
+    {
+    public:
+      /** @alias add_surface1
+       * Add an optical surface with given curve, shape, thickness and material.
+       */
+      unsigned int add_surface (std::shared_ptr<Lens> &lens,
+				const std::shared_ptr<curve::Base> &curve,
+				const std::shared_ptr<shape::Base> &shape,
+				double thickness = 0.,
+				const std::shared_ptr<material::Base> &glass
+				= material::none);
+
+      /** @alias add_surface2
+	  Add a spherical or flat optical surface with circular aperture.
+
+	  @param roc spherical radius of curvature. 0 means flat curve.
+	  @param ap_radius circular aperture radius.
+	  @param thickness distance to the next surface or exit plane. @see
+	 get_exit_plane.
+	  @param glass material between added surface and next surface.
+      */
+      unsigned int add_surface (std::shared_ptr<Lens> &lens, double roc,
+				double ap_radius, double thickness = 0.,
+				const std::shared_ptr<material::Base> &glass
+				= material::none);
+
+      /** @alias add_stop1
+       * Add an aperture stop with given, shape and thickness.
+       */
+      void add_stop (std::shared_ptr<Lens> &lens,
+		     const std::shared_ptr<shape::Base> &shape,
+		     double thickness);
+
+      void add_stop (std::shared_ptr<Lens> &lens, double radius,
+		     double thickness);
     };
 
   }

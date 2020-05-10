@@ -38,7 +38,7 @@ namespace _goptical {
 
   namespace sys {
 
-    void Source::set_material(const const_ref<material::Base> &m)
+    void Source::set_material(const std::shared_ptr<material::Base> &m)
     {
       _mat = m;
     }

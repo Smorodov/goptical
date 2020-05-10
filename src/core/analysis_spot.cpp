@@ -46,7 +46,7 @@ namespace _goptical
   namespace analysis
   {
 
-    Spot::Spot(sys::System &system)
+    Spot::Spot(std::shared_ptr<sys::System> &system)
       : PointImage(system),
         _processed_analysis(false)
     {
@@ -110,7 +110,7 @@ namespace _goptical
       return intensity;
     }
 
-    ref<data::Plot> Spot::get_encircled_intensity_plot(int zones)
+    std::shared_ptr<data::Plot> Spot::get_encircled_intensity_plot(int zones)
     {
       trace::Result &result = _tracer.get_trace_result();
       const trace::rays_queue_t &intercepts = result.get_intercepted(*_image);
@@ -120,14 +120,14 @@ namespace _goptical
       if (intercepts.empty())
         throw Error("no ray intercept found for encircled intensity plot");
 
-      typedef std::map<double, ref<data::SampleSet> > data_sets_t;
+      typedef std::map<double, std::shared_ptr<data::SampleSet> > data_sets_t;
       data_sets_t data_sets;
 
       // create plot data for each wavelen
 
       for(auto& w : result.get_ray_wavelen_set())
         {
-          ref<data::SampleSet> s = GOPTICAL_REFNEW(data::SampleSet);
+          std::shared_ptr<data::SampleSet> s = std::make_shared<data::SampleSet>();
 
           s->set_interpolation(data::Linear);
           s->set_metrics(0.0, _useful_radius / (double)zones);
@@ -154,7 +154,7 @@ namespace _goptical
 
       // integrate
 
-      ref<data::Plot> plot = GOPTICAL_REFNEW(data::Plot);
+      std::shared_ptr<data::Plot> plot = std::make_shared<data::Plot>();
 
       for (auto& d : data_sets)
         {

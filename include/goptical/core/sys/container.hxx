@@ -29,18 +29,21 @@ namespace _goptical {
 
   namespace sys {
 
+    // Finds an element of type X
+    // Looks in the elements and sub elements
+    // Returns first match
     template <class X> X* Container::find() const
     {
       for(auto& i : _list)
         {
           X *e;
 
-          if ((e = dynamic_cast<X*>(i.ptr())))
+          if ((e = dynamic_cast<X*>(i.get())))
             return e;
 
           Container *g;
 
-          if ((g = dynamic_cast<Container*>(i.ptr())) &&
+          if ((g = dynamic_cast<Container*>(i.get())) &&
               (e = g->find<X>()))
             return e;
         }
@@ -55,12 +58,12 @@ namespace _goptical {
         {
           X     *e;
 
-          if ((e = dynamic_cast<X*>(i.ptr())))
+          if ((e = dynamic_cast<X*>(i.get())))
             d(*e);
 
           Container *g;
 
-          if ((g = dynamic_cast<Container*>(i.ptr())))
+          if ((g = dynamic_cast<Container*>(i.get())))
             g->get_elements<X>(d);
         }
     }
@@ -72,12 +75,12 @@ namespace _goptical {
         {
           X     *e;
 
-          if ((e = dynamic_cast<X*>(i.ptr())))
+          if ((e = dynamic_cast<X*>(i.get())))
             e->set_enable_state(e == &e_);
 
           Container *g;
 
-          if ((g = dynamic_cast<Container*>(i.ptr())))
+          if ((g = dynamic_cast<Container*>(i.get())))
             g->enable_single<X>(e_);
         }
     }

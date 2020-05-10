@@ -30,7 +30,7 @@ namespace _goptical {
 
   namespace curve {
 
-    Composer::Attributes & Composer::add_curve(const const_ref<Base> &curve)
+    Composer::Attributes & Composer::add_curve(const std::shared_ptr<Base> &curve)
     {
       Attributes attr;
 

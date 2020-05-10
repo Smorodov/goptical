@@ -44,8 +44,8 @@ namespace _goptical {
       add(system);
     }
 
-    static bool seq_sort(const const_ref<sys::Element> &a,
-                         const const_ref<sys::Element> &b)
+    static bool seq_sort(const std::shared_ptr<sys::Element> &a,
+                         const std::shared_ptr<sys::Element> &b)
     {
       return a->get_position().z() < b->get_position().z();
     }
@@ -61,10 +61,10 @@ namespace _goptical {
     {
       for (auto&i : c.get_element_list())
         {
-          if (const sys::Container *cc = dynamic_cast<const sys::Container*>(i.ptr()))
+          if (const sys::Container *cc = dynamic_cast<const sys::Container*>(i.get()))
             add(*cc);
           else
-            _list.push_back(*i);
+            _list.push_back(i);
         }
     }
 

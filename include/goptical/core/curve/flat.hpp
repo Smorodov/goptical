@@ -58,7 +58,7 @@ namespace _goptical {
     };
 
     /** Preallocated flat curve object */
-    extern Flat flat;
+    extern std::shared_ptr<Flat> flat;
 
   }
 }

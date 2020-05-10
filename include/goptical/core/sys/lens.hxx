@@ -32,32 +32,32 @@ namespace _goptical {
 
   namespace sys {
 
-    const OpticalSurface & Lens::get_surface(unsigned int index) const
+    const std::shared_ptr<OpticalSurface> & Lens::get_surface(unsigned int index) const
     {
       return _surfaces.at(index);
     }
 
-    OpticalSurface & Lens::get_surface(unsigned int index)
+  std::shared_ptr<OpticalSurface> & Lens::get_surface(unsigned int index)
     {
       return _surfaces.at(index);
     }
 
-    const OpticalSurface & Lens::get_right_surface() const
+    const std::shared_ptr<OpticalSurface> & Lens::get_right_surface() const
     {
       return _surfaces.back();
     }
 
-    OpticalSurface & Lens::get_right_surface()
+  std::shared_ptr<OpticalSurface> & Lens::get_right_surface()
     {
       return _surfaces.back();
     }
 
-    const OpticalSurface & Lens::get_left_surface() const
+    const std::shared_ptr<OpticalSurface> & Lens::get_left_surface() const
     {
       return _surfaces.front();
     }
 
-    OpticalSurface & Lens::get_left_surface()
+  std::shared_ptr<OpticalSurface> & Lens::get_left_surface()
     {
       return _surfaces.front();
     }

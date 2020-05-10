@@ -154,9 +154,9 @@ namespace _goptical {
       }
     };
 
-    const_ref<shape::Base> ImportZemax::get_ap_shape(const struct zemax_surface_s &surf, double unit_factor) const
+    std::shared_ptr<shape::Base> ImportZemax::get_ap_shape(const struct zemax_surface_s &surf, double unit_factor) const
     {
-      const_ref<shape::Base> r;
+      std::shared_ptr<shape::Base> r;
 
       switch (surf.ap_type)
         {
@@ -191,7 +191,7 @@ namespace _goptical {
 
       if (surf.ap_decenter)
         {
-          ref<shape::Composer> c = GOPTICAL_REFNEW(shape::Composer);
+          std::shared_ptr<shape::Composer> c = std::make_shared<shape::Composer>();
 
           c->add_shape(*r).translate(math::Vector2(surf.ap_params[2] * unit_factor,
                                                      surf.ap_params[3] * unit_factor));
@@ -204,7 +204,7 @@ namespace _goptical {
         }
     }
 
-    const_ref<material::Base> ImportZemax::get_glass(sys::System &sys, const struct zemax_surface_s &surf) const
+    std::shared_ptr<material::Base> ImportZemax::get_glass(sys::System &sys, const struct zemax_surface_s &surf) const
     {
       switch (surf.gl_type)
         {
@@ -232,7 +232,7 @@ namespace _goptical {
         }
     }
 
-    ref<sys::System> ImportZemax::import_design(const std::string &filename)
+    std::shared_ptr<sys::System> ImportZemax::import_design(const std::string &filename)
     {
       std::ifstream file(filename.c_str());
       std::string line;
@@ -243,7 +243,7 @@ namespace _goptical {
       if (!file)
         throw Error("Unable to open file");
 
-      ref<sys::System> sys = GOPTICAL_REFNEW(sys::System);
+      std::shared_ptr<sys::System> sys = std::make_shared<sys::System>();
 
       while (std::getline(file, line))
         {
@@ -303,8 +303,8 @@ namespace _goptical {
                          &temp, &pressure) < 2)
                 break;
 
-              ref<material::AirKohlrausch68> env =
-                ref<material::AirKohlrausch68>::create();
+              std::shared_ptr<material::AirKohlrausch68> env =
+                std::shared_ptr<material::AirKohlrausch68>::create();
 
               env->set_temperature(temp);
               env->set_pressure(pressure * material::AirKohlrausch68::std_pressure);
@@ -597,13 +597,13 @@ namespace _goptical {
       math::Transform<3> coord;
       coord.reset();
 
-      const_ref<material::Base> last_mat = sys->get_environment();
+      std::shared_ptr<material::Base> last_mat = sys->get_environment();
 
       for (unsigned int i = 1; i < surf_array.size(); i++)
         {
           zemax_surface_s &surf = surf_array[i];
 
-          const_ref<curve::Base> curve;
+          std::shared_ptr<curve::Base> curve;
 
           switch (surf.type)
             {
@@ -634,21 +634,21 @@ namespace _goptical {
               break;
             }
 
-          const_ref<shape::Base> shape = get_ap_shape(surf, unit_factor);
+          std::shared_ptr<shape::Base> shape = get_ap_shape(surf, unit_factor);
 
-          ref<sys::Element> element;
+          std::shared_ptr<sys::Element> element;
 
           if (i == surf_array.size() - 1) {
               element = GOPTICAL_REFNEW(sys::Image, math::vector3_0, curve, shape);
           }
           else if (surf.stop == true) {
-              ref<sys::Stop> s = GOPTICAL_REFNEW(sys::Stop, math::vector3_0, shape);
+              std::shared_ptr<sys::Stop> s = GOPTICAL_REFNEW(sys::Stop, math::vector3_0, shape);
               
               element = s;
               std::cout << "@@@@@@" << std::endl;
           }
           else if (surf.gl_type == zg_air && surf_array[i-1].gl_type == zg_air) {
-              ref<sys::Surface> s = GOPTICAL_REFNEW(sys::OpticalSurface, math::vector3_0, curve, shape,
+              std::shared_ptr<sys::Surface> s = GOPTICAL_REFNEW(sys::OpticalSurface, math::vector3_0, curve, shape,
                                                     material::none, material::none);
               
               s->set_enable_state(false);
@@ -656,7 +656,7 @@ namespace _goptical {
               element = s;
           }
           else {
-              const_ref<material::Base> mat = get_glass(*sys, surf);
+              std::shared_ptr<material::Base> mat = get_glass(*sys, surf);
               
               element = GOPTICAL_REFNEW(sys::OpticalSurface, math::vector3_0,
                                         curve, shape, last_mat, mat);
@@ -680,7 +680,7 @@ namespace _goptical {
     // Glass catalog import
     ////////////////////////////////////////////////////////////////////////
 
-    ref<material::Catalog> ImportZemax::import_catalog(const std::string &name)
+    std::shared_ptr<material::Catalog> ImportZemax::import_catalog(const std::string &name)
     {
       std::string filename(_cat_path);
       // FIXME ignore filename case
@@ -691,13 +691,13 @@ namespace _goptical {
       return import_catalog(filename, name);
     }
 
-    ref<material::Catalog> ImportZemax::import_catalog_file(const std::string &filename)
+    std::shared_ptr<material::Catalog> ImportZemax::import_catalog_file(const std::string &filename)
     {
       std::string name(basename(filename));
       return import_catalog(filename, name);
     }
 
-    ref<material::Catalog> ImportZemax::import_catalog(const std::string &filename,
+    std::shared_ptr<material::Catalog> ImportZemax::import_catalog(const std::string &filename,
                                                        const std::string &catname)
     {
       std::ifstream file(filename.c_str());
@@ -706,11 +706,11 @@ namespace _goptical {
       if (!file)
         throw Error("Unable to open file");
 
-      ref<material::Catalog> cat = GOPTICAL_REFNEW(material::Catalog, catname);
+      std::shared_ptr<material::Catalog> cat = GOPTICAL_REFNEW(material::Catalog, catname);
 
       // FIXME check already loaded catalog
 
-      ref<material::Dielectric> mat;
+      std::shared_ptr<material::Dielectric> mat;
 
       while (std::getline(file, line))
         {
@@ -939,8 +939,8 @@ namespace _goptical {
               mat->set_temperature_schott(d0, d1, d2, e0, e1, ltk * 1000.);
 
               // Zemax glasses are measured in air medium
-              ref<material::AirKohlrausch68> air =
-                ref<material::AirKohlrausch68>::create();
+              std::shared_ptr<material::AirKohlrausch68> air =
+                std::shared_ptr<material::AirKohlrausch68>::create();
 
               air->set_temperature(reftemp);
               mat->set_measurement_medium(*air);
@@ -1006,7 +1006,7 @@ namespace _goptical {
       return cat;
     }
 
-    ref<material::Catalog> ImportZemax::get_catalog(const std::string &catalogname)
+    std::shared_ptr<material::Catalog> ImportZemax::get_catalog(const std::string &catalogname)
     {
       cat_map_t::iterator i = _cat_list.find(catalogname);
 
@@ -1021,7 +1021,7 @@ namespace _goptical {
     // Table glass import
     ////////////////////////////////////////////////////////////////////////
 
-    ref<material::Dielectric> ImportZemax::import_table_glass(const std::string &filename)
+    std::shared_ptr<material::Dielectric> ImportZemax::import_table_glass(const std::string &filename)
     {
       std::ifstream file(filename.c_str());
       std::string line;
@@ -1029,7 +1029,7 @@ namespace _goptical {
       if (!file)
         throw Error("Unable to open file");
 
-      ref<material::DispersionTable> mat = GOPTICAL_REFNEW(material::DispersionTable);
+      std::shared_ptr<material::DispersionTable> mat = GOPTICAL_REFNEW(material::DispersionTable);
 
       while (std::getline(file, line))
         {

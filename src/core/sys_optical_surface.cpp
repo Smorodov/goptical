@@ -41,10 +41,10 @@ namespace _goptical {
   namespace sys {
 
     OpticalSurface::OpticalSurface(const math::VectorPair3 &p,
-                                   const const_ref<curve::Base> &curve,
-                                   const const_ref<shape::Base> &shape,
-                                   const const_ref<material::Base> &left,
-                                   const const_ref<material::Base> &right)
+                                   const std::shared_ptr<curve::Base> &curve,
+                                   const std::shared_ptr<shape::Base> &shape,
+                                   const std::shared_ptr<material::Base> &left,
+                                   const std::shared_ptr<material::Base> &right)
       : Surface(p, curve, shape)
     {
       _mat[0] = left;
@@ -53,21 +53,21 @@ namespace _goptical {
 
     OpticalSurface::OpticalSurface(const math::VectorPair3 &p,
                                    double roc, double ap_radius,
-                                   const const_ref<material::Base> &left,
-                                   const const_ref<material::Base> &right)
-      : Surface(p, roc == 0. ? const_ref<curve::Base>(curve::flat)
-                             : const_ref<curve::Base>(ref<curve::Sphere>::create(roc)),
-                ref<shape::Disk>::create(ap_radius))
+                                   const std::shared_ptr<material::Base> &left,
+                                   const std::shared_ptr<material::Base> &right)
+      : Surface(p, roc == 0. ? std::shared_ptr<curve::Base>(curve::flat)
+                             : std::shared_ptr<curve::Base>(std::make_shared<curve::Sphere>(roc)),
+                std::make_shared<shape::Disk>(ap_radius))
     {
       _mat[0] = left;
       _mat[1] = right;
     }
 
     OpticalSurface::OpticalSurface(const math::VectorPair3 &p,
-                                   const const_ref<curve::Base> &curve, double ap_radius,
-                                   const const_ref<material::Base> &left,
-                                   const const_ref<material::Base> &right)
-      : Surface(p, curve, ref<shape::Disk>::create(ap_radius))
+                                   const std::shared_ptr<curve::Base> &curve, double ap_radius,
+                                   const std::shared_ptr<material::Base> &left,
+                                   const std::shared_ptr<material::Base> &right)
+      : Surface(p, curve, std::make_shared<shape::Disk>(ap_radius))
     {
       _mat[0] = left;
       _mat[1] = right;
@@ -124,8 +124,8 @@ namespace _goptical {
       math::Vector3     direction;      // refracted ray direction
 
       bool right_to_left = intersect.normal().z() > 0;
-      const material::Base *prev_mat = _mat[right_to_left].ptr();
-      const material::Base *next_mat = _mat[!right_to_left].ptr();
+      const material::Base *prev_mat = _mat[right_to_left].get();
+      const material::Base *next_mat = _mat[!right_to_left].get();
 
       // check ray didn't "escaped" from its material
       //std::cout << prev_mat->name << " " << next_mat->name <<
@@ -192,8 +192,8 @@ namespace _goptical {
 
       bool right_to_left = intersect.normal().z() > 0;
 
-      const material::Base *prev_mat = _mat[right_to_left].ptr();
-      const material::Base *next_mat = _mat[!right_to_left].ptr();
+      const material::Base *prev_mat = _mat[right_to_left].get();
+      const material::Base *next_mat = _mat[!right_to_left].get();
 
       // check ray didn't "escaped" from its material
       if (prev_mat != incident.get_material())
@@ -258,29 +258,29 @@ namespace _goptical {
 
     }
 
-    void OpticalSurface::set_material(unsigned index, const const_ref<material::Base> &m)
+    void OpticalSurface::set_material(unsigned index, const std::shared_ptr<material::Base> &m)
     {
       assert(index < 2);
 
-      if (!m.valid() && get_system())
+      if (!m && get_system())
         _mat[index] = get_system()->get_environment_proxy();
       else
         _mat[index] = m;
     }
 
-    void OpticalSurface::system_register(System &s)
+    void OpticalSurface::system_register(std::shared_ptr<System> &s)
     {
       Surface::system_register(s);
 
       for (unsigned int i = 0; i < 2; i++)
-        if (!_mat[i].valid())
-          _mat[i] = s.get_environment_proxy();
+        if (!_mat[i])
+          _mat[i] = s->get_environment_proxy();
     }
 
     void OpticalSurface::system_unregister()
     {
       for (unsigned int i = 0; i < 2; i++)
-        if (_mat[i].ptr() == &get_system()->get_environment_proxy())
+        if (_mat[i].get() == get_system()->get_environment_proxy().get())
           _mat[i] = material::none;
 
       Surface::system_unregister();

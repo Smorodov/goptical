@@ -44,7 +44,7 @@ namespace _goptical {
     {
     }
 
-    Composer::Attributes::Attributes(const const_ref<Base> &shape)
+    Composer::Attributes::Attributes(const std::shared_ptr<Base> &shape)
       : _shape(shape),
         _list()
     {
@@ -52,21 +52,21 @@ namespace _goptical {
       _inv_transform.reset();
     }
 
-    Composer::Attributes & Composer::add_shape(const const_ref<Base> &shape)
+    Composer::Attributes & Composer::add_shape(const std::shared_ptr<Base> &shape)
     {
       _list.push_back(Attributes(shape));
       _update = true;
       return _list.back();
     }
 
-    Composer::Attributes & Composer::Attributes::include(const const_ref<Base> &shape)
+    Composer::Attributes & Composer::Attributes::include(const std::shared_ptr<Base> &shape)
     {
       _list.push_back(Attributes(shape));
       _list.back()._exclude = false;
       return _list.back();
     }
 
-    Composer::Attributes & Composer::Attributes::exclude(const const_ref<Base> &shape)
+    Composer::Attributes & Composer::Attributes::exclude(const std::shared_ptr<Base> &shape)
     {
       _list.push_back(Attributes(shape));
       _list.back()._exclude = true;

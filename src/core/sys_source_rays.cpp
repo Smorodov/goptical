@@ -143,8 +143,8 @@ namespace _goptical {
     void SourceRays::generate_rays_simple(trace::Result &result,
                                           const targets_t &entry) const
     {
-      const material::Base *m = _mat.valid()
-        ? _mat.ptr() : &get_system()->get_environment_proxy();
+      const material::Base *m = _mat
+        ? _mat.get() : get_system()->get_environment_proxy().get();
 
       for (auto&w :  _wl_map) {
           if (w.second)

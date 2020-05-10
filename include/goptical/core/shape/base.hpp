@@ -46,7 +46,7 @@ namespace _goptical {
        optical surfaces and provides distribution pattern for ray
        tracing.
      */
-    class Base : public ref_base<Base>
+    class Base
     {
     public:
       inline Base();

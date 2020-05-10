@@ -75,7 +75,7 @@ namespace _goptical {
         inline Attributes & xy_translate(const math::Vector2 &offset);
 
       private:
-        const_ref<Base> _curve;
+        std::shared_ptr<Base> _curve;
         math::Transform<2> _transform;
         math::Transform<2> _inv_transform;
 
@@ -88,7 +88,7 @@ namespace _goptical {
       /** Add a base curve to use for composition. The returned
           Composer::Attributes object may be used to apply base curve
           transformations. */
-      Attributes & add_curve(const const_ref<Base> &curve);
+      Attributes & add_curve(const std::shared_ptr<Base> &curve);
 
       double sagitta(const math::Vector2 & xy) const;
       void derivative(const math::Vector2 & xy, math::Vector2 & dxdy) const;

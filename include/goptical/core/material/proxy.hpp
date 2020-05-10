@@ -43,10 +43,10 @@ namespace _goptical {
     class Proxy : public Base
     {
     public:
-      Proxy(const const_ref<Base> &m);
+      Proxy(const std::shared_ptr<Base> &m);
 
-      inline void set_material(const const_ref<Base> &m);
-      inline const Base & get_material() const;
+      inline void set_material(const std::shared_ptr<Base> &m);
+      inline const std::shared_ptr<Base> & get_material() const;
 
       /** @override */
       bool is_opaque() const;
@@ -76,7 +76,7 @@ namespace _goptical {
       io::Rgb get_color() const;
 
     private:
-      const_ref<Base> _m;
+      std::shared_ptr<Base> _m;
     };
 
   }

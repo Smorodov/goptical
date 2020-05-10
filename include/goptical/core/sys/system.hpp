@@ -38,6 +38,7 @@ namespace _goptical {
 
   namespace sys {
 
+    class SystemBuilder;
     /**
        @short Optical system
        @header <goptical/core/sys/system
@@ -50,9 +51,10 @@ namespace _goptical {
 
        @xsee {tuto_system}
     */
-    class System : public ref_base<System>, public Container
+    class System : public Container
     {
       friend class Element;
+      friend class SystemBuilder;
 
     public:
       /** Create a new empty system. */
@@ -63,7 +65,7 @@ namespace _goptical {
       System& operator=(const System&) = delete;
 
       /** Define an entrance pupil surface used to project source rays */
-      inline void set_entrance_pupil(const const_ref<Surface> &entrance);
+      inline void set_entrance_pupil(const std::shared_ptr<Surface> &entrance);
       /** Discard defined entrance pupil */
       inline void undef_entrance_pupil();
       /** Get defined entrance pupil surface or try to guess it if none defined */
@@ -72,7 +74,7 @@ namespace _goptical {
       inline bool has_entrance_pupil() const;
 
       /** Define an exit pupil surface */
-      inline void set_exit_pupil(const const_ref<Surface> &exit);
+      inline void set_exit_pupil(const std::shared_ptr<Surface> &exit);
       /** Get exit pupil */
       inline const Surface &get_exit_pupil() const;
       /** Test if an exit pupil has been defined */
@@ -111,31 +113,28 @@ namespace _goptical {
                             const trace::Ray &ray) const;
 
       /** set environment material */
-      void set_environment(const const_ref<material::Base> &env);
+      void set_environment(const std::shared_ptr<material::Base> &env);
 
       /** get environment material */
-      inline const material::Base & get_environment() const;
+      inline const std::shared_ptr<material::Base> & get_environment() const;
 
       /** @internal get environment material proxy */
-      inline const material::Base & get_environment_proxy() const;
+      inline const std::shared_ptr<material::Base> & get_environment_proxy() const;
 
       /** @internal Dump 3d transforms cache */
       void transform_cache_dump(std::ostream &o) const;
 
     private:
 
-      /** called be container class when a new element is added */
-      void added(Element &e);
-      /** called be container class when a new element is removed */
-      void removed(Element &e);
-
       /** get an new element identifier */
       unsigned int index_get(Element &element);
-      /** free the identifier associated with the given element */
+      /** free the identifier associated with the given element, and associated transformations */
       void index_put(const Element &element);
 
       /** Get a reference to cache entry for transform between 2 elements (ids) */
       inline math::Transform<3> * & transform_cache_entry(unsigned int from, unsigned int to) const;
+      /* Delete transformation from / to */
+      void transform_cache_delete(unsigned int from, unsigned int to);
 
       /** Compute and get 3d transform between element local and global coordinates */
       const math::Transform<3> & transform_l2g_cache_update(const Element &e) const;
@@ -154,14 +153,46 @@ namespace _goptical {
 
       unsigned int              _version;
 
-      const_ref<Surface>        _entrance;
-      const_ref<Surface>        _exit;
-      material::Proxy           _env_proxy;
+      std::shared_ptr<Surface>        _entrance;
+      std::shared_ptr<Surface>        _exit;
+      std::shared_ptr<material::Base>   _env_proxy;
       trace::Params             _tracer_params;
       unsigned int              _e_count;
+      // _index_map is used to assign ids to elements
       std::vector<Element *>    _index_map;
-      // FIXME use transform pool instead of new/delete
+      // Holds cache entries in two dimensions _e_count by _e_count
+      // transforming from element to element using element id as row and
+      // column indices
       std::vector<math::Transform<3> *> _transform_cache;
+    };
+
+    /**
+     * A helper for adding elements to a system. We need this to ensure
+     * correct relationship is setup between the system and the element as they both
+     * need to reference each other.
+     *
+     * FIXME Ideally we should avoid the cyclic dependency
+     */
+    class SystemBuilder
+    {
+    public:
+      void add (std::shared_ptr<System> sys, std::shared_ptr<Element> e)
+      {
+	// If the element belonged to a system it will be first
+	// removed from there
+	// FIXME it is not a great idea to let an element be moved from
+	// one system to another - perhaps elements should always be owned by
+	// a system.
+	if (e->_system)
+	  {
+	    auto system = e->_system;
+	    e->system_unregister ();
+	    system->remove (e);
+	  }
+	// Now add it to the system
+	sys->add (e);
+	e->system_register (sys);
+      }
     };
 
   }

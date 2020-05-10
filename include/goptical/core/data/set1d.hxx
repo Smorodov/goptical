@@ -27,6 +27,7 @@
 #define GOPTICAL_DATA_SET1D_HXX_
 
 #include "goptical/core/data/set.hxx"
+#include <cassert>
 
 namespace _goptical {
 

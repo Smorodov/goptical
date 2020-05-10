@@ -48,8 +48,8 @@ namespace _goptical {
 
       /** Create a new image plane at given position. */
       Image(const math::VectorPair3 &position,
-            const const_ref<curve::Base> &curve,
-            const const_ref<shape::Base> &shape);
+            const std::shared_ptr<curve::Base> &curve,
+            const std::shared_ptr<shape::Base> &shape);
 
       /** Create a new flat square image plane at given position with given half width */
       Image(const math::VectorPair3 &position, double radius);

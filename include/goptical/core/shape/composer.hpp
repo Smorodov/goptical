@@ -86,7 +86,7 @@ namespace _goptical {
           The composed shape is the union between all shapes added
           with this function.
        */
-      Attributes & add_shape(const const_ref<Base> &shape);
+      Attributes & add_shape(const std::shared_ptr<Base> &shape);
 
       /** Set ray distribution behavior. Default is to perform
           individual ray distribution on each composer shape.
@@ -108,7 +108,7 @@ namespace _goptical {
       {
         friend class Composer;
 
-        Attributes(const const_ref<Base> &shape);
+        Attributes(const std::shared_ptr<Base> &shape);
 
       public:
 
@@ -120,14 +120,14 @@ namespace _goptical {
         inline Attributes & translate(const math::Vector2 &offset);
 
         /** Peform boolean 'and' with the given shape */
-        Attributes & include(const const_ref<Base> &shape);
+        Attributes & include(const std::shared_ptr<Base> &shape);
         /** Peform boolean 'and not' with the given shape */
-        Attributes & exclude(const const_ref<Base> &shape);
+        Attributes & exclude(const std::shared_ptr<Base> &shape);
 
       private:
         bool inside(const math::Vector2 &point) const;
 
-        const_ref<Base>         _shape;
+        std::shared_ptr<Base>         _shape;
         bool                    _exclude;
         std::list <Attributes>  _list;
         math::Transform<2>      _transform;

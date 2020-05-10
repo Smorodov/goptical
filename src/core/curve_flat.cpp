@@ -85,7 +85,7 @@ namespace _goptical {
       normal = math::Vector3(0, 0, -1);
     }
 
-    Flat flat;
+    std::shared_ptr<Flat> flat = std::make_shared<Flat>();
 
   }
 

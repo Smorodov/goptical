@@ -108,8 +108,8 @@ namespace _goptical {
     template class Air<AirBirch94Formula>;
     template class Air<AirKohlrausch68Formula>;
 
-    const AirBirch94 std_air;
-    AirBirch94 air;
+    const std::shared_ptr<AirBirch94> std_air = std::make_shared<AirBirch94>();
+    std::shared_ptr<AirBirch94> air = std::make_shared<AirBirch94>();
 
   }
 }

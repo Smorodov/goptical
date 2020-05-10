@@ -61,19 +61,19 @@ namespace _goptical {
 
       /** Create an optical surface at specified location. */
       OpticalSurface(const math::VectorPair3 &p,
-                     const const_ref<curve::Base> &curve,
-                     const const_ref<shape::Base> &shape,
-                     const const_ref<material::Base> &left,
-                     const const_ref<material::Base> &right);
+                     const std::shared_ptr<curve::Base> &curve,
+                     const std::shared_ptr<shape::Base> &shape,
+                     const std::shared_ptr<material::Base> &left,
+                     const std::shared_ptr<material::Base> &right);
 
       /** Create a circular aperture optical surface at specified
           location.
           @param ap_radius circular aperture radius.
       */
       OpticalSurface(const math::VectorPair3 &p,
-                     const const_ref<curve::Base> &curve, double ap_radius,
-                     const const_ref<material::Base> &left,
-                     const const_ref<material::Base> &right);
+                     const std::shared_ptr<curve::Base> &curve, double ap_radius,
+                     const std::shared_ptr<material::Base> &left,
+                     const std::shared_ptr<material::Base> &right);
 
       /** Create a spherical optical surface with circular aperture at
           specified location.
@@ -82,13 +82,13 @@ namespace _goptical {
       */
       OpticalSurface(const math::VectorPair3 &p,
                      double roc, double ap_radius,
-                     const const_ref<material::Base> &left,
-                     const const_ref<material::Base> &right);
+                     const std::shared_ptr<material::Base> &left,
+                     const std::shared_ptr<material::Base> &right);
 
       virtual ~OpticalSurface();
 
       /** Set surface left or right material */
-      void set_material(unsigned index, const const_ref<material::Base> &m);
+      void set_material(unsigned index, const std::shared_ptr<material::Base> &m);
 
       /** Get surface left or right material */
       inline const material::Base & get_material(unsigned id) const;
@@ -105,7 +105,7 @@ namespace _goptical {
                                const math::VectorPair3 &local, const math::VectorPair3 &intersect) const;
 
       /** @override */
-      void system_register(System &s);
+      void system_register(std::shared_ptr<System> &s);
 
       /** @override */
       void system_unregister();
@@ -124,7 +124,7 @@ namespace _goptical {
                    math::Vector3 &direction,
                    const math::Vector3 &normal) const;
 
-      const_ref<material::Base>     _mat[2];
+      std::shared_ptr<material::Base>     _mat[2];
     };
 
   }

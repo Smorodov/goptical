@@ -32,14 +32,14 @@ namespace _goptical {
 
   namespace material {
 
-    void Proxy::set_material(const const_ref<Base> &m)
+    void Proxy::set_material(const std::shared_ptr<material::Base> &m)
     {
       _m = m;
     }
 
-    const Base & Proxy::get_material() const
+    const std::shared_ptr<Base> & Proxy::get_material() const
     {
-      return *_m;
+      return _m;
     }
 
   }

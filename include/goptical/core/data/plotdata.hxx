@@ -32,7 +32,7 @@ namespace _goptical {
 
   namespace data {
 
-    Plotdata::Plotdata(const const_ref<Set> &s)
+    Plotdata::Plotdata(const std::shared_ptr<Set> &s)
       : _set(s),
         _color(io::rgb_red),
         _style(InterpolatePlot | PointPlot),

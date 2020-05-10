@@ -51,8 +51,8 @@ namespace _goptical {
   namespace sys {
 
     Surface::Surface(const math::VectorPair3 &p,
-                     const const_ref<curve::Base> &curve,
-                     const const_ref<shape::Base> &shape)
+                     const std::shared_ptr<curve::Base> &curve,
+                     const std::shared_ptr<shape::Base> &shape)
       : Element(p),
         _discard_intensity(0),
         _curve(curve),

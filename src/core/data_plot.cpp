@@ -52,7 +52,7 @@ namespace _goptical {
       _title = title;
     }
 
-    Plotdata & Plot::add_plot_data(const Set &data, const io::Rgb &color,
+    Plotdata & Plot::add_plot_data(const std::shared_ptr<Set> &data, const io::Rgb &color,
                                    const std::string &label, PlotStyleMask style)
     {
       _plots.push_back(Plotdata(data));

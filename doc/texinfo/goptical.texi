@@ -293,7 +293,7 @@ The  @uref{http://diaxen.ssji.net/dpp/ref_class_reference.html,,ref}  smart poin
   sys.add(src1);
 
   // dynamically allocated object added to the system
-  ref<sys::SourceRays> src2 = ref<sys::SourceRays>::create(math::vector3_0);
+  std::shared_ptr<sys::SourceRays> src2 = std::shared_ptr<sys::SourceRays>::create(math::vector3_0);
   sys.add(src2);
 @end example
 
@@ -573,7 +573,7 @@ The example below shows how to produce a transverse aberration plot by plotting 
   source.add_spectral_line(light::SpectralLine::F);
 
   // get transverse aberration plot
-  ref<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight@comma{}
+  std::shared_ptr<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight@comma{}
                                           analysis::RayFan::TransverseDistance);
 
   fan_plot->draw(renderer);
@@ -609,22 +609,22 @@ The sys::Lens (@pxref{sys_Lens_class_reference}) class is a convenient way to mo
   //               roc@comma{}            ap.radius@comma{} thickness@comma{}
 
   lens.add_surface(1/0.031186861@comma{}  14.934638@comma{} 4.627804137@comma{}
-                   ref<material::AbbeVd>::create(1.607170@comma{} 59.5002));
+                   std::shared_ptr<material::AbbeVd>::create(1.607170@comma{} 59.5002));
 
   lens.add_surface(0@comma{}              14.934638@comma{} 5.417429465);
 
   lens.add_surface(1/-0.014065441@comma{} 12.766446@comma{} 3.728230979@comma{}
-                   ref<material::AbbeVd>::create(1.575960@comma{} 41.2999));
+                   std::shared_ptr<material::AbbeVd>::create(1.575960@comma{} 41.2999));
 
   lens.add_surface(1/0.034678487@comma{}  11.918098@comma{} 4.417903733);
 
   lens.add_stop   (                12.066273@comma{} 2.288913925);
 
   lens.add_surface(0@comma{}              12.372318@comma{} 1.499288597@comma{}
-                   ref<material::AbbeVd>::create(1.526480@comma{} 51.4000));
+                   std::shared_ptr<material::AbbeVd>::create(1.526480@comma{} 51.4000));
 
   lens.add_surface(1/0.035104369@comma{}  14.642815@comma{} 7.996205852@comma{}
-                   ref<material::AbbeVd>::create(1.623770@comma{} 56.8998));
+                   std::shared_ptr<material::AbbeVd>::create(1.623770@comma{} 56.8998));
 
   lens.add_surface(1/-0.021187519@comma{} 14.642815@comma{} 85.243965130);
 
@@ -686,7 +686,7 @@ The analysis::spot (@pxref{analysis_spot_class_reference}) class can be used to 
 @example
       io::renderer_svg renderer("spot_intensity.svg"@comma{} 640@comma{} 480);
 
-      ref<data::Plot> plot = spot.get_encircled_intensity_plot(50);
+      std::shared_ptr<data::Plot> plot = spot.get_encircled_intensity_plot(50);
 
       plot->draw(renderer);
 
@@ -706,7 +706,7 @@ Various ray fan plots can be obtained by using the analysis::RayFan (@pxref{anal
 
       io::renderer_svg renderer("opd_fan.svg"@comma{} 640@comma{} 480);
 
-      ref<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight@comma{}
+      std::shared_ptr<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight@comma{}
                                               analysis::RayFan::OpticalPathDiff);
 
       fan_plot->draw(renderer);
@@ -719,7 +719,7 @@ Various ray fan plots can be obtained by using the analysis::RayFan (@pxref{anal
 @example
       io::renderer_svg renderer("transverse_fan.svg"@comma{} 640@comma{} 480);
 
-      ref<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight@comma{}
+      std::shared_ptr<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight@comma{}
                                               analysis::RayFan::TransverseDistance);
 
       fan_plot->draw(renderer);
@@ -732,7 +732,7 @@ Various ray fan plots can be obtained by using the analysis::RayFan (@pxref{anal
 @example
       io::renderer_svg renderer("longitudinal_fan.svg"@comma{} 640@comma{} 480);
 
-      ref<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight@comma{}
+      std::shared_ptr<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight@comma{}
                                               analysis::RayFan::LongitudinalDistance);
 
       fan_plot->draw(renderer);
@@ -924,8 +924,8 @@ class HexSegmirror : public sys::Group
 public:
 
   HexSegmirror(const math::vectorPair3 &pos@comma{}
-               const const_ref<curve::Base> &curve@comma{}
-               const const_ref<shape::Base> &shape@comma{}
+               const std::shared_ptr<curve::Base> &curve@comma{}
+               const std::shared_ptr<shape::Base> &shape@comma{}
                double seg_radius@comma{} double separation)
     : sys::Group(pos)
   @{
@@ -973,7 +973,7 @@ public:
             double z_offset = curve->sagitta(p);
 
             // create a composer curve for this segment and use it to translate main curve
-            ref<curve::Composer> seg_curve = ref<curve::Composer>::create();
+            std::shared_ptr<curve::Composer> seg_curve = std::shared_ptr<curve::Composer>::create();
 
             seg_curve->add_curve(curve).xy_translate(-p).z_offset(-z_offset);
 
@@ -983,8 +983,8 @@ public:
 
 @example
             // create a segment mirror with hexagonal shape and translated curve
-            ref<sys::mirror> seg = ref<sys::mirror>::create(math::vector3(p@comma{} z_offset)@comma{} seg_curve@comma{}
-                                             ref<shape::RegularPolygon>::create(seg_radius@comma{} 6));
+            std::shared_ptr<sys::mirror> seg = std::shared_ptr<sys::mirror>::create(math::vector3(p@comma{} z_offset)@comma{} seg_curve@comma{}
+                                             std::shared_ptr<shape::RegularPolygon>::create(seg_radius@comma{} 6));
 
             // attach the new segment to our group component
             add(seg);
@@ -1028,8 +1028,8 @@ Our new model can now be used like other component models in optical systems and
 
   // Ring shaped segmented mirror with conic curve
   HexSegmirror            primary(math::vector3(0@comma{} 0@comma{} 800)@comma{}
-                                  ref<curve::Conic>::create(-1600@comma{} -1.0869)@comma{}
-                                  ref<shape::Ring>::create(300@comma{} 85)@comma{}
+                                  std::shared_ptr<curve::Conic>::create(-1600@comma{} -1.0869)@comma{}
+                                  std::shared_ptr<shape::Ring>::create(300@comma{} 85)@comma{}
                                   28@comma{} 30);
   sys.add(primary);
 
@@ -1624,7 +1624,7 @@ To check our model@comma{} we then use it in a simple optical system composed of
 @subsubheading Constants
 
 @itemize
-@item const dpp::const_ref<goptical/core::material::Base> none
+@item const dpp::std::shared_ptr<goptical/core::material::Base> none
 @item const <goptical/core::io::rgb rgb_black
 @item const <goptical/core::io::rgb rgb_blue
 @item const <goptical/core::io::rgb rgb_cyan
@@ -1855,7 +1855,7 @@ See also Performing a ray fan analysis (@pxref{Performing a ray fan analysis}) s
 @itemize
 @item RayFan(const sys::system &system@comma{} rayfan_plane_e plane = @emph{[...]})
 @item trace::distribution & get_distribution()
-@item ref<data::Plot> get_plot(rayfan_plot_type_e x@comma{} rayfan_plot_type_e y)
+@item std::shared_ptr<data::Plot> get_plot(rayfan_plot_type_e x@comma{} rayfan_plot_type_e y)
 @item void invalidate()
 @item void set_aberration_plane(rayfan_plane_e plane)
 @item void set_entrance_surface(const sys::Surface &s)
@@ -1969,7 +1969,7 @@ Specify target surface (image or exit pupil) to use for analysis@comma{} query s
 @itemize
 @item RayFan(const sys::system &system@comma{} rayfan_plane_e plane = @emph{[...]})
 @item trace::distribution & get_distribution()
-@item ref<data::Plot> get_plot(rayfan_plot_type_e x@comma{} rayfan_plot_type_e y)
+@item std::shared_ptr<data::Plot> get_plot(rayfan_plot_type_e x@comma{} rayfan_plot_type_e y)
 @item void invalidate()
 @item void set_aberration_plane(rayfan_plane_e plane)
 @item void set_entrance_surface(const sys::Surface &s)
@@ -2018,7 +2018,7 @@ See also Plotting spot diagram (@pxref{Plotting spot diagram}) section and Using
 @item const math::vector3 & get_centroid()
 @item io::RendererAxes & get_diagram_axes()
 @item double get_encircled_intensity(double radius)
-@item ref<data::Plot> get_encircled_intensity_plot(int zones = @emph{[...]})
+@item std::shared_ptr<data::Plot> get_encircled_intensity_plot(int zones = @emph{[...]})
 @item double get_max_radius()
 @item double get_rms_radius()
 @item double get_total_intensity()
@@ -2115,7 +2115,7 @@ Set radius used for diagram drawing and encircled plots. Updated with spot max r
 @item const math::vector3 & get_centroid()
 @item io::RendererAxes & get_diagram_axes()
 @item double get_encircled_intensity(double radius)
-@item ref<data::Plot> get_encircled_intensity_plot(int zones = @emph{[...]})
+@item std::shared_ptr<data::Plot> get_encircled_intensity_plot(int zones = @emph{[...]})
 @item double get_max_radius()
 @item double get_rms_radius()
 @item double get_total_intensity()
@@ -2245,7 +2245,7 @@ This class provides a way to build an array of an other curve. It can be used to
 @subsubheading Functions
 
 @itemize
-@item Array(const const_ref<Base> &curve@comma{} double pitch@comma{} pattern_e p = @emph{[...]})
+@item Array(const std::shared_ptr<Base> &curve@comma{} double pitch@comma{} pattern_e p = @emph{[...]})
 @item virtual void derivative(const math::vector2 &xy@comma{} math::vector2 &dxdy) const
 @item virtual double sagitta(const math::vector2 &xy) const
 @end itemize
@@ -2301,7 +2301,7 @@ Get curve sagitta at specified point
 @subheading Functions
 
 @itemize
-@item Array(const const_ref<Base> &curve@comma{} double pitch@comma{} pattern_e p = @emph{[...]})
+@item Array(const std::shared_ptr<Base> &curve@comma{} double pitch@comma{} pattern_e p = @emph{[...]})
 @item virtual void derivative(const math::vector2 &xy@comma{} math::vector2 &dxdy) const
 @item virtual bool intersect(math::vector3 &point@comma{} const math::vectorPair3 &ray) const
 @item virtual void normal(math::vector3 &normal@comma{} const math::vector3 &point) const
@@ -2442,7 +2442,7 @@ This class allows definition of a surface curve using the sum of several base cu
 
 @itemize
 @item Composer()
-@item Attributes & add_curve(const const_ref<Base> &curve)
+@item Attributes & add_curve(const std::shared_ptr<Base> &curve)
 @item virtual void derivative(const math::vector2 &xy@comma{} math::vector2 &dxdy) const
 @item virtual double sagitta(const math::vector2 &xy) const
 @end itemize
@@ -2492,7 +2492,7 @@ Get curve sagitta at specified point
 
 @itemize
 @item Composer()
-@item Attributes & add_curve(const const_ref<Base> &curve)
+@item Attributes & add_curve(const std::shared_ptr<Base> &curve)
 @item virtual void derivative(const math::vector2 &xy@comma{} math::vector2 &dxdy) const
 @item virtual bool intersect(math::vector3 &point@comma{} const math::vectorPair3 &ray) const
 @item virtual void normal(math::vector3 &normal@comma{} const math::vector3 &point) const
@@ -4992,7 +4992,7 @@ This class is used to describe a data set as part of a data plot. It contains a 
 @subsubheading Functions
 
 @itemize
-@item Plotdata(const const_ref<Set> &s)
+@item Plotdata(const std::shared_ptr<Set> &s)
 @item void disable_style(PlotStyleMask style)
 @item void enable_style(PlotStyleMask style)
 @item const io::rgb & get_color() const
@@ -5064,7 +5064,7 @@ Set the plotting style mask
 @subheading Functions
 
 @itemize
-@item Plotdata(const const_ref<Set> &s)
+@item Plotdata(const std::shared_ptr<Set> &s)
 @item void disable_style(PlotStyleMask style)
 @item void enable_style(PlotStyleMask style)
 @item const io::rgb & get_color() const
@@ -9193,7 +9193,7 @@ material models for optical components
 @subsubheading Constants
 
 @itemize
-@item const const_ref<Base> none
+@item const std::shared_ptr<Base> none
 @item const AirBirch94 std_air
 @end itemize
 
@@ -9419,7 +9419,7 @@ Get material relative refractive index in measurment medium at specified wavelen
 @item virtual bool is_reflecting() const
 @item void set_density(double density)
 @item void set_internal_transmittance(double wavelen@comma{} double thickness@comma{} double transmittance)
-@item void set_measurement_medium(const const_ref<Base> &medium)
+@item void set_measurement_medium(const std::shared_ptr<Base> &medium)
 @item void set_poisson_ratio(double poisson_ratio)
 @item void set_temperature(double temp)
 @item void set_temperature_dndt(double dndt)
@@ -9779,7 +9779,7 @@ Hold a glass material catalog
 
 @itemize
 @item Catalog(const std::string &name = @emph{[...]})
-@item void add_material(const std::string &material_name@comma{} const const_ref<Base> &material)
+@item void add_material(const std::string &material_name@comma{} const std::shared_ptr<Base> &material)
 @item void del_material(const std::string &material_name)
 @item const Base & get_material(const std::string &material_name)
 @item const std::string & get_name() const
@@ -9827,7 +9827,7 @@ Set catalog name
 
 @itemize
 @item Catalog(const std::string &name = @emph{[...]})
-@item void add_material(const std::string &material_name@comma{} const const_ref<Base> &material)
+@item void add_material(const std::string &material_name@comma{} const std::shared_ptr<Base> &material)
 @item void del_material(const std::string &material_name)
 @item const Base & get_material(const std::string &material_name)
 @item const std::string & get_name() const
@@ -9948,7 +9948,7 @@ Change conrady constant term
 @item void set_coefficients(double A@comma{} double B@comma{} double C)
 @item void set_density(double density)
 @item void set_internal_transmittance(double wavelen@comma{} double thickness@comma{} double transmittance)
-@item void set_measurement_medium(const const_ref<Base> &medium)
+@item void set_measurement_medium(const std::shared_ptr<Base> &medium)
 @item void set_poisson_ratio(double poisson_ratio)
 @item void set_temperature(double temp)
 @item void set_temperature_dndt(double dndt)
@@ -10075,7 +10075,7 @@ Add refractive index data
 @item virtual bool is_reflecting() const
 @item void set_density(double density)
 @item void set_internal_transmittance(double wavelen@comma{} double thickness@comma{} double transmittance)
-@item void set_measurement_medium(const const_ref<Base> &medium)
+@item void set_measurement_medium(const std::shared_ptr<Base> &medium)
 @item void set_poisson_ratio(double poisson_ratio)
 @item void set_refractive_index(double wavelen@comma{} double index)
 @item void set_temperature(double temp)
@@ -10200,7 +10200,7 @@ Change herzberger constant term
 @item void set_coefficients(double A@comma{} double B@comma{} double C@comma{} double D@comma{} double E@comma{} double F)
 @item void set_density(double density)
 @item void set_internal_transmittance(double wavelen@comma{} double thickness@comma{} double transmittance)
-@item void set_measurement_medium(const const_ref<Base> &medium)
+@item void set_measurement_medium(const std::shared_ptr<Base> &medium)
 @item void set_poisson_ratio(double poisson_ratio)
 @item void set_temperature(double temp)
 @item void set_temperature_dndt(double dndt)

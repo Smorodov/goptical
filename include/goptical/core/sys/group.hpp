@@ -64,10 +64,10 @@ namespace _goptical {
       void draw_3d_e(io::Renderer &r, const Element *ref) const;
 
     private:
-      void added(Element &e);
-      void removed(Element &e);
+//      void added(Element &e);
+//      void removed(Element &e);
 
-      void system_register(System &s);
+      void system_register(std::shared_ptr<System> &s);
       void system_unregister();
       void system_moved();
 

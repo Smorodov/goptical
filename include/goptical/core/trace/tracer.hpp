@@ -54,7 +54,7 @@ namespace _goptical {
     public:
 
       /** Create a new light porpagator object */
-      Tracer(const const_ref<sys::System> &system);
+      Tracer(const std::shared_ptr<sys::System> &system);
 
       ~Tracer();
 
@@ -88,7 +88,7 @@ namespace _goptical {
       template <IntensityMode m> void trace_template();
       template <IntensityMode m> void trace_seq_template();
 
-      const_ref<sys::System>    _system;
+      std::shared_ptr<sys::System>    _system;
       Params                    _params;
       Result                    _result;
       Result                    *_result_ptr;

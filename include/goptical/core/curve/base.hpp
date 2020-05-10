@@ -50,7 +50,7 @@ namespace _goptical {
 
        @xsee {tuto_usercurve}
     */
-    class Base : public ref_base<Base>
+    class Base
     {
     public:
       virtual inline ~Base();

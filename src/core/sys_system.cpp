@@ -22,7 +22,7 @@
 
 */
 
-
+#include <goptical/core/common.hpp>
 #include <goptical/core/sys/System>
 #include <goptical/core/sys/Group>
 #include <goptical/core/sys/Container>
@@ -43,7 +43,7 @@ namespace _goptical {
 
     System::System()
       : _version(0),
-        _env_proxy(material::air),
+        _env_proxy(material::std_air),
         _tracer_params(),
         _e_count(0),
         _index_map(),
@@ -60,30 +60,34 @@ namespace _goptical {
       remove_all();
     }
 
-    void System::added(Element &e)
+//    void System::added(Element &e)
+//    {
+//      e.system_register(*this);
+//
+//      update_version();
+//    }
+//
+//    void System::removed(Element &e)
+//    {
+//      e.system_unregister();
+//
+//      if (_entrance.get() == &e)
+//        _entrance.reset();
+//
+//      if (_exit.get() == &e)
+//        _exit.reset();
+//
+//      update_version();
+//    }
+
+    void System::set_environment(const std::shared_ptr<material::Base> &env)
     {
-      e.system_register(*this);
-
       update_version();
-    }
-
-    void System::removed(Element &e)
-    {
-      e.system_unregister();
-
-      if (_entrance.ptr() == &e)
-        _entrance.invalidate();
-
-      if (_exit.ptr() == &e)
-        _exit.invalidate();
-
-      update_version();
-    }
-
-    void System::set_environment(const const_ref<material::Base> &env)
-    {
-      update_version();
-      _env_proxy.set_material(env);
+      material::Base *base = _env_proxy.get();
+      material::Proxy *proxy = dynamic_cast<material::Proxy *> (base);
+      if (!proxy)
+	throw Error("Unexpected type in proxy");
+      proxy->set_material(env);
     }
 
     const math::Transform<3> & System::transform_l2g_cache_update(const Element &element) const
@@ -95,7 +99,7 @@ namespace _goptical {
           math::Transform<3> t(element._transform);
           const Element *i1 = &element;
 
-          while (const Element *i2 = dynamic_cast<Group *>(i1->_container))
+          while (const Element *i2 = i1->_group.get())
             {
               t.compose(i2->_transform);
 
@@ -140,21 +144,21 @@ namespace _goptical {
       return *e;
     }
 
+    void System::transform_cache_delete(unsigned int from, unsigned int to) {
+      auto offset = from * _e_count + to;
+      if (_transform_cache[offset])
+	{
+	  delete _transform_cache[offset];
+	  _transform_cache[offset] = nullptr;
+	}
+    }
+
     void System::transform_cache_flush(const Element &element)
     {
       for (unsigned int x = 0; x < _e_count; x++)
         {
-          if (math::Transform<3> * & t = transform_cache_entry(element.id(), x))
-            {
-              delete t;
-              t = 0;
-            }
-
-          if (math::Transform<3> * & t = transform_cache_entry(x, element.id()))
-            {
-              delete t;
-              t = 0;
-            }
+          transform_cache_delete(element.id(), x);
+          transform_cache_delete(x, element.id());
         }
     }
 
@@ -162,11 +166,7 @@ namespace _goptical {
     {
       for (unsigned int x = 0; x < _e_count; x++)
         for (unsigned int y = 0; y < _e_count; y++)
-          if (math::Transform<3> * & t = transform_cache_entry(x, y))
-            {
-              delete t;
-              t = 0;
-            }
+          transform_cache_delete(x, y);
     }
 
     void System::transform_cache_resize(unsigned int newsize)
@@ -186,7 +186,7 @@ namespace _goptical {
                   _transform_cache[y * newsize + x] =
                     _transform_cache[y * oldsize + x];
 
-                  _transform_cache[y * oldsize + x] = 0;
+                  _transform_cache[y * oldsize + x] = nullptr;
                 }
             }
 
@@ -220,7 +220,7 @@ namespace _goptical {
     {
       transform_cache_flush(element);
       assert(element.id() < _index_map.size());
-      _index_map[element.id()] = 0;
+      _index_map[element.id()] = nullptr;
       //fprintf(stderr, "Freed %u previously assigned to element %p\n", element.id(), &element);
     }
 
@@ -238,7 +238,7 @@ namespace _goptical {
     {
       const Surface *res = 0;
 
-      if (_entrance.valid())
+      if (_entrance)
         return *_entrance;
 
       res = find<OpticalSurface>();

@@ -61,18 +61,18 @@ namespace _goptical {
     public:
       /** Create a surface element at given location. */
       Surface(const math::VectorPair3 &p,
-              const const_ref<curve::Base> &curve,
-              const const_ref<shape::Base> &shape);
+              const std::shared_ptr<curve::Base> &curve,
+              const std::shared_ptr<shape::Base> &shape);
 
       virtual ~Surface();
 
       /** Set surface curve */
-      inline void set_curve(const const_ref<curve::Base> &c);
+      inline void set_curve(const std::shared_ptr<curve::Base> &c);
       /** Get surface curve */
       inline const curve::Base & get_curve() const;
 
       /** Set surface shape */
-      inline void set_shape(const const_ref<shape::Base> &s);
+      inline void set_shape(const std::shared_ptr<shape::Base> &s);
       /** Get surface shape */
       inline const shape::Base & get_shape() const;
 
@@ -147,8 +147,8 @@ namespace _goptical {
                                           trace::rays_queue_t *input) const;
 
       double                    _discard_intensity;
-      const_ref<curve::Base>   _curve;
-      const_ref<shape::Base>   _shape;
+      std::shared_ptr<curve::Base>   _curve;
+      std::shared_ptr<shape::Base>   _shape;
     };
 
   }
