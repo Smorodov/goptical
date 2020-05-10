@@ -639,7 +639,6 @@ namespace goptical {
 
       /* anchor lens */
       auto lens = ref<sys::Lens>::create (_goptical::math::Vector3 (0, 0, 0));
-      sys_->add (lens);
 
       double image_pos = 0.0;
       auto surfaces = specs_->get_surfaces ();
@@ -651,6 +650,7 @@ namespace goptical {
 	  image_pos += thickness;
 	}
       // printf ("Image position is at %f\n", image_pos);
+	  sys_->add(lens);
 
       image_
 	= ref<sys::Image>::create (_goptical::math::Vector3 (0, 0, image_pos),
