@@ -9,12 +9,20 @@ This is derivative of [Goptical - GNU Optical design and simulation library](htt
 
 ## Additional changes (this project)
 
-* Windows/MSVC port - remove use of features unsupported by MSVC such as VLAs. 
-* Remove all output options other than SVG 
-* Embed required components from GNU Scientific Library
-* Remove all external dependencies
-* WIP add a driver program that can generate output from a specificatin given in a text file.
-* WIP add support aspherical surfaces as specified in patent literature.
+* DONE Windows/MSVC port - remove use of features unsupported by MSVC such as VLAs. 
+* DONE Remove all output options other than SVG for portability reasons
+* Mostly DONE Embed required components from GNU Scientific Library in the project
+* DONE Remove all external dependencies
+* DRAFT add a driver program that can generate output from a specificatin given in a text file.
+* DRAFT add support aspherical surfaces as specified in patent literature.
+* DONE replace custom smart pointers with standard C++ smart pointers
+
+## Changes to programming API
+
+* The memory model in Goptical has cyclic dependencies. Example, System contains references to Elements and Elements
+  need to refer back to System. Making both of these smart pointer references has made it necessary to introduce
+  some changes to the API. In particular two helper classes are added: SystemBuilder and LensBuilder. This is still WIP
+  and subject to change. See issue #15 for some of the challenges in the memory model.
 
 ## Issues
 
