@@ -188,8 +188,8 @@ main (int argc, const char *argv[])
   auto seq = std::make_shared<trace::Sequence>(*sys);
   sys->get_tracer_params ().set_sequential_mode (seq);
 
-  std::cout << "system:" << std::endl << sys;
-  std::cout << "sequence:" << std::endl << seq;
+  std::cout << "system:" << std::endl << *sys;
+  std::cout << "sequence:" << std::endl << *seq;
   /* anchor end */
 
   if (refocus) {
