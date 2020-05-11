@@ -50,7 +50,7 @@ namespace _goptical
   {
 
     RayFan::RayFan(const std::shared_ptr<sys::System> &system, enum rayfan_plane_e plane)
-      : _tracer(system),
+      : _tracer(system.get()),
         _processed_trace(false),
         _entrance(0),
         _exit(0),
@@ -76,17 +76,17 @@ namespace _goptical
       if (!_processed_trace)
         {
           trace::Result &result = _tracer.get_trace_result();
-          const sys::System &sys = _tracer.get_system();
+          const sys::System *sys = _tracer.get_system();
 
           if (!_entrance)
-            _entrance = &sys.get_entrance_pupil();
+            _entrance = &sys->get_entrance_pupil();
           else
             throw Error("no suitable entrance pupil found for analysis");
 
-          if (!_exit && sys.has_exit_pupil())
-            _exit = &sys.get_exit_pupil();
+          if (!_exit && sys->has_exit_pupil())
+            _exit = &sys->get_exit_pupil();
           else
-            _exit = sys.find<const sys::Image>();
+            _exit = sys->find<const sys::Image>();
 
           if (!_exit)
             throw Error("no suitable exit surface found for analysis");

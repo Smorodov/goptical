@@ -95,8 +95,9 @@ namespace _goptical {
       /** Draw system in 3d using specified renderer. @see draw_3d_fit */
       void draw_3d(io::Renderer &r) const;
 
-    protected:
+    public:
 
+      /* INTERNAL - do not use */
       /** Add an element */
       void add_front(const std::shared_ptr<Element> &e);
       void add(const std::shared_ptr<Element> &e);

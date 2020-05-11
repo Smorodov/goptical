@@ -100,14 +100,14 @@ namespace _goptical {
         }
     }
 
-    void Result::init(std::shared_ptr<sys::System>& system)
+    void Result::init(const sys::System *system)
     {
       static const struct element_result_s er = { 0 };
 
       if (!_system)
         _system = system;
 
-      if(_system.get() != system.get())
+      if(_system != system)
         throw Error("trace::Result used with multiple sys::system objects");
 
       _elements.resize(system->get_element_count(), er);

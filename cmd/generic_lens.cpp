@@ -223,7 +223,7 @@ layout (const std::shared_ptr<sys::System> &sys, const std::shared_ptr<sys::Sour
     lens.draw_2d (renderer);
 #endif
 
-    trace::Tracer tracer (sys);
+    trace::Tracer tracer (sys.get());
 
 #if 0
     // trace and draw rays from rays source

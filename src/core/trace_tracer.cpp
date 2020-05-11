@@ -41,7 +41,7 @@ namespace _goptical {
 
   namespace trace {
 
-    Tracer::Tracer(const std::shared_ptr<sys::System> &system)
+    Tracer::Tracer(const sys::System *system)
       : _system(system),
         _params(system->get_tracer_params()),
         _result(),
@@ -82,7 +82,7 @@ namespace _goptical {
         {
           const sys::Element *element = seq[i].get();
 
-          if (_system.get() != element->get_system().get())
+          if (_system != element->get_system())
             throw Error("Sequence contains element which is not part of the system");
 
           if (!element->is_enabled())
@@ -142,7 +142,7 @@ namespace _goptical {
         {
           const sys::Source &source = *s;
 
-          if (_system.get() != source.get_system().get())
+          if (_system != source.get_system())
             throw Error("can not trace with Source which is not part of the system");
 
           if (!source.is_enabled())

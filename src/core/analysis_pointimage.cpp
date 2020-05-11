@@ -38,7 +38,7 @@ namespace _goptical
   namespace analysis
   {
     PointImage::PointImage(std::shared_ptr<sys::System>& system)
-      : _system(system), _tracer(system),
+      : _system(system), _tracer(system.get()),
         _processed_trace(false),
         _image(0),
         _intercepts(0)

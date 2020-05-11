@@ -65,7 +65,7 @@ namespace _goptical {
       return 0;
     }
 
-    Infinite infinite;
+    std::shared_ptr<Infinite> infinite = std::make_shared<Infinite>();
 
   }
 }

@@ -148,7 +148,7 @@ namespace _goptical {
       inline unsigned int id() const;
 
       /** Get a pointer to system */
-      inline std::shared_ptr<System> get_system() const;
+      inline const System* get_system() const;
 
       /** Get a pointer to parent element, if any. */
       Group * get_parent() const;

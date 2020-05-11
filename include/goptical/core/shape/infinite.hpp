@@ -74,7 +74,7 @@ namespace _goptical {
       void get_triangles(const math::Triangle<2>::put_delegate_t  &f, double resolution) const;
     };
 
-    extern Infinite infinite;
+    extern std::shared_ptr<Infinite> infinite;
 
   }
 }
