@@ -222,14 +222,14 @@ protected:
     protected:
       /** This function is called from the @ref system class when the
     element is added to a system */
-      virtual void system_register(std::shared_ptr<System>& s);
+      virtual void system_register(System *s);
 
       /** This function is called from the @ref system class when the
           element is removed from a system */
       virtual void system_unregister();
 
 private:
-      std::shared_ptr<System> _system;
+      System* _system;
       std::shared_ptr<Group> _group;
 
       bool      _enabled;

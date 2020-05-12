@@ -32,7 +32,7 @@ namespace _goptical {
 
     Group::~Group()
     {
-      remove_all();
+//      remove_all();
     }
 
 //    void Group::added(Element &e)
@@ -49,7 +49,7 @@ namespace _goptical {
 //        e.system_unregister();
 //    }
 
-    void Group::system_register(std::shared_ptr<System> &s)
+    void Group::system_register(System *s)
     {
       Element::system_register(s);
 

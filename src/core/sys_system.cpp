@@ -56,8 +56,8 @@ namespace _goptical {
 
     System::~System()
     {
-      transform_cache_flush();
-      remove_all();
+        //remove_all();
+        transform_cache_flush();
     }
 
 //    void System::added(Element &e)

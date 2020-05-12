@@ -67,8 +67,8 @@ namespace _goptical {
 //      void added(Element &e);
 //      void removed(Element &e);
 
-      void system_register(std::shared_ptr<System> &s);
-      void system_unregister();
+      virtual void system_register(System *s) override;
+      virtual void system_unregister() override ;
       void system_moved();
 
     };

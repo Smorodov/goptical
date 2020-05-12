@@ -54,13 +54,13 @@ namespace _goptical {
     {
       if (_system)
 	{
-	  _system->remove (this);
-	  system_unregister();
+//	  _system->remove (this);
+	  //system_unregister();
 	}
-      if (_group)
-	{
-	  _group->remove (this);
-	}
+//      if (_group)
+//	{
+//	  _group->remove (this);
+//	}
     }
 
     void Element::set_local_direction(const math::Vector3 &v)
@@ -220,7 +220,7 @@ namespace _goptical {
       throw Error("this element is not designed to process incoming light rays in polarized ray trace mode");
     }
 
-    void Element::system_register(std::shared_ptr<System> &s)
+    void Element::system_register(System *s)
     {
       assert(!_system);
       _system = s;
@@ -231,7 +231,7 @@ namespace _goptical {
     {
       assert(_system);
       _system->index_put(*this);
-      _system.reset();
+      _system = nullptr;
       _system_id = 0;
     }
 

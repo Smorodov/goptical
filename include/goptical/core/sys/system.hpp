@@ -191,7 +191,7 @@ namespace _goptical {
 	  }
 	// Now add it to the system
 	sys->add (e);
-	e->system_register (sys);
+	e->system_register (sys.get());
       }
     };
 

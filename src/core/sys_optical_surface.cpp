@@ -268,7 +268,7 @@ namespace _goptical {
         _mat[index] = m;
     }
 
-    void OpticalSurface::system_register(std::shared_ptr<System> &s)
+    void OpticalSurface::system_register(System* s)
     {
       Surface::system_register(s);
 

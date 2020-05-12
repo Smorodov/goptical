@@ -47,12 +47,14 @@ namespace _goptical {
 //      for (auto&i : _list) {
 //        i->_container = 0;
 //      }
+      remove_all();
     }
 
     void Container::remove_all()
     {
-      while (!_list.empty())
-        remove(_list.front());
+//      while (!_list.empty())
+//        remove(_list.front());
+	_list.clear();
     }
 
     void Container::add_front(const std::shared_ptr<Element> &e)

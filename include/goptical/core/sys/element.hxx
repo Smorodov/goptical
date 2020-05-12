@@ -69,7 +69,7 @@ namespace _goptical {
 
     const System* Element::get_system() const
     {
-      return _system.get();
+      return _system;
     }
 
     unsigned int Element::get_version() const
