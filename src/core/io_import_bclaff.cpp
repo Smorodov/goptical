@@ -625,19 +625,23 @@ namespace goptical {
     BClaffLensImporter::BClaffLensImporter ()
 		: specs_(new LensSpecifications()),
 			image_(std::make_shared<sys::Image>(_goptical::math::VectorPair3(), 0)),
-			sys_(std::make_shared<sys::System>())
+			sys_()
     {
     }
     BClaffLensImporter::~BClaffLensImporter () {}
 
-    bool BClaffLensImporter::parseFile (const std::string &file_name,
-					unsigned scenario)
+    bool BClaffLensImporter::parseFile (const std::string &file_name)
     {
       if (!specs_->parse_file (file_name))
 	{
 	  return false;
 	}
+      return true;
+    }
 
+    std::shared_ptr<sys::System> BClaffLensImporter::buildSystem(unsigned scenario)
+    {
+      sys_ = std::make_shared<sys::System>();
       _goptical::sys::SystemBuilder builder;
       /* anchor lens */
       auto lens = std::make_shared<sys::Lens>(_goptical::math::Vector3 (0, 0, 0));
@@ -647,23 +651,21 @@ namespace goptical {
       for (int i = 0; i < surfaces.size (); i++)
 	{
 	  double thickness = add_surface (lens, *surfaces[i], scenario);
-	  if (thickness < 0.0)
-	    return false;
 	  image_pos += thickness;
 	}
       // printf ("Image position is at %f\n", image_pos);
-	  builder.add(sys_, lens);
+      builder.add(sys_, lens);
 
       image_
 	= std::make_shared<sys::Image>(_goptical::math::Vector3 (0, 0, image_pos),
-				   specs_->get_image_height ());
+				       specs_->get_image_height ());
       builder.add(sys_, image_);
 
       /* FIXME is this correct? */
       auto &s1 = lens->get_surface (0); // Note: must be a reference
       sys_->set_entrance_pupil (s1);
 
-      return true;
+      return sys_;
     }
 
     double BClaffLensImporter::getAngleOfViewInRadians (unsigned scenario)
