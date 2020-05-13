@@ -99,7 +99,8 @@ namespace _goptical {
           math::Transform<3> t(element._transform);
           const Element *i1 = &element;
 
-          while (const Element *i2 = i1->_group.get())
+	  // FIXME why while?
+          while (const Element *i2 = i1->_group)
             {
               t.compose(i2->_transform);
 

@@ -41,7 +41,8 @@ namespace _goptical {
   namespace sys {
 
     Element::Element(const math::VectorPair3 &plane)
-      : _system(0),
+      : _system(nullptr),
+        _group(nullptr),
         _enabled(true),
         _version(0),
         _system_id(0),
@@ -199,7 +200,7 @@ namespace _goptical {
 
     Group * Element::get_parent() const
     {
-      return _group.get();
+      return _group;
     }
 
     void Element::process_rays_simple(trace::Result &result,
@@ -246,7 +247,7 @@ namespace _goptical {
     {
       Element *e;
 
-      for (e = this; e; e = e->_group.get())
+      for (e = this; e; e = e->_group)
         e->_version++;
 
       if (_system)

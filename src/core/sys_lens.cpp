@@ -397,7 +397,7 @@ namespace _goptical {
         auto s = std::make_shared<OpticalSurface>(math::VectorPair3(0, 0, lens->_last_pos),
             curve, shape, lens->_next_mat, glass);
         lens->_surfaces.push_back(s);
-        s->set_parent(lens);
+        s->set_parent(lens.get());
 
         lens->_next_mat = glass;
         lens->_last_pos += thickness;
@@ -433,7 +433,7 @@ namespace _goptical {
 
         lens->_last_pos += thickness;
         lens->Container::add(lens->_stop);
-        lens->_stop->set_parent(lens);
+        lens->_stop->set_parent(lens.get());
     }
 
     void LensBuilder::add_stop(

@@ -184,7 +184,7 @@ namespace _goptical {
       virtual void draw_3d_e(io::Renderer &r, const Element *ref) const;
 
       virtual void print(std::ostream &o) const;
-      void set_parent(std::shared_ptr<Group> group) {
+      void set_parent(Group *group) {
           this->_group = group;
       }
 
@@ -230,7 +230,7 @@ protected:
 
 private:
       System* _system;
-      std::shared_ptr<Group> _group;
+      Group* _group;
 
       bool      _enabled;
       // must be incremented each time a change is made to element properties
