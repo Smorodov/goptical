@@ -35,12 +35,12 @@
 
 /** @file @module{Formatted string} */
 
-#ifndef __GNUC__
+//#ifndef __GNUC__
 # define _DPP_FORMAT_CHK(archetype, string_index, first_to_check)
-#else
-# define _DPP_FORMAT_CHK(archetype, string_index, first_to_check) \
-  __attribute__((format(archetype, string_index, first_to_check)))
-#endif
+//#else
+//# define _DPP_FORMAT_CHK(archetype, string_index, first_to_check) \
+//  __attribute__((format(archetype, string_index, first_to_check)))
+//#endif
 
 namespace dpp {
 

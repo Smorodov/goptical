@@ -8,6 +8,7 @@
 #include <goptical/core/curve/Sphere>
 #include <goptical/core/shape/Disk>
 #include <goptical/core/common.hpp>
+#include <goptical/core/analysis/focus.hpp>
 
 #include <memory>
 #include <string>
@@ -16,7 +17,8 @@
 #include <cassert>
 #include <cmath>
 #include <cstdio>
-#include <goptical/core/analysis/focus.hpp>
+#include <cstdlib>
+#include <cstring>
 
 namespace goptical {
   namespace io {
