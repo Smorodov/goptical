@@ -38,7 +38,6 @@ namespace _goptical {
 
   namespace sys {
 
-    class SystemBuilder;
     /**
        @short Optical system
        @header <goptical/core/sys/system
