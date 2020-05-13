@@ -55,7 +55,6 @@ namespace _goptical {
 
     class Lens : public Group
     {
-        friend class LensBuilder;
     public:
       /** Create an empty lens. Surfaces can be added with the @mref
           add_surface functions. */
@@ -88,7 +87,6 @@ namespace _goptical {
 
       virtual ~Lens();
 
-    private:
       /** @alias add_surface1
           Add an optical surface with given curve, shape, thickness and material.
       */
@@ -197,44 +195,6 @@ namespace _goptical {
 
       std::shared_ptr<Stop> _stop;
       std::shared_ptr<material::Base> _next_mat;
-    };
-
-    class LensBuilder
-    {
-    public:
-      /** @alias add_surface1
-       * Add an optical surface with given curve, shape, thickness and material.
-       */
-      unsigned int add_surface (std::shared_ptr<Lens> &lens,
-				const std::shared_ptr<curve::Base> &curve,
-				const std::shared_ptr<shape::Base> &shape,
-				double thickness = 0.,
-				const std::shared_ptr<material::Base> &glass
-				= material::none);
-
-      /** @alias add_surface2
-	  Add a spherical or flat optical surface with circular aperture.
-
-	  @param roc spherical radius of curvature. 0 means flat curve.
-	  @param ap_radius circular aperture radius.
-	  @param thickness distance to the next surface or exit plane. @see
-	 get_exit_plane.
-	  @param glass material between added surface and next surface.
-      */
-      unsigned int add_surface (std::shared_ptr<Lens> &lens, double roc,
-				double ap_radius, double thickness = 0.,
-				const std::shared_ptr<material::Base> &glass
-				= material::none);
-
-      /** @alias add_stop1
-       * Add an aperture stop with given, shape and thickness.
-       */
-      void add_stop (std::shared_ptr<Lens> &lens,
-		     const std::shared_ptr<shape::Base> &shape,
-		     double thickness);
-
-      void add_stop (std::shared_ptr<Lens> &lens, double radius,
-		     double thickness);
     };
 
   }

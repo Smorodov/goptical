@@ -58,7 +58,6 @@ namespace _goptical {
       friend class Container;
       friend class System;
       friend class Group;
-      friend class SystemBuilder;
       friend std::ostream & operator<<(std::ostream &o, const Element &e);
 
     public:

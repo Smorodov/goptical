@@ -54,7 +54,6 @@ namespace _goptical {
     class System : public Container
     {
       friend class Element;
-      friend class SystemBuilder;
 
     public:
       /** Create a new empty system. */
@@ -160,6 +159,8 @@ namespace _goptical {
       std::shared_ptr<Surface>        _exit;
       std::shared_ptr<material::Base>   _env_proxy;
       trace::Params             _tracer_params;
+      // Count of number of elements in the system
+      // This includes all child elements groups
       unsigned int              _e_count;
       // _index_map is used to assign ids to elements
       std::vector<Element *>    _index_map;

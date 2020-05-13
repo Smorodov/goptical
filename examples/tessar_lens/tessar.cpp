@@ -71,26 +71,25 @@ int main()
 
   //               roc,            ap.radius, thickness,
 
-  _goptical::sys::LensBuilder lensBuilder;
-  lensBuilder.add_surface(lens, 1/0.031186861,  14.934638, 4.627804137,
+  lens->add_surface(1/0.031186861,  14.934638, 4.627804137,
                    std::make_shared<material::AbbeVd>(1.607170, 59.5002));
 
-  lensBuilder.add_surface(lens, 0,              14.934638, 5.417429465);
+  lens->add_surface(0,              14.934638, 5.417429465);
 
-  lensBuilder.add_surface(lens, 1/-0.014065441, 12.766446, 3.728230979,
+  lens->add_surface(1/-0.014065441, 12.766446, 3.728230979,
                    std::make_shared<material::AbbeVd>(1.575960, 41.2999));
 
-  lensBuilder.add_surface(lens, 1/0.034678487,  11.918098, 4.417903733);
+  lens->add_surface(1/0.034678487,  11.918098, 4.417903733);
 
-  lensBuilder.add_stop(lens, 12.066273, 2.288913925);
+  lens->add_stop(12.066273, 2.288913925);
 
-  lensBuilder.add_surface(lens, 0,              12.372318, 1.499288597,
+  lens->add_surface(0,              12.372318, 1.499288597,
                    std::make_shared<material::AbbeVd>(1.526480, 51.4000));
 
-  lensBuilder.add_surface(lens, 1/0.035104369,  14.642815, 7.996205852,
+  lens->add_surface(1/0.035104369,  14.642815, 7.996205852,
                    std::make_shared<material::AbbeVd>(1.623770, 56.8998));
 
-  lensBuilder.add_surface(lens, 1/-0.021187519, 14.642815, 85.243965130);
+  lens->add_surface(1/-0.021187519, 14.642815, 85.243965130);
 
   sys->add(lens);
   /* anchor end */

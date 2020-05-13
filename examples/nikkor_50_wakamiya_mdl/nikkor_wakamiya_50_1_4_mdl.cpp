@@ -70,43 +70,42 @@ int main()
   /* anchor lens */
   auto lens = std::make_shared<sys::Lens>(math::Vector3(0, 0, 0));
 
-  _goptical::sys::LensBuilder lensBuilder;
   //               roc,            ap.radius, thickness,
 
-  lensBuilder.add_surface(lens, 78.687,  38.00, 9.884,
+  lens->add_surface(78.687,  38.00, 9.884,
                    std::make_shared<material::AbbeVd>(1.8, 45.6));
 
-  lensBuilder.add_surface(lens,471.434,              38.0, 0.194);
+  lens->add_surface(471.434,              38.0, 0.194);
 
-  lensBuilder.add_surface(lens,50.297, 32.0, 9.108,
+  lens->add_surface(50.297, 32.0, 9.108,
       std::make_shared<material::AbbeVd>(1.773, 49.6));
 
-  lensBuilder.add_surface(lens,74.376,  31.0, 2.946);
+  lens->add_surface(74.376,  31.0, 2.946);
 
-  lensBuilder.add_surface(lens,138.143, 30.0, 2.326,
+  lens->add_surface(138.143, 30.0, 2.326,
       std::make_shared<material::AbbeVd>(1.673, 32.2));
 
-  lensBuilder.add_surface(lens,34.326,  25.5, 16.070);
+  lens->add_surface(34.326,  25.5, 16.070);
 
-  lensBuilder.add_stop(lens,                24.6, 13.0);
+  lens->add_stop(24.6, 13.0);
 
-  lensBuilder.add_surface(lens,-34.407,  24.4, 1.938,
+  lens->add_surface(-34.407,  24.4, 1.938,
       std::make_shared<material::AbbeVd>(1.74, 28.3));
 
-  lensBuilder.add_surface(lens,-2906.977,              28.5, 12.403,
+  lens->add_surface(-2906.977,              28.5, 12.403,
       std::make_shared<material::AbbeVd>(1.773, 49.6));
 
-  lensBuilder.add_surface(lens,-59.047,  30.0, 0.388);
+  lens->add_surface(-59.047,  30.0, 0.388);
 
-  lensBuilder.add_surface(lens,-150.021, 33.4, 8.333,
+  lens->add_surface(-150.021, 33.4, 8.333,
       std::make_shared<material::AbbeVd>(1.788, 47.5));
 
-  lensBuilder.add_surface(lens,-57.890,  33.9, 0.194);
+  lens->add_surface(-57.890,  33.9, 0.194);
 
-  lensBuilder.add_surface(lens,284.630, 33.0, 5.039,
+  lens->add_surface(284.630, 33.0, 5.039,
       std::make_shared<material::AbbeVd>(1.788, 47.5));
 
-  lensBuilder.add_surface(lens,-253.217,  33.0, 74.064);
+  lens->add_surface(-253.217,  33.0, 74.064);
 
   double image_pos = 9.884 + 0.194 + 9.108 + 2.946 + 2.326 + 16.070
     + 13.0 + 1.938 + 12.403 + 0.388 + 8.333 + 0.194 + 5.039 + 74.064;

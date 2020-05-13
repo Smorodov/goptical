@@ -19,10 +19,9 @@ This is derivative of [Goptical - GNU Optical design and simulation library](htt
 
 ## Changes to programming API
 
-* The memory model in Goptical has cyclic dependencies. Example, System contains references to Elements and Elements
-  need to refer back to System. Making both of these smart pointer references has made it necessary to introduce
-  some changes to the API. In particular two helper classes are added: SystemBuilder and LensBuilder. This is still WIP
-  and subject to change. See issue #15 for some of the challenges in the memory model.
+* The original implementation allowed mixing heap allocated and stack allocated data structures.
+  We no longer allow that. All data structures except the top most one must be heap allocated and
+  managed via smart pointers.
 
 ## Issues
 

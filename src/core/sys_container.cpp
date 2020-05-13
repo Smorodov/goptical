@@ -43,53 +43,27 @@ namespace _goptical {
 
     Container::~Container()
     {
-      // all container elements become orphan
-//      for (auto&i : _list) {
-//        i->_container = 0;
-//      }
       remove_all();
     }
 
     void Container::remove_all()
     {
-//      while (!_list.empty())
-//        remove(_list.front());
 	_list.clear();
     }
 
     void Container::add_front(const std::shared_ptr<Element> &e)
     {
-//      if (e->_container)
-//        e->_container->remove(e);
-
       _list.insert(_list.begin(), e);
-
-//      e->_container = this;
-//
-//      added(e);
     }
 
 
     void Container::add(const std::shared_ptr<Element> &e)
     {
-//      if (e->_container)
-//        e->_container->remove(e);
-
       _list.push_back(e);
-
-//      e->_container = this;
-//
-//      added(e);
     }
 
     void Container::remove(const std::shared_ptr<Element> &e)
     {
-//      removed(e);
-//
-//      assert(e->_container == this);
-//
-//      e->_container = nullptr;
-
       _list.remove(e);
     }
 

@@ -95,10 +95,10 @@ namespace _goptical {
                                    const std::shared_ptr<material::Base> &glass)
     {
       assert(thickness >= 0.);
-
       auto s = std::make_shared<OpticalSurface>(math::VectorPair3(0, 0, _last_pos),
                                            curve, shape, _next_mat, glass);
       _surfaces.push_back(s);
+      s->set_parent(this);
 
       _next_mat = glass;
       _last_pos += thickness;
@@ -129,6 +129,7 @@ namespace _goptical {
 
       _last_pos += thickness;
       Container::add(_stop);
+      _stop->set_parent(this);
     }
 
     void Lens::add_stop(double radius, double thickness)
@@ -383,64 +384,6 @@ namespace _goptical {
         }
 
       GRP_END;
-    }
-
-    unsigned int LensBuilder::add_surface(
-        std::shared_ptr<Lens>& lens,
-        const std::shared_ptr<curve::Base>& curve,
-        const std::shared_ptr<shape::Base>& shape,
-        double thickness,
-        const std::shared_ptr<material::Base>& glass)
-    {
-        assert(thickness >= 0.);
-
-        auto s = std::make_shared<OpticalSurface>(math::VectorPair3(0, 0, lens->_last_pos),
-            curve, shape, lens->_next_mat, glass);
-        lens->_surfaces.push_back(s);
-        s->set_parent(lens.get());
-
-        lens->_next_mat = glass;
-        lens->_last_pos += thickness;
-        lens->Container::add(s);
-        return lens->_surfaces.size() - 1;
-    }
-
-    unsigned int LensBuilder::add_surface(
-        std::shared_ptr<Lens>& lens,
-        double roc, double radius,
-        double thickness,
-        const std::shared_ptr<material::Base>& glass)
-    {
-        std::shared_ptr<curve::Base> curve;
-
-        if (roc == 0.)
-            curve = curve::flat;
-        else
-            curve = std::make_shared<curve::Sphere>(roc);
-
-        return add_surface(lens, curve, std::make_shared<shape::Disk>(radius), thickness, glass);
-    }
-
-    void LensBuilder::add_stop(
-        std::shared_ptr<Lens>& lens,
-        const std::shared_ptr<shape::Base>& shape, 
-        double thickness)
-    {
-        if (lens->_stop)
-            throw Error("Can not add more than one stop per Lens");
-
-        lens->_stop = std::make_shared<Stop>(math::VectorPair3(0, 0, lens->_last_pos), shape);
-
-        lens->_last_pos += thickness;
-        lens->Container::add(lens->_stop);
-        lens->_stop->set_parent(lens.get());
-    }
-
-    void LensBuilder::add_stop(
-        std::shared_ptr<Lens>& lens,
-        double radius, double thickness)
-    {
-        return add_stop(lens, std::make_shared<shape::Disk>(radius), thickness);
     }
   }
 
