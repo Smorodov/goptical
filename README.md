@@ -6,14 +6,14 @@ This is derivative of [Goptical - GNU Optical design and simulation library](htt
 
 * Different directory structure
 * Namespaces are lower case
-* Some classes are lower case too
 * CMake instead of autotools
 
 ## Additional changes (this project)
 
 * DONE Windows/MSVC port - remove use of features unsupported by MSVC such as VLAs. 
-* DONE Remove all output options other than SVG for portability reasons
-* Mostly DONE Embed required components from GNU Scientific Library in the project
+* DONE Disable all output options other than SVG for portability reasons (other output options may be enabled later)
+* Mostly DONE Embed required components from GNU Scientific Library in the project (support for multi variable fitting 
+  and ODE to be added)
 * DONE Remove all external dependencies
 * DRAFT add a driver program that can generate output from a specificatin given in a text file.
 * DRAFT add support aspherical surfaces as specified in patent literature.
