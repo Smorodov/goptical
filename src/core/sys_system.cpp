@@ -60,25 +60,15 @@ namespace _goptical {
         transform_cache_flush();
     }
 
-//    void System::added(Element &e)
-//    {
-//      e.system_register(*this);
-//
-//      update_version();
-//    }
-//
-//    void System::removed(Element &e)
-//    {
-//      e.system_unregister();
-//
-//      if (_entrance.get() == &e)
-//        _entrance.reset();
-//
-//      if (_exit.get() == &e)
-//        _exit.reset();
-//
-//      update_version();
-//    }
+    void System::add (std::shared_ptr<Element> e)
+    {
+      if (e->_system)
+	{
+	  throw Error("Element already added to a system");
+	}
+      Container::add(e);
+      e->system_register (this);
+    }
 
     void System::set_environment(const std::shared_ptr<material::Base> &env)
     {

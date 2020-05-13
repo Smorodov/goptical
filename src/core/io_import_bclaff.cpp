@@ -644,7 +644,6 @@ namespace goptical {
     std::shared_ptr<sys::System> BClaffLensImporter::buildSystem(unsigned scenario)
     {
       sys_ = std::make_shared<sys::System>();
-      _goptical::sys::SystemBuilder builder;
       /* anchor lens */
       auto lens = std::make_shared<sys::Lens>(_goptical::math::Vector3 (0, 0, 0));
 
@@ -656,12 +655,12 @@ namespace goptical {
 	  image_pos += thickness;
 	}
       // printf ("Image position is at %f\n", image_pos);
-      builder.add(sys_, lens);
+      sys_->add(lens);
 
       image_
 	= std::make_shared<sys::Image>(_goptical::math::Vector3 (0, 0, image_pos),
 				       specs_->get_image_height ());
-      builder.add(sys_, image_);
+      sys_->add(image_);
 
       /* FIXME is this correct? */
       auto &s1 = lens->get_surface (0); // Note: must be a reference

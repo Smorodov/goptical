@@ -53,15 +53,6 @@ namespace _goptical {
 
     Element::~Element()
     {
-      if (_system)
-	{
-//	  _system->remove (this);
-	  //system_unregister();
-	}
-//      if (_group)
-//	{
-//	  _group->remove (this);
-//	}
     }
 
     void Element::set_local_direction(const math::Vector3 &v)

@@ -92,12 +92,11 @@ int main()
 
   lensBuilder.add_surface(lens, 1/-0.021187519, 14.642815, 85.243965130);
 
-  _goptical::sys::SystemBuilder builder;
-  builder.add(sys, lens);
+  sys->add(lens);
   /* anchor end */
 
   auto image = std::make_shared<sys::Image>(math::Vector3(0, 0, 125.596), 5);
-  builder.add(sys, image);
+  sys->add(image);
 
   /* anchor sources */
   auto source_rays = std::make_shared<sys::SourceRays>(math::Vector3(0, 27.5, -1000));
@@ -106,8 +105,8 @@ int main()
                                 math::Vector3(0, 27.5, -1000));
 
   // add sources to system
-  builder.add(sys, source_rays);
-  builder.add(sys, source_point);
+  sys->add(source_rays);
+  sys->add(source_point);
 
   // configure sources
   source_rays->add_chief_rays(*sys);

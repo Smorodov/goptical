@@ -124,6 +124,9 @@ namespace _goptical {
       /** @internal Dump 3d transforms cache */
       void transform_cache_dump(std::ostream &o) const;
 
+      void add (std::shared_ptr<Element> e);
+
+
     private:
 
       /** get an new element identifier */
@@ -165,36 +168,6 @@ namespace _goptical {
       // column indices
       std::vector<math::Transform<3> *> _transform_cache;
     };
-
-    /**
-     * A helper for adding elements to a system. We need this to ensure
-     * correct relationship is setup between the system and the element as they both
-     * need to reference each other.
-     *
-     * FIXME Ideally we should avoid the cyclic dependency
-     */
-    class SystemBuilder
-    {
-    public:
-      void add (std::shared_ptr<System> sys, std::shared_ptr<Element> e)
-      {
-	// If the element belonged to a system it will be first
-	// removed from there
-	// FIXME it is not a great idea to let an element be moved from
-	// one system to another - perhaps elements should always be owned by
-	// a system.
-	if (e->_system)
-	  {
-	    auto system = e->_system;
-	    e->system_unregister ();
-	    system->remove (e);
-	  }
-	// Now add it to the system
-	sys->add (e);
-	e->system_register (sys.get());
-      }
-    };
-
   }
 }
 

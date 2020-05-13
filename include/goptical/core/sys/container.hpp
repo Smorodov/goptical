@@ -109,11 +109,6 @@ namespace _goptical {
       /** remove all elements in container */
       void remove_all();
 
-//      /** called when elements are inserted or removed */
-//      virtual void added(const std::shared_ptr<Element>& e) {}
-//      /** called when elements are inserted or removed */
-//      virtual void removed(const std::shared_ptr<Element>& e) {}
-
     private:
 
       element_list_t            _list;

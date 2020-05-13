@@ -111,12 +111,11 @@ int main()
   double image_pos = 9.884 + 0.194 + 9.108 + 2.946 + 2.326 + 16.070
     + 13.0 + 1.938 + 12.403 + 0.388 + 8.333 + 0.194 + 5.039 + 74.064;
 
-  _goptical::sys::SystemBuilder builder;
-  builder.add(sys, lens);
+  sys->add(lens);
   /* anchor end */
 
   auto image = std::make_shared<sys::Image>(math::Vector3(0, 0, image_pos), 42.42);
-  builder.add(sys, image);
+  sys->add(image);
 
   /* anchor sources */
   auto source_rays = std::make_shared<sys::SourceRays>(math::Vector3(0, 27.5, -1000));
@@ -127,8 +126,8 @@ int main()
 //				math::Vector3(0, 0, 1));
 
   // add sources to system
-  builder.add(sys, source_rays);
-  builder.add(sys, source_point);
+  sys->add(source_rays);
+  sys->add(source_point);
 
   // configure sources
   source_rays->add_chief_rays(*sys);

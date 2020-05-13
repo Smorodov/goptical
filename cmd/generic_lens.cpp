@@ -124,8 +124,7 @@ setup_point_source (std::shared_ptr<sys::System> &sys, double angleOfView,
   source_point->add_spectral_line (light::SpectralLine::d);
   source_point->add_spectral_line (light::SpectralLine::C);
   source_point->add_spectral_line (light::SpectralLine::F);
-  _goptical::sys::SystemBuilder builder;
-  builder.add (sys, source_point);
+  sys->add(source_point);
 
   return source_point;
 }
