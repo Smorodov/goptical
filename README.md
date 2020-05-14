@@ -18,6 +18,8 @@ This is derivative of [Goptical - GNU Optical design and simulation library](htt
 * DRAFT add a driver program that can generate output from a specificatin given in a text file.
 * DRAFT add support aspherical surfaces as specified in patent literature.
 * DONE replace custom smart pointers with standard C++ smart pointers
+* DONE Compiled as C++14
+* DONE Builds on Windows 10, Mac OSX and Linux
 
 ## Changes to programming API
 
