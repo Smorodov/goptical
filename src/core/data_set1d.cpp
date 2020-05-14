@@ -22,9 +22,9 @@
 
 */
 
-#include <goptical/core/data/Set1d>
+#include <goptical/core/data/set1d.hpp>
 
-namespace _goptical
+namespace goptical
 {
 
   namespace data

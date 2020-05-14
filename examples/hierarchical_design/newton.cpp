@@ -31,7 +31,7 @@
 
 #include <goptical/core/material/Sellmeier>
 
-#include <goptical/core/sys/System>
+#include <goptical/core/sys/system.hpp>
 #include <goptical/core/sys/SourcePoint>
 #include <goptical/design/telescope/Newton>
 #include <goptical/core/sys/Image>

@@ -31,7 +31,7 @@
 #include "base.hpp"
 #include "goptical/core/data/grid.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 
@@ -76,6 +76,16 @@ namespace _goptical {
     protected:
       data::Grid _data;
     };
+
+    const data::Grid & Grid::get_data() const
+    {
+      return _data;
+    }
+
+    data::Grid & Grid::get_data()
+    {
+      return _data;
+    }
 
   }
 

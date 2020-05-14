@@ -22,21 +22,21 @@
 
 */
 
-#include <goptical/core/sys/System>
-#include <goptical/core/sys/OpticalSurface>
+#include <goptical/core/sys/system.hpp>
+#include <goptical/core/sys/optical_surface.hpp>
 
-#include <goptical/core/shape/Disk>
-#include <goptical/core/curve/Sphere>
-#include <goptical/core/curve/Flat>
+#include <goptical/core/shape/disk.hpp>
+#include <goptical/core/curve/sphere.hpp>
+#include <goptical/core/curve/flat.hpp>
 
-#include <goptical/core/trace/Ray>
-#include <goptical/core/trace/Distribution>
-#include <goptical/core/trace/Result>
+#include <goptical/core/trace/ray.hpp>
+#include <goptical/core/trace/distribution.hpp>
+#include <goptical/core/trace/result.hpp>
 
-#include <goptical/core/io/Rgb>
-#include <goptical/core/io/Renderer>
+#include <goptical/core/io/rgb.hpp>
+#include <goptical/core/io/renderer.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 

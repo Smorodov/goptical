@@ -30,7 +30,7 @@
 
 #include "goptical/core/common.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace data {
 
@@ -131,6 +131,19 @@ namespace _goptical {
 
       std::vector<struct poly_s>        _poly;
     };
+
+    template <class X>
+    double Interpolate1d<X>::interpolate(double x) const
+    {
+      return (this->*_interpolate)(0, x);
+    }
+
+    template <class X>
+    double Interpolate1d<X>::interpolate(double x, unsigned int d) const
+    {
+      return (this->*_interpolate)(d, x);
+    }
+
 
   }
 }

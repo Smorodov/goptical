@@ -23,30 +23,30 @@
 */
 
 
-#include <goptical/core/sys/Surface>
-#include <goptical/core/sys/Element>
-#include <goptical/core/material/Base>
+#include <goptical/core/sys/surface.hpp>
+#include <goptical/core/sys/element.hpp>
+#include <goptical/core/material/base.hpp>
 
-#include <goptical/core/shape/Base>
-#include <goptical/core/shape/Ring>
+#include <goptical/core/shape/base.hpp>
+#include <goptical/core/shape/ring.hpp>
 
-#include <goptical/core/curve/Base>
+#include <goptical/core/curve/base.hpp>
 
-#include <goptical/core/math/Vector>
-#include <goptical/core/math/Triangle>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/math/triangle.hpp>
 
-#include <goptical/core/light/Ray>
+#include <goptical/core/light/ray.hpp>
 
-#include <goptical/core/trace/Distribution>
-#include <goptical/core/trace/Ray>
-#include <goptical/core/trace/Result>
-#include <goptical/core/trace/Params>
+#include <goptical/core/trace/distribution.hpp>
+#include <goptical/core/trace/ray.hpp>
+#include <goptical/core/trace/result.hpp>
+#include <goptical/core/trace/params.hpp>
 
-#include <goptical/core/io/Renderer>
-#include <goptical/core/io/Rgb>
+#include <goptical/core/io/renderer.hpp>
+#include <goptical/core/io/rgb.hpp>
 
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 

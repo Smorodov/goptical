@@ -34,7 +34,7 @@
 #include "goptical/core/trace/distribution.hpp"
 #include "goptical/core/trace/sequence.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace trace {
 
@@ -106,6 +106,52 @@ namespace _goptical {
       bool                      _unobstructed;
       double                    _lost_ray_length;
     };
+
+    Params::Params()
+      : _default_distribution(),
+	_s_distribution(),
+	_max_bounce(50),
+	_intensity_mode(Simpletrace),
+	_sequential_mode(false),
+	_propagation_mode(RayPropagation),
+	_unobstructed(false),
+	_lost_ray_length(1000)
+    {
+    }
+
+    void Params::set_nonsequential_mode()
+    {
+      _sequential_mode = false;
+    }
+
+    void Params::set_sequential_mode(const std::shared_ptr<Sequence> &seq)
+    {
+      _sequential_mode = true;
+      _sequence = seq;
+    }
+
+    bool Params::is_sequential() const
+    {
+      return _sequential_mode;
+    }
+
+    void Params::set_distribution(const sys::Surface &s, const Distribution &dist)
+    {
+      _s_distribution[&s] = dist;
+    }
+
+    void Params::reset_distribution()
+    {
+      _s_distribution.clear();
+    }
+
+    const Distribution & Params::get_distribution(const sys::Surface &s) const
+    {
+      _s_distribution_map_t::const_iterator i = _s_distribution.find(&s);
+
+      return i == _s_distribution.end() ? _default_distribution : i->second;
+    }
+
   }
 }
 

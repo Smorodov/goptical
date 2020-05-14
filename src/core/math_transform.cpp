@@ -24,9 +24,9 @@
 
 #include <cassert>
 
-#include <goptical/core/math/Transform>
+#include <goptical/core/math/transform.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace math {
 

@@ -28,7 +28,7 @@
 
 #include "goptical/core/common.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 
@@ -68,6 +68,10 @@ namespace _goptical {
       /** Get normal to curve surface at specified point */
       virtual void normal(math::Vector3 &normal, const math::Vector3 &point) const;
     };
+
+    Base::~Base()
+    {
+    }
 
   }
 }

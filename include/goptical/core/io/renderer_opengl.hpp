@@ -34,7 +34,7 @@ extern "C" {
 
 #include "goptical/core/io/renderer_viewport.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 
@@ -109,6 +109,25 @@ namespace _goptical {
       double _near, _far;
     };
 
+    void RendererOpengl::glVertex(const math::Vector2 &v)
+    {
+      glVertex2d(v.x(), v.y());
+    }
+
+    void RendererOpengl::glVertex(const math::Vector3 &v)
+    {
+      glVertex3d(v.x(), v.y(), v.z());
+    }
+
+    void RendererOpengl::glNormal(const math::Vector3 &v)
+    {
+      glNormal3d(v.x(), v.y(), v.z());
+    }
+
+    void RendererOpengl::glColor(const Rgb &rgb)
+    {
+      glColor4f(rgb.r, rgb.g, rgb.b, rgb.a);
+    }
   }
 }
 

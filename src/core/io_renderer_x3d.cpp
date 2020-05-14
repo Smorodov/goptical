@@ -24,10 +24,10 @@
 
 #include <fstream>
 
-#include <goptical/core/io/RendererX3d>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/io/renderer_x3d.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

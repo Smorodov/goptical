@@ -22,9 +22,9 @@
 
 */
 
-#include <goptical/core/curve/Spline>
+#include <goptical/core/curve/spline.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 

@@ -30,7 +30,7 @@
 
 #include "goptical/core/material/dielectric.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 
@@ -80,6 +80,20 @@ namespace _goptical {
       std::vector<double> _coeff;
       double _constant;
     };
+    void Sellmeier::set_contant_term(double A)
+    {
+      _constant = A;
+    }
+
+    void Sellmeier::set_term(unsigned int term, double K, double L)
+    {
+      term *= 2;
+
+      assert(term + 1 < _coeff.size());
+
+      _coeff[term] = K;
+      _coeff[term + 1] = L;
+    }
 
   }
 }

@@ -25,19 +25,18 @@
 
 #include <deque>
 
-#include <goptical/core/trace/Tracer>
-#include <goptical/core/trace/Result>
-#include <goptical/core/trace/Ray>
-#include <goptical/core/trace/Ray>
-#include <goptical/core/sys/System>
-#include <goptical/core/sys/Source>
+#include <goptical/core/trace/tracer.hpp>
+#include <goptical/core/trace/result.hpp>
+#include <goptical/core/trace/ray.hpp>
+#include <goptical/core/sys/system.hpp>
+#include <goptical/core/sys/source.hpp>
 #include <goptical/core/error.hpp>
-#include <goptical/core/sys/Surface>
-#include <goptical/core/math/VectorPair>
-#include <goptical/core/trace/Distribution>
-#include <goptical/core/trace/Sequence>
+#include <goptical/core/sys/surface.hpp>
+#include <goptical/core/math/vector_pair.hpp>
+#include <goptical/core/trace/distribution.hpp>
+#include <goptical/core/trace/sequence.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace trace {
 

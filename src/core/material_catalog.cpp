@@ -22,10 +22,10 @@
 
 */
 
-#include <goptical/core/material/Catalog>
-#include <goptical/core/material/Base>
+#include <goptical/core/material/catalog.hpp>
+#include <goptical/core/material/base.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

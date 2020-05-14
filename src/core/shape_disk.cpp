@@ -22,12 +22,12 @@
 
 */
 
-#include <goptical/core/shape/Disk>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/shape/disk.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
 #include "shape_round_.hxx"
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 

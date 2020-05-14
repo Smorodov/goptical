@@ -23,18 +23,18 @@
 */
 
 
-#include <goptical/core/sys/System>
-#include <goptical/core/sys/Element>
+#include <goptical/core/sys/system.hpp>
+#include <goptical/core/sys/element.hpp>
 
-#include <goptical/core/trace/Ray>
-#include <goptical/core/trace/Result>
+#include <goptical/core/trace/ray.hpp>
+#include <goptical/core/trace/result.hpp>
 
-#include <goptical/core/math/Vector>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
-#include <goptical/core/io/Renderer>
+#include <goptical/core/io/renderer.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace trace {
 

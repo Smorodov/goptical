@@ -31,7 +31,7 @@
 #include "goptical/core/math/transform.hpp"
 #include "base.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 
@@ -96,6 +96,44 @@ namespace _goptical {
     private:
       std::list <Attributes> _list;
     };
+
+    Composer::Attributes & Composer::Attributes::z_scale(double zfactor)
+    {
+      _z_scale *= zfactor;
+
+      return *this;
+    }
+
+    Composer::Attributes & Composer::Attributes::z_offset(double zoffset)
+    {
+      _z_offset += zoffset;
+
+      return *this;
+    }
+
+    Composer::Attributes & Composer::Attributes::xy_scale(const math::Vector2 &factor)
+    {
+      _transform.affine_scaling(factor);
+      _inv_transform = _transform.inverse();
+
+      return *this;
+    }
+
+    Composer::Attributes & Composer::Attributes::rotate(double angle)
+    {
+      _transform.affine_rotation(0, angle);
+      _inv_transform = _transform.inverse();
+
+      return *this;
+    }
+
+    Composer::Attributes & Composer::Attributes::xy_translate(const math::Vector2 &offset)
+    {
+      _transform.apply_translation(offset);
+      _inv_transform = _transform.inverse();
+
+      return *this;
+    }
 
   }
 }

@@ -30,7 +30,7 @@
 
 #include "goptical/core/material/dielectric.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 
@@ -80,6 +80,18 @@ namespace _goptical {
 
       double _a, _b, _c, _d, _e;
     };
+
+    template <enum SellmeierModFormula m>
+    void SellmeierMod<m>::set_coefficients(double A, double B,
+					   double C, double D,
+					   double E)
+    {
+      _a = A;
+      _b = B;
+      _c = C;
+      _d = D;
+      _e = E;
+    }
 
   }
 }

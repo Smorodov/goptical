@@ -28,7 +28,7 @@
 
 #include "goptical/core/common.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 
@@ -56,6 +56,27 @@ namespace _goptical {
     private:
       double get_radial_step(double resolution) const;
     };
+
+//    Round::Round(double radius)
+//      : _radius(radius)
+//    {
+//    }
+//
+//    void Round::set_radius(double r)
+//    {
+//      _radius = r;
+//    }
+//
+//    double Round::get_radius(void) const
+//    {
+//      return _radius;
+//    }
+//
+//    double Round::max_radius() const
+//    {
+//      return _radius;
+//    }
+
   }
 
 }

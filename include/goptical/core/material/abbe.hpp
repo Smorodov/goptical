@@ -30,7 +30,7 @@
 
 #include "goptical/core/material/dielectric.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

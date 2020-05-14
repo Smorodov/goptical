@@ -25,11 +25,11 @@
 #include <iostream>
 
 #include <goptical/core/error.hpp>
-#include <goptical/core/data/DiscreteSet>
+#include <goptical/core/data/discrete_set.hpp>
 
 #include "data_interpolate_1d_.hxx"
 
-namespace _goptical
+namespace goptical
 {
 
   namespace data

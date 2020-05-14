@@ -30,7 +30,7 @@
 
 #include "goptical/core/math/vector_pair.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace light {
 
@@ -69,7 +69,37 @@ namespace _goptical {
       // FIXME unit ?
       double    _intensity;
     };
+    Ray::Ray()
+    {
+    }
 
+    Ray::Ray(const math::VectorPair3 &ray,
+	     double intensity, double wavelen)
+      : math::VectorPair3(ray),
+	_wavelen(wavelen),
+	_intensity(intensity)
+    {
+    }
+
+    double Ray::get_intensity() const
+    {
+      return _intensity;
+    }
+
+    void Ray::set_intensity(double intensity)
+    {
+      _intensity = intensity;
+    }
+
+    double Ray::get_wavelen() const
+    {
+      return _wavelen;
+    }
+
+    void Ray::set_wavelen(double wavelen)
+    {
+      _wavelen = wavelen;
+    }
   }
 }
 

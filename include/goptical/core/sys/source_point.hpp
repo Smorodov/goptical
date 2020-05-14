@@ -30,7 +30,7 @@
 
 #include "goptical/core/sys/source.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 
@@ -82,6 +82,10 @@ namespace _goptical {
       SourceInfinityMode _mode;
     };
 
+    void SourcePoint::set_mode(SourceInfinityMode mode)
+    {
+      _mode = mode;
+    }
   }
 }
 

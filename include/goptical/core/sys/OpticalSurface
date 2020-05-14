@@ -1,9 +1,0 @@
-
-#include "goptical/core/sys/optical_surface.hpp"
-#include "goptical/core/sys/optical_surface.hxx"
-
-namespace goptical {
-  namespace sys {
-    using _goptical::sys::OpticalSurface;
-  }
-}

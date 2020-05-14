@@ -1,12 +1,12 @@
 #include <goptical/core/io/import_bclaff.hpp>
 
-#include <goptical/core/sys/Lens>
-#include <goptical/core/material/Abbe>
+#include <goptical/core/sys/lens.hpp>
+#include <goptical/core/material/abbe.hpp>
 #include <goptical/core/curve/curve_asphere.hpp>
-#include <goptical/core/sys/Image>
-#include <goptical/core/sys/System>
-#include <goptical/core/curve/Sphere>
-#include <goptical/core/shape/Disk>
+#include <goptical/core/sys/image.hpp>
+#include <goptical/core/sys/system.hpp>
+#include <goptical/core/curve/sphere.hpp>
+#include <goptical/core/shape/disk.hpp>
 #include <goptical/core/common.hpp>
 #include <goptical/core/analysis/focus.hpp>
 
@@ -625,7 +625,7 @@ namespace goptical {
 
     BClaffLensImporter::BClaffLensImporter ()
 		: specs_(new LensSpecifications()),
-			image_(std::make_shared<sys::Image>(_goptical::math::VectorPair3(), 0)),
+			image_(std::make_shared<sys::Image>(goptical::math::VectorPair3(), 0)),
 			sys_()
     {
     }
@@ -644,7 +644,7 @@ namespace goptical {
     {
       sys_ = std::make_shared<sys::System>();
       /* anchor lens */
-      auto lens = std::make_shared<sys::Lens>(_goptical::math::Vector3 (0, 0, 0));
+      auto lens = std::make_shared<sys::Lens>(goptical::math::Vector3 (0, 0, 0));
 
       double image_pos = 0.0;
       auto surfaces = specs_->get_surfaces ();
@@ -657,7 +657,7 @@ namespace goptical {
       sys_->add(lens);
 
       image_
-	= std::make_shared<sys::Image>(_goptical::math::Vector3 (0, 0, image_pos),
+	= std::make_shared<sys::Image>(goptical::math::Vector3 (0, 0, image_pos),
 				       specs_->get_image_height ());
       sys_->add(image_);
 
@@ -671,7 +671,7 @@ namespace goptical {
     double BClaffLensImporter::getAngleOfViewInRadians (unsigned scenario)
     {
       auto view_angles = specs_->find_variable ("Angle of View");
-      return _goptical::math::degree2rad (view_angles->get_value_as_double (0)
+      return goptical::math::degree2rad (view_angles->get_value_as_double (0)
 					  / 2.0);
     }
 

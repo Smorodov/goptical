@@ -32,8 +32,9 @@
 #include "goptical/core/common.hpp"
 
 #include "base.hpp"
+#include "goptical/core/error.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 
@@ -71,6 +72,26 @@ namespace _goptical {
       std::string _name;
       catalog_map_t _list;
     };
+    inline const std::string & Catalog::get_name() const
+    {
+      return _name;
+    }
+
+    inline void Catalog::set_name(const std::string & name)
+    {
+      _name = name;
+    }
+
+    inline const Base & Catalog::get_material(const std::string &material_name)
+    {
+      catalog_map_t::iterator i = _list.find(material_name);
+
+      if (i == _list.end())
+	throw Error("No such material in catalog");
+
+      return *i->second;
+    }
+
 
   }
 

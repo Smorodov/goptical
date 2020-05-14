@@ -30,7 +30,7 @@
 
 #include "goptical/core/material/dielectric.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 
@@ -79,7 +79,14 @@ namespace _goptical {
       mutable double _last_wavelen_val;
       
     };
+    void Schott::set_term(int term, double K)
+    {
+      assert(term % 2 == 0);
+      term = (term - _first) / 2;
+      assert(term >= 0 && term < (int)_coeff.size());
 
+      _coeff[term] = K;
+    }
   }
 }
 

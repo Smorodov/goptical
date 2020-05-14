@@ -35,7 +35,7 @@
 #include "goptical/core/data/plotdata.hpp"
 #include "goptical/core/math/vector.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace data {
 
@@ -133,6 +133,49 @@ namespace _goptical {
 
       bool              _xy_swap;
     };
+
+    const std::string & Plot::get_title() const
+    {
+      return _title;
+    }
+
+    unsigned int Plot::get_plot_count() const
+    {
+      return _plots.size();
+    }
+
+    io::RendererAxes & Plot::get_axes()
+    {
+      return _axes;
+    }
+
+    const io::RendererAxes & Plot::get_axes() const
+    {
+      return _axes;
+    }
+
+    Plotdata & Plot::get_plot_data(unsigned int index)
+    {
+      assert(index < _plots.size());
+      return _plots[index];
+    }
+
+    const Plotdata & Plot::get_plot_data(unsigned int index) const
+    {
+      assert(index < _plots.size());
+      return _plots[index];
+    }
+
+    void Plot::set_xy_swap(bool doswap)
+    {
+      _xy_swap = doswap;
+    }
+
+    bool Plot::get_xy_swap() const
+    {
+      return _xy_swap;
+    }
+
   }
 }
 

@@ -22,21 +22,21 @@
 
 */
 
-#include <goptical/core/io/ImportOslo>
+#include <goptical/core/io/import_oslo.hpp>
 #include <goptical/core/error.hpp>
 
-#include <goptical/core/material/Dielectric>
-#include <goptical/core/material/Catalog>
-#include <goptical/core/material/Sellmeier>
-#include <goptical/core/material/Conrady>
-#include <goptical/core/material/Schott>
-#include <goptical/core/material/Air>
+#include <goptical/core/material/dielectric.hpp>
+#include <goptical/core/material/catalog.hpp>
+#include <goptical/core/material/sellmeier.hpp>
+#include <goptical/core/material/conrady.hpp>
+#include <goptical/core/material/schott.hpp>
+#include <goptical/core/material/air.hpp>
 
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

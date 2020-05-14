@@ -31,7 +31,7 @@
 
 #include "goptical/core/io/renderer_2d.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 
@@ -106,6 +106,15 @@ namespace _goptical {
       const char *_filename;
     };
 
+    math::Vector2 RendererSvg::trans_pos(const math::Vector2 &v)
+    {
+      return math::Vector2(x_trans_pos(v.x()), y_trans_pos(v.y()));
+    }
+
+    double RendererSvg::y_trans_pos(double y) const
+    {
+      return (((y - _page[1].y()) / (_page[0].y() - _page[1].y())) * _2d_output_res.y());
+    }
   }
 }
 

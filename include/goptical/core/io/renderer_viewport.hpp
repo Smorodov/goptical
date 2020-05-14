@@ -31,7 +31,7 @@
 #include "goptical/core/math/transform.hpp"
 #include "goptical/core/io/renderer.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 
@@ -210,6 +210,52 @@ namespace _goptical {
       unsigned int _precision;
       std::ios_base::fmtflags _format;
     };
+
+    void RendererViewport::set_numeric_format(std::ios_base::fmtflags format, unsigned int precision)
+    {
+      _precision = precision;
+      _format = format;
+    }
+
+    const math::VectorPair2 & RendererViewport::get_window() const
+    {
+      return _window2d_fit;
+    }
+
+    double RendererViewport::x_scale(double x) const
+    {
+      return ((x / (_page[1].x() - _page[0].x())) * _2d_output_res.x());
+    }
+
+    double RendererViewport::y_scale(double y) const
+    {
+      return ((y / (_page[1].y() - _page[0].y())) * _2d_output_res.y());
+    }
+
+    double RendererViewport::x_trans_pos(double x) const
+    {
+      return x_scale(x - _page[0].x());
+    }
+
+    double RendererViewport::y_trans_pos(double y) const
+    {
+      return y_scale(y - _page[0].y());
+    }
+
+    void RendererViewport::set_margin_output(double width, double height)
+    {
+      set_margin_output(width, height, width, height);
+    }
+
+    void RendererViewport::set_margin(double width, double height)
+    {
+      set_margin(width, height, width, height);
+    }
+
+    void RendererViewport::set_margin_ratio(double width, double height)
+    {
+      set_margin_ratio(width, height, width, height);
+    }
 
   }
 }

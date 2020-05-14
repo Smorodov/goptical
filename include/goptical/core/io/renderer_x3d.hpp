@@ -32,7 +32,7 @@
 
 #include "goptical/core/io/renderer.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

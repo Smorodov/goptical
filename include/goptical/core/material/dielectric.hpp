@@ -29,11 +29,10 @@
 #include "goptical/core/common.hpp"
 
 #include "goptical/core/data/discrete_set.hpp"
-#include "goptical/core/data/discrete_set.hxx"
 #include "goptical/core/material/solid.hpp"
 #include "goptical/core/light/spectral_line.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 
@@ -161,6 +160,51 @@ namespace _goptical {
       mutable double _last_wavelen;
       mutable double _last_get_refractive_index;
     };
+
+    void Dielectric::clear_internal_transmittance()
+    {
+      _transmittance.clear();
+    }
+
+    data::DiscreteSet & Dielectric::get_transmittance_dataset()
+    {
+      return _transmittance;
+    }
+
+    void Dielectric::set_temperature_schott(double d0, double d1, double d2,
+					    double e0, double e1, double wl_tk)
+    {
+      _temp_model = ThermalSchott;
+      _temp_d0 = d0;
+      _temp_d1 = d1;
+      _temp_d2 = d2;
+      _temp_e0 = e0;
+      _temp_e1 = e1;
+      _temp_wl_tk = wl_tk;
+    }
+
+    void Dielectric::set_temperature_dndt(double dndt)
+    {
+      _temp_model = ThermalDnDt;
+      _temp_d0 = dndt;
+    }
+
+    void Dielectric::disable_temperature_coeff()
+    {
+      _temp_model = ThermalNone;
+    }
+
+    void Dielectric::set_measurement_medium(const std::shared_ptr<Base> &medium)
+    {
+      assert(medium.get() != this);
+      _measurement_medium = medium;
+    }
+
+    void Dielectric::set_wavelen_range(double low, double high)
+    {
+      _low_wavelen = low;
+      _high_wavelen = high;
+    }
 
   }
 }

@@ -22,9 +22,9 @@
 
 */
 
-#include <goptical/core/material/Conrady>
+#include <goptical/core/material/conrady.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

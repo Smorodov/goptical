@@ -31,7 +31,7 @@
 #include "base.hpp"
 #include "goptical/core/math/vector.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 
@@ -74,6 +74,26 @@ namespace _goptical {
 
       math::Vector2 _halfsize;
     };
+    Rectangle::Rectangle(double sqsize)
+      : _halfsize(math::Vector2(sqsize / 2., sqsize / 2.))
+    {
+    }
+
+    Rectangle::Rectangle(double width, double height)
+      : _halfsize(math::Vector2(width / 2., height / 2.))
+    {
+    }
+
+    double Rectangle::max_radius() const
+    {
+      return _halfsize.len();
+    }
+
+    double Rectangle::min_radius() const
+    {
+      return std::min(_halfsize.x(), _halfsize.y());
+    }
+
 
   }
 

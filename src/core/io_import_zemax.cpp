@@ -22,39 +22,39 @@
 
 */
 
-#include <goptical/core/io/ImportZemax>
+#include <goptical/core/io/import_zemax.hpp>
 #include <goptical/core/error.hpp>
 
-#include <goptical/core/shape/Infinite>
-#include <goptical/core/shape/Disk>
-#include <goptical/core/shape/Ring>
-#include <goptical/core/shape/Rectangle>
-#include <goptical/core/shape/Ellipse>
-#include <goptical/core/shape/Composer>
+#include <goptical/core/shape/infinite.hpp>
+#include <goptical/core/shape/disk.hpp>
+#include <goptical/core/shape/ring.hpp>
+#include <goptical/core/shape/rectangle.hpp>
+#include <goptical/core/shape/ellipse.hpp>
+#include <goptical/core/shape/composer.hpp>
 
-#include <goptical/core/curve/Flat>
-#include <goptical/core/curve/Sphere>
-#include <goptical/core/curve/Conic>
-#include <goptical/core/curve/Parabola>
+#include <goptical/core/curve/flat.hpp>
+#include <goptical/core/curve/sphere.hpp>
+#include <goptical/core/curve/conic.hpp>
+#include <goptical/core/curve/parabola.hpp>
 
-#include <goptical/core/sys/System>
-#include <goptical/core/sys/Stop>
-#include <goptical/core/sys/Image>
-#include <goptical/core/sys/Surface>
-#include <goptical/core/sys/OpticalSurface>
+#include <goptical/core/sys/system.hpp>
+#include <goptical/core/sys/stop.hpp>
+#include <goptical/core/sys/image.hpp>
+#include <goptical/core/sys/surface.hpp>
+#include <goptical/core/sys/optical_surface.hpp>
 
-#include <goptical/core/material/Dielectric>
-#include <goptical/core/material/Catalog>
-#include <goptical/core/material/Sellmeier>
-#include <goptical/core/material/SellmeierMod>
-#include <goptical/core/material/Conrady>
-#include <goptical/core/material/Herzberger>
-#include <goptical/core/material/Schott>
-#include <goptical/core/material/DispersionTable>
-#include <goptical/core/material/Air>
-#include <goptical/core/material/Mirror>
+#include <goptical/core/material/dielectric.hpp>
+#include <goptical/core/material/catalog.hpp>
+#include <goptical/core/material/sellmeier.hpp>
+#include <goptical/core/material/sellmeiermod.hpp>
+#include <goptical/core/material/conrady.hpp>
+#include <goptical/core/material/herzberger.hpp>
+#include <goptical/core/material/schott.hpp>
+#include <goptical/core/material/dispersion_table.hpp>
+#include <goptical/core/material/air.hpp>
+#include <goptical/core/material/mirror.hpp>
 
-#include <goptical/core/math/Transform>
+#include <goptical/core/math/transform.hpp>
 
 #include <string>
 #include <fstream>
@@ -65,7 +65,7 @@
 #include <iostream>
 #define ZMX_WARN(str) std::cerr << str << std::endl;
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

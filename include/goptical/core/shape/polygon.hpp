@@ -31,7 +31,7 @@
 #include "base.hpp"
 #include "goptical/core/math/vector_pair.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 
@@ -92,6 +92,22 @@ namespace _goptical {
       double _max_radius;
       double _min_radius;
     };
+    unsigned int Polygon::get_vertices_count() const
+    {
+      return _vertices.size();
+    }
+
+    const math::Vector2 & Polygon::get_vertex(unsigned int id)
+    {
+      assert(id < _vertices.size());
+      return _vertices[id];
+    }
+
+    unsigned int Polygon::get_contour_count() const
+    {
+      return 1;
+    }
+
 
   }
 

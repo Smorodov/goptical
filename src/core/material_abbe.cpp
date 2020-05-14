@@ -22,9 +22,9 @@
 
 */
 
-#include <goptical/core/material/Abbe>
+#include <goptical/core/material/abbe.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

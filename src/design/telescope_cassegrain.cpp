@@ -27,7 +27,7 @@
 
 #include <goptical/design/telescope/Cassegrain>
 
-namespace _goptical {
+namespace goptical {
 
   namespace Design {
 

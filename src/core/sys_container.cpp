@@ -22,17 +22,17 @@
 
 */
 
-#include <goptical/core/sys/Container>
-#include <goptical/core/sys/Element>
-#include <goptical/core/math/VectorPair>
-#include <goptical/core/math/Transform>
-#include <goptical/core/io/RendererViewport>
+#include <goptical/core/sys/container.hpp>
+#include <goptical/core/sys/element.hpp>
+#include <goptical/core/math/vector_pair.hpp>
+#include <goptical/core/math/transform.hpp>
+#include <goptical/core/io/renderer_viewport.hpp>
 
 #include <goptical/core/error.hpp>
 
 #include <limits>
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 

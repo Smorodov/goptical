@@ -39,7 +39,7 @@
 
 #include "goptical/core/io/renderer.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 
@@ -118,6 +118,22 @@ namespace _goptical {
       dimeBlock *_current_block;
       unsigned int _layer_id;
     };
+
+    dimeVec3f RendererDxf::vec3fconv(const math::Vector3 &v)
+    {
+      return dimeVec3f(v.x(), v.y(), v.z());
+    }
+
+    dimeVec3f RendererDxf::vec3fconv(const math::Vector2 &v)
+    {
+      return dimeVec3f(v.x(), v.y(), 0.0);
+    }
+
+    void RendererDxf::use_layer(unsigned int id)
+    {
+      assert(id < (unsigned)_model.getNumLayers());
+      _layer_id = id;
+    }
   }
 }
 

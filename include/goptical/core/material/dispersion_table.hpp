@@ -30,7 +30,7 @@
 
 #include "goptical/core/material/dielectric.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 
@@ -69,7 +69,20 @@ namespace _goptical {
 
       data::DiscreteSet _refractive_index;
     };
+    data::DiscreteSet & DispersionTable::get_refractive_index_dataset()
+    {
+      return _refractive_index;
+    }
 
+    void DispersionTable::set_refractive_index(double wavelen, double index)
+    {
+      _refractive_index.add_data(wavelen, index);
+    }
+
+    void DispersionTable::clear_refractive_index_table()
+    {
+      _refractive_index.clear();
+    }
   }
 }
 

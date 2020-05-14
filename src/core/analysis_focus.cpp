@@ -23,15 +23,15 @@
 */
 
 
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/math/vector_pair.hpp>
 #include <goptical/core/analysis/focus.hpp>
-#include <goptical/core/trace/Tracer>
-#include <goptical/core/sys/Image>
-#include <goptical/core/trace/Ray>
-#include <goptical/core/trace/Result>
-#include <goptical/core/trace/Distribution>
+#include <goptical/core/trace/tracer.hpp>
+#include <goptical/core/sys/image.hpp>
+#include <goptical/core/trace/ray.hpp>
+#include <goptical/core/trace/result.hpp>
+#include <goptical/core/trace/distribution.hpp>
 
-namespace _goptical
+namespace goptical
 {
 
   namespace analysis

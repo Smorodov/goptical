@@ -24,12 +24,12 @@
 
 #include <algorithm>
 
-#include <goptical/core/trace/Sequence>
+#include <goptical/core/trace/sequence.hpp>
 
-#include <goptical/core/sys/System>
-#include <goptical/core/sys/Element>
+#include <goptical/core/sys/system.hpp>
+#include <goptical/core/sys/element.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace trace {
 

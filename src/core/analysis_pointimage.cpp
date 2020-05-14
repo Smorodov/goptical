@@ -22,17 +22,17 @@
 
 */
 
-#include <goptical/core/trace/Result>
-#include <goptical/core/trace/Distribution>
-#include <goptical/core/trace/Ray>
+#include <goptical/core/trace/result.hpp>
+#include <goptical/core/trace/distribution.hpp>
+#include <goptical/core/trace/ray.hpp>
 
-#include <goptical/core/sys/Image>
-#include <goptical/core/sys/Surface>
+#include <goptical/core/sys/image.hpp>
+#include <goptical/core/sys/surface.hpp>
 
 #include <goptical/core/analysis/pointimage.hpp>
-#include "goptical/core/sys/system.hxx"
+#include <goptical/core/sys/system.hpp>
 
-namespace _goptical
+namespace goptical
 {
 
   namespace analysis

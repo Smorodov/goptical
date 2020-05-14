@@ -5,7 +5,7 @@
 namespace goptical {
   namespace Design {
     namespace telescope {
-      using _goptical::Design::telescope::Newton;
+      using goptical::Design::telescope::Newton;
     }
   }
 }

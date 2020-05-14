@@ -24,11 +24,10 @@
 
 #include <cassert>
 
-#include <goptical/core/math/Matrix>
-#include <goptical/core/math/Vector>
-#include <goptical/core/math/Vector>
+#include <goptical/core/math/matrix.hpp>
+#include <goptical/core/math/vector.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace math {
 

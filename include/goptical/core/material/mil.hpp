@@ -30,7 +30,7 @@
 
 #include "goptical/core/material/abbe.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 
@@ -55,6 +55,12 @@ namespace _goptical {
       /** Create a glass model based on glass code with "@em{nnnnvvv}" format. */
       inline Mil(unsigned int code);
     };
+
+    Mil::Mil(unsigned int code)
+      : AbbeVd( 1. + (double)(code / 1000) / 1000.,
+		(double)(code % 1000) / 10., 0.)
+    {
+    }
 
   }
 }

@@ -28,7 +28,7 @@
 
 #include "goptical/core/common.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 
@@ -101,6 +101,10 @@ namespace _goptical {
 
     /** material null pointer */
     static const std::shared_ptr<Base> none;
+    double Base::get_refractive_index(double wavelen, const Base &env) const
+    {
+      return get_refractive_index(wavelen) / env.get_refractive_index(wavelen);
+    }
 
   }
 

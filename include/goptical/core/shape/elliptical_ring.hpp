@@ -31,7 +31,7 @@
 #include "base.hpp"
 #include "shape_round.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 
@@ -100,6 +100,50 @@ namespace _goptical {
           along the x and y axes and hole radius along the x axis. */
       EllipticalRing(double x_radius, double y_radius, double x_hole_radius);
     };
+    double EllipticalRingBase::get_x_radius(void) const
+    {
+      return _xr;
+    }
+
+    double EllipticalRingBase::get_y_radius(void) const
+    {
+      return _yr;
+    }
+
+    double EllipticalRingBase::get_x_hole_radius(void) const
+    {
+      return _xhr;
+    }
+
+    double EllipticalRingBase::get_y_hole_radius(void) const
+    {
+      return _xhr / _xy_ratio;
+    }
+
+    double EllipticalRingBase::max_radius() const
+    {
+      return std::max(_yr, _xr);
+    }
+
+    double EllipticalRingBase::min_radius() const
+    {
+      return std::min(_yr, _xr);
+    }
+
+    double EllipticalRingBase::get_external_xradius() const
+    {
+      return _xr;
+    }
+
+    double EllipticalRingBase::get_internal_xradius() const
+    {
+      return _xhr;
+    }
+
+    double EllipticalRingBase::get_xy_ratio() const
+    {
+      return _xy_ratio;
+    }
 
   }
 

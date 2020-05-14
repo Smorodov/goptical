@@ -32,7 +32,7 @@
 
 #include <goptical/core/sys/group.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace Design {
 

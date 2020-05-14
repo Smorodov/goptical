@@ -35,7 +35,7 @@
 
 #include "telescope.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace Design {
 

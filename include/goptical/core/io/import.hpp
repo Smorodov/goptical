@@ -29,7 +29,7 @@
 
 #include "goptical/core/common.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

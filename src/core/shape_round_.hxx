@@ -25,10 +25,10 @@
 #include <cstdlib>
 
 #include <goptical/core/common.hpp>
-#include <goptical/core/trace/Distribution>
-#include <goptical/core/math/Triangle>
+#include <goptical/core/trace/distribution.hpp>
+#include <goptical/core/math/triangle.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 

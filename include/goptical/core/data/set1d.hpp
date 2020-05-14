@@ -30,7 +30,7 @@
 
 #include "goptical/core/data/set.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace data {
 
@@ -78,6 +78,54 @@ namespace _goptical {
     protected:
       inline Set1d();
     };
+
+    Set1d::Set1d()
+      : Set()
+    {
+    }
+
+    Set1d::~Set1d()
+    {
+    }
+
+    unsigned int Set1d::get_dimensions() const
+    {
+      return 1;
+    }
+
+    unsigned int Set1d::get_count(unsigned int dimension) const
+    {
+      assert(dimension == 0);
+      return get_count();
+    }
+
+    double Set1d::get_x_value(unsigned int x, unsigned int dimension) const
+    {
+      assert(dimension == 0);
+      return get_x_value(x);
+    }
+
+    double Set1d::get_y_value(const unsigned int x[]) const
+    {
+      return get_y_value(x[0]);
+    }
+
+    math::range_t Set1d::get_x_range(unsigned int dimension) const
+    {
+      assert(dimension == 0);
+      return get_x_range();
+    }
+
+    double Set1d::interpolate(const double x[]) const
+    {
+      return interpolate(x[0]);
+    }
+
+    double Set1d::interpolate(const double x[], unsigned int deriv, unsigned int dimension) const
+    {
+      assert(dimension == 0);
+      return interpolate(x[0], deriv);
+    }
 
   }
 }

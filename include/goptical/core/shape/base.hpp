@@ -31,7 +31,7 @@
 #include "goptical/core/math/vector.hpp"
 #include "goptical/core/math/triangle.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 
@@ -90,7 +90,9 @@ namespace _goptical {
       virtual void get_triangles(const math::Triangle<2>::put_delegate_t &f,
                                  double resolution) const = 0;
     };
-
+    Base::Base()
+    {
+    }
   }
 }
 

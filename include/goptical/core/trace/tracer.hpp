@@ -32,7 +32,7 @@
 #include "goptical/core/trace/params.hpp"
 #include "goptical/core/sys/system.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace trace {
 
@@ -93,6 +93,36 @@ namespace _goptical {
       Result                    _result;
       Result                    *_result_ptr;
     };
+    void Tracer::set_trace_result(Result &res)
+    {
+      _result_ptr = &res;
+    }
+
+    trace::Result & Tracer::get_trace_result() const
+    {
+      return *_result_ptr;
+    }
+
+    trace::Result & Tracer::set_default_trace_result()
+    {
+      return *(_result_ptr = &_result);
+    }
+
+    const sys::System * Tracer::get_system() const
+    {
+      return _system;
+    }
+
+    const Params & Tracer::get_params() const
+    {
+      return _params;
+    }
+
+    Params & Tracer::get_params()
+    {
+      return _params;
+    }
+
   }
 }
 

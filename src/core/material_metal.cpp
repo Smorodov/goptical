@@ -23,10 +23,10 @@
 */
 
 
-#include <goptical/core/data/DiscreteSet>
-#include <goptical/core/material/Metal>
+#include <goptical/core/data/discrete_set.hpp>
+#include <goptical/core/material/metal.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

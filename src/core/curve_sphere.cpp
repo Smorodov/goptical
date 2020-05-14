@@ -23,12 +23,11 @@
 */
 
 
-#include <goptical/core/curve/Sphere>
-#include <goptical/core/math/Vector>
-#include <goptical/core/math/VectorPair>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/curve/sphere.hpp>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 

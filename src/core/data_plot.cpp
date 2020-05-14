@@ -26,16 +26,16 @@
 
 #include <goptical/core/error.hpp>
 
-#include <goptical/core/data/Plot>
-#include <goptical/core/data/PlotData>
-#include <goptical/core/data/SampleSet>
+#include <goptical/core/data/plot.hpp>
+#include <goptical/core/data/plotdata.hpp>
+#include <goptical/core/data/sample_set.hpp>
 
-#include <goptical/core/io/RendererViewport>
+#include <goptical/core/io/renderer_viewport.hpp>
 
-#include <goptical/core/math/Vector>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace data {
 

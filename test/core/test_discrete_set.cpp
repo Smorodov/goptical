@@ -28,7 +28,7 @@
 #include <fstream>
 #include <iostream>
 
-#include <goptical/core/data/DiscreteSet>
+#include <goptical/core/data/discrete_set.hpp>
 
 // #define TEST_WRITE
 

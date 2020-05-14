@@ -30,7 +30,7 @@
 
 #include "goptical/core/material/dielectric.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 
@@ -70,6 +70,12 @@ namespace _goptical {
       double _a, _b, _c;
     };
 
+    void Conrady::set_coefficients(double A, double B, double C)
+    {
+      _a = A;
+      _b = B;
+      _c = C;
+    }
   }
 }
 

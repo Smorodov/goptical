@@ -33,7 +33,7 @@
 #include "goptical/core/curve/flat.hpp"
 #include "goptical/core/sys/surface.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 
@@ -126,6 +126,11 @@ namespace _goptical {
 
       std::shared_ptr<material::Base>     _mat[2];
     };
+    const material::Base & OpticalSurface::get_material(unsigned index) const
+    {
+      assert(index < 2);
+      return *_mat[index];
+    }
 
   }
 }

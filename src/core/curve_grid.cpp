@@ -22,10 +22,10 @@
 
 */
 
-#include <goptical/core/curve/Grid>
-#include <goptical/core/data/Grid>
+#include <goptical/core/curve/grid.hpp>
+#include <goptical/core/data/grid.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 

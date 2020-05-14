@@ -31,10 +31,9 @@
 #include "goptical/core/common.hpp"
 
 #include "goptical/core/data/set1d.hpp"
-#include "goptical/core/data/set1d.hxx"
 #include "data_interpolate_1d.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace data {
 
@@ -117,6 +116,57 @@ namespace _goptical {
         : Interpolate1d<DiscreteSetBase>() { }
     };
 
+    void DiscreteSetBase::reserve(size_t n)
+    {
+      _data.reserve(n);
+    }
+
+    unsigned int DiscreteSetBase::get_count() const
+    {
+      return _data.size();
+    }
+
+    double DiscreteSetBase::get_x_value(unsigned int n) const
+    {
+      assert(n < _data.size());
+      return _data[n].x;
+    }
+
+    double DiscreteSetBase::get_y_value(unsigned int n) const
+    {
+      assert(n < _data.size());
+      return _data[n].y;
+    }
+
+    double DiscreteSetBase::get_d_value(unsigned int n) const
+    {
+      assert(n < _data.size());
+      return _data[n].d;
+    }
+
+    double & DiscreteSetBase::get_y_value(unsigned int n)
+    {
+      assert(n < _data.size());
+      invalidate();
+      return _data[n].y;
+    }
+
+    double & DiscreteSetBase::get_d_value(unsigned int n)
+    {
+      assert(n < _data.size());
+      invalidate();
+      return _data[n].d;
+    }
+
+    double DiscreteSetBase::get_x_interval(unsigned int x) const
+    {
+      return _data[x + 1].x - _data[x].x;
+    }
+
+    double DiscreteSetBase::get_x_interval(unsigned int x1, unsigned int x2) const
+    {
+      return _data[x2].x - _data[x1].x;
+    }
   }
 }
 

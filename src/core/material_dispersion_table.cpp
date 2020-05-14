@@ -23,10 +23,10 @@
 */
 
 
-#include <goptical/core/data/Set>
-#include <goptical/core/material/DispersionTable>
+#include <goptical/core/data/set.hpp>
+#include <goptical/core/material/dispersion_table.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

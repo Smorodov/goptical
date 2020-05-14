@@ -34,7 +34,7 @@
 #include "goptical/core/math/vector_pair.hpp"
 #include "goptical/core/light/ray.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 

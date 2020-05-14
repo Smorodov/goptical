@@ -34,7 +34,7 @@
 #include "goptical/core/trace/distribution.hpp"
 #include "goptical/core/data/plot.hpp"
 
-namespace _goptical
+namespace goptical
 {
 
   namespace analysis
@@ -171,7 +171,7 @@ namespace _goptical
 
 namespace goptical {
   namespace analysis {
-    using _goptical::analysis::RayFan;
+    using goptical::analysis::RayFan;
   }
 }
 

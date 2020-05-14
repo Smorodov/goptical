@@ -22,12 +22,12 @@
 
 */
 
-#include <goptical/core/shape/Rectangle>
-#include <goptical/core/curve/Flat>
-#include <goptical/core/sys/Image>
-#include <goptical/core/trace/Ray>
+#include <goptical/core/shape/rectangle.hpp>
+#include <goptical/core/curve/flat.hpp>
+#include <goptical/core/sys/image.hpp>
+#include <goptical/core/trace/ray.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 

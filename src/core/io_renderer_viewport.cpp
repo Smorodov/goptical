@@ -24,18 +24,18 @@
 
 #include <sstream>
 
-#include <goptical/core/io/RendererViewport>
+#include <goptical/core/io/renderer_viewport.hpp>
 
-#include <goptical/core/math/Triangle>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/math/triangle.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
-#include <goptical/core/data/Set1d>
-#include <goptical/core/data/Grid>
-#include <goptical/core/data/PlotData>
-#include <goptical/core/data/Plot>
-#include <goptical/core/io/RendererAxes>
+#include <goptical/core/data/set1d.hpp>
+#include <goptical/core/data/grid.hpp>
+#include <goptical/core/data/plotdata.hpp>
+#include <goptical/core/data/plot.hpp>
+#include <goptical/core/io/renderer_axes.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

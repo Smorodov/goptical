@@ -22,11 +22,11 @@
 
 */
 
-#include <goptical/core/sys/Group>
-#include <goptical/core/math/VectorPair>
-#include <goptical/core/io/Renderer>
+#include <goptical/core/sys/group.hpp>
+#include <goptical/core/math/vector_pair.hpp>
+#include <goptical/core/io/renderer.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 

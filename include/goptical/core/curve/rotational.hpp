@@ -33,7 +33,7 @@
 #include "goptical/core/math/vector.hpp"
 #include "base.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 
@@ -77,6 +77,11 @@ namespace _goptical {
       static double gsl_func_sagitta(double x, void *params);
       gsl_function gsl_func;
     };
+
+    double Rotational::sagitta(const math::Vector2 & xy) const
+    {
+      return sagitta(xy.len());
+    }
 
   }
 }

@@ -34,7 +34,7 @@
 
 #include "goptical/core/analysis/pointimage.hpp"
 
-namespace _goptical
+namespace goptical
 {
 
   namespace analysis
@@ -158,7 +158,7 @@ namespace _goptical
 
 namespace goptical {
   namespace analysis {
-    using _goptical::analysis::Spot;
+    using goptical::analysis::Spot;
   }
 }
 #endif

@@ -30,7 +30,7 @@
 
 #include "goptical/core/curve/conic_base.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 

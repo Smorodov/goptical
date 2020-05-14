@@ -32,7 +32,7 @@
 #include "goptical/core/curve/flat.hpp"
 #include "goptical/core/shape/infinite.hpp"
 
-namespace _goptical {
+namespace goptical {
   
   namespace sys {
 

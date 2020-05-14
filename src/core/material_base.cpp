@@ -23,10 +23,10 @@
 */
 
 #include <iostream>
-#include <goptical/core/material/Base>
-#include <goptical/core/io/Rgb>
+#include <goptical/core/material/base.hpp>
+#include <goptical/core/io/rgb.hpp>
  
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

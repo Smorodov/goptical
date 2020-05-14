@@ -46,10 +46,10 @@ namespace goptical {
 }
 
 #ifdef __MKDOC__
-# define _goptical <goptical/core
+# define goptical <goptical/core
 #endif
 
-namespace _goptical {
+namespace goptical {
 
   /** @module {Design}
       @short Design module classes */

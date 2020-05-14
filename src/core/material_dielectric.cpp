@@ -23,11 +23,11 @@
 */
 
 
-#include <goptical/core/data/Set>
-#include <goptical/core/material/Dielectric>
-#include <goptical/core/material/Air>
+#include <goptical/core/data/set.hpp>
+#include <goptical/core/material/dielectric.hpp>
+#include <goptical/core/material/air.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

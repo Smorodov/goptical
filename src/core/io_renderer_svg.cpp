@@ -24,13 +24,13 @@
 
 #include <fstream>
 
-#include <goptical/core/io/RendererSvg>
-#include <goptical/core/math/VectorPair>
-#include <goptical/core/data/PlotData>
-#include <goptical/core/data/Plot>
-#include <goptical/core/data/Set1d>
+#include <goptical/core/io/renderer_svg.hpp>
+#include <goptical/core/math/vector_pair.hpp>
+#include <goptical/core/data/plotdata.hpp>
+#include <goptical/core/data/plot.hpp>
+#include <goptical/core/data/set1d.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

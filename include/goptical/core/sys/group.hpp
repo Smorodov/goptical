@@ -30,7 +30,7 @@
 #include "goptical/core/sys/element.hpp"
 #include "goptical/core/sys/container.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 
@@ -64,14 +64,18 @@ namespace _goptical {
       void draw_3d_e(io::Renderer &r, const Element *ref) const;
 
     private:
-//      void added(Element &e);
-//      void removed(Element &e);
-
       virtual void system_register(System *s) override;
       virtual void system_unregister() override ;
       void system_moved();
 
     };
+
+    Group::Group(const math::VectorPair3 &p)
+      : Element(p),
+	Container()
+    {
+    }
+
 
   }
 }

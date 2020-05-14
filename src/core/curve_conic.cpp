@@ -26,12 +26,11 @@
 
 #include <gsl/gsl_fit.h>
 
-#include <goptical/core/curve/Conic>
-#include <goptical/core/math/Vector>
-#include <goptical/core/math/VectorPair>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/curve/conic.hpp>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 

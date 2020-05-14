@@ -30,7 +30,7 @@
 
 #include "goptical/core/io/rgb.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace light {
 
@@ -97,6 +97,22 @@ namespace _goptical {
       double    _wavelen;
       double    _intensity;
     };
+
+    double SpectralLine::get_wavelen() const
+    {
+      return _wavelen;
+    }
+
+    double SpectralLine::get_intensity() const
+    {
+      return _intensity;
+    }
+
+    io::Rgb SpectralLine::get_color() const
+    {
+      return get_wavelen_color(_wavelen);
+    }
+
   }
 }
 

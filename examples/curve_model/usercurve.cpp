@@ -29,7 +29,7 @@
 
 #include <goptical/core/math/Vector>
 
-#include <goptical/core/sys/System>
+#include <goptical/core/sys/system.hpp>
 #include <goptical/core/sys/SourcePoint>
 #include <goptical/core/sys/Mirror>
 #include <goptical/core/sys/Image>

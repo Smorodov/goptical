@@ -24,12 +24,12 @@
 
 #include <limits>
 
-#include <goptical/core/math/VectorPair>
-#include <goptical/core/math/Transform>
-#include <goptical/core/math/Triangle>
-#include <goptical/core/shape/Composer>
+#include <goptical/core/math/vector_pair.hpp>
+#include <goptical/core/math/transform.hpp>
+#include <goptical/core/math/triangle.hpp>
+#include <goptical/core/shape/composer.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 

@@ -23,9 +23,9 @@
 */
 
 #include <cstdlib>
-#include <goptical/core/material/SellmeierMod>
+#include <goptical/core/material/sellmeiermod.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

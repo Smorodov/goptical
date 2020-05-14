@@ -23,9 +23,9 @@
 */
 
 
-#include <goptical/core/io/Rgb>
+#include <goptical/core/io/rgb.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

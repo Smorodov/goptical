@@ -23,10 +23,10 @@
 */
 
 
-#include <goptical/core/io/Rgb>
-#include <goptical/core/light/SpectralLine>
+#include <goptical/core/io/rgb.hpp>
+#include <goptical/core/light/spectral_line.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace light {
 

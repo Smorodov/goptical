@@ -25,13 +25,13 @@
 #include <cassert>
 #include <limits>
 
-#include <goptical/core/shape/Polygon>
+#include <goptical/core/shape/polygon.hpp>
 
-#include <goptical/core/trace/Distribution>
-#include <goptical/core/math/Triangle>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/trace/distribution.hpp>
+#include <goptical/core/math/triangle.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 

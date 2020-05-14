@@ -30,7 +30,7 @@
 
 #include "goptical/core/curve/conic_base.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 
@@ -78,6 +78,16 @@ namespace _goptical {
       double derivative(double r) const;
 
     };
+
+    void Conic::set_eccentricity(double e)
+    {
+      _sh = - math::square(e) + 1.0;
+    }
+
+    void Conic::set_schwarzschild(double sc)
+    {
+      _sh = sc + 1.0;
+    }
   }
 
 }

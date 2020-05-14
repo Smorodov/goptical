@@ -23,9 +23,9 @@
 */
 
 
-#include <goptical/core/material/Air>
+#include <goptical/core/material/air.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

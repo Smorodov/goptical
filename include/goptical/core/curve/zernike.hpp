@@ -31,7 +31,7 @@
 #include "goptical/core/trace/distribution.hpp"
 #include "base.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 
@@ -134,6 +134,39 @@ namespace _goptical {
       unsigned char _enabled_list[term_count];
     };
 
+    void Zernike::set_radius(double radius)
+    {
+      _radius = radius;
+    }
+
+    double Zernike::get_radius() const
+    {
+      return _radius;
+    }
+
+    void Zernike::set_coefficient(unsigned int n, double c)
+    {
+      assert(n < term_count);
+      _coeff[n] = c;
+      set_term_state(n, fabs(c) >= _threshold);
+    }
+
+    double Zernike::get_coefficient(unsigned int n) const
+    {
+      assert(n < term_count);
+      return _coeff[n];
+    }
+
+    void Zernike::set_coefficients_threshold(double t)
+    {
+      _threshold = t;
+      update_threshold_state();
+    }
+
+    void Zernike::set_coefficients_scale(double s)
+    {
+      _scale = s;
+    }
   }
 }
 

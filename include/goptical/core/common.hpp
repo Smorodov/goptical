@@ -22,7 +22,7 @@
 
 */
 
-#ifdef _goptical
+#ifdef goptical
 # error
 #endif
 
@@ -47,7 +47,8 @@
 
 #include <gsl/gsl_math.h>
 
-#include <math.h>
+#include <cmath>
+#include <cassert>
 
 #include <limits>
 
@@ -391,16 +392,16 @@ namespace goptical {
 
 }
 
-// We use the _goptical namespace internally in .hpp and .hxx files and
+// We use the goptical namespace internally in .hpp and .hxx files and
 // only copy declarations to the <goptical/core namespace when the associated
 // UpperCase header file is included by user.
 
 #ifdef __MKDOC__
-# define _goptical <goptical/core
+# define goptical <goptical/core
 #endif
 
 /** @short <goptical/core library namespace */
-namespace _goptical {
+namespace goptical {
 
   using namespace dpp;
 

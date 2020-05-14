@@ -32,7 +32,7 @@
 
 #include "goptical/core/common.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace data {
 
@@ -105,6 +105,16 @@ namespace _goptical {
       unsigned int      _version;
       Interpolation     _interpolation;
     };
+
+    unsigned int Set::get_version() const
+    {
+      return _version;
+    }
+
+    Interpolation Set::get_interpolation()
+    {
+      return _interpolation;
+    }
 
   }
 }

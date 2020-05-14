@@ -24,12 +24,12 @@
 
 #include <gsl/gsl_multifit.h>
 
-#include <goptical/core/math/Vector>
-#include <goptical/core/curve/Zernike>
-#include <goptical/core/trace/Distribution>
-#include <goptical/core/shape/Disk>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/curve/zernike.hpp>
+#include <goptical/core/trace/distribution.hpp>
+#include <goptical/core/shape/disk.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 

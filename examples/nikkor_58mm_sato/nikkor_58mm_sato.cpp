@@ -37,7 +37,7 @@
 #include <goptical/core/sys/SourcePoint>
 #include <goptical/core/sys/SourceRays>
 #include <goptical/core/sys/Stop>
-#include <goptical/core/sys/System>
+#include <goptical/core/sys/system.hpp>
 
 #include <goptical/core/curve/Rotational>
 #include <goptical/core/curve/Sphere>

@@ -32,9 +32,8 @@
 
 #include "goptical/core/math/transform.hpp"
 #include "goptical/core/math/vector_pair.hpp"
-#include "goptical/core/math/vector_pair.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 
@@ -243,6 +242,86 @@ private:
 
     inline std::ostream & operator<<(std::ostream &o, const Element &e);
 
+    void Element::set_local_position(const math::Vector3 &v)
+    {
+      _transform.set_translation(v);
+      system_moved();
+    }
+
+    void Element::rotate(double x, double y, double z)
+    {
+      _transform.linear_rotation(math::Vector3(x, y, z));
+      system_moved();
+    }
+
+    const math::Vector3 & Element::get_local_position() const
+    {
+      return _transform.get_translation();
+    }
+
+    const math::Transform<3> & Element::get_transform() const
+    {
+      return _transform;
+    }
+
+    void Element::set_transform(const math::Transform<3> &t)
+    {
+      _transform = t;
+      system_moved();
+    }
+
+    unsigned int Element::id() const
+    {
+      return _system_id;
+    }
+
+    const System* Element::get_system() const
+    {
+      return _system;
+    }
+
+    unsigned int Element::get_version() const
+    {
+      return _version;
+    }
+
+    bool Element::is_enabled() const
+    {
+      return _enabled;
+    }
+
+    void Element::set_enable_state(bool enabled)
+    {
+      if (_enabled != enabled)
+	update_version();
+      _enabled = enabled;
+    }
+
+    template <trace::IntensityMode m>
+    inline void Element::process_rays(trace::Result &result,
+				      trace::rays_queue_t *input) const
+    {
+      switch (m)
+	{
+      case trace::Simpletrace:
+	process_rays_simple(result, input);
+	  break;
+
+      case trace::Intensitytrace:
+	process_rays_intensity(result, input);
+	  break;
+
+      case trace::Polarizedtrace:
+	process_rays_polarized(result, input);
+	  break;
+	}
+    }
+
+    std::ostream & operator<<(std::ostream &o, const Element &e)
+    {
+      e.print(o);
+      return o;
+    }
   }
 }
 

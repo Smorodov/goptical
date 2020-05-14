@@ -31,7 +31,7 @@
 #include "goptical/core/math/transform.hpp"
 #include "goptical/core/io/renderer_viewport.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 
@@ -88,6 +88,18 @@ namespace _goptical {
       math::Transform<3> _cam_transform;
       double _eye_dist;
     };
+
+    math::Vector2 Renderer2d::project_scale(const math::Vector3 &v)
+    {
+      math::Vector2 v2d(project(v));
+
+      return math::Vector2(x_trans_pos(v2d.x()), y_trans_pos(v2d.y()));
+    }
+
+    math::Vector2 Renderer2d::project(const math::Vector3 &v)
+    {
+      return (this->*_projection)(v);
+    }
 
   }
 }

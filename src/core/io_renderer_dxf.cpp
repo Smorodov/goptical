@@ -29,10 +29,10 @@
 #include <dime/entities/Vertex.h>
 #include <dime/Output.h>
 
-#include <goptical/core/io/RendererDxf>
-#include <goptical/core/sys/System>
+#include <goptical/core/io/renderer_dxf.hpp>
+#include <goptical/core/sys/system.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

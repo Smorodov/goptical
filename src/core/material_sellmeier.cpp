@@ -22,9 +22,9 @@
 
 */
 
-#include <goptical/core/material/Sellmeier>
+#include <goptical/core/material/sellmeier.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

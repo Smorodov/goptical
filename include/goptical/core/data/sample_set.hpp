@@ -33,7 +33,7 @@
 #include "goptical/core/data/set1d.hpp"
 #include "data_interpolate_1d.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace data {
 
@@ -126,6 +126,64 @@ namespace _goptical {
         : Interpolate1d<SampleSetBase>() { }
     };
 
+    void SampleSetBase::set_metrics(double origin, double step)
+    {
+      _origin = origin;
+      _step = step;
+      invalidate();
+    }
+
+    unsigned int SampleSetBase::get_count() const
+    {
+      return _data.size();
+    }
+
+    double SampleSetBase::get_x_value(unsigned int n) const
+    {
+      return _origin + (double)n * _step;
+    }
+
+    double SampleSetBase::get_y_value(unsigned int n) const
+    {
+      return _data[n].y;
+    }
+
+    double & SampleSetBase::get_y_value(unsigned int n)
+    {
+      invalidate();
+      return _data[n].y;
+    }
+
+    double SampleSetBase::get_d_value(unsigned int n) const
+    {
+      return _data[n].d;
+    }
+
+    double & SampleSetBase::get_d_value(unsigned int n)
+    {
+      invalidate();
+      return _data[n].d;
+    }
+
+    double SampleSetBase::get_step() const
+    {
+      return _step;
+    }
+
+    double SampleSetBase::get_origin() const
+    {
+      return _origin;
+    }
+
+    double SampleSetBase::get_x_interval(unsigned int x) const
+    {
+      return _step;
+    }
+
+    double SampleSetBase::get_x_interval(unsigned int x1, unsigned int x2) const
+    {
+      return _step * (double)(x2 - x1);
+    }
   }
 }
 

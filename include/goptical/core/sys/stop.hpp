@@ -29,7 +29,7 @@
 
 #include "goptical/core/sys/surface.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 

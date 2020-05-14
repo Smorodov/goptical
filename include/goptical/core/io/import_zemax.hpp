@@ -36,7 +36,7 @@
 #include "goptical/core/material/dielectric.hpp"
 #include "goptical/core/sys/system.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 
@@ -89,6 +89,12 @@ namespace _goptical {
       cat_map_t         _cat_list;
       std::string       _cat_path;
     };
+
+    ImportZemax& ImportZemax::set_catalog_path(const std::string &path)
+    {
+      _cat_path = path;
+      return (*this);
+    }
 
   }
 

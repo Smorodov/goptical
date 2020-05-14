@@ -32,7 +32,7 @@
 
 #include "goptical/core/curve/rotational.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 

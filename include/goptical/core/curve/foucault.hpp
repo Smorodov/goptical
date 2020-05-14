@@ -36,7 +36,7 @@
 #include "curve_roc.hpp"
 #include "goptical/core/data/discrete_set.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 
@@ -159,6 +159,60 @@ namespace _goptical {
       data::DiscreteSet _sagitta;
       bool _updated;
     };
+
+    void Foucault::set_moving_source(double offset)
+    {
+      _updated = false;
+      _moving_source = true;
+      _offset = offset;
+      clear();
+    }
+
+    void Foucault::set_fixed_source(double source_to_surface)
+    {
+      _updated = false;
+      _moving_source = false;
+      _offset = source_to_surface;
+      clear();
+    }
+
+    void Foucault::set_radius(double radius)
+    {
+      _updated = false;
+      _radius = radius;
+    }
+
+    double Foucault::get_radius() const
+    {
+      return _radius;
+    }
+
+    void Foucault::set_ode_stepsize(double step)
+    {
+      _updated = false;
+      _ode_step = step;
+    }
+
+    unsigned int Foucault::get_zones_count() const
+    {
+      return _reading.get_count();
+    }
+
+    void Foucault::set_knife_offset(unsigned int zone_number, double  knife_offset)
+    {
+      _reading.get_y_value(zone_number) = knife_offset;
+    }
+
+    const std::pair<double, double> Foucault::get_reading(unsigned int index) const
+    {
+      std::pair<double, double> r;
+
+      r.first = _reading.get_x_value(index);
+      r.second = _reading.get_y_value(index) - _roc;
+
+      return r;
+    }
+
 
   }
 }

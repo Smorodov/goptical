@@ -24,23 +24,23 @@
 
 
 #include <goptical/core/analysis/spot.hpp>
-#include <goptical/core/sys/Image>
+#include <goptical/core/sys/image.hpp>
 
-#include <goptical/core/trace/Tracer>
-#include <goptical/core/trace/Ray>
-#include <goptical/core/trace/Result>
-#include <goptical/core/trace/Distribution>
+#include <goptical/core/trace/tracer.hpp>
+#include <goptical/core/trace/ray.hpp>
+#include <goptical/core/trace/result.hpp>
+#include <goptical/core/trace/distribution.hpp>
 
-#include <goptical/core/io/RendererViewport>
-#include <goptical/core/io/RendererAxes>
+#include <goptical/core/io/renderer_viewport.hpp>
+#include <goptical/core/io/renderer_axes.hpp>
 
-#include <goptical/core/data/PlotData>
-#include <goptical/core/data/Plot>
-#include <goptical/core/data/SampleSet>
+#include <goptical/core/data/plotdata.hpp>
+#include <goptical/core/data/plot.hpp>
+#include <goptical/core/data/sample_set.hpp>
 
-#include <goptical/core/light/SpectralLine>
+#include <goptical/core/light/spectral_line.hpp>
 
-namespace _goptical
+namespace goptical
 {
 
   namespace analysis

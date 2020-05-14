@@ -31,7 +31,7 @@
 #include "base.hpp"
 #include "shape_round.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 
@@ -90,6 +90,54 @@ namespace _goptical {
       /** Create a new ring with given external radius and hole radius. */
       inline Ring(double radius, double hole_radius);
     };
+    Ring::Ring(double radius, double hole_radius)
+    {
+      set_radius(radius, hole_radius);
+    }
+
+    void RingBase::set_radius(double radius, double hole_radius)
+    {
+      assert(radius > hole_radius);
+
+      _radius = radius;
+      _hole_radius = hole_radius;
+    }
+
+    double RingBase::get_radius(void) const
+    {
+      return _radius;
+    }
+
+    double RingBase::get_hole_radius(void) const
+    {
+      return _hole_radius;
+    }
+
+    double RingBase::max_radius() const
+    {
+      return _radius;
+    }
+
+    double RingBase::min_radius() const
+    {
+      return _radius;
+    }
+
+    double RingBase::get_external_xradius() const
+    {
+      return _radius;
+    }
+
+    double RingBase::get_internal_xradius() const
+    {
+      return _hole_radius;
+    }
+
+    double RingBase::get_xy_ratio() const
+    {
+      return 1.0;
+    }
+
 
   }
 }

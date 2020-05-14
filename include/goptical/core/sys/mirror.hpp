@@ -31,7 +31,7 @@
 #include "goptical/core/sys/optical_surface.hpp"
 #include "goptical/core/material/mirror.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 

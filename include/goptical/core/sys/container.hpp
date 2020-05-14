@@ -32,13 +32,13 @@
 
 #include "goptical/core/sys/element.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 
     /**
        @short Base class for system and Group
-       @header <goptical/core/sys/Container
+       @header <goptical/core/sys/container.hpp
        @module {Core}
 
        This class base contains optical elements membership management code.
@@ -115,6 +115,68 @@ namespace _goptical {
     };
 
     std::ostream & operator<<(std::ostream &o, const Container &v);
+
+    // Finds an element of type X
+    // Looks in the elements and sub elements
+    // Returns first match
+    template <class X> X* Container::find() const
+    {
+      for(auto& i : _list)
+	{
+	  X *e;
+
+	  if ((e = dynamic_cast<X*>(i.get())))
+	    return e;
+
+	  Container *g;
+
+	  if ((g = dynamic_cast<Container*>(i.get())) &&
+	      (e = g->find<X>()))
+	    return e;
+	}
+
+      return 0;
+    }
+
+    template <class X>
+    inline void Container::get_elements(const std::function<void (const X &)> &d) const
+    {
+      for(auto& i : _list)
+	{
+	  X     *e;
+
+	  if ((e = dynamic_cast<X*>(i.get())))
+	    d(*e);
+
+	  Container *g;
+
+	  if ((g = dynamic_cast<Container*>(i.get())))
+	    g->get_elements<X>(d);
+	}
+    }
+
+    template <class X>
+    inline void Container::enable_single(const X &e_)
+    {
+      for(auto& i : _list)
+	{
+	  X     *e;
+
+	  if ((e = dynamic_cast<X*>(i.get())))
+	    e->set_enable_state(e == &e_);
+
+	  Container *g;
+
+	  if ((g = dynamic_cast<Container*>(i.get())))
+	    g->enable_single<X>(e_);
+	}
+    }
+
+    const Container::element_list_t & Container::get_element_list() const
+    {
+      return _list;
+    }
+
 
   }
 }

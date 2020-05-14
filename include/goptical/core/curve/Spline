@@ -1,9 +1,0 @@
-
-#include "goptical/core/curve/spline.hpp"
-#include "goptical/core/curve/spline.hxx"
-
-namespace goptical {
-namespace curve {
-using _goptical::curve::Spline;
-}
-}

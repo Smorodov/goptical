@@ -22,11 +22,11 @@
 
 */
 
-#include <goptical/core/math/Vector>
-#include <goptical/core/math/Transform>
-#include <goptical/core/curve/Composer>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/math/transform.hpp>
+#include <goptical/core/curve/composer.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 

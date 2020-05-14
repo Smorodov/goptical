@@ -26,10 +26,10 @@
 //#include <strings.h>
 
 #include <goptical/core/common.hpp>
-#include <goptical/core/io/RendererAxes>
-#include <goptical/core/math/Vector>
+#include <goptical/core/io/renderer_axes.hpp>
+#include <goptical/core/math/vector.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

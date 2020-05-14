@@ -31,7 +31,7 @@
 #include "goptical/core/curve/rotational.hpp"
 #include "curve_roc.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 
@@ -77,6 +77,22 @@ namespace _goptical {
 
       double _sh;       // Schwarzschild constant + 1
     };
+
+    ConicBase::ConicBase(double roc, double sc)
+      : curveRoc(roc), _sh(sc + 1)
+    {
+    }
+
+    double ConicBase::get_eccentricity() const
+    {
+      return sqrt(- _sh + 1.0);
+    }
+
+    double ConicBase::get_schwarzschild() const
+    {
+      return _sh - 1.0;
+    }
+
   }
 
 }

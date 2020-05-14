@@ -32,7 +32,7 @@
 #include "goptical/core/math/transform.hpp"
 #include "base.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 
@@ -149,6 +149,34 @@ namespace _goptical {
       math::VectorPair2 _bbox;
       unsigned int              _contour_cnt;
     };
+    Composer::Attributes & Composer::Attributes::scale(const math::Vector2 &factor)
+    {
+      _transform.affine_scaling(factor);
+      _inv_transform = _transform.inverse();
+
+      return *this;
+    }
+
+    Composer::Attributes & Composer::Attributes::rotate(double angle)
+    {
+      _transform.affine_rotation(0, angle);
+      _inv_transform = _transform.inverse();
+
+      return *this;
+    }
+
+    Composer::Attributes & Composer::Attributes::translate(const math::Vector2 &offset)
+    {
+      _transform.apply_translation(offset);
+      _inv_transform = _transform.inverse();
+
+      return *this;
+    }
+
+    void Composer::use_global_distribution(bool use_global)
+    {
+      _global_dist = use_global;
+    }
 
   }
 }

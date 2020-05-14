@@ -31,7 +31,7 @@
 #include "goptical/core/curve/rotational.hpp"
 #include "goptical/core/data/discrete_set.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 
@@ -75,6 +75,26 @@ namespace _goptical {
     protected:
       data::DiscreteSet _data;
     };
+
+    const data::DiscreteSet & Spline::get_data() const
+    {
+      return _data;
+    }
+
+    data::DiscreteSet & Spline::get_data()
+    {
+      return _data;
+    }
+
+    double Spline::sagitta(double r) const
+    {
+      return _data.interpolate(r);
+    }
+
+    double Spline::derivative(double r) const
+    {
+      return _data.interpolate(r, 1);
+    }
 
   }
 }

@@ -23,11 +23,11 @@
 */
 
 
-#include <goptical/core/light/Ray>
-#include <goptical/core/sys/Element>
-#include <goptical/core/sys/Surface>
+#include <goptical/core/light/ray.hpp>
+#include <goptical/core/sys/element.hpp>
+#include <goptical/core/sys/surface.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace light {
 

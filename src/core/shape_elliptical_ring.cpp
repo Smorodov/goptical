@@ -23,12 +23,12 @@
 */
 
 
-#include <goptical/core/shape/EllipticalRing>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/shape/elliptical_ring.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
 #include "shape_round_.hxx"
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 

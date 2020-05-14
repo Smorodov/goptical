@@ -22,9 +22,9 @@
 
 */
 
-#include <goptical/core/math/Vector>
+#include <goptical/core/math/vector.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace data {
 
@@ -48,7 +48,7 @@ namespace _goptical {
     {
       //double eq[n][3];
       double *eq = (double *)calloc(n*3, sizeof(double));
-      _goptical::util::ArrayIndex2D _ = { n, 3 };
+      goptical::util::ArrayIndex2D _ = { n, 3 };
 
       // first and last tridiag system equations
       switch (de)

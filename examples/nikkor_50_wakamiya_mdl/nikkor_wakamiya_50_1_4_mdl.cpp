@@ -27,36 +27,36 @@
 #include <iostream>
 #include <fstream>
 
-#include <goptical/core/math/Vector>
+#include <goptical/core/math/vector.hpp>
 
-#include <goptical/core/material/Abbe>
+#include <goptical/core/material/abbe.hpp>
 
-#include <goptical/core/sys/System>
-#include <goptical/core/sys/Lens>
-#include <goptical/core/sys/Source>
-#include <goptical/core/sys/SourceRays>
-#include <goptical/core/sys/SourcePoint>
-#include <goptical/core/sys/Image>
-#include <goptical/core/sys/Stop>
+#include <goptical/core/sys/system.hpp>
+#include <goptical/core/sys/lens.hpp>
+#include <goptical/core/sys/source.hpp>
+#include <goptical/core/sys/source_rays.hpp>
+#include <goptical/core/sys/source_point.hpp>
+#include <goptical/core/sys/image.hpp>
+#include <goptical/core/sys/stop.hpp>
 
-#include <goptical/core/curve/Sphere>
-#include <goptical/core/shape/Disk>
+#include <goptical/core/curve/sphere.hpp>
+#include <goptical/core/shape/disk.hpp>
 
-#include <goptical/core/trace/Tracer>
-#include <goptical/core/trace/Result>
-#include <goptical/core/trace/Distribution>
-#include <goptical/core/trace/Sequence>
-#include <goptical/core/trace/Params>
+#include <goptical/core/trace/tracer.hpp>
+#include <goptical/core/trace/result.hpp>
+#include <goptical/core/trace/distribution.hpp>
+#include <goptical/core/trace/sequence.hpp>
+#include <goptical/core/trace/params.hpp>
 
-#include <goptical/core/light/SpectralLine>
+#include <goptical/core/light/spectral_line.hpp>
 
 #include <goptical/core/analysis/rayfan.hpp>
 #include <goptical/core/analysis/spot.hpp>
 #include <goptical/core/analysis/focus.hpp>
-#include <goptical/core/data/Plot>
+#include <goptical/core/data/plot.hpp>
 
-#include <goptical/core/io/RendererSvg>
-#include <goptical/core/io/Rgb>
+#include <goptical/core/io/renderer_svg.hpp>
+#include <goptical/core/io/rgb.hpp>
 
 using namespace goptical;
 

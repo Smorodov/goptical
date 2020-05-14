@@ -23,9 +23,9 @@
 */
 
 
-#include <goptical/core/material/Vacuum>
+#include <goptical/core/material/vacuum.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

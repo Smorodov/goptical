@@ -30,7 +30,7 @@
 
 #include "base.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 
@@ -79,6 +79,15 @@ namespace _goptical {
       std::shared_ptr<Base> _m;
     };
 
+    void Proxy::set_material(const std::shared_ptr<material::Base> &m)
+    {
+      _m = m;
+    }
+
+    const std::shared_ptr<Base> & Proxy::get_material() const
+    {
+      return _m;
+    }
   }
 
 }

@@ -23,9 +23,9 @@
 */
 
 
-#include <goptical/core/sys/Source>
+#include <goptical/core/sys/source.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 

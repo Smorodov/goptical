@@ -23,12 +23,12 @@
 */
 
 
-#include <goptical/core/sys/Surface>
-#include <goptical/core/shape/Infinite>
-#include <goptical/core/math/Vector>
+#include <goptical/core/sys/surface.hpp>
+#include <goptical/core/shape/infinite.hpp>
+#include <goptical/core/math/vector.hpp>
 #include <goptical/core/error.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 

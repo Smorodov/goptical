@@ -27,7 +27,7 @@
 
 #include <goptical/design/telescope/Newton>
 
-namespace _goptical {
+namespace goptical {
 
   namespace Design {
 

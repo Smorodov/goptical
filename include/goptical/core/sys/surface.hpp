@@ -34,7 +34,7 @@
 #include "goptical/core/shape/base.hpp"
 #include "goptical/core/curve/base.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 
@@ -150,7 +150,35 @@ namespace _goptical {
       std::shared_ptr<curve::Base>   _curve;
       std::shared_ptr<shape::Base>   _shape;
     };
+    void Surface::set_curve(const std::shared_ptr<curve::Base> &c)
+    {
+      _curve = c;
+    }
 
+    const curve::Base & Surface::get_curve() const
+    {
+      return *_curve;
+    }
+
+    void Surface::set_shape(const std::shared_ptr<shape::Base> &s)
+    {
+      _shape = s;
+    }
+
+    const shape::Base & Surface::get_shape() const
+    {
+      return *_shape;
+    }
+
+    void Surface::set_discard_intensity(double intensity)
+    {
+      _discard_intensity = intensity;
+    }
+
+    inline double Surface::get_discard_intensity() const
+    {
+      return _discard_intensity;
+    }
   }
 }
 

@@ -26,9 +26,9 @@
 #include <iostream>
 
 #include <goptical/core/error.hpp>
-#include <goptical/core/data/Set>
+#include <goptical/core/data/set.hpp>
 
-namespace _goptical
+namespace goptical
 {
 
   namespace data

@@ -22,23 +22,23 @@
 
 */
 
-#include <goptical/core/sys/Stop>
+#include <goptical/core/sys/stop.hpp>
 
-#include <goptical/core/trace/Result>
-#include <goptical/core/trace/Params>
-#include <goptical/core/trace/Ray>
+#include <goptical/core/trace/result.hpp>
+#include <goptical/core/trace/params.hpp>
+#include <goptical/core/trace/ray.hpp>
 
-#include <goptical/core/math/Vector>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
-#include <goptical/core/shape/Base>
-#include <goptical/core/shape/Disk>
-#include <goptical/core/curve/Base>
-#include <goptical/core/curve/Flat>
+#include <goptical/core/shape/base.hpp>
+#include <goptical/core/shape/disk.hpp>
+#include <goptical/core/curve/base.hpp>
+#include <goptical/core/curve/flat.hpp>
 
-#include <goptical/core/io/Renderer>
+#include <goptical/core/io/renderer.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 

@@ -35,7 +35,7 @@
 #include "goptical/core/math/vector_pair.hpp"
 #include "goptical/core/io/rgb.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 
@@ -162,6 +162,54 @@ namespace _goptical {
       bool draw_traced_ray_recurs(const trace::Ray &ray, double lost_len,
                                   const sys::Element *ref, bool hit_image);
     };
+
+    Renderer::~Renderer()
+    {
+    }
+
+    void Renderer::set_ray_color_mode(RayColorMode m)
+    {
+      _ray_color_mode = m;
+    }
+
+    void Renderer::set_ray_intensity_mode(IntensityMode m)
+    {
+      _intensity_mode = m;
+    }
+
+    const Rgb & Renderer::rgb_foreground() const
+    {
+      return _styles_color[StyleForeground];
+    }
+
+    const Rgb & Renderer::rgb_background() const
+    {
+      return _styles_color[StyleBackground];
+    }
+
+    const Rgb & Renderer::get_style_color(Style s) const
+    {
+      assert(s < StyleLast);
+      return _styles_color[s];
+    }
+
+    void Renderer::set_style_color(Style s, const Rgb &rgb)
+    {
+      assert(s < StyleLast);
+      _styles_color[s] = rgb;
+    }
+
+    void Renderer::draw_segment(const math::Vector2 &a, const math::Vector2 &b,
+				const Rgb &rgb)
+    {
+      draw_segment(math::VectorPair2(a, b), rgb);
+    }
+
+    void Renderer::draw_segment(const math::Vector3 &a, const math::Vector3 &b,
+				const Rgb &rgb)
+    {
+      draw_segment(math::VectorPair3(a, b), rgb);
+    }
 
   }
 }

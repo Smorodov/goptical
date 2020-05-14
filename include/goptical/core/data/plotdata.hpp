@@ -31,7 +31,7 @@
 #include "goptical/core/data/set.hpp"
 #include "goptical/core/io/rgb.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace data {
 
@@ -83,6 +83,58 @@ namespace _goptical {
       std::string       _label;
     };
 
+    Plotdata::Plotdata(const std::shared_ptr<Set> &s)
+      : _set(s),
+	_color(io::rgb_red),
+	_style(InterpolatePlot | PointPlot),
+	_label("")
+    {
+    }
+
+    const Set & Plotdata::get_set() const
+    {
+      return *_set;
+    }
+
+    void Plotdata::set_label(const std::string & label)
+    {
+      _label = label;
+    }
+
+    const std::string & Plotdata::get_label() const
+    {
+      return _label;
+    }
+
+    void Plotdata::set_color(const io::Rgb & color)
+    {
+      _color = color;
+    }
+
+    const io::Rgb & Plotdata::get_color() const
+    {
+      return _color;
+    }
+
+    void Plotdata::enable_style(PlotStyleMask style)
+    {
+      _style = _style | style;
+    }
+
+    void Plotdata::disable_style(PlotStyleMask style)
+    {
+      _style = _style & ~style;
+    }
+
+    void Plotdata::set_style(PlotStyleMask style)
+    {
+      _style = style;
+    }
+
+    PlotStyleMask Plotdata::get_style() const
+    {
+      return _style;
+    }
   }
 
 }

@@ -30,7 +30,7 @@
 
 #include "base.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 
@@ -75,6 +75,19 @@ namespace _goptical {
     };
 
     extern std::shared_ptr<Infinite> infinite;
+    Infinite::Infinite()
+    {
+    }
+
+    double Infinite::max_radius() const
+    {
+      return 0;
+    }
+
+    double Infinite::min_radius() const
+    {
+      return 0;
+    }
 
   }
 }

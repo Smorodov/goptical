@@ -22,9 +22,9 @@
 
 */
 
-#include <goptical/core/io/RendererX11>
+#include <goptical/core/io/renderer_x11.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

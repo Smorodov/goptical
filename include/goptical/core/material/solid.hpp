@@ -30,7 +30,7 @@
 
 #include "base.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 
@@ -69,6 +69,16 @@ namespace _goptical {
       double            _young_modulus;
       double            _poisson_ratio;
     };
+
+    Solid::Solid(const std::string& name_)
+      : Base(name_),
+	_thermal_expansion(0.0),
+	_thermal_conductivity(0.0),
+	_density(0.0),
+	_young_modulus(0.0),
+	_poisson_ratio(0.0)
+    {
+    }
 
   }
 

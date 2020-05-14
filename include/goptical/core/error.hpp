@@ -31,7 +31,7 @@
 
 #include "goptical/core/common.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   /** 
       @short Base class used for <goptical/core exceptions.
@@ -51,7 +51,7 @@ public:
 }
 
 namespace goptical {
-  using _goptical::Error;
+  using goptical::Error;
 }
 
 #endif

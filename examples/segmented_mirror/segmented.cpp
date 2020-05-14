@@ -27,7 +27,7 @@
 #include <iostream>
 #include <fstream>
 
-#include <goptical/core/sys/System>
+#include <goptical/core/sys/system.hpp>
 #include <goptical/core/sys/Mirror>
 #include <goptical/core/sys/Image>
 #include <goptical/core/sys/Stop>

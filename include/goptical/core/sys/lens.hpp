@@ -31,7 +31,7 @@
 #include "goptical/core/sys/optical_surface.hpp"
 #include "goptical/core/sys/group.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 
@@ -196,6 +196,35 @@ namespace _goptical {
       std::shared_ptr<Stop> _stop;
       std::shared_ptr<material::Base> _next_mat;
     };
+    const std::shared_ptr<OpticalSurface> & Lens::get_surface(unsigned int index) const
+    {
+      return _surfaces.at(index);
+    }
+
+    std::shared_ptr<OpticalSurface> & Lens::get_surface(unsigned int index)
+    {
+      return _surfaces.at(index);
+    }
+
+    const std::shared_ptr<OpticalSurface> & Lens::get_right_surface() const
+    {
+      return _surfaces.back();
+    }
+
+    std::shared_ptr<OpticalSurface> & Lens::get_right_surface()
+    {
+      return _surfaces.back();
+    }
+
+    const std::shared_ptr<OpticalSurface> & Lens::get_left_surface() const
+    {
+      return _surfaces.front();
+    }
+
+    std::shared_ptr<OpticalSurface> & Lens::get_left_surface()
+    {
+      return _surfaces.front();
+    }
 
   }
 }

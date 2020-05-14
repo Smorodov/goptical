@@ -30,7 +30,7 @@
 
 #include "goptical/core/sys/source.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 
@@ -86,7 +86,10 @@ namespace _goptical {
         math::Vector2 _limit2;
 
     };
-      
+    void SourceDisk::set_mode(SourceInfinityMode mode)
+    {
+      _mode = mode;
+    }
   }
 }
 

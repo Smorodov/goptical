@@ -22,14 +22,14 @@
 
 */
 
-#include <goptical/core/shape/Disk>
-#include <goptical/core/curve/Conic>
-#include <goptical/core/curve/Flat>
+#include <goptical/core/shape/disk.hpp>
+#include <goptical/core/curve/conic.hpp>
+#include <goptical/core/curve/flat.hpp>
 
-#include <goptical/core/sys/Mirror>
-#include <goptical/core/sys/OpticalSurface>
+#include <goptical/core/sys/mirror.hpp>
+#include <goptical/core/sys/optical_surface.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 

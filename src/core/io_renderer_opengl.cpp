@@ -22,15 +22,15 @@
 
 */
 
-#include <goptical/core/math/Triangle>
-#include <goptical/core/io/RendererOpengl>
-#include <goptical/core/math/Transform>
+#include <goptical/core/math/triangle.hpp>
+#include <goptical/core/io/renderer_opengl.hpp>
+#include <goptical/core/math/transform.hpp>
 
 extern "C" {
 #include <GL/glu.h>
 }
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

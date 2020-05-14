@@ -30,7 +30,7 @@
 
 #include "goptical/core/math/vector.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 
@@ -182,6 +182,46 @@ namespace _goptical {
       math::Vector3     _pos;
       math::Vector3     _origin;
     };
+
+    const math::Vector3 & RendererAxes::get_position() const
+    {
+      return _pos;
+    }
+
+    const math::Vector3 & RendererAxes::get_origin() const
+    {
+      return _origin;
+    }
+
+    bool RendererAxes::get_show_grid() const
+    {
+      return _grid;
+    }
+
+    bool RendererAxes::get_show_frame() const
+    {
+      return _frame;
+    }
+
+    bool RendererAxes::get_show_axes(unsigned int i) const
+    {
+      return _axes[i]._axis;
+    }
+
+    bool RendererAxes::get_show_tics(unsigned int i) const
+    {
+      return _axes[i]._tics;
+    }
+
+    bool RendererAxes::get_show_values(unsigned int i) const
+    {
+      return _axes[i]._values;
+    }
+
+    const std::string & RendererAxes::get_label(unsigned int i) const
+    {
+      return _axes[i]._label;
+    }
 
   }
 };

@@ -1,10 +1,12 @@
 #ifndef GOPTICAL_IMPORT_BCLAFF_HPP
 #define GOPTICAL_IMPORT_BCLAFF_HPP
 
-#include <goptical/core/sys/System>
-#include <goptical/core/sys/Image>
+#include <goptical/core/sys/system.hpp>
+#include <goptical/core/sys/image.hpp>
 
 #include <memory>
+
+using namespace goptical;
 
 namespace goptical {
   namespace io {

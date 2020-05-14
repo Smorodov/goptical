@@ -1,7 +1,7 @@
 #ifndef GOPTICAL_CURVE_ASPHERE_HPP
 #define GOPTICAL_CURVE_ASPHERE_HPP
 
-#include <goptical/core/curve/Rotational>
+#include <goptical/core/curve/rotational.hpp>
 
 namespace goptical {
   namespace curve {

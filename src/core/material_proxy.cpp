@@ -22,10 +22,10 @@
 
 */
 
-#include <goptical/core/material/Proxy>
-#include <goptical/core/io/Rgb>
+#include <goptical/core/material/proxy.hpp>
+#include <goptical/core/io/rgb.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

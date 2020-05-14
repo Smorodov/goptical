@@ -29,7 +29,7 @@
 
 #include "goptical/core/sys/group.hxx"
 
-namespace _goptical {
+namespace goptical {
 
   namespace Design {
     namespace telescope {

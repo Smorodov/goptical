@@ -23,21 +23,21 @@
 */
 
 #include <goptical/core/common.hpp>
-#include <goptical/core/sys/System>
-#include <goptical/core/sys/Group>
-#include <goptical/core/sys/Container>
+#include <goptical/core/sys/system.hpp>
+#include <goptical/core/sys/group.hpp>
+#include <goptical/core/sys/container.hpp>
 
 #include <goptical/core/error.hpp>
-#include <goptical/core/sys/Surface>
-#include <goptical/core/sys/Source>
-#include <goptical/core/sys/OpticalSurface>
-#include <goptical/core/trace/Params>
-#include <goptical/core/math/Transform>
-#include <goptical/core/trace/Ray>
-#include <goptical/core/material/Air>
-#include <goptical/core/material/Proxy>
+#include <goptical/core/sys/surface.hpp>
+#include <goptical/core/sys/source.hpp>
+#include <goptical/core/sys/optical_surface.hpp>
+#include <goptical/core/trace/params.hpp>
+#include <goptical/core/math/transform.hpp>
+#include <goptical/core/trace/ray.hpp>
+#include <goptical/core/material/air.hpp>
+#include <goptical/core/material/proxy.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 

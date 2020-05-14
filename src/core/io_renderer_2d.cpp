@@ -22,9 +22,9 @@
 
 */
 
-#include <goptical/core/io/Renderer2d>
+#include <goptical/core/io/renderer_2d.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

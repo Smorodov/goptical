@@ -22,13 +22,13 @@
 
 */
 
-#include <goptical/core/curve/Base>
-#include <goptical/core/math/Vector>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/curve/base.hpp>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
 #include <gsl/gsl_deriv.h>
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 

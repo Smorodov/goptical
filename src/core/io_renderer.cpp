@@ -23,21 +23,21 @@
 */
 
 
-#include <goptical/core/io/Renderer>
+#include <goptical/core/io/renderer.hpp>
 
-#include <goptical/core/trace/Ray>
-#include <goptical/core/trace/Result>
-#include <goptical/core/trace/Params>
+#include <goptical/core/trace/ray.hpp>
+#include <goptical/core/trace/result.hpp>
+#include <goptical/core/trace/params.hpp>
 
-#include <goptical/core/sys/Image>
+#include <goptical/core/sys/image.hpp>
 
-#include <goptical/core/math/Triangle>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/math/triangle.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
-#include <goptical/core/light/Ray>
-#include <goptical/core/light/SpectralLine>
+#include <goptical/core/light/ray.hpp>
+#include <goptical/core/light/spectral_line.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 

@@ -22,12 +22,12 @@
 
 */
 
-#include <goptical/core/curve/Polynomial>
+#include <goptical/core/curve/polynomial.hpp>
 
 #include <cstdarg>
 #include <cassert>
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 

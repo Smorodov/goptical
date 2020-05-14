@@ -31,7 +31,7 @@
 #include "goptical/core/data/discrete_set.hpp"
 #include "goptical/core/material/solid.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 
@@ -68,6 +68,15 @@ namespace _goptical {
       data::DiscreteSet _refractive_index;
     };
 
+    data::DiscreteSet & Metal::get_extinction_coef_dataset()
+    {
+      return _extinction;
+    }
+
+    data::DiscreteSet & Metal::get_refractive_index_dataset()
+    {
+      return _refractive_index;
+    }
   }
 }
 

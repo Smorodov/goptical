@@ -22,11 +22,11 @@
 
 */
 
-#include <goptical/core/material/Schott>
+#include <goptical/core/material/schott.hpp>
 
 #include <iostream>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

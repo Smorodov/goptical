@@ -24,11 +24,11 @@
 
 
 #include <goptical/core/error.hpp>
-#include <goptical/core/data/SampleSet>
+#include <goptical/core/data/sample_set.hpp>
 
 #include "data_interpolate_1d_.hxx"
 
-namespace _goptical
+namespace goptical
 {
 
   namespace data

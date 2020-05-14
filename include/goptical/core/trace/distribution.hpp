@@ -26,8 +26,10 @@
 #define GOPTICAL_TRACE_DISTRIBUTION_HH_
 
 #include "goptical/core/common.hpp"
+#include "goptical/core/error.hpp"
 
-namespace _goptical
+
+namespace goptical
 {
 
   namespace trace
@@ -91,6 +93,61 @@ namespace _goptical
       unsigned int      _radial_density;
       double            _scaling;
     };
+
+    Distribution::Distribution(Pattern pattern,
+			       unsigned int radial_density,
+			       double scaling)
+      : _pattern(pattern),
+	_radial_density(radial_density),
+	_scaling(scaling)
+    {
+      if (radial_density < 1)
+	throw Error("ray distribution radial density must be greater than 1");
+    }
+
+    void Distribution::set_pattern(Pattern p)
+    {
+      _pattern = p;
+    }
+
+    Pattern Distribution::get_pattern() const
+    {
+      return _pattern;
+    }
+
+    unsigned int Distribution::get_radial_density() const
+    {
+      return _radial_density;
+    }
+
+    void Distribution::set_radial_density(unsigned int density)
+    {
+      _radial_density = density;
+    }
+
+    double Distribution::get_scaling() const
+    {
+      return _scaling;
+    }
+
+    void Distribution::set_scaling(double margin)
+    {
+      _scaling = margin;
+    }
+
+    void Distribution::set_uniform_pattern()
+    {
+      switch (_pattern)
+	{
+      case SagittalDist:
+      case MeridionalDist:
+      case CrossDist:
+	_pattern = DefaultDist;
+      default:
+	;
+	}
+    }
+
   }
 }
 

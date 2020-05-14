@@ -22,10 +22,10 @@
 
 */
 
-#include <goptical/core/math/Vector>
-#include <goptical/core/curve/Array>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/curve/array.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 

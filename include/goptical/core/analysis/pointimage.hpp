@@ -31,7 +31,7 @@
 #include "goptical/core/trace/tracer.hpp"
 #include "goptical/core/sys/system.hpp"
 
-namespace _goptical
+namespace goptical
 {
 
   namespace analysis
@@ -97,7 +97,7 @@ namespace _goptical
 
 namespace goptical {
   namespace analysis {
-    using _goptical::analysis::PointImage;
+    using goptical::analysis::PointImage;
   }
 }
 

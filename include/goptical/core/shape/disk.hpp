@@ -31,7 +31,7 @@
 #include "base.hpp"
 #include "shape_round.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 
@@ -85,7 +85,45 @@ namespace _goptical {
       /** Create a new disk with given radius */
       inline Disk(double radius);
     };
+    Disk::Disk(double radius)
+    {
+      _radius = radius;
+    }
 
+    void DiskBase::set_radius(double r)
+    {
+      _radius = r;
+    }
+
+    double DiskBase::get_radius(void) const
+    {
+      return _radius;
+    }
+
+    double DiskBase::max_radius() const
+    {
+      return _radius;
+    }
+
+    double DiskBase::min_radius() const
+    {
+      return _radius;
+    }
+
+    double DiskBase::get_external_xradius() const
+    {
+      return _radius;
+    }
+
+    double DiskBase::get_internal_xradius() const
+    {
+      return 0.0;
+    }
+
+    double DiskBase::get_xy_ratio() const
+    {
+      return 1.0;
+    }
   }
 }
 

@@ -22,9 +22,9 @@
 
 */
 
-#include <goptical/core/material/Herzberger>
+#include <goptical/core/material/herzberger.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

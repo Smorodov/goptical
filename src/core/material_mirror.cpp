@@ -23,9 +23,9 @@
 */
 
 
-#include <goptical/core/material/Mirror>
+#include <goptical/core/material/mirror.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace material {
 

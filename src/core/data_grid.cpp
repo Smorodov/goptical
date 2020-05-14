@@ -22,10 +22,10 @@
 
 */
 
-#include <goptical/core/data/Grid>
+#include <goptical/core/data/grid.hpp>
 #include <goptical/core/error.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace data {
 
@@ -327,7 +327,7 @@ namespace _goptical {
 
       //double eq[n][3];
       double *eq = (double*)calloc(n * 3, sizeof(double));
-      _goptical::util::ArrayIndex2D _ = { n, 3 };
+      goptical::util::ArrayIndex2D _ = { n, 3 };
 
       //double dd[n];
       double* dd = (double*)calloc(n, sizeof(double));

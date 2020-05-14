@@ -26,12 +26,19 @@
 #ifndef GOPTICAL_TRACEDRAY_HH_
 #define GOPTICAL_TRACEDRAY_HH_
 
+#include <limits>
+
 #include "goptical/core/common.hpp"
 
 #include "goptical/core/light/ray.hpp"
 #include "goptical/core/math/vector.hpp"
 
-namespace _goptical {
+#include "goptical/core/sys/element.hpp"
+#include "goptical/core/sys/image.hpp"
+
+#include "goptical/core/math/transform.hpp"
+
+namespace goptical {
 
   namespace trace {
 
@@ -106,6 +113,91 @@ namespace _goptical {
       Ray                       *_next;         // pointer to sibling generated ray
       bool                      _lost;          // does the ray intersect with an element ?
     };
+    Ray::Ray()
+      : light::Ray(),
+	_len(std::numeric_limits<double>::max()),
+	_creator(0),
+	_parent(0),
+	_child(0),
+	_lost(true)
+    {
+    }
+
+    Ray::Ray(const light::Ray &r)
+      : light::Ray(r),
+	_len(std::numeric_limits<double>::max()),
+	_creator(0),
+	_parent(0),
+	_child(0),
+	_lost(true)
+    {
+    }
+
+    void Ray::add_generated(Ray *r)
+    {
+      assert(!r->_parent);
+      r->_parent = this;
+      r->_next = _child;
+      _child = r;
+    }
+
+    void Ray::set_intercept(const sys::Element &e, const math::Vector3 &point)
+    {
+      _i_element = (sys::Element*)&e;
+      _point = point;
+
+      _lost = false;
+    }
+
+    Ray * Ray::get_parent() const
+    {
+      return _parent;
+    }
+
+    Ray * Ray::get_next_child() const
+    {
+      return _next;
+    }
+
+    Ray * Ray::get_first_child() const
+    {
+      return _child;
+    }
+
+    const math::Vector3 & Ray::get_intercept_point() const
+    {
+      return _point;
+    }
+
+    bool Ray::is_lost() const
+    {
+      return _lost;
+    }
+
+    sys::Element & Ray::get_intercept_element() const
+    {
+      return *_i_element;
+    }
+
+    math::Vector3 Ray::get_position(const sys::Element &e) const
+    {
+      return _creator->get_transform_to(e).transform(origin());
+    }
+
+    math::Vector3 Ray::get_direction(const sys::Element &e) const
+    {
+      return _creator->get_transform_to(e).transform_linear(direction());
+    }
+
+    math::Vector3 Ray::get_position() const
+    {
+      return _creator->get_global_transform().transform(origin());
+    }
+
+    math::Vector3 Ray::get_direction() const
+    {
+      return _creator->get_global_transform().transform_linear(direction());
+    }
 
   }
 

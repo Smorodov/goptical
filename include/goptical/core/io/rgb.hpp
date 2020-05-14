@@ -28,7 +28,7 @@
 
 #include "goptical/core/common.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 
@@ -65,6 +65,26 @@ namespace _goptical {
     static const size_t rgb_table_size = 9;
     /** This table contains some common colors. @see rgb_table_size */
     extern const Rgb rgb_table[];
+
+    Rgb::Rgb()
+    {
+    }
+
+    Rgb::Rgb(float red, float green, float blue, float alpha)
+      : r(red), g(green), b(blue), a(alpha)
+    {
+    }
+
+    bool Rgb::operator< (const Rgb &rgb) const
+    {
+      return (a * 1000.0 + r * 100.0 + g * 10.0 + b <
+	      rgb.a * 1000.0 + rgb.r * 100.0 + rgb.g * 10.0 + rgb.b);
+    }
+
+    Rgb Rgb::operator~ () const
+    {
+      return Rgb(1. - r, 1. - g, 1. - b, a);
+    }
   }
 
 }

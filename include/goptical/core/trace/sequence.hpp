@@ -29,7 +29,7 @@
 
 #include <iostream>
 
-namespace _goptical {
+namespace goptical {
 
   namespace trace {
 
@@ -89,6 +89,33 @@ namespace _goptical {
     };
 
     std::ostream & operator<<(std::ostream &o, const Sequence &s);
+    unsigned int Sequence::append(const std::shared_ptr<sys::Element> &element)
+    {
+      _list.push_back(element);
+
+      return _list.size() - 1;
+    }
+
+    void Sequence::insert(unsigned int index, const std::shared_ptr<sys::Element> &element)
+    {
+      _list.insert(_list.begin() + index, element);
+    }
+
+    void Sequence::remove(unsigned int index)
+    {
+      _list.erase(_list.begin() + index);
+    }
+
+    const sys::Element &Sequence::get_element(unsigned int index) const
+    {
+      return *_list.at(index);
+    }
+
+    void Sequence::clear()
+    {
+      _list.clear();
+    }
+
 
   }
 

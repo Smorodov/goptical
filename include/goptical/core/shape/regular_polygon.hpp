@@ -31,7 +31,7 @@
 #include "base.hpp"
 #include "goptical/core/math/vector.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 
@@ -78,6 +78,17 @@ namespace _goptical {
       double _edge_cnt;
       double _angle;
     };
+
+    double RegularPolygon::max_radius() const
+    {
+      return _radius;
+    }
+
+    double RegularPolygon::min_radius() const
+    {
+      return _i_radius;
+    }
+
 
   }
 

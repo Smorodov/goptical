@@ -29,10 +29,10 @@
 */
 
 #include <goptical/core/error.hpp>
-#include <goptical/core/curve/Foucault>
-#include <goptical/core/math/Vector>
+#include <goptical/core/curve/foucault.hpp>
+#include <goptical/core/math/vector.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 

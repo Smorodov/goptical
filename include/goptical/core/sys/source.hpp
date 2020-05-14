@@ -34,7 +34,7 @@
 
 #include "goptical/core/material/base.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 
@@ -108,6 +108,62 @@ namespace _goptical {
       double                            _min_intensity, _max_intensity;
       std::shared_ptr<material::Base>     _mat;
     };
+
+    void Source::set_material(const std::shared_ptr<material::Base> &m)
+    {
+      _mat = m;
+    }
+
+    void Source::clear_spectrum()
+    {
+      _spectrum.clear();
+      _max_intensity = _min_intensity = 0.0;
+    }
+
+    void Source::single_spectral_line(const light::SpectralLine & l)
+    {
+      _spectrum.clear();
+      _spectrum.push_back(l);
+    }
+
+    void Source::add_spectral_line(const light::SpectralLine & l)
+    {
+      _spectrum.push_back(l);
+      _max_intensity = std::max(_max_intensity, l.get_intensity());
+      _min_intensity = std::min(_min_intensity, l.get_intensity());
+    }
+
+    void Source::set_spectral_line(const light::SpectralLine & l, int index)
+    {
+      _spectrum[index] = l;
+      refresh_intensity_limits();
+    }
+
+    double Source::get_max_intensity() const
+    {
+      return _max_intensity;
+    }
+
+    double Source::get_min_intensity() const
+    {
+      return _min_intensity;
+    }
+
+    template <trace::IntensityMode m>
+    void Source::generate_rays(trace::Result &result,
+			       const targets_t &entry) const
+    {
+      switch (m)
+	{
+      case trace::Simpletrace:
+	return generate_rays_simple(result, entry);
+      case trace::Intensitytrace:
+	return generate_rays_intensity(result, entry);
+      case trace::Polarizedtrace:
+	return generate_rays_polarized(result, entry);
+	}
+    }
+
   }
 }
 

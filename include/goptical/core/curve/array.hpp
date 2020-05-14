@@ -30,7 +30,7 @@
 
 #include "base.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 

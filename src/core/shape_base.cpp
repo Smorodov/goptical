@@ -24,11 +24,11 @@
 
 #include <cstdlib>
 
-#include <goptical/core/shape/Base>
-#include <goptical/core/math/Vector>
-#include <goptical/core/trace/Distribution>
+#include <goptical/core/shape/base.hpp>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/trace/distribution.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace shape {
 

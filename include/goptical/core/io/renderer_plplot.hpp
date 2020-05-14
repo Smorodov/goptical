@@ -33,7 +33,7 @@
 
 class plstream;
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 
@@ -116,6 +116,10 @@ namespace _goptical {
       int _palette_size;
     };
 
+    plstream * RendererPlplot::get_pls()
+    {
+      return _pls;
+    }
   }
 }
 

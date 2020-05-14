@@ -22,16 +22,16 @@
 
 */
 
-#include <goptical/core/math/Vector>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
-#include <goptical/core/shape/Infinite>
-#include <goptical/core/curve/Flat>
+#include <goptical/core/shape/infinite.hpp>
+#include <goptical/core/curve/flat.hpp>
 
-#include <goptical/core/sys/system>
-#include <goptical/core/sys/Group>
-#include <goptical/core/sys/Surface>
-#include <goptical/core/sys/Element>
+#include <goptical/core/sys/system.hpp>
+#include <goptical/core/sys/group.hpp>
+#include <goptical/core/sys/surface.hpp>
+#include <goptical/core/sys/element.hpp>
 
 #include <stdlib.h>
 

@@ -28,7 +28,7 @@
 
 #include "goptical/core/common.hpp"
 
-namespace _goptical {
+namespace goptical {
 
   namespace curve {
 
@@ -52,6 +52,20 @@ namespace _goptical {
       double _roc;
     };
 
+    curveRoc::curveRoc(double roc)
+      : _roc(roc)
+    {
+    }
+
+    void curveRoc::set_roc(double roc)
+    {
+      _roc = roc;
+    }
+
+    double curveRoc::get_roc() const
+    {
+      return _roc;
+    }
   }
 }
 

@@ -24,18 +24,18 @@
 
 #include <limits>
 
-#include <goptical/core/math/Vector>
+#include <goptical/core/math/vector.hpp>
 
-#include <goptical/core/sys/System>
-#include <goptical/core/sys/Source>
-#include <goptical/core/sys/SourceDisk>
-#include <goptical/core/sys/Surface>
+#include <goptical/core/sys/system.hpp>
+#include <goptical/core/sys/source.hpp>
+#include <goptical/core/sys/source_disk.hpp>
+#include <goptical/core/sys/surface.hpp>
 
-#include <goptical/core/trace/Ray>
-#include <goptical/core/trace/Result>
-#include <goptical/core/trace/Params>
+#include <goptical/core/trace/ray.hpp>
+#include <goptical/core/trace/result.hpp>
+#include <goptical/core/trace/params.hpp>
 
-namespace _goptical {
+namespace goptical {
 
   namespace sys {
 

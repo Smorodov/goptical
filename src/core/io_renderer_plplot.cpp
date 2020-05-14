@@ -23,20 +23,20 @@
 */
 
 
-#include <goptical/core/math/Vector>
-#include <goptical/core/math/VectorPair>
-#include <goptical/core/io/Rgb>
-#include <goptical/core/io/RendererAxes>
-#include <goptical/core/io/RendererPlplot>
-#include <goptical/core/data/Plot>
-#include <goptical/core/data/PlotData>
-#include <goptical/core/data/Set1d>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/math/vector_pair.hpp>
+#include <goptical/core/io/rgb.hpp>
+#include <goptical/core/io/renderer_axes.hpp>
+#include <goptical/core/io/renderer_plplot.hpp>
+#include <goptical/core/data/plot.hpp>
+#include <goptical/core/data/plotdata.hpp>
+#include <goptical/core/data/set1d.hpp>
 
 #define PL_DOUBLE
 #undef HAVE_CONFIG_H
 #include <plplot/plstream.h>
 
-namespace _goptical {
+namespace goptical {
 
   namespace io {
 
