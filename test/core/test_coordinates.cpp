@@ -66,73 +66,78 @@ math::VectorPair3 rand_plane()
 
 int main()
 {
-  sys::system   sys;
+  auto sys = std::make_shared<sys::System>();
 
-  sys::Group    g1  (math::vector3_0);
-  sys::Group    g21 (math::vector3_0);
-  sys::Group    g22 (math::vector3_0);
-  sys::Surface  s211(math::vector3_0, curve::flat, shape::infinite);
-  sys::Surface  s221(math::vector3_0, curve::flat, shape::infinite);
+  auto g1 = std::make_shared<sys::Group>(math::vector3_0);
+  auto g21 =std::make_shared<sys::Group>(math::vector3_0);
+  auto g22 = std::make_shared<sys::Group>(math::vector3_0);
+  auto s211 = std::make_shared<sys::Surface>(math::vector3_0, curve::flat, shape::infinite);
+  auto s221 = std::make_shared<sys::Surface>(math::vector3_0, curve::flat, shape::infinite);
 
-  g22.add(s221);
-  g1. add(g21);
-  sys.add(g1);
-  g1. add(g22);
-  g21.add(s211);
+  g22->add(s221);
+  s221->set_parent(g22.get());
+  g1->add(g21);
+  g21->set_parent(g1.get());
+  g1->add(g22);
+  g22->set_parent(g1.get());
+  g21->add(s211);
+  s211->set_parent(g21.get());
+
+  sys->add(g1);
 
   // test position
 
-  if (!COMPARE_VECTOR3(s211.get_local_position(), math::Vector3(0, 0, 0)))
+  if (!COMPARE_VECTOR3(s211->get_local_position(), math::Vector3(0, 0, 0)))
     fail(__LINE__);
 
-  if (!COMPARE_VECTOR3(s211.get_position(), math::Vector3(0, 0, 0)))
+  if (!COMPARE_VECTOR3(s211->get_position(), math::Vector3(0, 0, 0)))
     fail(__LINE__);
 
-  g21.set_local_position(math::Vector3(1, 2, 3));
+  g21->set_local_position(math::Vector3(1, 2, 3));
 
-  if (!COMPARE_VECTOR3(s211.get_local_position(), math::Vector3(0, 0, 0)))
+  if (!COMPARE_VECTOR3(s211->get_local_position(), math::Vector3(0, 0, 0)))
     fail(__LINE__);
 
-  if (!COMPARE_VECTOR3(s211.get_position(), math::Vector3(1, 2, 3)))
+  if (!COMPARE_VECTOR3(s211->get_position(), math::Vector3(1, 2, 3)))
     fail(__LINE__);  
 
-  g1.set_local_position(math::Vector3(3, 2, 1));
+  g1->set_local_position(math::Vector3(3, 2, 1));
 
-  if (!COMPARE_VECTOR3(s211.get_position(), math::Vector3(4, 4, 4)))
+  if (!COMPARE_VECTOR3(s211->get_position(), math::Vector3(4, 4, 4)))
     fail(__LINE__);  
 
-  s211.set_local_position(math::Vector3(7, 7, 7));
+  s211->set_local_position(math::Vector3(7, 7, 7));
 
-  if (!COMPARE_VECTOR3(s211.get_position(), math::Vector3(11, 11, 11)))
+  if (!COMPARE_VECTOR3(s211->get_position(), math::Vector3(11, 11, 11)))
     fail(__LINE__);  
 
-  s211.set_position(math::Vector3(9, 9, 9));
+  s211->set_position(math::Vector3(9, 9, 9));
 
-  if (!COMPARE_VECTOR3(s211.get_position(), math::Vector3(9, 9, 9)))
+  if (!COMPARE_VECTOR3(s211->get_position(), math::Vector3(9, 9, 9)))
     fail(__LINE__);  
 
-  if (!COMPARE_VECTOR3(s211.get_local_position(), math::Vector3(5, 5, 5)))
+  if (!COMPARE_VECTOR3(s211->get_local_position(), math::Vector3(5, 5, 5)))
     fail(__LINE__);  
 
-  g21.rotate(0, 0, -90);
+  g21->rotate(0, 0, -90);
 
-  if (!COMPARE_VECTOR3(s211.get_position(), math::Vector3(-1, 9, 9)))
+  if (!COMPARE_VECTOR3(s211->get_position(), math::Vector3(-1, 9, 9)))
     fail(__LINE__);  
 
-  s211.set_position(math::Vector3(3, 4, 5));
+  s211->set_position(math::Vector3(3, 4, 5));
 
-  if (!COMPARE_VECTOR3(s211.get_local_position(), math::Vector3(0, 1, 1)))
+  if (!COMPARE_VECTOR3(s211->get_local_position(), math::Vector3(0, 1, 1)))
     fail(__LINE__);  
 
-  g1.rotate(0, 0, 90);
+  g1->rotate(0, 0, 90);
 
-  if (!COMPARE_VECTOR3(s211.get_position(), math::Vector3(5, 2, 5)))
+  if (!COMPARE_VECTOR3(s211->get_position(), math::Vector3(5, 2, 5)))
     fail(__LINE__);
 
   // test set/get
 
   sys::Element *e[ECOUNT] = {
-    &g1, &g21, &g22, &s211, &s221
+    g1.get(), g21.get(), g22.get(), s211.get(), s221.get()
   };
 
   for (int j = 0; j < 10; j++)
@@ -157,5 +162,7 @@ int main()
             fail(__LINE__ << ":" << p << " " << r);
         }
     }
+
+  std::cout << "Ok\n";
 }
 
