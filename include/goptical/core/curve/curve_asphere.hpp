@@ -17,6 +17,7 @@ namespace goptical {
 
       double sagitta (double y) const override;
       virtual bool intersect(math::Vector3 &point, const math::VectorPair3 &ray) const;
+      virtual void normal(math::Vector3 &normal, const math::Vector3 &point) const;
     public:
       double _r;
       double _c;

@@ -22,10 +22,10 @@ main (int argc, const char *argv[])
   surface->intersect (point, ray);
   printf("%.16f, %.16f, %.16f\n", point.x(), point.y(), point.z());
 
-  Vector3 pos_dir2 (0.98481625, 0.1736, 0.0);
-  Vector3 origin2 (0, 0.0, 1.48);
+  //Vector3 pos_dir2 (0.98481625, 0.1736, 0.0);
+  //Vector3 origin2 (0, 0.0, 1.48);
   Vector3 point2 (0,0,0);
-  goptical::curve::compute_intersection(origin2, pos_dir2, surface.get(), point2);
+  goptical::curve::compute_intersection(origin, pos_dir, surface.get(), point2);
   printf("%.16f, %.16f, %.16f\n", point2.x(), point2.y(), point2.z());
 
 }

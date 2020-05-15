@@ -8,8 +8,7 @@
 namespace goptical {
   namespace curve {
 
-    static inline double
-    A (const goptical::curve::Asphere* S, double s2)
+    static inline double A (const goptical::curve::Asphere *S, double s2)
     {
       double s4 = s2 * s2;
       double s6 = s4 * s2;
@@ -19,12 +18,11 @@ namespace goptical {
       double s14 = s12 * s2;
 
       // We should add _A2*s2
-      return S->_A4 * s4 + S->_A6 * s6 + S->_A8 * s8 + S->_A10 * s10 + S->_A12 * s12
-	     + S->_A14 * s14;
+      return S->_A4 * s4 + S->_A6 * s6 + S->_A8 * s8 + S->_A10 * s10
+	     + S->_A12 * s12 + S->_A14 * s14;
     }
 
-    static inline double
-    A_ (const goptical::curve::Asphere* S, double s2)
+    static inline double A_ (const goptical::curve::Asphere *S, double s2)
     {
       double s4 = s2 * s2;
       double s6 = s4 * s2;
@@ -33,16 +31,18 @@ namespace goptical {
       double s12 = s10 * s2;
 
       // We should add 2*_A2
-      return 4 * S->_A4 * s2 + 6 * S->_A6 * s4 + 8 * S->_A8 * s6 + 10 * S->_A10 * s8
-	     + 12 * S->_A12 * s10 + 14 * S->_A14 * s12;
+      return 4 * S->_A4 * s2 + 6 * S->_A6 * s4 + 8 * S->_A8 * s6
+	     + 10 * S->_A10 * s8 + 12 * S->_A12 * s10 + 14 * S->_A14 * s12;
     }
 
     /* computes intersection using Feder's equations - code is taken from
-     *
+     * https://github.com/dibyendumajumdar/ray
+     * Note that Feder's paper uses x-axis rather than z-axis as the
+     * optical axis, so below we switch from x to z.
      */
-    bool
-    compute_intersection (Vector3 origin, Vector3 direction,
-	       const goptical::curve::Asphere* S, Vector3& result)
+    bool compute_intersection (Vector3 origin, Vector3 direction,
+			       const goptical::curve::Asphere *S,
+			       Vector3 &result)
     {
       /* Get length of ray between surfaces: NOTE: variable 't' was
        used by Feder as the vertex separation between previous
@@ -58,32 +58,33 @@ namespace goptical {
       /* (x,y,z) is the vector form of the vertex of the surface */
       /* Feder paper equation (1) */
       double t = 0;
-      double e = (t * origin.x ()) - origin * direction;
+      double e = (t * origin.z ()) - origin * direction;
       /* Feder paper equation (2) */
-      double M_1x = origin.x () + e * direction.x () - t;
+      double M_1x = origin.z () + e * direction.z () - t;
       /* Feder paper equation (3) */
-      double M_1_2 = origin * origin - (e * e) + (t * t) - (2.0 * t * origin.x ());
+      double M_1_2
+	= origin * origin - (e * e) + (t * t) - (2.0 * t * origin.z ());
       double r_1_2 = 1. / (S->_c * S->_c);
       if (M_1_2 > r_1_2)
 	{
 	  M_1_2 = r_1_2; /* SPECIAL RULE! 96-01-22 */
 	}
       /* Feder paper equation (4) */
-      double xi_1 = sqrt ((direction.x () * direction.x ())
+      double xi_1 = sqrt ((direction.z () * direction.z ())
 			  - S->_c * (S->_c * M_1_2 - 2.0 * M_1x));
       if (isnan (xi_1))
 	{ /* NaN! reject this ray! */
 	  return false;
 	}
       /* Feder paper equation (5) */
-      double L = e + (S->_c * M_1_2 - 2.0 * M_1x) / (direction.x () + xi_1);
+      double L = e + (S->_c * M_1_2 - 2.0 * M_1x) / (direction.z () + xi_1);
 
       /* Get intercept with new (spherical) surface: */
       double delta_length[3];
       for (int j = 0; j < 3; j++)
 	delta_length[j] = -origin[j];
       result = origin + direction * L;
-      result.x () = result.x () - t;
+      result.z () = result.z () - t;
       /* Now R->T (result) has x1, y1, z1 */
 
       /* The ray has been traced to the osculating sphere with
@@ -115,7 +116,7 @@ namespace goptical {
 	{
 	  /* Get square of radius of intercept: */
 	  /* Feder equation s^2 = y^2 + z^2, section E */
-	  double s_2 = result.y () * result.y () + result.z () * result.z ();
+	  double s_2 = result.y () * result.y () + result.x () * result.x ();
 
 	  /* Get the point on aspheric which is at the same radius as
 	     the intercept of the ray. Then compute a tangent plane to
@@ -131,24 +132,25 @@ namespace goptical {
 	      return false;
 	    }
 	  /* Feder equation (12) */
-	  /* But using c*s^2/[1 + (1 - c^2*s^2)^(1/2)] + aspheric A_2*s^2 + A_4*s^4
+	  /* But using c*s^2/[1 + (1 - c^2*s^2)^(1/2)] + aspheric A_2*s^2 +
+	   * A_4*s^4
 	   * + ... */
 	  double x_bar_0 = (S->_c * s_2) / (1.0 + temp) + A (S, s_2);
-	  delta = fabs (result.x () - x_bar_0);
+	  delta = fabs (result.z () - x_bar_0);
 
 	  /* Get the direction numbers for the normal to the
 	     aspheric: */
 	  /* Feder equation (13), l */
 	  Vector3 N;
-	  N[0] = temp;
-	  temp = S->_c + N[0] * A_ (S, s_2);
+	  N.z () = temp;
+	  temp = S->_c + N.z () * A_ (S, s_2);
 	  /* Feder equation (14), m */
-	  N[1] = -result.y () * temp;
+	  N.y () = -result.y () * temp;
 	  /* Feder equation (15), n */
-	  N[2] = -result.z () * temp;
+	  N.x () = -result.x () * temp;
 
 	  /* Get the distance from aspheric point to ray intercept */
-	  double G_0 = N[0] * (x_bar_0 - result.x ()) / (direction * N);
+	  double G_0 = N.z () * (x_bar_0 - result.z ()) / (direction * N);
 
 	  /* and compute new estimate of intercept point: */
 	  result = result + direction * G_0;
@@ -168,6 +170,27 @@ namespace goptical {
       return true;
     }
 
+    bool compute_normal (const goptical::curve::Asphere *S,
+			 const Vector3 &point, Vector3 &N)
+    {
+      /* General ray tracing procedure - Spencer and Murty */
+      /* See eq 18, 19 */
+      /* Also same as p632 Feder - but z axis swapped with x */
+      double s_2 = point.y () * point.y () + point.x () * point.x ();
+      double temp = sqrt (1.0 - S->_c * S->_c * s_2 * S->_k);
+      if (isnan (temp) || temp == 0.0)
+	{
+	  return false;
+	}
+      double E = S->_c / temp + A_ (S, s_2); // eq 19
+      N.y () = -point.y () * E;		     // eq 18
+      N.x () = -point.x () * E;		     // eq 18
+      N.z () = 1.0;			     // eq 18
+      // Following is from Goptical - tbc
+      N.normalize ();
+      return true;
+    }
+
     double Asphere::sagitta (double y) const
     {
       double yy = y * y;
@@ -183,21 +206,41 @@ namespace goptical {
       return z;
     }
 
-    bool Asphere::intersect(math::Vector3 &point, const math::VectorPair3 &ray) const {
-	math::Vector3 result(0.,0, 0);
-	math::Vector3 origin(ray.origin().z(), ray.origin().y(), ray.origin().x());
-	math::Vector3 direction(ray.direction().z(), ray.direction().y(), ray.direction().x());
-	compute_intersection(origin, direction, this, result);
-	bool ok = Base::intersect(point, ray);
-	if (fabs(point.x() - result.z()) > 1e-10 ||
-	  fabs(point.y() - result.y()) > 1e-10 ||
-	  fabs(point.z() - result.x()) > 1e-10)
-	  {
-	    printf ("%.16f %.16f, %.16f %.16f, %.16f %.16f\n", point.x (),
-		    result.z (), point.y (), result.y (), point.z (),
-		    result.x ());
-	  }
-	return ok;
+    bool Asphere::intersect (math::Vector3 &point,
+			     const math::VectorPair3 &ray) const
+    {
+      math::Vector3 result (0., 0, 0);
+      math::Vector3 origin (ray.origin ().x (), ray.origin ().y (),
+			    ray.origin ().z ());
+      math::Vector3 direction (ray.direction ().x (), ray.direction ().y (),
+			       ray.direction ().z ());
+      compute_intersection (origin, direction, this, result);
+      bool ok = Base::intersect (point, ray);
+      if (fabs (point.x () - result.x ()) > 1e-10
+	  || fabs (point.y () - result.y ()) > 1e-10
+	  || fabs (point.z () - result.z ()) > 1e-10)
+	{
+	  printf ("%.16f %.16f, %.16f %.16f, %.16f %.16f\n", point.x (),
+		  result.x (), point.y (), result.y (), point.z (),
+		  result.z ());
+	}
+      return ok;
+    }
+
+    void Asphere::normal (math::Vector3 &normal,
+			  const math::Vector3 &point) const
+    {
+      Rotational::normal (normal, point);
+      math::Vector3 N (0, 0, 0);
+      compute_normal (this, point, N);
+      N *= -1.0;
+      if (fabs (normal.x () - N.x ()) > 1e-10
+	  || fabs (normal.y () - N.y ()) > 1e-10
+	  || fabs (normal.z () - N.z ()) > 1e-10)
+	{
+	  printf ("%.16f %.16f, %.16f %.16f, %.16f %.16f\n", normal.x (),
+		  N.x (), normal.y (), N.y (), normal.z (), N.z ());
+	}
     }
 
   } // namespace curve
