@@ -1,2 +1,3 @@
 add_subdirectory(tessar_lens)
 add_subdirectory(nikkor_50_wakamiya_mdl)
+add_subdirectory(curve_model)
