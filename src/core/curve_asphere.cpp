@@ -178,7 +178,14 @@ namespace goptical {
       /* Also same as p632 Feder - but z axis swapped with x */
       double s_2 = point.y () * point.y () + point.x () * point.x ();
       double temp = sqrt (1.0 - S->_c * S->_c * s_2 * S->_k);
-      if (isnan (temp) || temp == 0.0)
+      if (temp == 0.0)
+	{
+	  N.x() = 0;
+	  N.y() = 0;
+	  N.z() = 1.0;
+	  return true; // See curve_rotational.cpp - we mimic
+	}
+      if (isnan (temp))
 	{
 	  return false;
 	}
@@ -224,6 +231,7 @@ namespace goptical {
 		  result.x (), point.y (), result.y (), point.z (),
 		  result.z ());
 	}
+      //point = result; // Let's use new method
       return ok;
     }
 
@@ -241,6 +249,7 @@ namespace goptical {
 	  printf ("%.16f %.16f, %.16f %.16f, %.16f %.16f\n", normal.x (),
 		  N.x (), normal.y (), N.y (), normal.z (), N.z ());
 	}
+      //normal = N; // Lets use the new method
     }
 
   } // namespace curve
