@@ -336,18 +336,18 @@ namespace goptical {
 	  math::Vector3 normal (0, 0, 0);
 	  bool ok = compute_intersection (ray.origin(), ray.direction(), this, point, normal);
 	  // normal.normalize();
-	  if (ok && count % 25 == 0)
-	    {
-	      printf ("{ %.16f, %.16f", this->_r, this->_k);
-	      printf (", %.16f, %.16f, %.16f, %.16f, %.16f, %.16f", this->_A4,
-		      this->_A6, this->_A8, this->_A10, this->_A12, this->_A14);
-	      printf (", %.16f, %.16f, %.16f", ray.origin ().x (),
-		      ray.origin ().y (), ray.origin ().z ());
-	      printf (", %.16f, %.16f, %.16f", ray.direction ().x (),
-		      ray.direction ().y (), ray.direction ().z ());
-	      printf (", %.16f, %.16f, %.16f },\n", point.x (), point.y (),
-		      point.z ());
-	    }
+//	  if (ok && count % 25 == 0)
+//	    {
+//	      printf ("{ %.16f, %.16f", this->_r, this->_k);
+//	      printf (", %.16f, %.16f, %.16f, %.16f, %.16f, %.16f", this->_A4,
+//		      this->_A6, this->_A8, this->_A10, this->_A12, this->_A14);
+//	      printf (", %.16f, %.16f, %.16f", ray.origin ().x (),
+//		      ray.origin ().y (), ray.origin ().z ());
+//	      printf (", %.16f, %.16f, %.16f", ray.direction ().x (),
+//		      ray.direction ().y (), ray.direction ().z ());
+//	      printf (", %.16f, %.16f, %.16f },\n", point.x (), point.y (),
+//		      point.z ());
+//	    }
 	  return ok;
 	}
       else
