@@ -50,6 +50,11 @@ namespace goptical {
         }
     }
 
+    double Rotational::sagitta(const math::Vector2 & xy) const
+    {
+      return sagitta(xy.len());
+    }
+
     void Rotational::derivative(const math::Vector2 & xy, math::Vector2 & dxdy) const
     {
       const double r = xy.len();

@@ -34,7 +34,7 @@ namespace goptical {
 
     /**
        @short Base class for surface curvature models
-       @header <goptical/core/curve/Base
+       @header <goptical/core/curve/base.hpp>
        @module {Core}
        @main
 
@@ -55,17 +55,18 @@ namespace goptical {
     public:
       virtual inline ~Base();
 
-      /** Get curve sagitta at specified point */
+      /** Get curve sagitta (z) at specified point */
       virtual double sagitta(const math::Vector2 & xy) const = 0;
 
-      /** Get curve x and y derivative (gradient) at specified point */
+      /** Get curve dz/dx and dx/dy partial derivatives (gradient) at specified point */
       virtual void derivative(const math::Vector2 & xy, math::Vector2 & dxdy) const;
 
       /** Get intersection point between curve and 3d ray. Return
-          false if no intersection occurred */
+          false if no intersection occurred. ray must have a position vector and
+          direction vector (cosines). */
       virtual bool intersect(math::Vector3 &point, const math::VectorPair3 &ray) const;
 
-      /** Get normal to curve surface at specified point */
+      /** Get normal to curve surface at specified point. */
       virtual void normal(math::Vector3 &normal, const math::Vector3 &point) const;
     };
 

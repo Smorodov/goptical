@@ -6,6 +6,27 @@
 namespace goptical {
   namespace curve {
 
+    /**
+     * This class implements general rotationally symmetric aspheric surphace.
+     * The formula used is as follows:
+     *
+     * z = f(x,y) = c*s^2/(1+(1-k*c^2*s^2)^(1/2)) + A_4*s^4 + A_6*s^6 + A_8*s^8 + A_10*s^10 + A_12*s^12 + A_14*s^14
+     *
+     * where
+     *
+     * s^2 = x^2 + y^2
+     * c = 1/r, i.e. curvature
+     * r = radius
+     * k = surface constant that determines the eccentricity
+     * A_4 ... A_14 - coefficients of the deformation polynomial
+     *
+     * When
+     * k < 0, surface is hyperboloid
+     * k == 0, paraboloid
+     * 0 < k < 1 hemelipsoid of revolution about major axis
+     * k = 1, hemisphere
+     * k > 1 hemelipsoid of revolution about minor axis
+     */
     class Asphere : public goptical::curve::Rotational
     {
     public:
@@ -15,19 +36,44 @@ namespace goptical {
 	  _A14 (A14)
       {}
 
-      double sagitta (double y) const override;
-      virtual bool intersect(math::Vector3 &point, const math::VectorPair3 &ray) const;
-      virtual void normal(math::Vector3 &normal, const math::Vector3 &point) const;
+      /** Get curve sagitta (z) at specified distance from origin.
+       *  A derived class need only implement this method, in which case
+       *  derivatives will be computed numerically. Derived classes may of course
+       *  provide analytic implementations of derivatives.
+       *
+       *  @param s distance from curve origin (0, 0), s = sqrt(x^2 + y^2).
+       */
+      virtual double sagitta (double s) const override;
+
+      /** Get intersection point between curve and 3d ray. Return
+          false if no intersection occurred. ray must have a position vector and
+          direction vector (cosines). */
+      virtual bool intersect(math::Vector3 &point, const math::VectorPair3 &ray) const override;
+
+      /** Get normal to curve surface at specified point. */
+      virtual void normal(math::Vector3 &normal, const math::Vector3 &point) const override;
+
+      /** Get curve derivative dz/ds at specified distance from origin.
+          @param s distance from curve origin (0, 0), s = sqrt(x^2 + y^2).
+      */
+      virtual double derivative(double s) const override ;
+
+      /** Get curve sagitta (z) at specified point */
+      virtual double sagitta(const math::Vector2 & xy) const override ;
+
+      /** Get curve dz/dx and dx/dy partial derivatives (gradient) at specified point */
+      virtual void derivative(const math::Vector2 & xy, math::Vector2 & dxdy) const override;
+
     public:
-      double _r;
-      double _c;
-      double _k;
-      double _A4;
-      double _A6;
-      double _A8;
-      double _A10;
-      double _A12;
-      double _A14;
+      double _r; /* radius */
+      double _c; /* curvature = 1/_r */
+      double _k; /* K - eccentricity constant */
+      double _A4; /* deformation polynomial coefficient */
+      double _A6; /* deformation polynomial coefficient */
+      double _A8; /* deformation polynomial coefficient */
+      double _A10; /* deformation polynomial coefficient */
+      double _A12; /* deformation polynomial coefficient */
+      double _A14; /* deformation polynomial coefficient */
     };
 
     bool
