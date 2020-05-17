@@ -83,6 +83,29 @@ namespace goptical {
       return r.get_style_color(io::StyleSurface);
     }
 
+    /** Compute refracted ray direction given
+     *
+     * @param ray Original ray - position and direction
+     * @param dir
+     * @param normal Normal to the intercept
+     * @param mu Ration of refractive index
+     */
+    bool compute_refraction(const math::VectorPair3 &ray, math::Vector3 &dir,
+			    const math::Vector3 &normal, double mu) {
+      	auto N = normal*-1.0; // Because we changed sign at intersection
+	// See Feder paper p632
+	double O2 = N*N;
+	double E1 = ray.direction() * N;
+	double E1_ = sqrt(O2*(1.0 - mu*mu) + mu*mu*E1*E1);
+	if (isnan(E1_))
+	  {
+	    return false;
+	  }
+	double g1 = (E1_ - mu*E1)/O2;
+	dir = ray.direction()*mu + N*g1;
+	return true;
+    }
+
     bool OpticalSurface::refract(const math::VectorPair3 &ray, math::Vector3 &dir,
                                  const math::Vector3 &normal, double refract_index) const
     {
@@ -100,6 +123,18 @@ namespace goptical {
 
       dir = ray.direction() * refract_index - normal * (refract_index * cosi + sqrt(1.0 - sint2));
 
+      // This uses Feder refractive formula
+      Vector3 dir2;
+      compute_refraction(ray, dir2, normal, refract_index);
+      if ((fabs(dir.x() - dir2.x()) > 1e-14 || fabs(dir.y() - dir2.y()) > 1e-14 || fabs(dir.z() - dir2.z()) > 1e-14))
+	{
+	  printf ("Refract Orig  %.16f, %.16f, %.16f\n", dir.x (), dir.y (),
+		  dir.z ());
+	  printf ("Refract Feder %.16f, %.16f, %.16f\n", dir2.x(), dir2.y (),
+		  dir2.z ());
+	}
+
+      dir = dir2;
       return true;
     }
 
