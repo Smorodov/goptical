@@ -26,32 +26,86 @@ static Data data[] = {
 };
 
 int
-do_test2 ()
+do_test3 ()
 {
+  int errors = 0;
   for (int i = 0; i < 9; i++)
     {
       Data *d = &data[i];
-      auto surface
+      auto surface1
 	= std::make_shared<goptical::curve::Asphere> (d->r, d->k, d->A4, d->A6,
 						      d->A8, d->A10, d->A12,
-						      d->A14);
+						      d->A14, false);
       Vector3 origin (d->x0, d->y0, d->z0);
       Vector3 pos_dir (d->l, d->m, d->n);
       VectorPair3 ray (origin, pos_dir);
-      Vector3 point (0, 0, 0);
-      if (surface->intersect (point, ray))
+      Vector3 point1 (0, 0, 0);
+      Vector3 point2 (0, 0, 0);
+      Vector3 normal1 (0, 0, 0);
+      Vector3 normal2 (0, 0, 0);
+      if (surface1->intersect (point1, ray)
+	  && goptical::curve::compute_intersection (origin, pos_dir,
+						    surface1.get (), point2,
+						    normal2))
 	{
-	  printf ("Got      %.16f, %.16f, %.16f\n", point.x (), point.y (),
-		  point.z ());
-	  printf ("Expected %.16f, %.16f, %.16f\n", d->x, d->y, d->z);
+	  surface1->normal(normal1, point1);
+	  normal2.normalize ();
+	  normal2 *= -1.0;
+	  if (fabs(normal1.x() - normal2.x()) > 1e-10 ||
+	      fabs(normal1.y() - normal2.y()) > 1e-10 ||
+	      fabs(normal1.z() - normal2.z()) > 1e-10)
+	    {
+	      printf ("Numeric  %.16f, %.16f, %.16f\n", point1.x (),
+		      point1.y (), point1.z ());
+	      printf ("Analytic %.16f, %.16f, %.16f\n", point2.x (),
+		      point2.y (), point2.z ());
+	      errors++;
+	    }
 	}
     }
-  return 0;
+  return errors;
+}
+
+int
+do_test2 ()
+{
+  int errors = 0;
+  for (int i = 0; i < 9; i++)
+    {
+      Data *d = &data[i];
+      auto surface1
+	= std::make_shared<goptical::curve::Asphere> (d->r, d->k, d->A4, d->A6,
+						      d->A8, d->A10, d->A12,
+						      d->A14, false);
+	auto surface2
+	= std::make_shared<goptical::curve::Asphere> (d->r, d->k, d->A4, d->A6,
+						      d->A8, d->A10, d->A12,
+						      d->A14, true);
+      Vector3 origin (d->x0, d->y0, d->z0);
+      Vector3 pos_dir (d->l, d->m, d->n);
+      VectorPair3 ray (origin, pos_dir);
+      Vector3 point1 (0, 0, 0);
+      Vector3 point2 (0, 0, 0);
+      if (surface1->intersect (point1, ray) && surface2->intersect(point2, ray) &&
+	(fabs(point1.x() - point2.x()) > 1e-10 ||
+	   fabs(point1.y() - point2.y()) > 1e-10 ||
+	   fabs(point1.z() - point2.z()) > 1e-10))
+	{
+	  printf ("Numeric  %.16f, %.16f, %.16f\n", point1.x (), point1.y (),
+		  point1.z ());
+	  printf ("Analytic %.16f, %.16f, %.16f\n", point2.x(), point2.y (),
+		  point2.z ());
+	  errors++;
+	}
+    }
+  return errors;
 }
 
 int
 do_test1 ()
 {
+  int errors = 0;
+
   auto surface
     = std::make_shared<goptical::curve::Asphere> (1.0 / 0.25284872, 1.0, -0.005,
 						  0.00001, -0.0000005, 0, 0, 0, false);
@@ -63,7 +117,6 @@ do_test1 ()
   VectorPair3 ray (origin, pos_dir);
   Vector3 point (0, 0, 0);
   surface->intersect (point, ray);
-  printf ("%.16f, %.16f, %.16f\n", point.x (), point.y (), point.z ());
 
   // Vector3 pos_dir2 (0.98481625, 0.1736, 0.0);
   // Vector3 origin2 (0, 0.0, 1.48);
@@ -71,14 +124,27 @@ do_test1 ()
   Vector3 normal2 (0, 0, 0);
   goptical::curve::compute_intersection (origin, pos_dir, surface.get (),
 					 point2, normal2);
-  printf ("%.16f, %.16f, %.16f\n", point2.x (), point2.y (), point2.z ());
-
-  return 0;
+  if ((fabs(point.x() - point2.x()) > 1e-10 || fabs(point.y() - point2.y()) > 1e-10 || fabs(point.z() - point2.z()) > 1e-10))
+    {
+      printf ("Numeric  %.16f, %.16f, %.16f\n", point.x (), point.y (),
+	      point.z ());
+      printf ("Analytic %.16f, %.16f, %.16f\n", point2.x(), point2.y (),
+	      point2.z ());
+      errors++;
+    }
+  return errors;
 }
 
 int
 main (int argc, const char *argv[])
 {
-  do_test1 ();
-  do_test2 ();
+  int errors = 0;
+  errors += do_test1 ();
+  errors += do_test2 ();
+  errors += do_test3();
+  if (errors)
+    printf("FAILED\n");
+  else
+    printf("OK\n");
+  return errors != 0 ? 1 : 0;
 }
