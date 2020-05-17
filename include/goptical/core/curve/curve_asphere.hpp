@@ -31,23 +31,20 @@ namespace goptical {
     {
     public:
       Asphere (double r, double k, double A4, double A6, double A8, double A10,
-	       double A12 = 0.0, double A14 = 0.0)
+	       double A12 = 0.0, double A14 = 0.0, bool feder_algo = true)
 	: _r (r), _c(1.0/r), _k (k), _A4 (A4), _A6 (A6), _A8 (A8), _A10 (A10), _A12 (A12),
-	  _A14 (A14)
+	  _A14 (A14), _feder_algo(feder_algo)
       {}
 
       /** Get curve sagitta (z) at specified distance from origin.
-       *  A derived class need only implement this method, in which case
-       *  derivatives will be computed numerically. Derived classes may of course
-       *  provide analytic implementations of derivatives.
-       *
        *  @param s distance from curve origin (0, 0), s = sqrt(x^2 + y^2).
        */
       virtual double sagitta (double s) const override;
 
       /** Get intersection point between curve and 3d ray. Return
           false if no intersection occurred. ray must have a position vector and
-          direction vector (cosines). */
+          direction vector (cosines). The new position will be stored
+          in point. */
       virtual bool intersect(math::Vector3 &point, const math::VectorPair3 &ray) const override;
 
       /** Get normal to curve surface at specified point. */
@@ -58,10 +55,10 @@ namespace goptical {
       */
       virtual double derivative(double s) const override ;
 
-      /** Get curve sagitta (z) at specified point */
+      /** Get curve sagitta (z) at specified point (x,y) */
       virtual double sagitta(const math::Vector2 & xy) const override ;
 
-      /** Get curve dz/dx and dx/dy partial derivatives (gradient) at specified point */
+      /** Get curve dz/dx and dx/dy partial derivatives (gradient) at specified point (x,y) */
       virtual void derivative(const math::Vector2 & xy, math::Vector2 & dxdy) const override;
 
     public:
@@ -74,11 +71,12 @@ namespace goptical {
       double _A10; /* deformation polynomial coefficient */
       double _A12; /* deformation polynomial coefficient */
       double _A14; /* deformation polynomial coefficient */
+      bool _feder_algo; /* Use the algorithms by Feder */
     };
 
     bool
-    compute_intersection (Vector3 origin, Vector3 direction,
-			  const goptical::curve::Asphere* S, Vector3& result);
+    compute_intersection (const Vector3& origin, const Vector3& direction,
+			  const goptical::curve::Asphere* S, Vector3& result, Vector3& normal);
 
   } // namespace curve
 } // namespace goptical

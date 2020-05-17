@@ -8,7 +8,11 @@
 namespace goptical {
   namespace curve {
 
-    static inline double A (const goptical::curve::Asphere *S, double s2)
+    /**
+     * Compute A_4*s^4 + A_6*s^6 + A_8*s^8 + A_10*s^10 + A_12*s^12 + A_14*s^14
+     * s2 = x^2 + y^2
+     */
+    static inline double deform_sagitta (const goptical::curve::Asphere *S, double s2)
     {
       double s4 = s2 * s2;
       double s6 = s4 * s2;
@@ -17,7 +21,6 @@ namespace goptical {
       double s12 = s10 * s2;
       double s14 = s12 * s2;
 
-      // We should add _A2*s2
       return S->_A4 * s4 + S->_A6 * s6 + S->_A8 * s8 + S->_A10 * s10
 	     + S->_A12 * s12 + S->_A14 * s14;
     }
@@ -30,11 +33,15 @@ namespace goptical {
       double s10 = s8 * s2;
       double s12 = s10 * s2;
 
-      // We should add 2*_A2
       return 4 * S->_A4 * s2 + 6 * S->_A6 * s4 + 8 * S->_A8 * s6
 	     + 10 * S->_A10 * s8 + 12 * S->_A12 * s10 + 14 * S->_A14 * s12;
     }
 
+    /**
+     * Compute 4*A_4*s^3 + 6*A_6*s^5 + 8*A_8*s^7 + 10*A_10*s^9 + 12*A_12*s^11 + 14*A_14*s^13
+     * s2 = x^2 + y^2
+     * Used in dz/ds calculation
+     */
     static inline double deform_dz_ds (const goptical::curve::Asphere *S, double s)
     {
       double s2 = s * s;
@@ -45,7 +52,6 @@ namespace goptical {
       double s11 = s9 * s2;
       double s13 = s11 * s2;
 
-      // We should add 2*_A2
       return 4 * S->_A4 * s3 + 6 * S->_A6 * s5 + 8 * S->_A8 * s7
 	     + 10 * S->_A10 * s9 + 12 * S->_A12 * s11 + 14 * S->_A14 * s13;
     }
@@ -55,9 +61,9 @@ namespace goptical {
      * Note that Feder's paper uses x-axis rather than z-axis as the
      * optical axis, so below we switch from x to z.
      */
-    bool compute_intersection (Vector3 origin, Vector3 direction,
+    bool compute_intersection (const Vector3& origin, const Vector3& direction,
 			       const goptical::curve::Asphere *S,
-			       Vector3 &result)
+			       Vector3 &result, Vector3& N)
     {
       /* NOTE: variable 't' was
        used by Feder as the vertex separation between previous
@@ -87,6 +93,7 @@ namespace goptical {
 			  - S->_c * (S->_c * M_1_2 - 2.0 * M_1x));
       if (isnan (xi_1))
 	{ /* NaN! reject this ray! */
+	  printf("Nan value\n");
 	  return false;
 	}
       /* Feder paper equation (5) */
@@ -142,18 +149,18 @@ namespace goptical {
 	  double temp = sqrt (1.0 - S->_c * S->_c * s_2 * S->_k);
 	  if (isnan (temp) || (1.0+temp) == 0.0)
 	    {
+	      printf("Nan or zero divide value\n");
 	      return false;
 	    }
 	  /* Feder equation (12) */
 	  /* But using c*s^2/[1 + (1 - k*c^2*s^2)^(1/2)] + aspheric A_2*s^2 +
 	   * A_4*s^4 + ... */
-	  double x_bar_0 = (S->_c * s_2) / (1.0 + temp) + A (S, s_2);
+	  double x_bar_0 = (S->_c * s_2) / (1.0 + temp) + deform_sagitta (S, s_2);
 	  delta = fabs (result.z () - x_bar_0);
 
 	  /* Get the direction numbers for the normal to the
 	     aspheric: */
 	  /* Feder equation (13), l */
-	  Vector3 N;
 	  N.z () = temp;
 	  temp = S->_c + N.z () * A_ (S, s_2);
 	  /* Feder equation (14), m */
@@ -209,7 +216,7 @@ namespace goptical {
     static double compute_Z (const Asphere *surface, double s2)
     {
       /* Our formula is:
-       * z = f(s) = c*s^2/(1 + (1 - c^2*k*s^2)^(1/2)) + A4*s^4 + A6*s^6 + A8*s^8 + A10*s^10 + + A12*s^12 + A14*s^14
+       * z = f(s) = c*s^2/(1 + (1 - c^2*k*s^2)^(1/2)) + A_4*s^4 + A_6*s^6 + A_8*s^8 + A_10*s^10 + + A_12*s^12 + A_14*s^14
        *
        * where s = (x^2 + y^2)^(1/2)
        */
@@ -223,14 +230,14 @@ namespace goptical {
 	  // division by zero, really an error
 	  return 0;
 	}
-      return c * s2 / temp + A (surface, s2);
+      return c * s2 / temp + deform_sagitta (surface, s2);
     }
 
     /** Compute z at x,y */
     static double compute_Z (const Asphere *surface, const math::Vector2 &xy)
     {
       /* Our formula is:
-       * z = f(s) = c*s^2/(1 + (1 - c^2*k*s^2)^(1/2)) + A4*s^4 + A6*s^6 + A8*s^8 + A10*s^10 + + A12*s^12 + A14*s^14
+       * z = f(s) = c*s^2/(1 + (1 - c^2*k*s^2)^(1/2)) + A_4*s^4 + A_6*s^6 + A_8*s^8 + A_10*s^10 + + A_12*s^12 + A_14*s^14
        *
        * where s = (x^2 + y^2)^(1/2)
        */
@@ -262,18 +269,18 @@ namespace goptical {
       /*
        * Let s^2 = x^2 + y^2
        * and,
-       * z = f(s) = c*s^2/(1 + (1 - c^2*k*s^2)^(1/2)) + A4*s^4 + A6*s^6 + A8*s^8 + A10*s^10 + + A12*s^12 + A14*s^14
+       * z = f(s) = c*s^2/(1 + (1 - c^2*k*s^2)^(1/2)) + A_4*s^4 + A_6*s^6 + A_8*s^8 + A_10*s^10 + A_12*s^12 + A_14*s^14
        *
        * Then,
        * dz/dx = dz/ds * ds/dx
        *
        * Now,
-       * dz/ds = c*s/(1 - c^2*k*s^2)^(1/2) + 4*A4*s^3 + 6*A6*s^5 + 8*A8*s^7 + 10*A10*s^9 + 12*A12*s^11 + 14*A14*s^13
+       * dz/ds = c*s/(1 - c^2*k*s^2)^(1/2) + 4*A_4*s^3 + 6*A_6*s^5 + 8*A_8*s^7 + 10*A_10*s^9 + 12*A_12*s^11 + 14*A_14*s^13
        * and,
        * ds/dx = x/s
        *
        * using
-       * E = dz/ds * 1/s = c/(1 - c^2*k*s^2)^(1/2) + 4*A4*s^2 + 6*A6*s^4 + 8*A8*s^6 + 10*A10*s^8 + 12*A12*s^10 + 14*A14*s^12
+       * E = dz/ds * 1/s = c/(1 - c^2*k*s^2)^(1/2) + 4*A_4*s^2 + 6*A_6*s^4 + 8*A_8*s^6 + 10*A_10*s^8 + 12*A_12*s^10 + 14*A_14*s^12
        * dz/dx = x*E
        * and
        * dz/dy = y*E
@@ -286,99 +293,81 @@ namespace goptical {
 
     double Asphere::sagitta (double s) const
     {
-      double s2 = s * s;
-      double y4 = s2 * s2;
-      double y6 = y4 * s2;
-      double y8 = y6 * s2;
-      double y10 = y8 * s2;
-      double y12 = y10 * s2;
-      double y14 = y12 * s2;
-      double rr = _r * _r;
-      double z = (s2 / _r) / (1.0 + pow (1.0 - _k * (s2 / rr), 0.5)) + _A4 * y4
-		 + _A6 * y6 + _A8 * y8 + _A10 * y10 + _A12 * y12 + _A14 * y14;
-      double z1 = compute_Z (this, s2);
-      if (fabs (z - z1) > 1e-14)
-	{
-	  printf ("Error computing z - expected %.16f got %.16f\n", z, z1);
-	}
-      return z;
+      return compute_Z (this, s*s);
     }
 
     double Asphere::derivative (double r) const
     {
-      double value = Rotational::derivative (r);
-      double value2 = compute_derivative (this, r);
-      if (fabs (value - value2) > 1e-10)
+      if (_feder_algo)
 	{
-	  printf ("Error computing derivative(s) - expected %.16f got %.16f\n",
-		  value, value2);
+	  return compute_derivative (this, r);
 	}
-      return value2;
+      else
+	{
+	  return Rotational::derivative (r);
+	}
     }
 
     double Asphere::sagitta (const math::Vector2 &xy) const
     {
-      double sag1 = sagitta (xy.len ());
-      double sag2 = compute_Z (this, xy);
-      if (fabs (sag1 - sag2) > 1e-14)
-	{
-	  printf ("Error computing z - expected %.16f got %.16f\n", sag1, sag2);
-	}
-      return sag1;
+      return compute_Z (this, xy);
     }
 
     void Asphere::derivative (const math::Vector2 &xy,
 			      math::Vector2 &dxdy) const
     {
-      Rotational::derivative (xy, dxdy);
-      Vector2 dxdy2;
-      compute_derivative (this, xy, dxdy2);
-      if (fabs (dxdy.x () - dxdy2.x ()) > 1e-10
-	  || fabs (dxdy.y () - dxdy2.y ()) > 1e-10)
+      if (_feder_algo)
 	{
-	  printf ("Derivative mismatch dx = %.16f %.16f, %.16f %.16f, dy %.16f "
-		  "%.16f\n",
-		  dxdy.x (), dxdy2.x (), dxdy.y (), dxdy2.y ());
+	  compute_derivative (this, xy, dxdy);
+	}
+      else
+	{
+	  Rotational::derivative (xy, dxdy);
 	}
     }
 
     bool Asphere::intersect (math::Vector3 &point,
 			     const math::VectorPair3 &ray) const
     {
-      math::Vector3 result (0., 0, 0);
-      math::Vector3 origin (ray.origin ().x (), ray.origin ().y (),
-			    ray.origin ().z ());
-      math::Vector3 direction (ray.direction ().x (), ray.direction ().y (),
-			       ray.direction ().z ());
-      compute_intersection (origin, direction, this, result);
-      bool ok = Base::intersect (point, ray);
-      if (fabs (point.x () - result.x ()) > 1e-10
-	  || fabs (point.y () - result.y ()) > 1e-10
-	  || fabs (point.z () - result.z ()) > 1e-10)
+      static int count = 0;
+      count++;
+      if (_feder_algo)
 	{
-	  printf ("%.16f %.16f, %.16f %.16f, %.16f %.16f\n", point.x (),
-		  result.x (), point.y (), result.y (), point.z (),
-		  result.z ());
+	  math::Vector3 normal (0, 0, 0);
+	  bool ok = compute_intersection (ray.origin(), ray.direction(), this, point, normal);
+	  // normal.normalize();
+	  if (ok && count % 25 == 0)
+	    {
+	      printf ("{ %.16f, %.16f", this->_r, this->_k);
+	      printf (", %.16f, %.16f, %.16f, %.16f, %.16f, %.16f", this->_A4,
+		      this->_A6, this->_A8, this->_A10, this->_A12, this->_A14);
+	      printf (", %.16f, %.16f, %.16f", ray.origin ().x (),
+		      ray.origin ().y (), ray.origin ().z ());
+	      printf (", %.16f, %.16f, %.16f", ray.direction ().x (),
+		      ray.direction ().y (), ray.direction ().z ());
+	      printf (", %.16f, %.16f, %.16f },\n", point.x (), point.y (),
+		      point.z ());
+	    }
+	  return ok;
 	}
-      point = result; // Let's use new method
-      return ok;
+      else
+	{
+	  return Base::intersect (point, ray);
+	}
     }
 
     void Asphere::normal (math::Vector3 &normal,
 			  const math::Vector3 &point) const
     {
-      Rotational::normal (normal, point);
-      math::Vector3 N (0, 0, 0);
-      compute_normal (this, point, N);
-      N *= -1.0;
-      if (fabs (normal.x () - N.x ()) > 1e-10
-	  || fabs (normal.y () - N.y ()) > 1e-10
-	  || fabs (normal.z () - N.z ()) > 1e-10)
+      if (_feder_algo)
 	{
-	  printf ("%.16f %.16f, %.16f %.16f, %.16f %.16f\n", normal.x (),
-		  N.x (), normal.y (), N.y (), normal.z (), N.z ());
+	  compute_normal (this, point, normal);
+	  normal *= -1.0;
 	}
-      normal = N; // Lets use the new method
+      else
+	{
+	  Rotational::normal (normal, point);
+	}
     }
 
   } // namespace curve
