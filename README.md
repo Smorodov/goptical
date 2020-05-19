@@ -55,7 +55,7 @@ To run `Goptical` on these data files, execute the `gopt` command line utility b
 
 ## Literature
 
-* Donald P. Feder, "Optical Calculations with Automatic Computing Machinery," J. Opt. Soc. Am. 41, 630-635 (1951). This short paper provides equations for ray tracing for rotationally symmetric surfaces. Equations are provided for in a format suitable for computer programs. The equations support aspheric surfaces. Additionally this paper also covers calculation of image aberrations. Warren J. Smith: Modern Optical Engineering book has a description of the algorithms in this paper. Note: The new implementation of rotationally symmetric aspheric surfaces in this project is based on this paper. 
+* Donald P. Feder, "Optical Calculations with Automatic Computing Machinery," J. Opt. Soc. Am. 41, 630-635 (1951). This short paper provides equations for ray tracing for rotationally symmetric surfaces. Equations are provided in a format suitable for computer programs. The equations support aspheric surfaces. Additionally this paper also covers calculation of image aberrations. Warren J. Smith: Modern Optical Engineering book has a description of the algorithms in this paper. Note: The new implementation of rotationally symmetric aspheric surfaces in this project is based on this paper. 
 
 * G. H. Spencer and M. V. R. K. Murty, "General Ray-Tracing Procedure," J. Opt. Soc. Am. 52, 672-678 (1962). This paper presents generalized ray tracing equations that cover not only rotationally symmetric surfaces but also diffraction gratings. The paper allows for surfaces to be de-centered. 
 
