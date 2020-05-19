@@ -16,7 +16,7 @@ This is derivative of [Goptical - GNU Optical design and simulation library](htt
   and ODE to be added)
 * DONE Remove all external dependencies
 * DRAFT add a driver program that can generate output from a specification given in a text file.
-* DRAFT add support for aspherical surfaces as specified in patent literature.
+* DRAFT add support for aspherical surfaces as specified in patent literature. The implementation is based on Feder's paper - see Literature section below.
 * DONE replace custom smart pointers with standard C++ smart pointers
 * DONE Compiled as C++14
 * DONE Builds on Windows 10, Mac OSX and Linux
@@ -64,6 +64,10 @@ To run `Goptical` on these data files, execute the `gopt` command line utility b
 * Bram de Greve, "Reflections and Refractions in Ray Tracing," 2004. This paper appears to be the source for the refraction equations originally used by GNU Optical. My plan is to use Feder's equations instead. 
 
 * Telescope Optics - GNU Optical source code has references to this, it is unclear whether this is a reference to the book of this name by Rutten and Venrooij. It appears that the equations for interection of rays with surfaces may have been based upon this; however my plan is to use Feder's equations instead.
+
+## Related Projects
+
+The project 'ray' originally written by Don Wells at NRAO implements Feder's equations for ray tracing. This has been a valuable source for the new implementation in this project. 
 
 ## LICENSE
 
