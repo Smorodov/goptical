@@ -57,13 +57,13 @@ To run `Goptical` on these data files, execute the `gopt` command line utility b
 
 * Donald P. Feder, "Optical Calculations with Automatic Computing Machinery," J. Opt. Soc. Am. 41, 630-635 (1951). This short paper provides equations for ray tracing for rotationally symmetric surfaces. Equations are provided for in a format suitable for computer programs. The equations support aspheric surfaces. Additionally this paper also covers calculation of image aberrations. Warren J. Smith: Modern Optical Engineering book has a description of the algorithms in this paper. Note: The new implementation of rotationally symmetric aspheric surfaces in this project is based on this paper. 
 
-* G. H. Spencer and M. V. R. K. Murty, "General Ray-Tracing Procedure," J. Opt. Soc. Am. 52, 672-678 (1962). This paper presents generalized ray tracing equations that cover not only rotationally symmetric surfaces but also covers diffraction gratings. The paper allows for surfaces to be de-centered. 
+* G. H. Spencer and M. V. R. K. Murty, "General Ray-Tracing Procedure," J. Opt. Soc. Am. 52, 672-678 (1962). This paper presents generalized ray tracing equations that cover not only rotationally symmetric surfaces but also diffraction gratings. The paper allows for surfaces to be de-centered. 
 
 * R. E. Hopkins and R. Hanau, "Fundamental Methods of Ray Tracing," in Military Standardization Handdbook: Optical Design, MIL-HDBK 141, U.S. Defense Supply Agency, Washington, DC, 1962. This is the fifth chapter in the document. It covers ray tracing equations for rotationally symmetric surfaces including aspheric surfaces. The equations are presented in a form suited for implementation in computer programs. The final equations in this document are very similar to Feder's equations. This document goes into details of how these equations are derived. Daniel Malacara: Handbook of Optical Design has a description of the ray tracing equations found in this document. 
 
 * Bram de Greve, "Reflections and Refractions in Ray Tracing," 2004. This paper appears to be the source for the refraction equations originally used by GNU Optical. My plan is to use Feder's equations instead. 
 
-* Telescope Optics - GNU Optical source code has references to this, it is unclear whether this is a reference to the book of this name by Rutten and Venrooij. It appears that the equations for interection of rays with surfaces may have been based upon this; however my plan is to use Feder's equations instead.
+* Telescope Optics - GNU Optical source code has references to this, it is unclear whether this is a reference to the book of this name by Rutten and Venrooij. It appears that the equations for intersection of rays with surfaces may have been based upon this; however my plan is to use Feder's equations instead.
 
 ## Related Projects
 
