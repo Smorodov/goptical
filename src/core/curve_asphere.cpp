@@ -25,7 +25,12 @@ namespace goptical {
 	     + S->_A12 * s12 + S->_A14 * s14;
     }
 
-    static inline double A_ (const goptical::curve::Asphere *S, double s2)
+    /**
+     * Compute 4*A_4*s^2 + 6*A_6*s^4 + 8*A_8*s^6 + 10*A_10*s^8 + 12*A_12*s^10 + 14*A_14*s^12
+     * s2 = x^2 + y^2
+     * Used in dz/dy and dz/dx calculations
+     */
+    static inline double deform_dz_dxy (const goptical::curve::Asphere *S, double s2)
     {
       double s4 = s2 * s2;
       double s6 = s4 * s2;
@@ -162,7 +167,7 @@ namespace goptical {
 	     aspheric: */
 	  /* Feder equation (13), l */
 	  N.z () = temp;
-	  temp = S->_c + N.z () * A_ (S, s_2);
+	  temp = S->_c + N.z () * deform_dz_dxy (S, s_2);
 	  /* Feder equation (14), m */
 	  N.y () = -result.y () * temp;
 	  /* Feder equation (15), n */
@@ -203,7 +208,7 @@ namespace goptical {
 	  return false;
 	}
       double E = S->_c / temp
-		 + A_ (S, s_2); // eq 19
+		 + deform_dz_dxy (S, s_2); // eq 19
       N.y () = -point.y () * E; // eq 18
       N.x () = -point.x () * E; // eq 18
       N.z () = 1.0;		// eq 18
