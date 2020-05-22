@@ -13,19 +13,19 @@ This is derivative of [Goptical - GNU Optical design and simulation library](htt
 * DONE Windows/MSVC port - remove use of features unsupported by MSVC such as VLAs. 
 * DONE Disable all output options other than SVG for portability reasons (other output options may be enabled later)
 * Mostly DONE Embed required components from GNU Scientific Library in the project (support for multi variable fitting 
-  and ODE to be added)
+  and ODE to be added - see issue #17)
 * DONE Remove all external dependencies
-* DRAFT add a driver program that can generate output from a specification given in a text file.
+* DRAFT add a driver program that generates output from a specification given in a text file.
 * DRAFT add support for aspherical surfaces as specified in patent literature. The implementation is based on Feder's paper - see Literature section below.
 * DONE replace custom smart pointers with standard C++ smart pointers
-* DONE Compiled as C++14
-* DONE Builds on Windows 10, Mac OSX and Linux
+* DONE compile as C++14
+* DONE builds on Windows 10, Mac OSX and Linux
 
 ## Changes to programming API
 
 * The original implementation allowed mixing heap allocated and stack allocated data structures.
   We no longer allow that. All data structures must be heap allocated and
-  managed via smart pointers. 
+  managed via smart pointers.
 
 ## Issues
 
@@ -55,9 +55,9 @@ To run `Goptical` on these data files, execute the `gopt` command line utility b
 
 ## Literature
 
-* Donald P. Feder, "Optical Calculations with Automatic Computing Machinery," J. Opt. Soc. Am. 41, 630-635 (1951). This short paper provides equations for ray tracing for rotationally symmetric surfaces. Equations are provided in a format suitable for computer programs. The equations support aspheric surfaces. Additionally this paper also covers calculation of image aberrations. Warren J. Smith: Modern Optical Engineering book has a description of the algorithms in this paper. Note: The new implementation of rotationally symmetric aspheric surfaces in this project is based on this paper. 
+* Donald P. Feder, "Optical Calculations with Automatic Computing Machinery," J. Opt. Soc. Am. 41, 630-635 (1951). This short paper provides equations for ray tracing for rotationally symmetric surfaces, including aspherics. Equations are provided in a format suitable for computer programs. Additionally, this paper also covers calculation of image aberrations. Warren J. Smith: Modern Optical Engineering book has a description of the algorithms in this paper. Note: The new implementation of rotationally symmetric aspheric surfaces in this project is based on this paper. 
 
-* G. H. Spencer and M. V. R. K. Murty, "General Ray-Tracing Procedure," J. Opt. Soc. Am. 52, 672-678 (1962). This paper presents generalized ray tracing equations that cover not only rotationally symmetric surfaces but also diffraction gratings. The paper allows for surfaces to be de-centered. 
+* G. H. Spencer and M. V. R. K. Murty, "General Ray-Tracing Procedure," J. Opt. Soc. Am. 52, 672-678 (1962). This paper presents generalized ray tracing equations that cover not only rotationally symmetric surfaces (including aspherics) but also diffraction gratings. The paper allows for surfaces to have their own local axes. 
 
 * R. E. Hopkins and R. Hanau, "Fundamental Methods of Ray Tracing," in Military Standardization Handdbook: Optical Design, MIL-HDBK 141, U.S. Defense Supply Agency, Washington, DC, 1962. This is the fifth chapter in the document. It covers ray tracing equations for rotationally symmetric surfaces including aspheric surfaces. The equations are presented in a form suited for implementation in computer programs. The final equations in this document are very similar to Feder's equations. This document goes into details of how these equations are derived. Daniel Malacara: Handbook of Optical Design has a description of the ray tracing equations found in this document. 
 
