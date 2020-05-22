@@ -34,6 +34,10 @@ namespace goptical {
     {
       assert(axis == 0);
 
+      /*
+       * See https://mathworld.wolfram.com/RotationMatrix.html
+       * the matrix that rotates a given vector v_0 by a counterclockwise angle theta in a fixed coordinate system.
+       */
       r.value(0,0) = cos(a);  r.value(0,1) = sin(-a);
       r.value(1,0) = sin(a); r.value(1,1) = cos(a);
     }
@@ -42,6 +46,18 @@ namespace goptical {
     {
       assert(axis < 3);
 
+      /*
+       * Note on convention used below.
+       *
+       * See https://mathworld.wolfram.com/RotationMatrix.html
+       * coordinate system rotations of the x-, y-, and z-axes in a counterclockwise direction when looking towards the origin give the matrices.
+       *
+       * This appears to correspond to xyz convention described in appendix A, Classical Mechanics, Goldstein, 3rd Ed.
+       * 'It appears that most U.S. and British aerodynamicists and pilots prefer the sequence in which the first
+       * rotation is the yaw angle (phi) about a z-axis, the second is the pitch angle (theta) about an intermediary y-axis,
+       * and the third is a bank or roll angle (psi) about the final x-axis.'
+       *
+       */
       switch (axis)
         {
         case 0:

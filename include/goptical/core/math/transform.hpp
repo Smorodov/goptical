@@ -157,7 +157,9 @@ namespace goptical {
     };
 
     /** Setup a 2d rotation matrix with specified angle in
-        radian. axis parameter must be 0. */
+        radian. axis parameter must be 0.
+        Convention adopted is that positive angle of rotation is
+        counter-clockwise. */
     void get_rotation_matrix(Matrix<2> &m, unsigned int axis, double rangle);
 
     // **********************************************************************
@@ -205,7 +207,8 @@ namespace goptical {
 
     /** Setup a 3d rotation matrix with specified angle in
         radian. axis parameter can be 0, 1 or 2 for x, y and z
-        axes. */
+        axes. Convention adopted is that positive angle of rotation is
+        counter-clockwise. */
     void get_rotation_matrix(Matrix<3> &m, unsigned int axis, double rangle);
 
     template <int N>
