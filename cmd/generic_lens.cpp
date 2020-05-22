@@ -115,16 +115,20 @@ setup_point_source (std::shared_ptr<sys::System> &sys, double angleOfView,
   if (!parallel)
     {
       // Construct unit vector at an angle
-      double z1 = cos (angleOfView);
-      double y1 = sin (angleOfView);
-      unit_vector = math::Vector3 (0, y1, z1);
+      //      double z1 = cos (angleOfView);
+      //      double y1 = sin (angleOfView);
+      //      unit_vector = math::Vector3 (0, y1, z1);
+
+      math::Matrix<3> r;
+      math::get_rotation_matrix (r, 0, angleOfView);
+      unit_vector = r * math::vector3_001;
     }
   auto source_point = std::make_shared<sys::SourcePoint> (mode, unit_vector);
   source_point->clear_spectrum ();
   source_point->add_spectral_line (light::SpectralLine::d);
   source_point->add_spectral_line (light::SpectralLine::C);
   source_point->add_spectral_line (light::SpectralLine::F);
-  sys->add(source_point);
+  sys->add (source_point);
 
   return source_point;
 }
@@ -178,9 +182,15 @@ get_arguments (int argc, const char *argv[], Args *args)
       fprintf (stderr, "Please supply a data file\n");
       return false;
     }
-  if (argc > 2)
+  for (int i = 2; i < argc; i++)
     {
-      args->refocus = strchr (argv[2], 'f') != nullptr;
+      if (strcmp (argv[i], "--refocus") == 0)
+	args->refocus = true;
+      else if (strcmp (argv[i], "--scenario") == 0 && i + 1 < argc)
+	{
+	  i++;
+	  args->scenario = (unsigned) atoi (argv[i]);
+	}
     }
   args->input_file = std::string (argv[1]);
   return true;
