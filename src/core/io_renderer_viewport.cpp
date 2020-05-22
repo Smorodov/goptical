@@ -646,21 +646,29 @@ namespace goptical {
               TextAlignTop | TextAlignCenter,
             };
 
+#if 0
+	// Following doesn't seem to work on Windows 10
           std::ostringstream s;
 
           s.setf(_format);
           s.precision(_precision);
 
           s << (x + p[i] - a._origin[i]) / pow(10., pow10);
+#else
+	  // Use good old C printf - TODO check output format is correct
+	  char temp[80];
+	  snprintf(temp, sizeof temp, "%.3g", (x + p[i] - a._origin[i]) / pow(10., pow10));
+	  std::string s(temp);
+#endif
 
-          switch (N)
+	  switch (N)
             {
             case 3:
               // draw_text(vtic, (seg[1] - seg[0]).normalized(), s.str(),
               //           align[i], 12, get_style_color(StyleForeground));
               break;
             case 2:
-              draw_text(vtic, math::vector2_10, s.str(),
+              draw_text(vtic, math::vector2_10, s,
                         align[i], 12, get_style_color(StyleForeground));
               break;
             }
