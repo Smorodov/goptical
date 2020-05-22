@@ -200,7 +200,7 @@ static void
 do_system_parallel_rays (io::BClaffLensImporter *importer,
 			 const BaseFileNames &base_file_names, const Args &args)
 {
-  auto sys = importer->buildSystem ();
+  auto sys = importer->buildSystem (args.scenario);
   double angleOfView = importer->getAngleOfViewInRadians (args.scenario);
 
   /* anchor sources */
@@ -231,7 +231,7 @@ static void
 do_skew_rays (io::BClaffLensImporter *importer,
 	      const BaseFileNames &base_file_names, const Args &args)
 {
-  auto sys = importer->buildSystem ();
+  auto sys = importer->buildSystem (args.scenario);
   double angleOfView = importer->getAngleOfViewInRadians (args.scenario);
 
   /* anchor sources */
@@ -265,7 +265,6 @@ main (int argc, const char *argv[])
     }
 
   io::BClaffLensImporter importer;
-  unsigned scenario = 0;
 
   BaseFileNames base_file_names;
   get_base_file_names (arguments.input_file, &base_file_names);

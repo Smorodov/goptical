@@ -19,7 +19,7 @@ namespace goptical {
       BClaffLensImporter (const BClaffLensImporter &) = delete;
       BClaffLensImporter &operator= (const BClaffLensImporter &) = delete;
       bool parseFile (const std::string &file_name);
-      std::shared_ptr<sys::System> buildSystem(unsigned scenario = 0);
+      std::shared_ptr<sys::System> buildSystem(unsigned scenario);
       double getAngleOfViewInRadians (unsigned scenario = 0);
       std::shared_ptr<sys::Image> get_image() const { return image_; }
       std::shared_ptr<sys::System> get_system() const { return sys_; }
