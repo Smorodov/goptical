@@ -41,6 +41,22 @@ namespace goptical {
 
   namespace io {
 
+    enum {
+      RANDOM_MAX = 0x7fffffff
+    };
+    /* https://en.wikipedia.org/wiki/Lehmer_random_number_generator */
+    /* because we want deterministic sequence of random numbers */
+    uint32_t lcg_parkmiller(uint32_t *state)
+    {
+	    return *state = (uint64_t)*state * 48271 % 0x7fffffff;
+    }
+
+    /* NOTE not threadsafe */
+    static uint32_t seed = 42;
+    static inline uint32_t random() {
+      return lcg_parkmiller(&seed);
+    }
+
     Renderer::Renderer()
       : _feature_size(20.),
         _ray_color_mode(RayColorWavelen),
@@ -192,9 +208,9 @@ namespace goptical {
     const Rgb Renderer::ray_to_rgb(const light::Ray & ray)
     {
 //FIXMEG
-        float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-        float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-        float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+        float r = static_cast <float> (random()) / static_cast <float> (RANDOM_MAX);
+        float g = static_cast <float> (random()) / static_cast <float> (RANDOM_MAX);
+        float b = static_cast <float> (random()) / static_cast <float> (RANDOM_MAX);
         return Rgb(r,g,b);
         
 
