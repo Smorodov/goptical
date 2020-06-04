@@ -25,44 +25,48 @@
 #include <goptical/core/curve/grid.hpp>
 #include <goptical/core/data/grid.hpp>
 
-namespace goptical {
+namespace goptical
+{
 
-  namespace curve {
+namespace curve
+{
 
-    Grid::Grid(unsigned int n, double r)
-      : _data(n, n, math::Vector2(-r, -r),
-              math::Vector2(2.0 * r / (double)(n - 1), 2.0 * r / (double)(n - 1)))
-    {
-      _data.set_interpolation(data::Bicubic);
-    }
+Grid::Grid (unsigned int n, double r)
+    : _data (
+        n, n, math::Vector2 (-r, -r),
+        math::Vector2 (2.0 * r / (double)(n - 1), 2.0 * r / (double)(n - 1)))
+{
+  _data.set_interpolation (data::Bicubic);
+}
 
-    Grid::~Grid()
-    {
-    }
+Grid::~Grid () {}
 
-    void Grid::fit(const Base &c)
-    {
-      for (unsigned int x = 0; x < _data.get_count(0); x++)
-        for (unsigned int y = 0; y < _data.get_count(1); y++)
-          {
-            math::Vector2 v = _data.get_x_value_i(x, y);
+void
+Grid::fit (const Base &c)
+{
+  for (unsigned int x = 0; x < _data.get_count (0); x++)
+    for (unsigned int y = 0; y < _data.get_count (1); y++)
+      {
+        math::Vector2 v = _data.get_x_value_i (x, y);
 
-            _data.get_y_value(x, y) = c.sagitta(v);
+        _data.get_y_value (x, y) = c.sagitta (v);
 
-            if (_data.get_interpolation() == data::BicubicDeriv)
-              c.derivative(v, _data.get_d_value(x, y));
-          }
-    }
+        if (_data.get_interpolation () == data::BicubicDeriv)
+          c.derivative (v, _data.get_d_value (x, y));
+      }
+}
 
-    double Grid::sagitta(const math::Vector2 & xy) const
-    {
-      return _data.interpolate(xy);
-    }
+double
+Grid::sagitta (const math::Vector2 &xy) const
+{
+  return _data.interpolate (xy);
+}
 
-    void Grid::derivative(const math::Vector2 & xy, math::Vector2 & dxdy) const
-    {
-      dxdy = _data.interpolate_deriv(xy);
-    }
+void
+Grid::derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const
+{
+  dxdy = _data.interpolate_deriv (xy);
+}
 
-  }
+}
 }

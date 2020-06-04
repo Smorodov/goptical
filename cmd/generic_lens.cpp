@@ -40,9 +40,9 @@
 
 #include <goptical/core/trace/tracer.hpp>
 
+#include <goptical/core/analysis/focus.hpp>
 #include <goptical/core/analysis/rayfan.hpp>
 #include <goptical/core/analysis/spot.hpp>
-#include <goptical/core/analysis/focus.hpp>
 #include <goptical/core/data/plot.hpp>
 
 #include <goptical/core/io/renderer_svg.hpp>
@@ -52,8 +52,8 @@
 #include <goptical/core/math/transform.hpp>
 
 #include <goptical/core/io/import_bclaff.hpp>
-#include <goptical/core/trace/sequence.hpp>
 #include <goptical/core/trace/distribution.hpp>
+#include <goptical/core/trace/sequence.hpp>
 
 #include <errno.h>
 #include <stdio.h>
@@ -61,9 +61,9 @@
 #include <string.h>
 
 #include <iterator>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 using namespace goptical;
 
@@ -84,18 +84,16 @@ struct Args
   unsigned scenario;
 };
 
-void
-analysis_fan (std::shared_ptr<sys::System> &sys,
-	      const std::shared_ptr<sys::SourcePoint> &source_point,
-	      const struct BaseFileNames &base_file_names);
-void
-analysis_spot (std::shared_ptr<sys::System> &sys,
-	       std::shared_ptr<sys::SourcePoint> &source_point,
-	       const struct BaseFileNames &base_file_names, bool skew = false);
-void
-layout (const std::shared_ptr<sys::System> &sys,
-	const std::shared_ptr<sys::SourcePoint> &source_point,
-	const struct BaseFileNames &base_file_names, bool skew = false);
+void analysis_fan (std::shared_ptr<sys::System> &sys,
+                   const std::shared_ptr<sys::SourcePoint> &source_point,
+                   const struct BaseFileNames &base_file_names);
+void analysis_spot (std::shared_ptr<sys::System> &sys,
+                    std::shared_ptr<sys::SourcePoint> &source_point,
+                    const struct BaseFileNames &base_file_names,
+                    bool skew = false);
+void layout (const std::shared_ptr<sys::System> &sys,
+             const std::shared_ptr<sys::SourcePoint> &source_point,
+             const struct BaseFileNames &base_file_names, bool skew = false);
 
 static std::string
 get_base_name (const std::string &name)
@@ -108,7 +106,7 @@ get_base_name (const std::string &name)
 
 std::shared_ptr<sys::SourcePoint>
 setup_point_source (std::shared_ptr<sys::System> &sys, double angleOfView,
-		    bool parallel)
+                    bool parallel)
 {
   sys::SourceInfinityMode mode = sys::SourceAtInfinity;
   auto unit_vector = math::vector3_001;
@@ -161,7 +159,7 @@ setup_point_source (std::shared_ptr<sys::System> &sys, double angleOfView,
 
 static void
 get_base_file_names (const std::string &input_file,
-		     BaseFileNames *base_file_names)
+                     BaseFileNames *base_file_names)
 {
   std::string output_base = get_base_name (input_file);
   base_file_names->layout_file = output_base + "_layout";
@@ -185,12 +183,12 @@ get_arguments (int argc, const char *argv[], Args *args)
   for (int i = 2; i < argc; i++)
     {
       if (strcmp (argv[i], "--refocus") == 0)
-	args->refocus = true;
+        args->refocus = true;
       else if (strcmp (argv[i], "--scenario") == 0 && i + 1 < argc)
-	{
-	  i++;
-	  args->scenario = (unsigned) atoi (argv[i]);
-	}
+        {
+          i++;
+          args->scenario = (unsigned)atoi (argv[i]);
+        }
     }
   args->input_file = std::string (argv[1]);
   return true;
@@ -198,7 +196,8 @@ get_arguments (int argc, const char *argv[], Args *args)
 
 static void
 do_system_parallel_rays (io::BClaffLensImporter *importer,
-			 const BaseFileNames &base_file_names, const Args &args)
+                         const BaseFileNames &base_file_names,
+                         const Args &args)
 {
   auto sys = importer->buildSystem (args.scenario);
   double angleOfView = importer->getAngleOfViewInRadians (args.scenario);
@@ -229,7 +228,7 @@ do_system_parallel_rays (io::BClaffLensImporter *importer,
 
 static void
 do_skew_rays (io::BClaffLensImporter *importer,
-	      const BaseFileNames &base_file_names, const Args &args)
+              const BaseFileNames &base_file_names, const Args &args)
 {
   auto sys = importer->buildSystem (args.scenario);
   double angleOfView = importer->getAngleOfViewInRadians (args.scenario);
@@ -286,13 +285,13 @@ main (int argc, const char *argv[])
 
 void
 layout (const std::shared_ptr<sys::System> &sys,
-	const std::shared_ptr<sys::SourcePoint> &source_point,
-	const struct BaseFileNames &base_file_names, bool skew)
+        const std::shared_ptr<sys::SourcePoint> &source_point,
+        const struct BaseFileNames &base_file_names, bool skew)
 {
   {
     /* anchor layout */
     std::string filename
-      = base_file_names.layout_file + (skew ? "_skew" : "") + ".svg";
+        = base_file_names.layout_file + (skew ? "_skew" : "") + ".svg";
     io::RendererSvg renderer (filename.c_str (), 800, 400);
 
     // draw 2d system layout
@@ -311,7 +310,7 @@ layout (const std::shared_ptr<sys::System> &sys,
 #else
     // trace and draw rays from source
     tracer.get_params ().set_default_distribution (
-      trace::Distribution (trace::MeridionalDist, 10));
+        trace::Distribution (trace::MeridionalDist, 10));
     tracer.get_trace_result ().set_generated_save_state (*source_point);
     tracer.trace ();
     tracer.get_trace_result ().draw_2d (renderer);
@@ -320,14 +319,14 @@ layout (const std::shared_ptr<sys::System> &sys,
 }
 void
 analysis_spot (std::shared_ptr<sys::System> &sys,
-	       std::shared_ptr<sys::SourcePoint> &source_point,
-	       const struct BaseFileNames &base_file_names, bool skew)
+               std::shared_ptr<sys::SourcePoint> &source_point,
+               const struct BaseFileNames &base_file_names, bool skew)
 {
   /* anchor spot */
   sys->enable_single<sys::Source> (*source_point);
 
   sys->get_tracer_params ().set_default_distribution (
-    trace::Distribution (trace::HexaPolarDist, 20));
+      trace::Distribution (trace::HexaPolarDist, 20));
 
   analysis::Spot spot (sys);
 
@@ -335,7 +334,7 @@ analysis_spot (std::shared_ptr<sys::System> &sys,
   {
     /* anchor spot */
     std::string filename
-      = base_file_names.spot_file + (skew ? "_skew" : "") + ".svg";
+        = base_file_names.spot_file + (skew ? "_skew" : "") + ".svg";
     io::RendererSvg renderer (filename.c_str (), 300, 300, io::rgb_black);
 
     spot.draw_diagram (renderer);
@@ -345,7 +344,7 @@ analysis_spot (std::shared_ptr<sys::System> &sys,
   {
     /* anchor spot_plot */
     std::string filename
-      = base_file_names.spot_intensity_file + (skew ? "_skew" : "") + ".svg";
+        = base_file_names.spot_intensity_file + (skew ? "_skew" : "") + ".svg";
     io::RendererSvg renderer (filename.c_str (), 640, 480);
 
     std::shared_ptr<data::Plot> plot = spot.get_encircled_intensity_plot (50);
@@ -356,8 +355,8 @@ analysis_spot (std::shared_ptr<sys::System> &sys,
 }
 void
 analysis_fan (std::shared_ptr<sys::System> &sys,
-	      const std::shared_ptr<sys::SourcePoint> &source_point,
-	      const struct BaseFileNames &base_file_names)
+              const std::shared_ptr<sys::SourcePoint> &source_point,
+              const struct BaseFileNames &base_file_names)
 {
   /* anchor opd_fan */
   sys->enable_single<sys::Source> (*source_point);
@@ -370,9 +369,8 @@ analysis_fan (std::shared_ptr<sys::System> &sys,
     std::string filename = base_file_names.opd_fan_file + ".svg";
     io::RendererSvg renderer (filename.c_str (), 640, 480);
 
-    std::shared_ptr<data::Plot> fan_plot
-      = fan.get_plot (analysis::RayFan::EntranceHeight,
-		      analysis::RayFan::OpticalPathDiff);
+    std::shared_ptr<data::Plot> fan_plot = fan.get_plot (
+        analysis::RayFan::EntranceHeight, analysis::RayFan::OpticalPathDiff);
 
     fan_plot->draw (renderer);
 
@@ -385,8 +383,8 @@ analysis_fan (std::shared_ptr<sys::System> &sys,
     io::RendererSvg renderer (filename.c_str (), 640, 480);
 
     std::shared_ptr<data::Plot> fan_plot
-      = fan.get_plot (analysis::RayFan::EntranceHeight,
-		      analysis::RayFan::TransverseDistance);
+        = fan.get_plot (analysis::RayFan::EntranceHeight,
+                        analysis::RayFan::TransverseDistance);
 
     fan_plot->draw (renderer);
 
@@ -399,8 +397,8 @@ analysis_fan (std::shared_ptr<sys::System> &sys,
     io::RendererSvg renderer (filename.c_str (), 640, 480);
 
     std::shared_ptr<data::Plot> fan_plot
-      = fan.get_plot (analysis::RayFan::EntranceHeight,
-		      analysis::RayFan::LongitudinalDistance);
+        = fan.get_plot (analysis::RayFan::EntranceHeight,
+                        analysis::RayFan::LongitudinalDistance);
 
     fan_plot->draw (renderer);
 
