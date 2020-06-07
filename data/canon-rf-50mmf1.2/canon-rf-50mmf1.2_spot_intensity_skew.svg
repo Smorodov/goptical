@@ -27,65 +27,65 @@
 <text style="font-size:12;text-align:center;text-anchor:middle;" x="320" y="473.619" fill="#000000">Distance from spot centroid (um)</text>
 <use x="66.0317" y="49.5238" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="430.476" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:center;text-anchor:middle;" x="66.0317" y="448.476" fill="#000000">0x0.000p+0</text>
+<text style="font-size:12;text-align:center;text-anchor:middle;" x="66.0317" y="448.476" fill="#000000">0</text>
 <use x="142.573" y="49.5238" xlink:href="#cross"  stroke="#000000" />
 <use x="142.573" y="430.476" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:center;text-anchor:middle;" x="142.573" y="448.476" fill="#000000">0x1.400p+3</text>
+<text style="font-size:12;text-align:center;text-anchor:middle;" x="142.573" y="448.476" fill="#000000">10</text>
 <use x="219.114" y="49.5238" xlink:href="#cross"  stroke="#000000" />
 <use x="219.114" y="430.476" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:center;text-anchor:middle;" x="219.114" y="448.476" fill="#000000">0x1.400p+4</text>
+<text style="font-size:12;text-align:center;text-anchor:middle;" x="219.114" y="448.476" fill="#000000">20</text>
 <use x="295.656" y="49.5238" xlink:href="#cross"  stroke="#000000" />
 <use x="295.656" y="430.476" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:center;text-anchor:middle;" x="295.656" y="448.476" fill="#000000">0x1.e00p+4</text>
+<text style="font-size:12;text-align:center;text-anchor:middle;" x="295.656" y="448.476" fill="#000000">30</text>
 <use x="372.197" y="49.5238" xlink:href="#cross"  stroke="#000000" />
 <use x="372.197" y="430.476" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:center;text-anchor:middle;" x="372.197" y="448.476" fill="#000000">0x1.400p+5</text>
+<text style="font-size:12;text-align:center;text-anchor:middle;" x="372.197" y="448.476" fill="#000000">40</text>
 <use x="448.738" y="49.5238" xlink:href="#cross"  stroke="#000000" />
 <use x="448.738" y="430.476" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:center;text-anchor:middle;" x="448.738" y="448.476" fill="#000000">0x1.900p+5</text>
+<text style="font-size:12;text-align:center;text-anchor:middle;" x="448.738" y="448.476" fill="#000000">50</text>
 <use x="525.28" y="49.5238" xlink:href="#cross"  stroke="#000000" />
 <use x="525.28" y="430.476" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:center;text-anchor:middle;" x="525.28" y="448.476" fill="#000000">0x1.e00p+5</text>
+<text style="font-size:12;text-align:center;text-anchor:middle;" x="525.28" y="448.476" fill="#000000">60</text>
 <text style="font-size:12;text-align:center;text-anchor:middle;" x="16.5079" y="246" transform="rotate(-90,16.5079,240)" fill="#000000">Encircled intensity</text>
 <use x="573.968" y="430.476" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="430.476" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="436.476" fill="#000000">0x0.000p+0</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="436.476" fill="#000000">0</text>
 <use x="573.968" y="399.504" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="399.504" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="405.504" fill="#000000">0x1.400p+4</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="405.504" fill="#000000">20</text>
 <use x="573.968" y="368.533" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="368.533" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="374.533" fill="#000000">0x1.400p+5</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="374.533" fill="#000000">40</text>
 <use x="573.968" y="337.561" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="337.561" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="343.561" fill="#000000">0x1.e00p+5</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="343.561" fill="#000000">60</text>
 <use x="573.968" y="306.589" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="306.589" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="312.589" fill="#000000">0x1.400p+6</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="312.589" fill="#000000">80</text>
 <use x="573.968" y="275.617" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="275.617" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="281.617" fill="#000000">0x1.900p+6</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="281.617" fill="#000000">100</text>
 <use x="573.968" y="244.646" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="244.646" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="250.646" fill="#000000">0x1.e00p+6</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="250.646" fill="#000000">120</text>
 <use x="573.968" y="213.674" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="213.674" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="219.674" fill="#000000">0x1.180p+7</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="219.674" fill="#000000">140</text>
 <use x="573.968" y="182.702" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="182.702" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="188.702" fill="#000000">0x1.400p+7</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="188.702" fill="#000000">160</text>
 <use x="573.968" y="151.731" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="151.731" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="157.731" fill="#000000">0x1.680p+7</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="157.731" fill="#000000">180</text>
 <use x="573.968" y="120.759" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="120.759" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="126.759" fill="#000000">0x1.900p+7</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="126.759" fill="#000000">200</text>
 <use x="573.968" y="89.7871" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="89.7871" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="95.7871" fill="#000000">0x1.b80p+7</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="95.7871" fill="#000000">220</text>
 <use x="573.968" y="58.8153" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="58.8153" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="64.8153" fill="#000000">0x1.e00p+7</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="64.8153" fill="#000000">240</text>
 <text style="font-size:18;text-align:center;text-anchor:middle;" x="320" y="33.7619" fill="#000000">Spot diagram encircled rays intensity</text>
 <line x1="66.0317" y1="430.476" x2="76.1905" y2="427.379"  stroke="#00ebff" />
 <line x1="76.1905" y1="427.379" x2="86.3492" y2="405.699"  stroke="#00ebff" />
