@@ -68,11 +68,12 @@ get_rotation_matrix (Matrix<3> &r, unsigned int axis, double a)
    * angle (theta) about an intermediary y-axis, and the third is a bank or
    * roll angle (psi) about the final x-axis.'
    *
+   * Also see https://youtu.be/wg9bI8-Qx2Q
    */
   switch (axis)
     {
     case 0:
-      // rotation around the X axis
+      // rotation counter clockwise around the X axis
       r.value (0, 0) = 1;
       r.value (0, 1) = 0;
       r.value (0, 2) = 0;
@@ -85,7 +86,7 @@ get_rotation_matrix (Matrix<3> &r, unsigned int axis, double a)
       return;
 
     case 1:
-      // rotation around the Y axis
+      // rotation counter clockwise around the Y axis
       r.value (0, 0) = cos (a);
       r.value (0, 1) = 0;
       r.value (0, 2) = -sin (a);
@@ -98,7 +99,7 @@ get_rotation_matrix (Matrix<3> &r, unsigned int axis, double a)
       return;
 
     case 2:
-      // rotation around the Z axis
+      // rotation counter clockwise around the Z axis
       r.value (0, 0) = cos (a);
       r.value (0, 1) = sin (a);
       r.value (0, 2) = 0;
