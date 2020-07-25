@@ -772,7 +772,7 @@ double
 BClaffLensImporter::getAngleOfViewInRadians (unsigned scenario)
 {
   auto view_angles = specs_->find_variable ("Angle of View");
-  return goptical::math::degree2rad (view_angles->get_value_as_double (0)
+  return goptical::math::degree2rad (view_angles->get_value_as_double (scenario)
                                      / 2.0);
 }
 
