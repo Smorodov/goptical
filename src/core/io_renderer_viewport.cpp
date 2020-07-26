@@ -44,8 +44,7 @@ namespace io
 RendererViewport::RendererViewport ()
     : _margin_type (MarginRatio),
       _margin (math::VectorPair2 (0.13, 0.13, 0.13, 0.13)), _rows (1),
-      _cols (1), _pageid (0), _fov (45.), _precision (3),
-      _format (std::ios::floatfield)
+      _cols (1), _pageid (0), _fov (45.), _precision (3), _format ()
 {
 }
 
@@ -385,9 +384,9 @@ RendererViewport::draw_plot_data_2d (const data::Set1d &data,
 
           std::ostringstream s;
 
-#if 0 // FIXME
-              s.setf(_format);
-              s.precision(_precision);
+#if 1 // FIXME
+          s.setf (_format, std::ios_base::floatfield);
+          s.precision (_precision);
 #endif
           s << p.second;
 
@@ -694,14 +693,14 @@ RendererViewport::draw_axes_tic (const RendererAxes &a, unsigned int i,
         TextAlignTop | TextAlignCenter,
       };
 
-#if 0
-	// Following doesn't seem to work on Windows 10
-          std::ostringstream s;
+#if 1
+      std::ostringstream ss;
 
-          s.setf(_format);
-          s.precision(_precision);
+      ss.setf (_format, std::ios_base::floatfield);
+      ss.precision (_precision);
 
-          s << (x + p[i] - a._origin[i]) / pow(10., pow10);
+      ss << (x + p[i] - a._origin[i]) / pow (10., pow10);
+      const auto s = ss.str ();
 #else
       // Use good old C printf - TODO check output format is correct
       char temp[80];
