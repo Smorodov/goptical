@@ -144,7 +144,6 @@ or by best fitting any curve object.
   * Zemax glass catalog and optical designs
 
 
-
 2 Conventions
 *************
 
@@ -170,28 +169,23 @@ optical axis.
 
 2.3 Object references
 =====================
+This version of GNU Optical requires C++ 14 or above.
 
 C++ objects are used to model optical elements, materials, curvatures,
 shapes and other kinds of object GNU Optical deals with. As the optical
 system is being built, some objects keep references to other objects.
 
-The  ref  smart pointer class is used to manage objects in a
-convenient way. Objects can either be statically allocated or
-dynamically allocated. Both can then be passed to reference holder
-objects in the same way but only dynamically allocated objects will be
-automatically deleted when not used anymore::
+The C++ smart pointer classes are used to manage objects in a
+convenient way. Objects can only be ha=eap allocated as all references
+require use of smart pointers.::
 
-       using namespace goptical;
+    using namespace goptical;
 
-       sys::system     sys;
+    auto sys = std::make_shared<sys::System>();
 
-       // statically allocated object added to the system
-       sys::SourceRays src1(math::vector3_0);
-       sys.add(src1);
-
-       // dynamically allocated object added to the system
-       ref<sys::SourceRays> src2 = ref<sys::SourceRays>::create(math::vector3_0);
-       sys.add(src2);
+    // statically allocated object added to the system
+    auto source_rays = std::make_shared<sys::SourceRays>(math::Vector3(0, 27.5, -1000));
+    sys.add(source_rays);
 
 3 Tutorial
 **********
@@ -202,7 +196,7 @@ which use the GNU Optical library to model optical systems.
 3.1 A simple refractor design
 =============================
 
-.. figure:: images/refractor_layout.png
+.. figure:: images/refractor_layout.svg
    :alt: Refractor optical system 2d layout
 
 3.1.1 Building the optical system
@@ -220,13 +214,15 @@ materials used in the design. Our achromatic refractor design needs two
 lenses of different glass materials. In this example we choose to model
 Bk7 and F3 glasses with the Sellmeier model::
 
-     // code from examples/simple_refractor/refractor.cc:64
+  // code from examples/simple_refractor/refractor.cpp
 
-       material::Sellmeier bk7(1.03961212, 6.00069867e-3, 0.231792344,
-                               2.00179144e-2, 1.01046945, 1.03560653e2);
+  auto bk7 = std::make_shared<material::Sellmeier> (1.03961212, 6.00069867e-3,
+                                                    0.231792344, 2.00179144e-2,
+                                                    1.01046945, 1.03560653e2);
 
-       material::Sellmeier f3(8.23583145e-1, 6.41147253e-12, 7.11376975e-1,
-                              3.07327658e-2, 3.12425113e-2, 4.02094988);
+  auto f3 = std::make_shared<material::Sellmeier> (
+      8.23583145e-1, 6.41147253e-12, 7.11376975e-1, 3.07327658e-2,
+      3.12425113e-2, 4.02094988);
 
 The sys::OpticalSurface
 class is used to model a single optical surface.
@@ -234,11 +230,14 @@ class is used to model a single optical surface.
 The two lenses have the same disk outline shape, so we declare the
 shape model once:
 
-       shape::disk   lens_shape(100); // lens diameter is 100mm
+  /* anchor lens_shape */
+  auto lens_shape
+      = std::make_shared<shape::Disk> (100); // lens diameter is 100mm
 
-       // 1st lens, left surface
-       curve::Sphere curve1(2009.753); // spherical curve with given radius of curvature
-       curve::Sphere curve2(-976.245);
+  // 1st lens, left surface
+  auto curve1 = std::make_shared<curve::Sphere> (
+      2009.753); // spherical curve with given radius of curvature
+  auto curve2 = std::make_shared<curve::Sphere> (-976.245);
 
 Surface curves rely on dedicated models which are not dependent on
 optical component being used. Here we need two simple spherical curves
@@ -251,28 +250,31 @@ by system environment material.
 
 ::
 
-       sys::OpticalSurface s1(math::vector3(0, 0, 0), // position,
-                              curve1, lens_shape,     // curve & aperture shape
-                              material::none, bk7);   // materials
+  /* anchor lens1 */
+  auto s1 = std::make_shared<sys::OpticalSurface> (
+      math::Vector3 (0, 0, 0), // position,
+      curve1, lens_shape,      // curve & aperture shape
+      material::none, bk7);    // materials
 
-       // 1st lens, right surface
-       sys::OpticalSurface s2(math::vector3(0, 0, 31.336),
-                              curve2, lens_shape,
-                              bk7, material::none);
+  // 1st lens, right surface
+  auto s2 = std::make_shared<sys::OpticalSurface> (
+      math::Vector3 (0, 0, 31.336), curve2, lens_shape, bk7, material::none);
 
 More convenient optical surface constructors are available for
 simple cases, with circular aperture and spherical curvature. They are
 used for the second lens::
 
-       // 2nd lens, left surface
-       sys::OpticalSurface s3(math::vector3(0, 0, 37.765), // position,
-                              -985.291, 100,        // roc & circular aperture radius,
-                              material::none, f3);  // materials
+  /* anchor lens2 */
+  // 2nd lens, left surface
+  auto s3 = std::make_shared<sys::OpticalSurface> (
+      math::Vector3 (0, 0, 37.765), // position,
+      -985.291, 100,                // roc & circular aperture radius,
+      material::none, f3);          // materials
 
-       // 2nd lens, right surface
-       sys::OpticalSurface s4(math::vector3(0, 0, 37.765+25.109),
-                              -3636.839, 100,
-                              f3, material::none);
+  // 2nd lens, right surface
+  auto s4 = std::make_shared<sys::OpticalSurface> (
+      math::Vector3 (0, 0, 37.765 + 25.109), -3636.839, 100, f3,
+      material::none);
 
 The sys::Lens class is more
 convenient to use for most designs as it can handle a list of surfaces.
@@ -283,27 +285,28 @@ work. The convenient method is used in the next example.
 We then create a point light source at infinite distance with a
 direction vector aimed at entry surface (left of first lens)::
 
-       // light source
-       sys::source_point source(sys::SourceAtInfinity,
-                               math::vector3(0, 0, 1));
+  // light source
+  auto source = std::make_shared<sys::SourcePoint> (sys::SourceAtInfinity,
+                                                    math::Vector3 (0, 0, 1));
 
 And we finally create an image plane near the expected focal point::
 
-       // image plane
-       sys::image    image(math::vector3(0, 0, 3014.5),  // position
-                           60);                           // square size,
+  // image plane
+  auto image
+      = std::make_shared<sys::Image> (math::Vector3 (0, 0, 3014.5), // position
+                                      60); // square size,
 
 All these components need to be added to an optical system::
 
-       sys::system   sys;
+  auto sys = std::make_shared<sys::System> ();
 
-       // add components
-       sys.add(source);
-       sys.add(s1);
-       sys.add(s2);
-       sys.add(s3);
-       sys.add(s4);
-       sys.add(image);
+  // add components
+  sys->add (source);
+  sys->add (s1);
+  sys->add (s2);
+  sys->add (s3);
+  sys->add (s4);
+  sys->add (image);
 
 This simple optical design is ready for ray tracing and analysis.
 
@@ -353,9 +356,9 @@ trace::tracer object and
 invocation of its trace::tracer::trace function. tracer
 parameters are inherited from system default tracer parameters::
 
-       sys.set_entrance_pupil(s1);
-       trace::tracer tracer(sys);
-       tracer.trace();
+    sys->set_entrance_pupil (s1);
+    trace::Tracer tracer (sys.get ());
+    tracer.trace ();
 
 When performing a non-sequential ray trace, only optical components
 based on sys::Surface will
@@ -372,9 +375,11 @@ components found in the system, in order along the Z axis.
 
 ::
 
-       trace::sequence seq(sys);
+  /* anchor seq */
+  auto seq = std::make_shared<trace::Sequence> (*sys);
 
-       sys.get_tracer_params().set_sequential_mode(seq);
+  sys->get_tracer_params ().set_sequential_mode (seq);
+
 
 More complicated sequences must be created empty and described
 explicitly using the trace::sequence::add function.
@@ -382,14 +387,14 @@ explicitly using the trace::sequence::add function.
 Optical system and sequence objects can be displayed using stl
 streams::
 
-       std::cout << "system:" << std::endl << sys;
-       std::cout << "sequence:" << std::endl << seq;
+   std::cout << "system:" << std::endl << sys;
+   std::cout << "sequence:" << std::endl << seq;
 
 Ray tracing is then performed in the same way as for non-sequential
 ray traces:
 
-       trace::tracer tracer(sys);
-       tracer.trace();
+    trace::Tracer tracer (sys.get ());
+    tracer.trace ();
 
 When performing a sequential ray trace, all optical components can
 process incoming light rays.
@@ -436,20 +441,20 @@ Here is what we need to do in order:
 
 ::
 
-       io::renderer_svg renderer("layout.svg", 1024, 100);
+    io::RendererSvg renderer ("layout.svg", 1024, 100);
 
-       // draw 2d system layout
-       sys.draw_2d_fit(renderer);
-       sys.draw_2d(renderer);
+    // draw 2d system layout
+    sys->draw_2d_fit (renderer);
+    sys->draw_2d (renderer);
 
-       trace::tracer tracer(sys);
+    trace::Tracer tracer (sys.get ());
 
-       // trace and draw rays from source
-       tracer.get_params().set_default_distribution(
-         trace::distribution(trace::MeridionalDist, 5));
-       tracer.get_trace_result().set_generated_save_state(source);
-       tracer.trace();
-       tracer.get_trace_result().draw_2d(renderer);
+    // trace and draw rays from source
+    tracer.get_params ().set_default_distribution (
+        trace::Distribution (trace::MeridionalDist, 5));
+    tracer.get_trace_result ().set_generated_save_state (*source);
+    tracer.trace ();
+    tracer.get_trace_result ().draw_2d (renderer);
 
 3.1.4 Performing a ray fan analysis
 -----------------------------------
@@ -467,23 +472,25 @@ ray measurements on both 2d plot axes.
 The example below shows how to produce a transverse aberration plot
 by plotting entrance ray height against transverse distance::
 
-       io::renderer_svg     renderer("fan.svg", 640, 480, io::rgb_white);
+    /* anchor rayfan */
+    io::RendererSvg renderer ("fan.svg", 640, 480, io::rgb_white);
 
-       analysis::RayFan    fan(sys);
+    analysis::RayFan fan (sys);
 
-       // select light source wavelens
-       source.clear_spectrum();
-       source.add_spectral_line(light::SpectralLine::C);
-       source.add_spectral_line(light::SpectralLine::e);
-       source.add_spectral_line(light::SpectralLine::F);
+    // select light source wavelens
+    source->clear_spectrum ();
+    source->add_spectral_line (light::SpectralLine::C);
+    source->add_spectral_line (light::SpectralLine::e);
+    source->add_spectral_line (light::SpectralLine::F);
 
-       // get transverse aberration plot
-       ref<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight,
-                                               analysis::RayFan::TransverseDistance);
+    // get transverse aberration plot
+    std::shared_ptr<data::Plot> fan_plot
+        = fan.get_plot (analysis::RayFan::EntranceHeight,
+                        analysis::RayFan::TransverseDistance);
 
-       fan_plot->draw(renderer);
+    fan_plot->draw (renderer);
 
-.. figure:: images/refractor_fan.png
+.. figure:: images/refractor_fan.svg
    :alt: Refractor Fan
 
 3.2 A photo lens design
