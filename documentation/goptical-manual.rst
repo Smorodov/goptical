@@ -1,5 +1,5 @@
 This manual is for GNU Optical.  Copyright (C) 2010-2011 Free Software
-Foundation, Inc
+Foundation, Inc.
 
 ::
 
@@ -32,10 +32,10 @@ components are represented by language objects.
 =================
 
 * GNU Optical relies on an object oriented optical design approach.
- This allows designing optical component models and reuse them
- nested in other designs. Components are stored in herarchical form
- and live in a three-dimentional space with group (*note
- sys_Group_class_reference::) local coordinates.
+  This allows designing optical component models and reuse them
+  nested in other designs. Components are stored in herarchical form
+  and live in a three-dimentional space with group (*note
+  sys_Group_class_reference::) local coordinates.
 
 * Support for sequential and non-sequential ray-tracing.
 
