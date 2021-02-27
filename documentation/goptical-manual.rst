@@ -41,137 +41,107 @@ components are represented by language objects.
 
 * Available components include:
 
-    * Single optical surfaces (*note
-      sys_OpticalSurface_class_reference::)
+  * Single optical surfaces
 
-    * Lenses (*note sys_Lens_class_reference::)
+  * Lenses
 
-    * mirrors (*note sys_mirror_class_reference::),
+  * mirrors
 
-    * Point sources (*note sys_source_point_class_reference::) and
+  * Point sources and
 
-    * image (*note sys_image_class_reference::) planes.
+  * image planes.
 
-
- Surface curve and material used by optical components are
- described using dedicated models.
+Surface curve and material used by optical components are
+described using dedicated models.
 
 * Several surface curvature models are available:
 
-    * Conic (*note curve_Conic_class_reference::) curves.
+  * Conic curves.
 
-    * Polynomial (*note curve_Polynomial_class_reference::) curves.
+  * Polynomial curves.
 
-    * rotationally symmetric (*note curve_Spline_class_reference::)
-      splines and Grid (*note curve_Grid_class_reference::) splines.
+  * rotationally symmetric splines and Grid splines.
 
-    * Zernike polynomials (*note curve_Zernike_class_reference::).
+  * Zernike polynomials .
 
-    * Foucault test (*note curve_Foucault_class_reference::) curves.
+  * Foucault test curves.
 
-    * Composition (*note curve_Composer_class_reference::) of other
-      curve models.
+  * Composition of other curve models.
 
-    * Array (*note curve_Array_class_reference::) of other curve
-      models.
+  * Array of other curve models.
 
-    * User defined (*note A custom surface curve model::) curve
-      models.
+  * User defined curve models.
 
 
- Most curve models can be described using model specific parameters
- or by best fitting any curve object.
+Most curve models can be described using model specific parameters
+or by best fitting any curve object.
 
 * Several glass material models are available:
 
-    * Interpolated dispersion (*note
-      material_DispersionTable_class_reference::) glass model
+  * Interpolated dispersion glass model
 
-    * Abbe number (*note material_Abbe_class_reference::) and mil
-      number (*note material_Mil_class_reference::) model glass
-      model.
+  * Abbe number and mil number model glass model.
 
-    * Sellmeier (*note material_Sellmeier_class_reference::) glass
-      model.
+  * Sellmeier glass model.
 
-    * Schott (*note material_Schott_class_reference::) glass model.
+  * Schott glass model.
 
-    * Conrady (*note material_Conrady_class_reference::) glass
-      model.
+  * Conrady glass model.
 
-    * Herzberger (*note material_Herzberger_class_reference::)
-      glass model.
+  * Herzberger glass model.
 
-    * A simple reflective surfaces mirror (*note
-      material_mirror_class_reference::) model.
+  * A simple reflective surfaces mirror model.
 
-    * A more accurate metal (*note
-      material_Metal_class_reference::) material model.
+  * A more accurate metal material model.
 
-    * Air (*note material_Air_class_reference::) and vaccum (*note
-      material_Vacuum_class_reference::) models.
-
+  * Air and vaccum models.
 
 * Surfaces outline shapes are described by a set of model classes
- too:
+  too:
 
-    * disk (*note shape_disk_class_reference::) shapes model.
+  * disk shapes model.
 
-    * Ring (*note shape_Ring_class_reference::) shapes model.
+  * Ring shapes model.
 
-    * Ellipse (*note shape_Ellipse_class_reference::) shapes model.
+  * Ellipse shapes model.
 
-    * Rectangle (*note shape_Rectangle_class_reference::) shapes
-      model.
+  * Rectangle shapes model.
 
-    * Regular polygon (*note
-      shape_RegularPolygon_class_reference::) and User defined
-      polygon (*note shape_Polygon_class_reference::) shapes models.
-
+  * Regular polygon and User defined polygon shapes models.
 
 * Optical system analysis tools include:
 
-    * Layout and rays rendering in 2d and 3d,
+  * Layout and rays rendering in 2d and 3d,
 
-    * Best point of focus (*note analysis_focus_class_reference::)
-      finding.
+  * Best point of focus finding.
 
-    * Various ray fan (*note analysis_RayFan_class_reference::)
-      plots.
+  * Various ray fan plots.
 
-    * spot diagram (*note analysis_spot_class_reference::) plots.
-
+  * spot diagram plots.
 
 * Several graphical output driver are available to render optical
- layouts and plots:
+  layouts and plots:
 
-    * output in Svg (*note io_renderer_svg_class_reference::) vector
-      format.
+  * output in Svg vector format.
 
-    * output in bitmap format using the Gd (*note
-      io_RendererGd_class_reference::) library.
+  * output in bitmap format using the Gd library. (Unsupported in this version)
 
-    * output in Dxf (*note io_RendererDxf_class_reference::) CAD
-      format.
+  * output in Dxf CAD format. (Unsupported in this version)
 
-    * output in various formats via the PlPlot (*note
-      io_renderer_pl_plot_class_reference::) library.
+  * output in various formats via the PlPlot library. (Unsupported in this version)
 
-    * X11 (*note io_RendererX11_class_reference::) display on UNIX
-      boxes.
+  * X11 display on UNIX boxes. (Unsupported)
 
-    * 3d display using the OpenGL (*note
-      io_RendererOpengl_class_reference::) library.
+  * 3d display using the OpenGL library. (Unsupported in this vserion)
 
-    * output in X3D (*note io_RendererX3d_class_reference::), a
-      standard 3d format.
+  * output in X3D, a standard 3d format. (Unsupported)
 
 
 * Various optical design file formats can be read:
 
-    * Oslo glass catalog
+  * Oslo glass catalog
 
-    * Zemax glass catalog and optical designs
+  * Zemax glass catalog and optical designs
 
 
 
@@ -191,12 +161,11 @@ optical axis.
 2.2 Measurement units
 =====================
 
-   * Lengths are expressed using millimeter unit.
+* Lengths are expressed using millimeter unit.
 
-   * Wavelengths are expressed in nanometer unit in vacuum.
+* Wavelengths are expressed in nanometer unit in vacuum.
 
-   * Absolute refractive indexes are used, with 1 being the refractive
-     index of vacuum.
+* Absolute refractive indexes are used, with 1 being the refractive index of vacuum.
 
 
 2.3 Object references
