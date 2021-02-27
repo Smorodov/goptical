@@ -496,7 +496,7 @@ by plotting entrance ray height against transverse distance::
 3.2 A photo lens design
 =======================
 
-.. figure:: images/tessar_layout.png
+.. figure:: images/tessar_layout.svg
    :alt: Tessar lens system 2d layout with chief and marginal rays
 
 3.2.1 Using the Lens component
@@ -510,33 +510,39 @@ one of the simplest can create spherical surfaces with circular
 aperture for us. In this example, the glass material models used are
 created on the fly::
 
-     // code from examples/tessar_lens/tessar.cc:70
+  // code from examples/tessar_lens/tessar.cpp
 
-       sys::Lens     lens(math::vector3(0, 0, 0));
+  //**********************************************************************
+  // Optical system definition
 
-       //               roc,            ap.radius, thickness,
+  auto sys = std::make_shared<sys::System>();
 
-       lens.add_surface(1/0.031186861,  14.934638, 4.627804137,
-                        ref<material::AbbeVd>::create(1.607170, 59.5002));
+  /* anchor lens */
+  auto lens = std::make_shared<sys::Lens>(math::Vector3(0, 0, 0));
 
-       lens.add_surface(0,              14.934638, 5.417429465);
+  //               roc,            ap.radius, thickness,
 
-       lens.add_surface(1/-0.014065441, 12.766446, 3.728230979,
-                        ref<material::AbbeVd>::create(1.575960, 41.2999));
+  lens->add_surface(1/0.031186861,  14.934638, 4.627804137,
+                   std::make_shared<material::AbbeVd>(1.607170, 59.5002));
 
-       lens.add_surface(1/0.034678487,  11.918098, 4.417903733);
+  lens->add_surface(0,              14.934638, 5.417429465);
 
-       lens.add_stop   (                12.066273, 2.288913925);
+  lens->add_surface(1/-0.014065441, 12.766446, 3.728230979,
+                   std::make_shared<material::AbbeVd>(1.575960, 41.2999));
 
-       lens.add_surface(0,              12.372318, 1.499288597,
-                        ref<material::AbbeVd>::create(1.526480, 51.4000));
+  lens->add_surface(1/0.034678487,  11.918098, 4.417903733);
 
-       lens.add_surface(1/0.035104369,  14.642815, 7.996205852,
-                        ref<material::AbbeVd>::create(1.623770, 56.8998));
+  lens->add_stop(12.066273, 2.288913925);
 
-       lens.add_surface(1/-0.021187519, 14.642815, 85.243965130);
+  lens->add_surface(0,              12.372318, 1.499288597,
+                   std::make_shared<material::AbbeVd>(1.526480, 51.4000));
 
-       sys.add(lens);
+  lens->add_surface(1/0.035104369,  14.642815, 7.996205852,
+                   std::make_shared<material::AbbeVd>(1.623770, 56.8998));
+
+  lens->add_surface(1/-0.021187519, 14.642815, 85.243965130);
+
+  sys->add(lens);
 
 3.2.2 Adding multiple light sources
 -----------------------------------
@@ -553,23 +559,25 @@ chief and marginal rays whereas the sys::source_point (*note
 sys_source_point_class_reference::) source is used with multiple
 wavelengths for ray fan and spot diagram analysis::
 
-       sys::SourceRays  source_rays(math::vector3(0, 27.5, -1000));
+  /* anchor sources */
+  auto source_rays = std::make_shared<sys::SourceRays>(math::Vector3(0, 27.5, -1000));
 
-       sys::source_point source_point(sys::SourceAtFiniteDistance,
-                                     math::vector3(0, 27.5, -1000));
+  auto source_point = std::make_shared<sys::SourcePoint>(sys::SourceAtFiniteDistance,
+                                math::Vector3(0, 27.5, -1000));
 
-       // add sources to system
-       sys.add(source_rays);
-       sys.add(source_point);
+  // add sources to system
+  sys->add(source_rays);
+  sys->add(source_point);
 
-       // configure sources
-       source_rays.add_chief_rays(sys);
-       source_rays.add_marginal_rays(sys, 14);
+  // configure sources
+  source_rays->add_chief_rays(*sys);
+  source_rays->add_marginal_rays(*sys, 14);
 
-       source_point.clear_spectrum();
-       source_point.add_spectral_line(light::SpectralLine::C);
-       source_point.add_spectral_line(light::SpectralLine::e);
-       source_point.add_spectral_line(light::SpectralLine::F);
+  source_point->clear_spectrum();
+  source_point->add_spectral_line(light::SpectralLine::C);
+  source_point->add_spectral_line(light::SpectralLine::e);
+  source_point->add_spectral_line(light::SpectralLine::F);
+
 
 The object is located at -1000 on the Z axis and has a height of
 27.5.
@@ -580,29 +588,38 @@ The object is located at -1000 on the Z axis and has a height of
 The analysis::spot class can be
 used to plot spot diagrams::
 
-         sys.enable_single<sys::Source>(source_point);
+    sys->enable_single<sys::Source>(*source_point);
 
-         sys.get_tracer_params().set_default_distribution(
-           trace::distribution(trace::HexaPolarDist, 12));
+    sys->get_tracer_params().set_default_distribution(
+      trace::Distribution(trace::HexaPolarDist, 12));
 
-         analysis::spot spot(sys);
+    analysis::Spot spot(sys);
 
-           io::renderer_svg renderer("spot.svg", 300, 300, io::rgb_black);
+    /* anchor end */
+    {
+    /* anchor spot */
+      io::RendererSvg renderer("spot.svg", 300, 300, io::rgb_black);
 
-           spot.draw_diagram(renderer);
+      spot.draw_diagram(renderer);
+    /* anchor end */
+    }
 
-.. figure:: images/tessar_spot.png
+.. figure:: images/tessar_spot.svg
    :alt: Tessar lens spot diagram
 
 ::
 
-           io::renderer_svg renderer("spot_intensity.svg", 640, 480);
+    {
+    /* anchor spot_plot */
+      io::RendererSvg renderer("spot_intensity.svg", 640, 480);
 
-           ref<data::Plot> plot = spot.get_encircled_intensity_plot(50);
+      std::shared_ptr<data::Plot> plot = spot.get_encircled_intensity_plot(50);
 
-           plot->draw(renderer);
+      plot->draw(renderer);
+    /* anchor end */
+    }
 
-.. figure:: images/tessar_spot_intensity.png
+.. figure:: images/tessar_spot_intensity.svg
    :alt: Tessar lens spot intensity diagram
 
 3.2.4 Plotting ray fans
@@ -611,42 +628,60 @@ used to plot spot diagrams::
 Various ray fan plots can be obtained by using the analysis::RayFan
 class::
 
-         sys.enable_single<sys::Source>(source_point);
+  {
+    /* anchor opd_fan */
+    sys->enable_single<sys::Source>(*source_point);
 
-         analysis::RayFan fan(sys);
+    analysis::RayFan fan(sys);
 
-           io::renderer_svg renderer("opd_fan.svg", 640, 480);
+    /* anchor end */
+    {
+    /* anchor opd_fan */
+      io::RendererSvg renderer("opd_fan.svg", 640, 480);
 
-           ref<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight,
-                                                   analysis::RayFan::OpticalPathDiff);
+      std::shared_ptr<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight,
+                                              analysis::RayFan::OpticalPathDiff);
 
-           fan_plot->draw(renderer);
+      fan_plot->draw(renderer);
 
-.. figure:: images/tessar_opdfan.png
+    /* anchor end */
+    }
+
+.. figure:: images/tessar_opdfan.svg
    :alt: Tessar lens OPS Fan diagram
 
 ::
 
-           io::renderer_svg renderer("transverse_fan.svg", 640, 480);
+    {
+    /* anchor transverse_fan */
+      io::RendererSvg renderer("transverse_fan.svg", 640, 480);
 
-           ref<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight,
-                                                   analysis::RayFan::TransverseDistance);
+      std::shared_ptr<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight,
+                                              analysis::RayFan::TransverseDistance);
 
-           fan_plot->draw(renderer);
+      fan_plot->draw(renderer);
 
-.. figure:: images/tessar_transverse.png
+    /* anchor end */
+    }
+
+.. figure:: images/tessar_transverse.svg
    :alt: Tessar lens Transverse Fan diagram
 
 ::
 
-           io::renderer_svg renderer("longitudinal_fan.svg", 640, 480);
+    {
+    /* anchor longitudinal_fan */
+      io::RendererSvg renderer("longitudinal_fan.svg", 640, 480);
 
-           ref<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight,
-                                                   analysis::RayFan::LongitudinalDistance);
+      std::shared_ptr<data::Plot> fan_plot = fan.get_plot(analysis::RayFan::EntranceHeight,
+                                              analysis::RayFan::LongitudinalDistance);
 
-           fan_plot->draw(renderer);
+      fan_plot->draw(renderer);
 
-.. figure:: images/tessar_longitudinal.png
+    /* anchor end */
+    }
+
+.. figure:: images/tessar_longitudinal.svg
    :alt: Tessar lens Longitudinal Fan diagram
 
 3.3 system hierarchy and groups
