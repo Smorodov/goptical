@@ -23,9 +23,9 @@
 
 */
 
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/math/vector_pair.hpp>
 
-#include <goptical/design/telescope/Cassegrain>
+#include <goptical/design/telescope/cassegrain.hpp>
 
 namespace goptical {
 
@@ -46,17 +46,18 @@ namespace goptical {
 
           _ms(calc()),
 
-          _primary_shape(_d1 / 2., _hd / 2),
-          _primary_curve(_f1 * 2., _k1),
-          _primary(math::VectorPair3(0, 0, _ms, 0, 0, -1.),
-                   _primary_curve, _primary_shape, false),
-          _secondary_shape(_d2 / 2.),
-          _secondary_curve(_f2 * 2., _k2),
-          _secondary(math::VectorPair3(0, 0, 0, 0, 0, -1),
-                     _secondary_curve, _secondary_shape),
+
 
           _focal_plane(0, 0, _ms + _bwd, 0, 0, 1)
       {
+        _primary_shape = std::make_shared<shape::Ring>(_d1 / 2., _hd / 2);
+        _primary_curve = std::make_shared<curve::Conic>(_f1 * 2., _k1);
+        _primary = std::make_shared<sys::Mirror> (math::VectorPair3(0, 0, _ms, 0, 0, -1.),
+                     _primary_curve, _primary_shape, false);
+        _secondary_shape = std::make_shared<shape::Disk>(_d2 / 2.);
+        _secondary_curve = std::make_shared<curve::Conic>(_f2 * 2., _k2);
+        _secondary = std::make_shared<sys::Mirror>(math::VectorPair3(0, 0, 0, 0, 0, -1),
+                       _secondary_curve, _secondary_shape);
         add(_primary);
         add(_secondary);
       }
@@ -112,14 +113,14 @@ namespace goptical {
       {
         calc();
 
-        _primary_shape.set_radius(_d1 / 2, _hd / 2);
-        _primary_curve.set_roc(_f1 * 2);
-        _primary_curve.set_schwarzschild(_k1);
-        _primary.set_local_position(math::Vector3(0, 0, _ms));
+        _primary_shape->set_radius(_d1 / 2, _hd / 2);
+        _primary_curve->set_roc(_f1 * 2);
+        _primary_curve->set_schwarzschild(_k1);
+        _primary->set_local_position(math::Vector3(0, 0, _ms));
 
-        _secondary_shape.set_radius(_d2 / 2);
-        _secondary_curve.set_roc(_f2 * 2);
-        _secondary_curve.set_schwarzschild(_k2);
+        _secondary_shape->set_radius(_d2 / 2);
+        _secondary_curve->set_roc(_f2 * 2);
+        _secondary_curve->set_schwarzschild(_k2);
 
         _focal_plane = math::VectorPair3(0, 0, _ms + _bwd, 0, 0, 1);
       }

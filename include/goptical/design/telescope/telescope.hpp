@@ -75,7 +75,12 @@ namespace goptical {
       virtual math::VectorPair3 get_focal_plane() const = 0;
     };
 
+    telescope::telescope(const math::VectorPair3 &p)
+        : Group(p)
+    {
     }
+
+  }
   }
 }
 
