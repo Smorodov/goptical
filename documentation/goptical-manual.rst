@@ -1,5 +1,7 @@
-This manual is for GNU <goptical/core.  Copyright (C) 2010-2011 Free Software
+This manual is for GNU Optical.  Copyright (C) 2010-2011 Free Software
 Foundation, Inc
+
+::
 
      Copyright (C) 2010-2011 Free Software Foundation, Inc. Permission
      is granted to copy, distribute and/or modify this document under
@@ -16,180 +18,170 @@ GNU Optical is a C++ optical design and simulation library. It is
 free software and this implementation is based on the version
 that is part of the GNU project .
 
-   It provides model classes for optical components, surfaces and
+It provides model classes for optical components, surfaces and
 materials. It enables building optical systems by creating and placing
 various optical components in a 3d space and simulates light
 propagation through the system. Classical optical design analysis tools
 can be used on optical systems.
 
-   It takes advantages of the C++ object model to allow building
+It takes advantages of the C++ object model to allow building
 complex optical systems with a few classes instanciations as optical
 components are represented by language objects.
-
-* Menu:
-
-* Features list::
 
 1.1 Features list
 =================
 
-   * <goptical/core relies on an object oriented optical design approach.
-     This allows designing optical component models and reuse them
-     nested in other designs. Components are stored in herarchical form
-     and live in a three-dimentional space with group (*note
-     sys_Group_class_reference::) local coordinates.
+* GNU Optical relies on an object oriented optical design approach.
+ This allows designing optical component models and reuse them
+ nested in other designs. Components are stored in herarchical form
+ and live in a three-dimentional space with group (*note
+ sys_Group_class_reference::) local coordinates.
 
-   * Support for sequential and non-sequential ray-tracing.
+* Support for sequential and non-sequential ray-tracing.
 
-   * Available components include:
+* Available components include:
 
-        * Single optical surfaces (*note
-          sys_OpticalSurface_class_reference::)
+    * Single optical surfaces (*note
+      sys_OpticalSurface_class_reference::)
 
-        * Lenses (*note sys_Lens_class_reference::)
+    * Lenses (*note sys_Lens_class_reference::)
 
-        * mirrors (*note sys_mirror_class_reference::),
+    * mirrors (*note sys_mirror_class_reference::),
 
-        * Point sources (*note sys_source_point_class_reference::) and
+    * Point sources (*note sys_source_point_class_reference::) and
 
-        * image (*note sys_image_class_reference::) planes.
-
-
-     Surface curve and material used by optical components are
-     described using dedicated models.
-
-   * Several surface curvature models are available:
-
-        * Conic (*note curve_Conic_class_reference::) curves.
-
-        * Polynomial (*note curve_Polynomial_class_reference::) curves.
-
-        * rotationally symmetric (*note curve_Spline_class_reference::)
-          splines and Grid (*note curve_Grid_class_reference::) splines.
-
-        * Zernike polynomials (*note curve_Zernike_class_reference::).
-
-        * Foucault test (*note curve_Foucault_class_reference::) curves.
-
-        * Composition (*note curve_Composer_class_reference::) of other
-          curve models.
-
-        * Array (*note curve_Array_class_reference::) of other curve
-          models.
-
-        * User defined (*note A custom surface curve model::) curve
-          models.
+    * image (*note sys_image_class_reference::) planes.
 
 
-     Most curve models can be described using model specific parameters
-     or by best fitting any curve object.
+ Surface curve and material used by optical components are
+ described using dedicated models.
 
-   * Several glass material models are available:
+* Several surface curvature models are available:
 
-        * Interpolated dispersion (*note
-          material_DispersionTable_class_reference::) glass model
+    * Conic (*note curve_Conic_class_reference::) curves.
 
-        * Abbe number (*note material_Abbe_class_reference::) and mil
-          number (*note material_Mil_class_reference::) model glass
-          model.
+    * Polynomial (*note curve_Polynomial_class_reference::) curves.
 
-        * Sellmeier (*note material_Sellmeier_class_reference::) glass
-          model.
+    * rotationally symmetric (*note curve_Spline_class_reference::)
+      splines and Grid (*note curve_Grid_class_reference::) splines.
 
-        * Schott (*note material_Schott_class_reference::) glass model.
+    * Zernike polynomials (*note curve_Zernike_class_reference::).
 
-        * Conrady (*note material_Conrady_class_reference::) glass
-          model.
+    * Foucault test (*note curve_Foucault_class_reference::) curves.
 
-        * Herzberger (*note material_Herzberger_class_reference::)
-          glass model.
+    * Composition (*note curve_Composer_class_reference::) of other
+      curve models.
 
-        * A simple reflective surfaces mirror (*note
-          material_mirror_class_reference::) model.
+    * Array (*note curve_Array_class_reference::) of other curve
+      models.
 
-        * A more accurate metal (*note
-          material_Metal_class_reference::) material model.
-
-        * Air (*note material_Air_class_reference::) and vaccum (*note
-          material_Vacuum_class_reference::) models.
+    * User defined (*note A custom surface curve model::) curve
+      models.
 
 
-   * Surfaces outline shapes are described by a set of model classes
-     too:
+ Most curve models can be described using model specific parameters
+ or by best fitting any curve object.
 
-        * disk (*note shape_disk_class_reference::) shapes model.
+* Several glass material models are available:
 
-        * Ring (*note shape_Ring_class_reference::) shapes model.
+    * Interpolated dispersion (*note
+      material_DispersionTable_class_reference::) glass model
 
-        * Ellipse (*note shape_Ellipse_class_reference::) shapes model.
+    * Abbe number (*note material_Abbe_class_reference::) and mil
+      number (*note material_Mil_class_reference::) model glass
+      model.
 
-        * Rectangle (*note shape_Rectangle_class_reference::) shapes
-          model.
+    * Sellmeier (*note material_Sellmeier_class_reference::) glass
+      model.
 
-        * Regular polygon (*note
-          shape_RegularPolygon_class_reference::) and User defined
-          polygon (*note shape_Polygon_class_reference::) shapes models.
+    * Schott (*note material_Schott_class_reference::) glass model.
 
+    * Conrady (*note material_Conrady_class_reference::) glass
+      model.
 
-   * Optical system analysis tools include:
+    * Herzberger (*note material_Herzberger_class_reference::)
+      glass model.
 
-        * Layout and rays rendering in 2d and 3d,
+    * A simple reflective surfaces mirror (*note
+      material_mirror_class_reference::) model.
 
-        * Best point of focus (*note analysis_focus_class_reference::)
-          finding.
+    * A more accurate metal (*note
+      material_Metal_class_reference::) material model.
 
-        * Various ray fan (*note analysis_RayFan_class_reference::)
-          plots.
-
-        * spot diagram (*note analysis_spot_class_reference::) plots.
-
-
-   * Several graphical output driver are available to render optical
-     layouts and plots:
-
-        * output in Svg (*note io_renderer_svg_class_reference::) vector
-          format.
-
-        * output in bitmap format using the Gd (*note
-          io_RendererGd_class_reference::) library.
-
-        * output in Dxf (*note io_RendererDxf_class_reference::) CAD
-          format.
-
-        * output in various formats via the PlPlot (*note
-          io_renderer_pl_plot_class_reference::) library.
-
-        * X11 (*note io_RendererX11_class_reference::) display on UNIX
-          boxes.
-
-        * 3d display using the OpenGL (*note
-          io_RendererOpengl_class_reference::) library.
-
-        * output in X3D (*note io_RendererX3d_class_reference::), a
-          standard 3d format.
+    * Air (*note material_Air_class_reference::) and vaccum (*note
+      material_Vacuum_class_reference::) models.
 
 
-   * Various optical design file formats can be read:
+* Surfaces outline shapes are described by a set of model classes
+ too:
 
-        * Oslo glass catalog
+    * disk (*note shape_disk_class_reference::) shapes model.
 
-        * Zemax glass catalog and optical designs
+    * Ring (*note shape_Ring_class_reference::) shapes model.
+
+    * Ellipse (*note shape_Ellipse_class_reference::) shapes model.
+
+    * Rectangle (*note shape_Rectangle_class_reference::) shapes
+      model.
+
+    * Regular polygon (*note
+      shape_RegularPolygon_class_reference::) and User defined
+      polygon (*note shape_Polygon_class_reference::) shapes models.
+
+
+* Optical system analysis tools include:
+
+    * Layout and rays rendering in 2d and 3d,
+
+    * Best point of focus (*note analysis_focus_class_reference::)
+      finding.
+
+    * Various ray fan (*note analysis_RayFan_class_reference::)
+      plots.
+
+    * spot diagram (*note analysis_spot_class_reference::) plots.
+
+
+* Several graphical output driver are available to render optical
+ layouts and plots:
+
+    * output in Svg (*note io_renderer_svg_class_reference::) vector
+      format.
+
+    * output in bitmap format using the Gd (*note
+      io_RendererGd_class_reference::) library.
+
+    * output in Dxf (*note io_RendererDxf_class_reference::) CAD
+      format.
+
+    * output in various formats via the PlPlot (*note
+      io_renderer_pl_plot_class_reference::) library.
+
+    * X11 (*note io_RendererX11_class_reference::) display on UNIX
+      boxes.
+
+    * 3d display using the OpenGL (*note
+      io_RendererOpengl_class_reference::) library.
+
+    * output in X3D (*note io_RendererX3d_class_reference::), a
+      standard 3d format.
+
+
+* Various optical design file formats can be read:
+
+    * Oslo glass catalog
+
+    * Zemax glass catalog and optical designs
 
 
 
 2 Conventions
 *************
 
-* Menu:
-
-* Coordinates system::
-* Measurement units::
-* Object references::
-
 2.1 Coordinates system
 ======================
 
-Each optical element in <goptical/core lives in its own coordinates system.
+Each optical element in GNU Optical lives in its own coordinates system.
 It's usually located at _(0, 0, 0)_ with the _Z_ axis being the local
 optical axis.
 
@@ -211,10 +203,10 @@ optical axis.
 =====================
 
 C++ objects are used to model optical elements, materials, curvatures,
-shapes and other kinds of object <goptical/core deals with. As the optical
+shapes and other kinds of object GNU Optical deals with. As the optical
 system is being built, some objects keep references to other objects.
 
-   The  ref  smart pointer class is used to manage objects in a
+The  ref  smart pointer class is used to manage objects in a
 convenient way. Objects can either be statically allocated or
 dynamically allocated. Both can then be passed to reference holder
 objects in the same way but only dynamically allocated objects will be
@@ -236,15 +228,7 @@ automatically deleted when not used anymore::
 **********
 
 This section contains some commented example of applications and codes
-which use the <goptical/core library to model optical systems.
-
-* Menu:
-
-* A simple refractor design::
-* A photo lens design::
-* system hierarchy and groups::
-* A parameterizable segmented mirror model::
-* A custom surface curve model::
+which use the GNU Optical library to model optical systems.
 
 3.1 A simple refractor design
 =============================
@@ -252,24 +236,17 @@ which use the <goptical/core library to model optical systems.
 .. figure:: images/refractor_layout.png
    :alt: Refractor optical system 2d layout
 
-* Menu:
-
-* Building the optical system::
-* Performing light propagation::
-* Rendering optical layout and rays::
-* Performing a ray fan analysis::
-
 3.1.1 Building the optical system
 ---------------------------------
 
 Unlike much optical design software which relies on a list of surfaces
-to sequentially propagate light through the system, <goptical/core uses an
+to sequentially propagate light through the system, GNU Optical uses an
 object representation of the optical system in 3d space.
 
-   To model an optical system with <goptical/core, we just have to
+To model an optical system with GNU Optical, we just have to
 instantiate components and add them to the system.
 
-   For this refractor example we first need to deal with glass
+For this refractor example we first need to deal with glass
 materials used in the design. Our achromatic refractor design needs two
 lenses of different glass materials. In this example we choose to model
 Bk7 and F3 glasses with the Sellmeier model::
@@ -282,10 +259,10 @@ Bk7 and F3 glasses with the Sellmeier model::
        material::Sellmeier f3(8.23583145e-1, 6.41147253e-12, 7.11376975e-1,
                               3.07327658e-2, 3.12425113e-2, 4.02094988);
 
-   The sys::OpticalSurface (*note sys_OpticalSurface_class_reference::)
+The sys::OpticalSurface (*note sys_OpticalSurface_class_reference::)
 class is used to model a single optical surface.
 
-   The two lenses have the same disk outline shape, so we declare the
+The two lenses have the same disk outline shape, so we declare the
 shape model once:
 
        shape::disk   lens_shape(100); // lens diameter is 100mm
@@ -294,11 +271,11 @@ shape model once:
        curve::Sphere curve1(2009.753); // spherical curve with given radius of curvature
        curve::Sphere curve2(-976.245);
 
-   Surface curves rely on dedicated models which are not dependent on
+Surface curves rely on dedicated models which are not dependent on
 optical component being used. Here we need two simple spherical curves
 for the first lens.
 
-   The first lens component can then be instantiated. We need to
+The first lens component can then be instantiated. We need to
 specify its 3d position, thickness, shape model, curve models and
 material models. material::none (*note _528::) will later be replaced
 by system environment material.
@@ -314,7 +291,7 @@ by system environment material.
                               curve2, lens_shape,
                               bk7, material::none);
 
-   More convenient optical surface constructors are available for
+More convenient optical surface constructors are available for
 simple cases, with circular aperture and spherical curvature. They are
 used for the second lens::
 
@@ -328,27 +305,27 @@ used for the second lens::
                               -3636.839, 100,
                               f3, material::none);
 
-   The sys::Lens (*note sys_Lens_class_reference::) class is more
+The sys::Lens (*note sys_Lens_class_reference::) class is more
 convenient to use for most designs as it can handle a list of surfaces.
 In this example we choose to use the sys::OpticalSurface (*note
 sys_OpticalSurface_class_reference::) class directly to show how things
 work. The convenient method is used in the next example (*note A photo
 lens design::).
 
-   We then create a point light source at infinite distance with a
+We then create a point light source at infinite distance with a
 direction vector aimed at entry surface (left of first lens)::
 
        // light source
        sys::source_point source(sys::SourceAtInfinity,
                                math::vector3(0, 0, 1));
 
-   And we finally create an image plane near the expected focal point::
+And we finally create an image plane near the expected focal point::
 
        // image plane
        sys::image    image(math::vector3(0, 0, 3014.5),  // position
                            60);                           // square size,
 
-   All these components need to be added to an optical system::
+All these components need to be added to an optical system::
 
        sys::system   sys;
 
@@ -360,7 +337,7 @@ direction vector aimed at entry surface (left of first lens)::
        sys.add(s4);
        sys.add(image);
 
-   This simple optical design is ready for ray tracing and analysis.
+This simple optical design is ready for ray tracing and analysis.
 
 3.1.2 Performing light propagation
 ----------------------------------
@@ -371,30 +348,30 @@ several tracer parameters which can be tweaked before starting light
 propagation. Some default parameters can be set for an optical system
 instance; they will be used for each new tracer created for the system.
 
-   When light is propagated through the system, a tracer may be
+When light is propagated through the system, a tracer may be
 instructed to keep track of rays hitting or generated by some of the
 components for further analysis.
 
-   Some analysis classes (*note analysis_namespace_reference::) are
+Some analysis classes (*note analysis_namespace_reference::) are
 provided which embed a tracer configured for a particular analysis, but
 it's still possible to request a light propagation by directly
 instantiating a tracer object.
 
-   There are two major approaches to trace rays through an optical
+There are two major approaches to trace rays through an optical
 system:
 
-   * Sequential ray tracing: This requires an ordered list of surfaces
-     to traverse. Rays are generated by the light source and propagated
-     in the specified sequence order. Any light ray which doesn't reach
-     the next surface in order is lost.
+* Sequential ray tracing: This requires an ordered list of surfaces
+ to traverse. Rays are generated by the light source and propagated
+ in the specified sequence order. Any light ray which doesn't reach
+ the next surface in order is lost.
 
-   * Non-sequential ray tracing: Rays are generated by the light source
-     and each ray interacts with the first optical component found on
-     its path. Rays are propagated this way across system components
-     until they reach an image plane or get lost.
+* Non-sequential ray tracing: Rays are generated by the light source
+ and each ray interacts with the first optical component found on
+ its path. Rays are propagated this way across system components
+ until they reach an image plane or get lost.
 
 
-   The default behavior in <goptical/core is to perform a non-sequential ray
+The default behavior in GNU Optical is to perform a non-sequential ray
 trace when no sequence is provided.
 
 Non-sequential ray trace
@@ -403,7 +380,7 @@ Non-sequential ray trace
 A non-sequential ray trace needs the specification of an entrance pupil
 so that rays from light sources can be targeted at optical system entry.
 
-   Performing light propagation only needs instantiation of a
+Performing light propagation only needs instantiation of a
 trace::tracer (*note trace_tracer_class_reference::) object and
 invocation of its trace::tracer::trace (*note _1425::) function. tracer
 parameters are inherited from system default tracer parameters::
@@ -412,11 +389,11 @@ parameters are inherited from system default tracer parameters::
        trace::tracer tracer(sys);
        tracer.trace();
 
-   When performing a non-sequential ray trace, only optical components
+When performing a non-sequential ray trace, only optical components
 based on sys::Surface (*note sys_Surface_class_reference::) will
 interact with light.
 
-   All enabled light sources which are part of the system are
+All enabled light sources which are part of the system are
 considered.
 
 Sequential ray trace
@@ -431,25 +408,25 @@ components found in the system, in order along the Z axis.
 
        sys.get_tracer_params().set_sequential_mode(seq);
 
-   More complicated sequences must be created empty and described
+More complicated sequences must be created empty and described
 explicitly using the trace::sequence::add (*note _1410::) function.
 
-   Optical system and sequence objects can be displayed using stl
+Optical system and sequence objects can be displayed using stl
 streams::
 
        std::cout << "system:" << std::endl << sys;
        std::cout << "sequence:" << std::endl << seq;
 
-   Ray tracing is then performed in the same way as for non-sequential
+Ray tracing is then performed in the same way as for non-sequential
 ray traces:
 
        trace::tracer tracer(sys);
        tracer.trace();
 
-   When performing a sequential ray trace, all optical components can
+When performing a sequential ray trace, all optical components can
 process incoming light rays.
 
-   A single light source must be present at the beginning of the
+A single light source must be present at the beginning of the
 sequence.
 
 3.1.3 Rendering optical layout and rays
@@ -462,35 +439,35 @@ Not all rays' interactions are stored by default, and the result object
 must be first configured to specify which interactions should be stored
 for further analysis.
 
-   Here we want to draw all rays which are traced through the system.
+Here we want to draw all rays which are traced through the system.
 We first have to instruct our trace::Result (*note
 trace_Result_class_reference::) object to remember which rays were
 generated by the source component in the system, so that it can used as
 a starting point for drawing subsequently scattered and reflected rays.
 
-   We use an io::Renderer (*note io_Renderer_class_reference::) based
+We use an io::Renderer (*note io_Renderer_class_reference::) based
 object which is able to draw various things. We use it to draw system
 components as well as to recursively draw all rays generated by light
 sources.
 
-   Here is what we need to do in order:
+Here is what we need to do in order:
 
-   * Instantiate a renderer object able to write graphics in some
-     output format.
+* Instantiate a renderer object able to write graphics in some
+ output format.
 
-   * Fit renderer viewport to optical system.
+* Fit renderer viewport to optical system.
 
-   * Draw system components.
+* Draw system components.
 
-   * Optionally change the ray distribution on entrance pupil so that
-     only meridional rays are traced.
+* Optionally change the ray distribution on entrance pupil so that
+ only meridional rays are traced.
 
-   * Instruct the result object to keep track of rays generated by the
-     source component.
+* Instruct the result object to keep track of rays generated by the
+ source component.
 
-   * Perform the ray tracing.
+* Perform the ray tracing.
 
-   * Draw traced rays.
+* Draw traced rays.
 
 ::
 
@@ -518,11 +495,11 @@ classes may embed a trace::tracer (*note
 trace_tracer_class_reference::) object if light propagation is needed
 to perform analysis.
 
-   Ray fan plots can be computed using the analysis::RayFan (*note
+Ray fan plots can be computed using the analysis::RayFan (*note
 analysis_RayFan_class_reference::) class which is able to plot various
 ray measurements on both 2d plot axes.
 
-   The example below shows how to produce a transverse aberration plot
+The example below shows how to produce a transverse aberration plot
 by plotting entrance ray height against transverse distance::
 
        io::renderer_svg     renderer("fan.svg", 640, 480, io::rgb_white);
@@ -549,13 +526,6 @@ by plotting entrance ray height against transverse distance::
 
 .. figure:: images/tessar_layout.png
    :alt: Tessar lens system 2d layout with chief and marginal rays
-
-* Menu:
-
-* Using the Lens component::
-* Adding multiple light sources::
-* Plotting spot diagram::
-* Plotting ray fans::
 
 3.2.1 Using the Lens component
 ------------------------------
@@ -605,7 +575,7 @@ we sometimes want to trace custom rays. This can be achieved by using
 the sys::SourceRays (*note sys_SourceRays_class_reference::) component
 class.
 
-   In this example we add both source types to our system but enable a
+In this example we add both source types to our system but enable a
 single one at the same time. The sys::SourceRays (*note
 sys_SourceRays_class_reference::) is used to draw a 2d layout with
 chief and marginal rays whereas the sys::source_point (*note
@@ -630,7 +600,7 @@ wavelengths for ray fan and spot diagram analysis::
        source_point.add_spectral_line(light::SpectralLine::e);
        source_point.add_spectral_line(light::SpectralLine::F);
 
-   The object is located at -1000 on the Z axis and has a height of
+The object is located at -1000 on the Z axis and has a height of
 27.5.
 
 3.2.3 Plotting spot diagram
@@ -711,21 +681,16 @@ Various ray fan plots can be obtained by using the analysis::RayFan
 3.3 system hierarchy and groups
 ===============================
 
-<goptical/core allows arranging components of the optical system in a
+GNU Optical allows arranging components of the optical system in a
 hierarchical manner. Optical component classes all inherit from the
 sys::Element (*note sys_Element_class_reference::) class. Elements
 which inherit from the sys::Group (*note sys_Group_class_reference::)
 class can contain nested elements.
 
-   Each element has a local coordinate system and stores a
+Each element has a local coordinate system and stores a
 math::Transform (*note math_Transform_3_class_reference::)<3> object
 which describes its translation and rotation relative to the parent
 coordinate system.
-
-* Menu:
-
-* The Lens component::
-* A newton telescope with corrector::
 
 3.3.1 The Lens component
 ------------------------
@@ -767,7 +732,7 @@ position.
 ---------------------------------------
 
 Object-oriented programming together with the hierarchical optical
-components organization in <goptical/core allows writing complex and
+components organization in GNU Optical allows writing complex and
 dynamically parameterized optical component models composed of simple
 components.
 
@@ -781,7 +746,7 @@ following example shows how to build an optical design composed of a
 light source, the newton telescope model, a corrector lens assembly and
 an image plane.
 
-   The model constructor is called with the basic newton telescope
+The model constructor is called with the basic newton telescope
 parameters and the model internally computes other parameters of the
 telescope and instantiates internal optical components as needed.
 
@@ -801,7 +766,7 @@ telescope and instantiates internal optical components as needed.
                                         245.1);          // aperture diameter
        sys.add(newton);
 
-   We can query the telescope model to get the 3d position of the focal
+We can query the telescope model to get the 3d position of the focal
 plane within parent coordinates. This enables us to attach the image
 plane or next optical component at right location without much
 calculation.
@@ -834,12 +799,12 @@ sys_Lens_class_reference::) component::
        sys::image              image(wynne.get_exit_plane(), 15);
        sys.add(image);
 
-   The first surface of the corrector is located relative to origin of
+The first surface of the corrector is located relative to origin of
 the `wynne' lens component with a Z offset of -48.4585 in the lens
 coordinate system but the whole lens is rotated and positioned at the
 telescope focal plane in the parent coordinate system.
 
-   Finally an image plane is created and positioned according to the
+Finally an image plane is created and positioned according to the
 corrector position and last surface thickness.
 
 Querying model and rendering layouts
@@ -860,7 +825,7 @@ details::
        std::cout << "field angle: "
                  << newton.get_field_angle() << std::endl;
 
-   2d and 3d layouts of the whole system or groups can be rendered. The
+2d and 3d layouts of the whole system or groups can be rendered. The
 following code uses paging to render two such different views of the
 system::
 
@@ -894,18 +859,13 @@ system::
 ============================================
 
 This section shows how to take advantages of the hierarchical design
-(*note system hierarchy and groups::) feature of <goptical/core to write your
+(*note system hierarchy and groups::) feature of GNU Optical to write your
 own parameterizable optical component models. The code of a segmented
 mirror component model is presented and this new component is used as
 the primary mirror in a Ritchey-Chretien telescope design.
 
 .. figure:: images/hexseg_mirror.png
    :alt: 3d layout of a Ritchey-Chretien telescope with segmented primary mirror (X3D output)
-
-* Menu:
-
-* Writing the component model class::
-* Using the model in Ritchey-Chretien design::
 
 3.4.1 Writing the component model class
 ---------------------------------------
@@ -929,7 +889,7 @@ class::
          : sys::Group(pos)
        {
 
-   When the model is instantiated, all hexagonal mirrors need to be
+When the model is instantiated, all hexagonal mirrors need to be
 created from the constructor. We use two loops in order to build the
 hexagonal mirror tessellation::
 
@@ -952,14 +912,14 @@ hexagonal mirror tessellation::
                  math::vector2 p(x * separation * 1.5,
                                    yoffset + y * separation * 2 * sqrt_3_2 );
 
-   The aperture shape is then used to check if a segment mirror must
+The aperture shape is then used to check if a segment mirror must
 exist at each location::
 
                  // skip if segment center is outside main shape
                  if (!shape->inside(p))
                    continue;
 
-   The segment mirror curve must take into account the offset from the
+The segment mirror curve must take into account the offset from the
 main mirror origin. We also decide to subtract the sagitta offset from
 the segment curve and add it to its Z component position instead; this
 allows its origin to lie on the segment surface, which may be more
@@ -976,7 +936,7 @@ transformations to the model curve passed as a parameter::
 
                  seg_curve->add_curve(curve).xy_translate(-p).z_offset(-z_offset);
 
-   The segment mirror is then created and added to the model group::
+The segment mirror is then created and added to the model group::
 
                  // create a segment mirror with hexagonal shape and translated curve
                  ref<sys::mirror> seg = ref<sys::mirror>::create(math::vector3(p, z_offset), seg_curve,
@@ -985,7 +945,7 @@ transformations to the model curve passed as a parameter::
                  // attach the new segment to our group component
                  add(seg);
 
-   We finally add some code to keep track of the segments so that they
+We finally add some code to keep track of the segments so that they
 can be accessed (and modified) separately after model instantiation::
 
                  // keep a pointer to this new segment
@@ -1008,7 +968,7 @@ can be accessed (and modified) separately after model instantiation::
        std::vector<sys::mirror *> _segments;
      };
 
-   This model class is less than 70 lines long, including comments.
+This model class is less than 70 lines long, including comments.
 
 3.4.2 Using the model in Ritchey-Chretien design
 ------------------------------------------------
@@ -1046,11 +1006,6 @@ Common curve models are available in the curve (*note
 curve_namespace_reference::) namespace but extending this set with
 user-defined models is easy, as explained in this tutorial.
 
-* Menu:
-
-* Writing the curve model class::
-* Using the new model in optical design::
-
 3.5.1 Writing the curve model class
 -----------------------------------
 
@@ -1059,12 +1014,12 @@ curve. This curve has the following sagitta formula::
 
    z = a \, \cosh \left (r \over a \right ) - a
 
-   Our curve model needs to provide several functions in order to be
+Our curve model needs to provide several functions in order to be
 useful to the raytracer. Fortunately there are base classes which
 provide default implementations for most curve model functions. This
 include differentiation functions and ray intersection functions.
 
-   The curve::rotational (*note curve_rotational_class_reference::)
+The curve::rotational (*note curve_rotational_class_reference::)
 class allows modeling rotationally symmetric curves by only dealing
 with 2d formulas. Our model class just has to inherit from this class
 and provide an implementation for the `sagitta' function::
@@ -1088,7 +1043,7 @@ and provide an implementation for the `sagitta' function::
        double _a;
      };
 
-   The model can be improved by specifying the derivative function.
+The model can be improved by specifying the derivative function.
 This make calculations more efficient by avoiding use of the default
 numerical differentiation implementation::
 
@@ -1097,7 +1052,7 @@ numerical differentiation implementation::
          return sinh(r / _a);
        }
 
-   Although more functions from curve::Base (*note
+Although more functions from curve::Base (*note
 curve_Base_class_reference::) and curve::rotational (*note
 curve_rotational_class_reference::) can be reimplemented to further
 improve model efficiency, this curve model can readily be used in an
@@ -1129,7 +1084,7 @@ resemble a parabolic mirror as used in a newton telescope.
        sys::image              image(math::vector3_0, 15);
        sys.add(image);
 
-   The best point of focus is slightly offset from the parabola focal
+The best point of focus is slightly offset from the parabola focal
 length. We use the analysis::focus (*note
 analysis_focus_class_reference::) class to find the best point of focus
 and move the image plane at this location::
@@ -1138,7 +1093,7 @@ and move the image plane at this location::
 
          image.set_plane(focus.get_best_focus());
 
-   Finally we plot some spot diagrams using the analysis::spot (*note
+Finally we plot some spot diagrams using the analysis::spot (*note
 analysis_spot_class_reference::) class. The point light source is
 rotated for each diagram::
 
