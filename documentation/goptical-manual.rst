@@ -228,7 +228,7 @@ The sys::OpticalSurface
 class is used to model a single optical surface.
 
 The two lenses have the same disk outline shape, so we declare the
-shape model once:
+shape model once::
 
   /* anchor lens_shape */
   auto lens_shape
@@ -391,7 +391,7 @@ streams::
    std::cout << "sequence:" << std::endl << seq;
 
 Ray tracing is then performed in the same way as for non-sequential
-ray traces:
+ray traces::
 
     trace::Tracer tracer (sys.get ());
     tracer.trace ();
