@@ -899,48 +899,47 @@ separation as parameters. We start the definition of our model class
 which inherits from the sys::Group
 class::
 
-     // code from examples/segmented_mirror/segmented.cc:62
+    // code from examples/segmented_mirror/segmented.cpp
 
-     class HexSegmirror : public sys::Group
-     {
-     public:
-
-       HexSegmirror(const math::vectorPair3 &pos,
-                    const const_ref<curve::Base> &curve,
-                    const const_ref<shape::Base> &shape,
-                    double seg_radius, double separation)
-         : sys::Group(pos)
-       {
+    class HexSegMirror : public sys::Group
+    {
+    public:
+      HexSegMirror (const math::VectorPair3 &pos,
+                    const std::shared_ptr<curve::Base> &curve,
+                    const std::shared_ptr<shape::Base> &shape, double seg_radius,
+                    double separation)
+          : sys::Group (pos)
+      {
 
 When the model is instantiated, all hexagonal mirrors need to be
 created from the constructor. We use two loops in order to build the
 hexagonal mirror tessellation::
 
-         if (seg_radius > separation)
-           throw(Error("overlapping segments"));
+        if (seg_radius > separation)
+          throw (Error ("overlapping segments"));
 
-         // sqrt(3)/2
-         static const double sqrt_3_2 = 0.86602540378443864676;
+        // sqrt(3)/2
+        static const double sqrt_3_2 = 0.86602540378443864676;
 
-         // hexagonal tessellation
-         int x_count = ceil(shape->max_radius() / (separation * 1.5));
-         int y_count = ceil(shape->max_radius() / (separation * 2 * sqrt_3_2));
+        // hexagonal tessellation
+        int x_count = ceil (shape->max_radius () / (separation * 1.5));
+        int y_count = ceil (shape->max_radius () / (separation * 2 * sqrt_3_2));
 
-         for (int x = -x_count; x <= x_count ; x++)
-           {
-             for (int y = -y_count; y <= y_count ; y++)
-               {
-                 // find segment mirror 2d position
-                 double yoffset = x % 2 ? separation * sqrt_3_2 : 0;
-                 math::vector2 p(x * separation * 1.5,
-                                   yoffset + y * separation * 2 * sqrt_3_2 );
+        for (int x = -x_count; x <= x_count; x++)
+          {
+            for (int y = -y_count; y <= y_count; y++)
+              {
+                // find segment mirror 2d position
+                double yoffset = x % 2 ? separation * sqrt_3_2 : 0;
+                math::Vector2 p (x * separation * 1.5,
+                                 yoffset + y * separation * 2 * sqrt_3_2);
 
 The aperture shape is then used to check if a segment mirror must
 exist at each location::
 
-                 // skip if segment center is outside main shape
-                 if (!shape->inside(p))
-                   continue;
+                // skip if segment center is outside main shape
+                if (!shape->inside (p))
+                  continue;
 
 The segment mirror curve must take into account the offset from the
 main mirror origin. We also decide to subtract the sagitta offset from
@@ -950,46 +949,54 @@ convenient when tilting the segment. The curve::Composer (*note
 curve_Composer_class_reference::) class is used here to apply required
 transformations to the model curve passed as a parameter::
 
-                 // find curve z offset at segment center to shift both
-                 // curve and segment in opposite directions.
-                 double z_offset = curve->sagitta(p);
+                // find curve z offset at segment center to shift both
+                // curve and segment in opposite directions.
+                double z_offset = curve->sagitta (p);
 
-                 // create a composer curve for this segment and use it to translate main curve
-                 ref<curve::Composer> seg_curve = ref<curve::Composer>::create();
+                // create a composer curve for this segment and use it to translate
+                // main curve
+                std::shared_ptr<curve::Composer> seg_curve
+                    = std::make_shared<curve::Composer> ();
 
-                 seg_curve->add_curve(curve).xy_translate(-p).z_offset(-z_offset);
+                seg_curve->add_curve (curve).xy_translate (-p).z_offset (
+                    -z_offset);
 
 The segment mirror is then created and added to the model group::
 
-                 // create a segment mirror with hexagonal shape and translated curve
-                 ref<sys::mirror> seg = ref<sys::mirror>::create(math::vector3(p, z_offset), seg_curve,
-                                                  ref<shape::RegularPolygon>::create(seg_radius, 6));
+                // create a segment mirror with hexagonal shape and translated
+                // curve
+                std::shared_ptr<sys::Mirror> seg = std::make_shared<sys::Mirror> (
+                    math::Vector3 (p, z_offset), seg_curve,
+                    std::make_shared<shape::RegularPolygon> (seg_radius, 6));
 
-                 // attach the new segment to our group component
-                 add(seg);
+                // attach the new segment to our group component
+                add (seg);
 
 We finally add some code to keep track of the segments so that they
 can be accessed (and modified) separately after model instantiation::
 
-                 // keep a pointer to this new segment
-                 _segments.push_back(seg.ptr());
-               }
-           }
-       }
+                // keep a pointer to this new segment
+                _segments.push_back (seg);
+              }
+          }
+      }
 
-       size_t get_segments_count() const
-       {
-         return _segments.size();
-       }
+      size_t
+      get_segments_count () const
+      {
+        return _segments.size ();
+      }
 
-       sys::mirror & get_segment(size_t i) const
-       {
-         return *_segments.at(i);
-       }
+      std::shared_ptr<sys::Mirror>
+      get_segment (size_t i)
+      {
+        return _segments.at (i);
+      }
 
-     private:
-       std::vector<sys::mirror *> _segments;
-     };
+    private:
+      std::vector<std::shared_ptr<sys::Mirror> > _segments;
+    };
+
 
 This model class is less than 70 lines long, including comments.
 
@@ -1000,27 +1007,30 @@ Our new model can now be used like other component models in optical
 systems and groups. We use it here with a ring aperture shape and conic
 curvature to model the primary mirror of a Ritchey-Chretien telescope::
 
-       sys::system             sys;
+  auto sys = std::make_shared<sys::System> ();
 
-       // Ring shaped segmented mirror with conic curve
-       HexSegmirror            primary(math::vector3(0, 0, 800),
-                                       ref<curve::Conic>::create(-1600, -1.0869),
-                                       ref<shape::Ring>::create(300, 85),
-                                       28, 30);
-       sys.add(primary);
+  // Ring shaped segmented mirror with conic curve
+  auto primary = std::make_shared<HexSegMirror> (
+      math::Vector3 (0, 0, 800),
+      std::make_shared<curve::Conic> (-1600, -1.0869),
+      std::make_shared<shape::Ring> (300, 85), 28, 30);
+  sys->add (primary);
 
-       sys::mirror             secondary(math::vectorPair3(0, 0, 225, 0, 0, -1), 675, -5.0434, 100);
-       sys.add(secondary);
+  auto secondary = std::make_shared<sys::Mirror> (
+      math::VectorPair3 (0, 0, 225, 0, 0, -1), 675, -5.0434, 100);
+  sys->add (secondary);
 
-       sys::image              image(math::vectorPair3(0, 0, 900), 15);
-       sys.add(image);
+  auto image
+      = std::make_shared<sys::Image> (math::VectorPair3 (0, 0, 900), 15);
+  sys->add (image);
 
-       sys::Stop               stop(math::vector3_0, 300);
-       sys.add(stop);
-       sys.set_entrance_pupil(stop);
+  auto stop = std::make_shared<sys::Stop> (math::vector3_0, 300);
+  sys->add (stop);
+  sys->set_entrance_pupil (stop);
 
-       sys::source_point        source(sys::SourceAtInfinity, math::vector3_001);
-       sys.add(source);
+  auto source = std::make_shared<sys::SourcePoint> (sys::SourceAtInfinity,
+                                                    math::vector3_001);
+  sys->add (source);
 
 3.5 A custom surface curve model
 ================================
@@ -1046,33 +1056,30 @@ class allows modeling rotationally symmetric curves by only dealing
 with 2d formulas. Our model class just has to inherit from this class
 and provide an implementation for the `sagitta' function::
 
-     // code from examples/curve_model/usercurve.cc:56
+    // code from examples/curve_model/usercurve.cpp
 
-     class MyCatenarycurve : public curve::rotational
-     {
-     public:
-       MyCatenarycurve(double a)
-         : _a(a)
-       {
-       }
+    class MyCatenarycurve : public curve::Rotational
+    {
+    public:
+      MyCatenarycurve (double a) : _a (a) {}
 
-     private:
-       double sagitta(double r) const
-       {
-         return _a * cosh(r / _a) - _a;
-       }
+    private:
+      double sagitta (double r) const { return _a * cosh (r / _a) - _a; }
+      /* anchor mycurve2 */
+      double derivative (double r) const { return sinh (r / _a); }
+      /* anchor mycurve1 */
 
-       double _a;
-     };
+      double _a;
+    };
 
 The model can be improved by specifying the derivative function.
 This make calculations more efficient by avoiding use of the default
 numerical differentiation implementation::
 
-       double derivative(double r) const
-       {
-         return sinh(r / _a);
-       }
+   double derivative(double r) const
+   {
+     return sinh(r / _a);
+   }
 
 Although more functions from curve::Base and curve::rotational
 can be reimplemented to further
@@ -1088,49 +1095,51 @@ resemble a parabolic mirror as used in a newton telescope.
 
 ::
 
-       sys::system             sys;
+  auto sys = std::make_shared<sys::System> ();
 
-       // light source
-       sys::source_point        source(sys::SourceAtInfinity, math::vector3_001);
-       sys.add(source);
+  // light source
+  auto source = std::make_shared<sys::SourcePoint> (sys::SourceAtInfinity,
+						    math::vector3_001);
+  sys->add (source);
 
-       // mirror
-       shape::disk             shape(200);
-       MyCatenarycurve         curve(-3000);
-       sys::mirror             primary(math::vector3(0, 0, 1500), curve, shape);
+  // mirror
+  auto shape = std::make_shared<shape::Disk> (200);
+  auto curve = std::make_shared<MyCatenarycurve> (-3000);
+  auto primary
+    = std::make_shared<sys::Mirror> (math::Vector3 (0, 0, 1500), curve, shape);
 
-       sys.add(primary);
+  sys->add (primary);
 
-       // image plane
-       sys::image              image(math::vector3_0, 15);
-       sys.add(image);
+  // image plane
+  auto image = std::make_shared<sys::Image> (math::vector3_0, 15);
+  sys->add (image);
 
 The best point of focus is slightly offset from the parabola focal
 length. We use the analysis::focus class to find the best point of focus
 and move the image plane at this location::
 
-         analysis::focus               focus(sys);
+    auto focus = std::make_shared<analysis::Focus> (sys);
 
-         image.set_plane(focus.get_best_focus());
+    image->set_plane (focus->get_best_focus ());
 
 Finally we plot some spot diagrams using the analysis::spot class. The point light source is
 rotated for each diagram::
 
-         io::renderer_svg            renderer("spot.svg",        200 * 3, 200 * 2, io::rgb_black);
+    io::RendererSvg renderer ("spot.svg", 200 * 3, 200 * 2, io::rgb_black);
 
-         renderer.set_margin_ratio(.35, .25, .1, .1);
-         renderer.set_page_layout(3, 2);
+    renderer.set_margin_ratio (.35, .25, .1, .1);
+    renderer.set_page_layout (3, 2);
 
-         for (int i = 0; i < 6; i++)
-           {
-             analysis::spot spot(sys);
+    for (int i = 0; i < 6; i++)
+      {
+	analysis::Spot spot (sys);
 
-             renderer.set_page(i);
-             spot.draw_diagram(renderer);
+	renderer.set_page (i);
+	spot.draw_diagram (renderer);
 
-             source.rotate(0, .1, 0);
-           }
+	source->rotate (0, .1, 0);
+      }
 
-.. figure:: images/catenary_spot.png
+.. figure:: images/catenary_spot.svg
    :alt: spot diagrams with image at best point of focus for the catenary curve
 
