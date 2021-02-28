@@ -207,7 +207,7 @@ main ()
   tracer.get_trace_result ().draw_3d (renderer);
   /* anchor end */
 #else
-  fprintf (stderr, "Sorry not yet implemented\n")
+  fprintf (stderr, "Sorry not yet implemented\n");
 #endif
 
   return 0;
