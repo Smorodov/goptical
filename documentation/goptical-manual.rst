@@ -11,6 +11,8 @@ Foundation, Inc.
      Texts. A copy of the license is included in the section entitled
      "GNU Free Documentation License".
 
+     Author: Alexandre Becoulet
+
 1 Introduction
 **************
 

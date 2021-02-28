@@ -1,5 +1,5 @@
 This manual is for GNU <goptical/core.  Copyright (C) 2010-2011 Free Software
-Foundation, Inc
+Foundation, Inc.
 
      Copyright (C) 2010-2011 Free Software Foundation, Inc. Permission
      is granted to copy, distribute and/or modify this document under
@@ -9,6 +9,7 @@ Foundation, Inc
      Texts. A copy of the license is included in the section entitled
      "GNU Free Documentation License".
 
+     Author: Alexandre Becoulet
 
 4 API documentation
 *******************

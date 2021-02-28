@@ -53,6 +53,10 @@ site.
 
 To run `Goptical` on these data files, execute the `gopt` command line utility built under `cmd`. Just provide a data file as an argument. Output will be generated in the current folder.
 
+## Documentation
+
+* [Converted Original Docs](https://github.com/dibyendumajumdar/goptical/blob/master/documentation/goptical-manual.rst)
+
 ## Literature
 
 * Donald P. Feder, "Optical Calculations with Automatic Computing Machinery," J. Opt. Soc. Am. 41, 630-635 (1951). This short paper provides equations for ray tracing for rotationally symmetric surfaces, including aspherics. Equations are provided in a format suitable for computer programs. Additionally, this paper also covers calculation of image aberrations. Warren J. Smith: Modern Optical Engineering book has a description of the algorithms in this paper. Note: The new implementation of rotationally symmetric aspheric surfaces in this project is based on this paper. 
