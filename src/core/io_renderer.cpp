@@ -228,12 +228,6 @@ Renderer::draw_intercepts (const trace::Result &result, const sys::Surface &s)
 const Rgb
 Renderer::ray_to_rgb (const light::Ray &ray)
 {
-  // FIXMEG
-  float r = static_cast<float> (random ()) / static_cast<float> (RANDOM_MAX);
-  float g = static_cast<float> (random ()) / static_cast<float> (RANDOM_MAX);
-  float b = static_cast<float> (random ()) / static_cast<float> (RANDOM_MAX);
-  return Rgb (r, g, b);
-
   switch (_ray_color_mode)
     {
     case RayColorWavelen:
