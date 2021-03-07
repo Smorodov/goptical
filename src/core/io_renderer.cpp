@@ -189,6 +189,7 @@ Renderer::draw_trace_result (const trace::Result &result,
         }
       catch (Error &e)
         {
+          std::cerr << "Error occurred " << e.what() << "\n";
         }
     }
 }
