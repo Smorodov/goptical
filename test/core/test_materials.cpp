@@ -25,12 +25,12 @@
 #include <iostream>
 #include <cstdlib>
 
-#include <goptical/core/material/Air>
-#include <goptical/core/material/Vacuum>
-#include <goptical/core/material/Sellmeier>
-#include <goptical/core/material/Abbe>
-#include <goptical/core/material/Mil>
-#include <goptical/core/material/Conrady>
+#include <goptical/core/material/air.hpp>
+#include <goptical/core/material/vacuum.hpp>
+#include <goptical/core/material/sellmeier.hpp>
+#include <goptical/core/material/abbe.hpp>
+#include <goptical/core/material/mil.hpp>
+#include <goptical/core/material/conrady.hpp>
 
 using namespace goptical;
 
@@ -91,9 +91,9 @@ int main()
   // test Sellmeier and temperature/pressure
   {
     // measurment material
-    material::AirKohlrausch68 airm;
+    auto airm = std::make_shared<material::AirKohlrausch68>();
     // environment material
-    material::AirKohlrausch68 airk;
+    auto airk = std::make_shared<material::AirKohlrausch68>();
 
     // BAF3 Sellmeier
     material::Sellmeier sellm(1.32064267E+000, 8.87798715E-003, 1.33572683E-001,
@@ -104,24 +104,24 @@ int main()
 
     sellm.set_measurement_medium(airm);
 
-    COMPARE( sellm.Base::get_refractive_index(400., airk), 1.6056515 , 1e-7);
-    COMPARE( sellm.Base::get_refractive_index(800., airk), 1.5738740 , 1e-7);
+    COMPARE( sellm.Base::get_refractive_index(400., *airk), 1.6056515 , 1e-7);
+    COMPARE( sellm.Base::get_refractive_index(800., *airk), 1.5738740 , 1e-7);
 
-    airk.set_temperature(100.);
+    airk->set_temperature(100.);
     sellm.set_temperature(100.);
 
-    COMPARE( sellm.Base::get_refractive_index(400., airk), 1.6061251 , 1e-7);
-    COMPARE( sellm.Base::get_refractive_index(800., airk), 1.5741071 , 1e-7);
+    COMPARE( sellm.Base::get_refractive_index(400., *airk), 1.6061251 , 1e-7);
+    COMPARE( sellm.Base::get_refractive_index(800., *airk), 1.5741071 , 1e-7);
 
-    airk.set_pressure(10 * airk.std_pressure);
+    airk->set_pressure(10 * airk->std_pressure);
 
-    COMPARE( sellm.Base::get_refractive_index(400., airk), 1.6029774 , 1e-7);
-    COMPARE( sellm.Base::get_refractive_index(800., airk), 1.5711062 , 1e-7);
+    COMPARE( sellm.Base::get_refractive_index(400., *airk), 1.6029774 , 1e-7);
+    COMPARE( sellm.Base::get_refractive_index(800., *airk), 1.5711062 , 1e-7);
   }
 
   // test Abbe model
   {
-    material::AirKohlrausch68 airm;
+    auto airm = std::make_shared<material::AirKohlrausch68>();
 
     // BAF3
     material::Sellmeier sellm(1.32064267E+000, 8.87798715E-003, 1.33572683E-001,
@@ -132,37 +132,49 @@ int main()
     material::AbbeVd abbevd(1.582670, 46.47, .0001);
     abbevd.set_measurement_medium(airm);
 
-    COMPARE( abbevd.Base::get_refractive_index(400., airm), 1.605655 , 1e-6);
-    COMPARE( abbevd.Base::get_refractive_index(800., airm), 1.573845 , 1e-6);
+    COMPARE( abbevd.Base::get_refractive_index(400., *airm), 1.605655 , 1e-6);
+    COMPARE( abbevd.Base::get_refractive_index(800., *airm), 1.573845 , 1e-6);
 
     COMPARE( sellm.get_abbe_ve(), 46.18, 0.01);
 
     material::AbbeVe abbeve(1.585648, 46.18, .0001);
     abbevd.set_measurement_medium(airm);
 
-    COMPARE( abbeve.Base::get_refractive_index(400., airm), 1.605655 , 1e-6);
-    COMPARE( abbeve.Base::get_refractive_index(800., airm), 1.573844 , 1e-6);
+    COMPARE( abbeve.Base::get_refractive_index(400., *airm), 1.605655 , 1e-6);
+    COMPARE( abbeve.Base::get_refractive_index(800., *airm), 1.573844 , 1e-6);
+  }
+
+  {
+    auto airm = std::make_shared<material::AirKohlrausch68>();
+
+    material::AbbeVd abbevd(1.43384, 95.26, 0.004554);
+    abbevd.set_measurement_medium(airm);
+
+    std::cout << "656.2725 = " << abbevd.Base::get_refractive_index(656.2725, *airm) << "\n";
+    std::cout << "587.5618 = " << abbevd.Base::get_refractive_index(587.5618, *airm) << "\n";
+    std::cout << "486.1327 = " << abbevd.Base::get_refractive_index(486.1327, *airm) << "\n";
+
   }
 
   // test Mil model
   {
-    material::AirKohlrausch68 airm;
+    auto airm = std::make_shared<material::AirKohlrausch68>();
 
     material::Mil mil(583465);
     mil.set_measurement_medium(airm);
 
-    COMPARE( mil.Base::get_refractive_index(400., airm), 1.605 , 2e-3);
-    COMPARE( mil.Base::get_refractive_index(800., airm), 1.573 , 2e-3);
+    COMPARE( mil.Base::get_refractive_index(400., *airm), 1.605 , 2e-3);
+    COMPARE( mil.Base::get_refractive_index(800., *airm), 1.573 , 2e-3);
   }
 
   // test Conrady
   {
-    material::AirKohlrausch68 airm;
+    auto airm = std::make_shared<material::AirKohlrausch68>();
     material::Conrady cn(1.45217000E+000, 1.25800000E-002, 6.65900000E-005);
     cn.set_measurement_medium(airm);
 
-    COMPARE( cn.Base::get_refractive_index(400., airm), 1.4852651 , 2e-7);
-    COMPARE( cn.Base::get_refractive_index(800., airm), 1.4680404 , 2e-7);
+    COMPARE( cn.Base::get_refractive_index(400., *airm), 1.4852651 , 2e-7);
+    COMPARE( cn.Base::get_refractive_index(800., *airm), 1.4680404 , 2e-7);
   }
 
   return 0;

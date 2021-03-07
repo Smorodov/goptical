@@ -12,3 +12,6 @@ target_link_libraries(test_shapes ${PROJECT_NAME}_static)
 
 add_executable(test_patterns test_patterns.cpp)
 target_link_libraries(test_patterns ${PROJECT_NAME}_static)
+
+add_executable(test_materials test_materials.cpp)
+target_link_libraries(test_materials ${PROJECT_NAME}_static)
