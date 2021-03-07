@@ -29,49 +29,49 @@
 <use x="66.0317" y="93.9322" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="49.5238" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="430.476" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:center;text-anchor:middle;" x="66.0317" y="448.476" fill="#000000">-0x1.000p+0</text>
+<text style="font-size:12;text-align:center;text-anchor:middle;" x="66.0317" y="448.476" fill="#000000">-1</text>
 <use x="320" y="93.9322" xlink:href="#cross"  stroke="#000000" />
 <use x="320" y="49.5238" xlink:href="#cross"  stroke="#000000" />
 <use x="320" y="430.476" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:center;text-anchor:middle;" x="320" y="448.476" fill="#000000">0x0.000p+0</text>
+<text style="font-size:12;text-align:center;text-anchor:middle;" x="320" y="448.476" fill="#000000">0</text>
 <use x="573.968" y="93.9322" xlink:href="#cross"  stroke="#000000" />
 <use x="573.968" y="49.5238" xlink:href="#cross"  stroke="#000000" />
 <use x="573.968" y="430.476" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:center;text-anchor:middle;" x="573.968" y="448.476" fill="#000000">0x1.000p+0</text>
+<text style="font-size:12;text-align:center;text-anchor:middle;" x="573.968" y="448.476" fill="#000000">1</text>
 <text style="font-size:12;text-align:center;text-anchor:middle;" x="16.5079" y="246" transform="rotate(-90,16.5079,240)" fill="#000000">Longitudinal ray aberration (um)</text>
 <line x1="320" y1="430.476" x2="320" y2="49.5238"  stroke="#000000" />
 <use x="320" y="407.764" xlink:href="#cross"  stroke="#000000" />
 <use x="573.968" y="407.764" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="407.764" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="413.764" fill="#000000">-0x1.5e0p+9</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="413.764" fill="#000000">-700</text>
 <use x="320" y="362.931" xlink:href="#cross"  stroke="#000000" />
 <use x="573.968" y="362.931" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="362.931" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="368.931" fill="#000000">-0x1.2c0p+9</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="368.931" fill="#000000">-600</text>
 <use x="320" y="318.098" xlink:href="#cross"  stroke="#000000" />
 <use x="573.968" y="318.098" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="318.098" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="324.098" fill="#000000">-0x1.f40p+8</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="324.098" fill="#000000">-500</text>
 <use x="320" y="273.265" xlink:href="#cross"  stroke="#000000" />
 <use x="573.968" y="273.265" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="273.265" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="279.265" fill="#000000">-0x1.900p+8</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="279.265" fill="#000000">-400</text>
 <use x="320" y="228.432" xlink:href="#cross"  stroke="#000000" />
 <use x="573.968" y="228.432" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="228.432" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="234.432" fill="#000000">-0x1.2c0p+8</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="234.432" fill="#000000">-300</text>
 <use x="320" y="183.599" xlink:href="#cross"  stroke="#000000" />
 <use x="573.968" y="183.599" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="183.599" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="189.599" fill="#000000">-0x1.900p+7</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="189.599" fill="#000000">-200</text>
 <use x="320" y="138.765" xlink:href="#cross"  stroke="#000000" />
 <use x="573.968" y="138.765" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="138.765" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="144.765" fill="#000000">-0x1.900p+6</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="144.765" fill="#000000">-100</text>
 <use x="320" y="93.9322" xlink:href="#cross"  stroke="#000000" />
 <use x="573.968" y="93.9322" xlink:href="#cross"  stroke="#000000" />
 <use x="66.0317" y="93.9322" xlink:href="#cross"  stroke="#000000" />
-<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="99.9322" fill="#000000">0x0.000p+0</text>
+<text style="font-size:12;text-align:right;text-anchor:end;" x="60.0317" y="99.9322" fill="#000000">0</text>
 <text style="font-size:18;text-align:center;text-anchor:middle;" x="320" y="33.7619" fill="#000000">Longitudinal ray aberration fan (tangential)</text>
 <path fill="none"  stroke="#00ebff" d="M117.029,430.476 S128.305,349.126 133.943,317.933 S145.219,264.2 150.857,243.32 S162.133,206.621 167.771,192.652 S179.048,168.323 184.686,159.506 S195.962,144.675 201.6,139.75 S212.876,132.071 218.514,129.957 S229.79,127.326 235.429,127.066 S246.705,127.621 252.343,128.398 S263.619,130.573 269.257,131.728 S280.533,134.286 286.171,135.327 S294.629,137.529 303.086,137.97 S328.457,138.41 336.914,137.97 S348.19,136.367 353.829,135.327 S365.105,132.883 370.743,131.728 S382.019,129.175 387.657,128.398 S398.933,126.806 404.571,127.066 S415.848,127.843 421.486,129.957 S432.762,134.826 438.4,139.75 S449.676,150.689 455.314,159.506 S466.59,178.683 472.229,192.652 S483.505,222.44 489.143,243.32 S500.419,286.74 506.057,317.933 S520.152,411.719 522.971,430.476 " />
 <path fill="none"  stroke="#ffe100" d="M117.029,393.862 S128.305,310.971 133.943,279.118 S145.219,224.164 150.857,202.747 S162.133,165.038 167.771,150.613 S179.048,125.414 184.686,116.2 S195.962,100.6 201.6,95.3236 S212.876,86.9621 218.514,84.5384 S229.79,81.3075 235.429,80.7817 S246.705,80.8253 252.343,81.3832 S263.619,83.1428 269.257,84.1292 S280.533,86.3754 286.171,87.3013 S294.629,89.2874 303.086,89.6847 S328.457,90.0819 336.914,89.6847 S348.19,88.2272 353.829,87.3013 S365.105,85.1155 370.743,84.1292 S382.019,81.9411 387.657,81.3832 S398.933,80.2558 404.571,80.7817 S415.848,82.1148 421.486,84.5384 S432.762,90.0468 438.4,95.3236 S449.676,106.985 455.314,116.2 S466.59,136.188 472.229,150.613 S483.505,181.329 489.143,202.747 S500.419,247.266 506.057,279.118 S520.152,374.738 522.971,393.862 " />
