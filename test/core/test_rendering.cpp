@@ -22,14 +22,12 @@
 
 */
 
-#include "config.hpp"
+#include <goptical/core/io/renderer.hpp>
+#include <goptical/core/io/renderer_viewport.hpp>
+#include <goptical/core/io/rgb.hpp>
 
-#include <goptical/core/io/Renderer>
-#include <goptical/core/io/RendererViewport>
-#include <goptical/core/io/Rgb>
-
-#include <goptical/core/io/RendererSvg>
-#include <goptical/core/io/RendererX3d>
+#include <goptical/core/io/renderer_svg.hpp>
+//#include <goptical/core/io/renderer_x3d.hpp>
 #ifdef GOPTICAL_HAVE_PLPLOT
 #include <goptical/core/io/RendererPlplot>
 #endif
@@ -46,8 +44,10 @@
 #include <goptical/core/io/RendererX11>
 #endif
 
-#include <goptical/core/math/Vector>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/math/vector_pair.hpp>
+
+#include <iostream>
 
 using namespace goptical;
 
@@ -160,8 +160,8 @@ int main()
     new io::RendererX11 (),
 #endif
     new io::RendererSvg ("test_2d_svg.svg", 1600, 1200),
-    new RendererSvgBasic(),
-    new io::RendererX3d ("test_2d_x3d.x3d"),
+    //new RendererSvgBasic(),
+    //new io::RendererX3d ("test_2d_x3d.x3d"),
 #ifdef GOPTICAL_HAVE_GD
     new io::RendererGd ("test_2d_gd_ttf.png", 1600, 1200, io::rgb_white, "/usr/share/fonts/TTF/FreeSans.ttf"),
     new io::RendererGd ("test_2d_gd.png", 1600, 1200, io::rgb_black),
@@ -195,15 +195,19 @@ int main()
           rv->draw_frame_2d();
           rv->flush();
         }
+      io::RendererSvg *rsvg = dynamic_cast<io::RendererSvg*>(&r);
+      if (rsvg)
+        {
+          rsvg->write(std::cout);
+        }
     }
-
-  sleep(5);
-
-  for (int i = 0; rt[i]; i++)
-    {
-      delete rt[i];
-    }
-
+//
+//  sleep(5);
+//
+//  for (int i = 0; rt[i]; i++)
+//    {
+//      delete rt[i];
+//    }
   return 0;
 }
 
