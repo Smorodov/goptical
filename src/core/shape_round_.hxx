@@ -47,7 +47,7 @@ Round<X, hole>::get_pattern (const math::Vector2::put_delegate_t &f,
   const double hr = obstructed
                         ? X::get_internal_xradius () * (2.0 - d.get_scaling ())
                         : 0.0;
-  unsigned int rdens = floor ((double)d.get_radial_density ()
+  unsigned int rdens = (int)floor ((double)d.get_radial_density ()
                               - (d.get_radial_density () * (hr / tr)));
   rdens = std::max (1U, rdens);
   const double step = (tr - hr) / rdens;
@@ -151,24 +151,14 @@ Round<X, hole>::get_pattern (const math::Vector2::put_delegate_t &f,
 
     default:
       {
-#if 1
-        exit (-20);
-#else
-        DPP_DELEGATE3_OBJ (f2, void, (const math::Vector2 &v),
-                           const math::Vector2::put_delegate_t &, f, // _0
-                           double, xyr,                              // _1
-                           double, tr,                               // _2
-                           {
-                             // unobstructed pattern must be inside external
-                             // radius
-                             if (math::square (v.x ())
-                                     + math::square (v.y () / _1)
-                                 < math::square (_2))
-                               _0 (v);
-                           });
-
+        // unobstructed pattern must be inside external
+        // radius
+        auto f2 = [&] (const math::Vector2 &v) {
+          if (math::square (v.x ()) + math::square (v.y () / xyr)
+              < math::square (tr))
+            f (v);
+        };
         Base::get_pattern (f2, d, unobstructed);
-#endif
         break;
       }
     }
