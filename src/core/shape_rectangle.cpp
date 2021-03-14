@@ -194,14 +194,6 @@ Rectangle::get_triangles (const math::Triangle<2>::put_delegate_t &f,
   static const double epsilon = 1e-8;
   math::Vector2 step = get_step (resolution);
 
-  for (unsigned int i = 0; i < 2; i++)
-    {
-      if (resolution > _halfsize[i])
-        step[i] = _halfsize[i];
-      else
-        step[i] = _halfsize[i] / round (_halfsize[i] / resolution);
-    }
-
   for (double x = 0; x < _halfsize.x () - epsilon; x += step.x ())
     for (double y = 0; y < _halfsize.y () - epsilon; y += step.y ())
       {
