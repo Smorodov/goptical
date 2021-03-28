@@ -119,6 +119,9 @@ public:
      get_exit_plane.
   */
   void add_stop (double ap_radius, double thickness);
+  std::shared_ptr<Stop> get_stop() {
+    return _stop;
+  }
 
 public:
   /** Adjust thickness between two surfaces */

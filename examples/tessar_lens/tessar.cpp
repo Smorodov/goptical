@@ -103,6 +103,8 @@ int main()
   auto source_point = std::make_shared<sys::SourcePoint>(sys::SourceAtFiniteDistance,
                                 math::Vector3(0, 27.5, -1000));
 
+
+  sys->set_entrance_pupil(lens->get_stop());
   // add sources to system
   sys->add(source_rays);
   sys->add(source_point);
