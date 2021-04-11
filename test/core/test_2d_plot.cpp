@@ -22,14 +22,12 @@
 
 */
 
-#include "config.hpp"
+#include <goptical/core/io/renderer.hpp>
+#include <goptical/core/io/renderer_viewport.hpp>
+#include <goptical/core/io/renderer_axes.hpp>
+#include <goptical/core/io/rgb.hpp>
 
-#include <goptical/core/io/Renderer>
-#include <goptical/core/io/RendererViewport>
-#include <goptical/core/io/RendererAxes>
-#include <goptical/core/io/Rgb>
-
-#include <goptical/core/io/RendererSvg>
+#include <goptical/core/io/renderer_svg.hpp>
 #ifdef GOPTICAL_HAVE_PLPLOT
 #include <goptical/core/io/RendererPlplot>
 #endif
@@ -43,35 +41,35 @@
 #include <goptical/core/io/RendererX11>
 #endif
 
-#include <goptical/core/math/Vector>
-#include <goptical/core/math/VectorPair>
+#include <goptical/core/math/vector.hpp>
+#include <goptical/core/math/vector_pair.hpp>
 
-#include <goptical/core/data/Plot>
-#include <goptical/core/data/DiscreteSet>
-#include <goptical/core/data/SampleSet>
+#include <goptical/core/data/plot.hpp>
+#include <goptical/core/data/discrete_set.hpp>
+#include <goptical/core/data/sample_set.hpp>
 
 using namespace goptical;
 
 void test_2d_plot(io::RendererViewport &r)
 {
-  data::DiscreteSet d1;
-  data::SampleSet d2;
+  auto d1 = std::make_shared<data::DiscreteSet>();
+  auto d2 = std::make_shared<data::SampleSet>();
 
   static const int N = 40.0;
   double x = -N/2.0;
 
-  d2.resize(N);
-  d2.set_interpolation(data::Cubic2);
-  
+  d2->resize(N);
+  d2->set_interpolation(data::Cubic2);
+
   for (int i = 0; i < N; i++)
     {
-      d1.add_data(x, cos (x / 3.) * cos(x) / 2.);
+      d1->add_data(x, cos (x / 3.) * cos(x) / 2.);
       x += fabs(sin(i) + .5);
 
-      d2.set_value(i, sin(x / 5.) * sin(x));
+      d2->set_value(i, sin(x / 5.) * sin(x));
     }
 
-  d1.set_interpolation(data::Cubic2);
+  d1->set_interpolation(data::Cubic2);
 
   data::Plot p;
 
@@ -137,7 +135,7 @@ int main()
       r.flush();
     }
 
-  sleep(5);
+//  sleep(5);
 
   for (int i = 0; rt[i]; i++)
     {

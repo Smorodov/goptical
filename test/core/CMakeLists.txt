@@ -18,3 +18,6 @@ target_link_libraries(test_materials ${PROJECT_NAME}_static)
 
 add_executable(test_rendering test_rendering.cpp)
 target_link_libraries(test_rendering ${PROJECT_NAME}_static)
+
+add_executable(test_2d_plot test_2d_plot.cpp)
+target_link_libraries(test_2d_plot ${PROJECT_NAME}_static)
