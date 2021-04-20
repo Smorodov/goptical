@@ -30,6 +30,7 @@ This is derivative of [Goptical - GNU Optical design and simulation library](htt
 ## Issues
 
 * Some components are disabled for now - see the `CMakeLists.txt` in the `src\core` folder.
+* The way chief ray is identified in GNU Optical is incorrect, as a result the ray fan analyses are also incorrect. 
 
 ## Building on Linux
 
@@ -71,7 +72,20 @@ To run `Goptical` on these data files, execute the `gopt` command line utility b
 
 ## Related Projects
 
-The project 'ray' originally written by Don Wells at NRAO implements Feder's equations for ray tracing. This has been a valuable source for the new implementation in this project. 
+* Java port of GNU Optical: https://github.com/dibyendumajumdar/jfotoptix
+* .Net port of GNU Optical: https://github.com/dibyendumajumdar/nfotoptix
+* For a product developed by Michael Hayford who worked many years at optical software company - see https://github.com/mjhoptics/ray-optics. 
+* Another Python project is https://github.com/quartiq/rayopt
+* An older C project 'ray' originally written by Don Wells at NRAO implements Feder's equations for ray tracing. https://github.com/dibyendumajumdar/ray
+* An attempt to maintain a commercial product KDP is here: https://github.com/dinosauria123/Koko. Lots of sphagetti Fortra code unfortunately. 
+
+Here are some other projects that I have not personally tried out
+
+* A new Julia project by Microsoft is https://github.com/microsoft/OpticSim.jl
+* A C++ project: https://github.com/edeforas/Astree
+* A Java project: https://github.com/StellarSoftwareBerkeley/BeamFour
+
+ 
 
 ## LICENSE
 
