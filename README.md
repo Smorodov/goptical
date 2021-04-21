@@ -72,8 +72,8 @@ To run `Goptical` on these data files, execute the `gopt` command line utility b
 
 ## Related Projects
 
-* Java port of GNU Optical: https://github.com/dibyendumajumdar/jfotoptix
-* .Net port of GNU Optical: https://github.com/dibyendumajumdar/nfotoptix
+* Java port of GNU Optical: https://github.com/dibyendumajumdar/jfotoptix - work in progress
+* .Net port of GNU Optical: https://github.com/dibyendumajumdar/nfotoptix - work in progress
 * For a product developed by Michael Hayford who worked many years at optical software company - see https://github.com/mjhoptics/ray-optics. 
 * Another Python project is https://github.com/quartiq/rayopt
 * An older C project 'ray' originally written by Don Wells at NRAO implements Feder's equations for ray tracing. https://github.com/dibyendumajumdar/ray
@@ -85,7 +85,7 @@ Here are some other projects that I have not personally tried out
 * A C++ project: https://github.com/edeforas/Astree
 * A Java project: https://github.com/StellarSoftwareBerkeley/BeamFour
 * Python project OpticsSpy: https://github.com/Sterncat/opticspy 
- 
+* Another Python project https://github.com/mess42/pyrate
 
 ## LICENSE
 
