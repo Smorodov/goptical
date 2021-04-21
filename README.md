@@ -84,7 +84,7 @@ Here are some other projects that I have not personally tried out
 * A new Julia project by Microsoft is https://github.com/microsoft/OpticSim.jl
 * A C++ project: https://github.com/edeforas/Astree
 * A Java project: https://github.com/StellarSoftwareBerkeley/BeamFour
-
+* Python project OpticsSpy: https://github.com/Sterncat/opticspy 
  
 
 ## LICENSE
