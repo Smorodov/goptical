@@ -86,6 +86,7 @@ Here are some other projects that I have not personally tried out
 * A Java project: https://github.com/StellarSoftwareBerkeley/BeamFour
 * Python project OpticsSpy: https://github.com/Sterncat/opticspy 
 * Another Python project https://github.com/mess42/pyrate
+* A Matlab/Octave project: https://github.com/heterophyllus/OpticalDesign-Toolbox
 
 ## LICENSE
 
