@@ -1,5 +1,7 @@
 ![build](https://github.com/dibyendumajumdar/goptical/workflows/build/badge.svg)
 
+## NOTICE This project is now superceded by [Beam42](https://github.com/BeamFour/Beam42)
+
 This is derivative of [Goptical - GNU Optical design and simulation library](https://www.gnu.org/software/goptical/) by Alexandre Becoulet. Forked via [Goptical fork by Dmitry Galchinsky](https://github.com/galchinsky/goptical).
 
 ## Changes from original (done by Dmitry)
