@@ -1,5 +1,7 @@
 ![build](https://github.com/dibyendumajumdar/goptical/workflows/build/badge.svg)
 
+# NOTICE This project is now superceded by [Beam42](https://github.com/BeamFour/Beam42)
+
 This is derivative of [Goptical - GNU Optical design and simulation library](https://www.gnu.org/software/goptical/) by Alexandre Becoulet. Forked via [Goptical fork by Dmitry Galchinsky](https://github.com/galchinsky/goptical).
 
 ## Changes from original (done by Dmitry)
@@ -30,6 +32,7 @@ This is derivative of [Goptical - GNU Optical design and simulation library](htt
 ## Issues
 
 * Some components are disabled for now - see the `CMakeLists.txt` in the `src\core` folder.
+* The way chief ray is identified in GNU Optical is incorrect, as a result the ray fan analyses are also incorrect. 
 
 ## Building on Linux
 
@@ -71,7 +74,21 @@ To run `Goptical` on these data files, execute the `gopt` command line utility b
 
 ## Related Projects
 
-The project 'ray' originally written by Don Wells at NRAO implements Feder's equations for ray tracing. This has been a valuable source for the new implementation in this project. 
+* Java port of GNU Optical: https://github.com/dibyendumajumdar/jfotoptix - work in progress
+* .Net port of GNU Optical: https://github.com/dibyendumajumdar/nfotoptix - work in progress
+* For a product developed by Michael Hayford who worked many years at optical software company - see https://github.com/mjhoptics/ray-optics. 
+* Another Python project is https://github.com/quartiq/rayopt
+* An older C project 'ray' originally written by Don Wells at NRAO implements Feder's equations for ray tracing. https://github.com/dibyendumajumdar/ray
+* An attempt to maintain a commercial product KDP is here: https://github.com/dinosauria123/Koko. Lots of sphagetti Fortra code unfortunately. 
+
+Here are some other projects that I have not personally tried out
+
+* A new Julia project by Microsoft is https://github.com/microsoft/OpticSim.jl
+* A C++ project: https://github.com/edeforas/Astree
+* A Java project: https://github.com/StellarSoftwareBerkeley/BeamFour
+* Python project OpticsSpy: https://github.com/Sterncat/opticspy 
+* Another Python project https://github.com/mess42/pyrate
+* A Matlab/Octave project: https://github.com/heterophyllus/OpticalDesign-Toolbox
 
 ## LICENSE
 
