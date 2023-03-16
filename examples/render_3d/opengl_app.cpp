@@ -23,12 +23,12 @@
 */
 
 #include <math.h>
-
+#include <windows.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GL/glut.h>
+#include "GL/glut.h"
 
-#include <goptical/core/io/RendererOpengl>
+#include "Z:/Projects2022/goptical/include/goptical/core/io/renderer_opengl.hpp"
 
 #include "app.hpp"
 #include "newton.hpp"

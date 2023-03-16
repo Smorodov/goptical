@@ -22,8 +22,8 @@
 
 */
 
-#include <goptical/core/io/RendererViewport>
-#include <goptical/core/math/Vector>
+#include <goptical/core/io/RendererViewport.hpp>
+#include <goptical/core/math/Vector.hpp>
 
 class App
 {
