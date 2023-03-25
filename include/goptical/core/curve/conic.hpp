@@ -32,65 +32,65 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-/**
-   @short General purpose conic curve model
-   @header <goptical/core/curve/Conic
-   @module {Core}
-   @main
+		/**
+		   @short General purpose conic curve model
+		   @header <goptical/core/curve/Conic
+		   @module {Core}
+		   @main
 
-   This class models a rotationally symmetric conic curves with
-   given radius of curvature and deformation coefficient. The
-   later can be provided either as Schwarzschild constant or
-   Eccentricity value.
+		   This class models a rotationally symmetric conic curves with
+		   given radius of curvature and deformation coefficient. The
+		   later can be provided either as Schwarzschild constant or
+		   Eccentricity value.
 
-   Fitting can be used to find best fit conic of an other
-   rotationally symmetric curve either with fixed or free
-   deformation parameter.
+		   Fitting can be used to find best fit conic of an other
+		   rotationally symmetric curve either with fixed or free
+		   deformation parameter.
 
-   @ref Sphere and @ref Parabola offer optimized implementations
-   for common special cases.
- */
-class Conic : public ConicBase
-{
-public:
-  /** Creates a conic curve with given radius of curvature and
-      Schwarzschild constant */
-  Conic (double roc, double sc);
+		   @ref Sphere and @ref Parabola offer optimized implementations
+		   for common special cases.
+		 */
+		class Conic : public ConicBase
+		{
+			public:
+				/** Creates a conic curve with given radius of curvature and
+				    Schwarzschild constant */
+				Conic (double roc, double sc);
 
-  /** Set Schwarzschild constant */
-  inline void set_schwarzschild (double sc);
+				/** Set Schwarzschild constant */
+				inline void set_schwarzschild (double sc);
 
-  /** Set eccentricity */
-  inline void set_eccentricity (double e);
+				/** Set eccentricity */
+				inline void set_eccentricity (double e);
 
-  /** Adjust radius of curvature _and_ deformation to best fit given curve
+				/** Adjust radius of curvature _and_ deformation to best fit given curve
 
-      @param curve curve to fit
-      @param radius Maximum radius used to get sample points
-      @param count Number of sample points to use
-  */
-  double fit (const Rotational &curve, double radius, unsigned int count);
+				    @param curve curve to fit
+				    @param radius Maximum radius used to get sample points
+				    @param count Number of sample points to use
+				*/
+				double fit (const Rotational &curve, double radius, unsigned int count);
 
-  bool intersect (math::Vector3 &point, const math::VectorPair3 &ray) const;
-  double sagitta (double r) const;
-  double derivative (double r) const;
-};
+				bool intersect (math::Vector3 &point, const math::VectorPair3 &ray) const;
+				double sagitta (double r) const;
+				double derivative (double r) const;
+		};
 
-void
-Conic::set_eccentricity (double e)
-{
-  _sh = -math::square (e) + 1.0;
-}
+		void
+		Conic::set_eccentricity (double e)
+		{
+			_sh = -math::square (e) + 1.0;
+		}
 
-void
-Conic::set_schwarzschild (double sc)
-{
-  _sh = sc + 1.0;
-}
-}
+		void
+		Conic::set_schwarzschild (double sc)
+		{
+			_sh = sc + 1.0;
+		}
+	}
 
 }
 

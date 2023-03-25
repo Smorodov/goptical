@@ -34,158 +34,155 @@
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-/**
-   @short Enable definition of shape as composition ot other shapes
-   @header <goptical/core/shape/Composer
-   @module {Core}
-   @experimental
-   @main
+		/**
+		   @short Enable definition of shape as composition ot other shapes
+		   @header <goptical/core/shape/Composer
+		   @module {Core}
+		   @experimental
+		   @main
 
-   This class allows definition of a shape by composition of other
-   shape models. Coordinate transforms and boolean operations can
-   be performed on shapes.
+		   This class allows definition of a shape by composition of other
+		   shape models. Coordinate transforms and boolean operations can
+		   be performed on shapes.
 
-   This class is still experimental, 2d contour and 3d
-   tessellation code doesn't give propser results.
- */
+		   This class is still experimental, 2d contour and 3d
+		   tessellation code doesn't give propser results.
+		 */
 
-class Composer : public Base
-{
-public:
-  class Attributes;
+		class Composer : public Base
+		{
+			public:
+				class Attributes;
 
-  /** @override */
-  bool inside (const math::Vector2 &point) const;
-  /** @override */
-  double max_radius () const;
-  /** @override */
-  double min_radius () const;
-  /** @override */
-  double get_outter_radius (const math::Vector2 &dir) const;
-  /** @override */
-  double get_hole_radius (const math::Vector2 &dir) const;
-  /** @override */
-  void get_pattern (const math::Vector2::put_delegate_t &f,
-                    const trace::Distribution &d, bool unobstructed) const;
-  /** @override */
-  math::VectorPair2 get_bounding_box () const;
-  /** @override */
-  unsigned int get_contour_count () const;
-  /** @override */
-  void get_contour (unsigned int contour,
-                    const math::Vector2::put_delegate_t &f,
-                    double resolution) const;
-  /** @override */
-  void get_triangles (const math::Triangle<2>::put_delegate_t &f,
-                      double resolution) const;
+				/** @override */
+				bool inside (const math::Vector2 &point) const;
+				/** @override */
+				double max_radius () const;
+				/** @override */
+				double min_radius () const;
+				/** @override */
+				double get_outter_radius (const math::Vector2 &dir) const;
+				/** @override */
+				double get_hole_radius (const math::Vector2 &dir) const;
+				/** @override */
+				void get_pattern (const math::Vector2::put_delegate_t &f,
+				                  const trace::Distribution &d, bool unobstructed) const;
+				/** @override */
+				math::VectorPair2 get_bounding_box () const;
+				/** @override */
+				unsigned int get_contour_count () const;
+				/** @override */
+				void get_contour (unsigned int contour,
+				                  const math::Vector2::put_delegate_t &f,
+				                  double resolution) const;
+				/** @override */
+				void get_triangles (const math::Triangle<2>::put_delegate_t &f,
+				                    double resolution) const;
 
-  /** Add a new shape to shape composer.
+				/** Add a new shape to shape composer.
 
-      This function returns a reference to an @ref Attributes
-      object which may be modified to set shape transform and
-      boolean operations.
+				    This function returns a reference to an @ref Attributes
+				    object which may be modified to set shape transform and
+				    boolean operations.
 
-      The composed shape is the union between all shapes added
-      with this function.
-   */
-  Attributes &add_shape (const std::shared_ptr<Base> &shape);
+				    The composed shape is the union between all shapes added
+				    with this function.
+				 */
+				Attributes &add_shape (const std::shared_ptr<Base> &shape);
 
-  /** Set ray distribution behavior. Default is to perform
-      individual ray distribution on each composer shape.
+				/** Set ray distribution behavior. Default is to perform
+				    individual ray distribution on each composer shape.
 
-      Global mode distributes rays over a circle with maximum
-      shape radius, it may be used to ensure ray density is the
-      same on each shape. Unobstructed ray tracing require global
-      distribution too. */
-  inline void use_global_distribution (bool use_global);
+				    Global mode distributes rays over a circle with maximum
+				    shape radius, it may be used to ensure ray density is the
+				    same on each shape. Unobstructed ray tracing require global
+				    distribution too. */
+				inline void use_global_distribution (bool use_global);
 
-  /**
-     @short Enable definition of shape as composition ot other shapes
-     @header <goptical/core/shape/Composer
+				/**
+				   @short Enable definition of shape as composition ot other shapes
+				   @header <goptical/core/shape/Composer
 
-     This class contains child shape transform and boolean
-     operations for the @ref Composer shape class.
-   */
-  class Attributes
-  {
-    friend class Composer;
+				   This class contains child shape transform and boolean
+				   operations for the @ref Composer shape class.
+				 */
+				class Attributes
+				{
+						friend class Composer;
 
-    Attributes (const std::shared_ptr<Base> &shape);
+						Attributes (const std::shared_ptr<Base> &shape);
 
-  public:
-    /** Apply scaling affine transform using scale factors (xscale, yscale) */
-    inline Attributes &scale (const math::Vector2 &factor);
-    /** Apply rotation affine transform. Angle is in degree. */
-    inline Attributes &rotate (double dangle);
-    /** Apply translation transform */
-    inline Attributes &translate (const math::Vector2 &offset);
+					public:
+						/** Apply scaling affine transform using scale factors (xscale, yscale) */
+						inline Attributes &scale (const math::Vector2 &factor);
+						/** Apply rotation affine transform. Angle is in degree. */
+						inline Attributes &rotate (double dangle);
+						/** Apply translation transform */
+						inline Attributes &translate (const math::Vector2 &offset);
 
-    /** Peform boolean 'and' with the given shape */
-    Attributes &include (const std::shared_ptr<Base> &shape);
-    /** Peform boolean 'and not' with the given shape */
-    Attributes &exclude (const std::shared_ptr<Base> &shape);
+						/** Peform boolean 'and' with the given shape */
+						Attributes &include (const std::shared_ptr<Base> &shape);
+						/** Peform boolean 'and not' with the given shape */
+						Attributes &exclude (const std::shared_ptr<Base> &shape);
 
-  private:
-    bool inside (const math::Vector2 &point) const;
+					private:
+						bool inside (const math::Vector2 &point) const;
 
-    std::shared_ptr<Base> _shape;
-    bool _exclude;
-    std::list<Attributes> _list;
-    math::Transform<2> _transform;
-    math::Transform<2> _inv_transform;
-  };
+						std::shared_ptr<Base> _shape;
+						bool _exclude;
+						std::list<Attributes> _list;
+						math::Transform<2> _transform;
+						math::Transform<2> _inv_transform;
+				};
 
-  Composer ();
+				Composer ();
 
-private:
-  void update ();
-  void update () const;
+			private:
+				void update ();
+				void update () const;
 
-  std::list<Attributes> _list;
-  bool _update;
-  bool _global_dist;
-  double _max_radius;
-  double _min_radius;
-  math::VectorPair2 _bbox;
-  unsigned int _contour_cnt;
-};
-Composer::Attributes &
-Composer::Attributes::scale (const math::Vector2 &factor)
-{
-  _transform.affine_scaling (factor);
-  _inv_transform = _transform.inverse ();
+				std::list<Attributes> _list;
+				bool _update;
+				bool _global_dist;
+				double _max_radius;
+				double _min_radius;
+				math::VectorPair2 _bbox;
+				unsigned int _contour_cnt;
+		};
+		Composer::Attributes &
+		Composer::Attributes::scale (const math::Vector2 &factor)
+		{
+			_transform.affine_scaling (factor);
+			_inv_transform = _transform.inverse ();
+			return *this;
+		}
 
-  return *this;
-}
+		Composer::Attributes &
+		Composer::Attributes::rotate (double angle)
+		{
+			_transform.affine_rotation (0, angle);
+			_inv_transform = _transform.inverse ();
+			return *this;
+		}
 
-Composer::Attributes &
-Composer::Attributes::rotate (double angle)
-{
-  _transform.affine_rotation (0, angle);
-  _inv_transform = _transform.inverse ();
+		Composer::Attributes &
+		Composer::Attributes::translate (const math::Vector2 &offset)
+		{
+			_transform.apply_translation (offset);
+			_inv_transform = _transform.inverse ();
+			return *this;
+		}
 
-  return *this;
-}
+		void
+		Composer::use_global_distribution (bool use_global)
+		{
+			_global_dist = use_global;
+		}
 
-Composer::Attributes &
-Composer::Attributes::translate (const math::Vector2 &offset)
-{
-  _transform.apply_translation (offset);
-  _inv_transform = _transform.inverse ();
-
-  return *this;
-}
-
-void
-Composer::use_global_distribution (bool use_global)
-{
-  _global_dist = use_global;
-}
-
-}
+	}
 }
 
 #endif

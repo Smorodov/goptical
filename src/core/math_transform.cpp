@@ -29,90 +29,86 @@
 namespace goptical
 {
 
-namespace math
-{
+	namespace math
+	{
 
-void
-get_rotation_matrix (Matrix<2> &r, unsigned int axis, double a)
-{
-  assert (axis == 0);
+		void
+		get_rotation_matrix (Matrix<2> &r, unsigned int axis, double a)
+		{
+			assert (axis == 0);
+			/*
+			 * See https://mathworld.wolfram.com/RotationMatrix.html
+			 * the matrix that rotates a given vector v_0 by a counterclockwise angle
+			 * theta in a fixed coordinate system.
+			 */
+			r.value (0, 0) = cos (a);
+			r.value (0, 1) = sin (-a);
+			r.value (1, 0) = sin (a);
+			r.value (1, 1) = cos (a);
+		}
 
-  /*
-   * See https://mathworld.wolfram.com/RotationMatrix.html
-   * the matrix that rotates a given vector v_0 by a counterclockwise angle
-   * theta in a fixed coordinate system.
-   */
-  r.value (0, 0) = cos (a);
-  r.value (0, 1) = sin (-a);
-  r.value (1, 0) = sin (a);
-  r.value (1, 1) = cos (a);
-}
+		void
+		get_rotation_matrix (Matrix<3> &r, unsigned int axis, double a)
+		{
+			assert (axis < 3);
+			/*
+			 * Note on convention used below.
+			 *
+			 * See https://mathworld.wolfram.com/RotationMatrix.html
+			 * coordinate system rotations of the x-, y-, and z-axes in a
+			 * counterclockwise direction when looking towards the origin give the
+			 * matrices.
+			 *
+			 * This appears to correspond to xyz convention described in appendix A,
+			 * Classical Mechanics, Goldstein, 3rd Ed. 'It appears that most U.S. and
+			 * British aerodynamicists and pilots prefer the sequence in which the first
+			 * rotation is the yaw angle (phi) about a z-axis, the second is the pitch
+			 * angle (theta) about an intermediary y-axis, and the third is a bank or
+			 * roll angle (psi) about the final x-axis.'
+			 *
+			 * Also see https://youtu.be/wg9bI8-Qx2Q
+			 */
+			switch (axis)
+			{
+				case 0:
+					// rotation counter clockwise around the X axis
+					r.value (0, 0) = 1;
+					r.value (0, 1) = 0;
+					r.value (0, 2) = 0;
+					r.value (1, 0) = 0;
+					r.value (1, 1) = cos (a);
+					r.value (1, 2) = sin (a);
+					r.value (2, 0) = 0;
+					r.value (2, 1) = -sin (a);
+					r.value (2, 2) = cos (a);
+					return;
+				case 1:
+					// rotation counter clockwise around the Y axis
+					r.value (0, 0) = cos (a);
+					r.value (0, 1) = 0;
+					r.value (0, 2) = -sin (a);
+					r.value (1, 0) = 0;
+					r.value (1, 1) = 1;
+					r.value (1, 2) = 0;
+					r.value (2, 0) = sin (a);
+					r.value (2, 1) = 0;
+					r.value (2, 2) = cos (a);
+					return;
+				case 2:
+					// rotation counter clockwise around the Z axis
+					r.value (0, 0) = cos (a);
+					r.value (0, 1) = sin (a);
+					r.value (0, 2) = 0;
+					r.value (1, 0) = -sin (a);
+					r.value (1, 1) = cos (a);
+					r.value (1, 2) = 0;
+					r.value (2, 0) = 0;
+					r.value (2, 1) = 0;
+					r.value (2, 2) = 1;
+					return;
+			}
+		}
 
-void
-get_rotation_matrix (Matrix<3> &r, unsigned int axis, double a)
-{
-  assert (axis < 3);
-
-  /*
-   * Note on convention used below.
-   *
-   * See https://mathworld.wolfram.com/RotationMatrix.html
-   * coordinate system rotations of the x-, y-, and z-axes in a
-   * counterclockwise direction when looking towards the origin give the
-   * matrices.
-   *
-   * This appears to correspond to xyz convention described in appendix A,
-   * Classical Mechanics, Goldstein, 3rd Ed. 'It appears that most U.S. and
-   * British aerodynamicists and pilots prefer the sequence in which the first
-   * rotation is the yaw angle (phi) about a z-axis, the second is the pitch
-   * angle (theta) about an intermediary y-axis, and the third is a bank or
-   * roll angle (psi) about the final x-axis.'
-   *
-   * Also see https://youtu.be/wg9bI8-Qx2Q
-   */
-  switch (axis)
-    {
-    case 0:
-      // rotation counter clockwise around the X axis
-      r.value (0, 0) = 1;
-      r.value (0, 1) = 0;
-      r.value (0, 2) = 0;
-      r.value (1, 0) = 0;
-      r.value (1, 1) = cos (a);
-      r.value (1, 2) = sin (a);
-      r.value (2, 0) = 0;
-      r.value (2, 1) = -sin (a);
-      r.value (2, 2) = cos (a);
-      return;
-
-    case 1:
-      // rotation counter clockwise around the Y axis
-      r.value (0, 0) = cos (a);
-      r.value (0, 1) = 0;
-      r.value (0, 2) = -sin (a);
-      r.value (1, 0) = 0;
-      r.value (1, 1) = 1;
-      r.value (1, 2) = 0;
-      r.value (2, 0) = sin (a);
-      r.value (2, 1) = 0;
-      r.value (2, 2) = cos (a);
-      return;
-
-    case 2:
-      // rotation counter clockwise around the Z axis
-      r.value (0, 0) = cos (a);
-      r.value (0, 1) = sin (a);
-      r.value (0, 2) = 0;
-      r.value (1, 0) = -sin (a);
-      r.value (1, 1) = cos (a);
-      r.value (1, 2) = 0;
-      r.value (2, 0) = 0;
-      r.value (2, 1) = 0;
-      r.value (2, 2) = 1;
-      return;
-    }
-}
-
-}
+	}
 
 }

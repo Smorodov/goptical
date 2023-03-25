@@ -32,44 +32,44 @@
 namespace goptical
 {
 
-namespace sys
-{
+	namespace sys
+	{
 
-Mirror::Mirror (const math::VectorPair3 &p,
-                const std::shared_ptr<curve::Base> &curve,
-                const std::shared_ptr<shape::Base> &shape,
-                bool light_from_left,
-                const std::shared_ptr<material::Base> &metal,
-                const std::shared_ptr<material::Base> &air)
-    : OpticalSurface (p, curve, shape, light_from_left ? air : metal,
-                      light_from_left ? metal : air)
-{
-}
+		Mirror::Mirror (const math::VectorPair3 &p,
+		                const std::shared_ptr<curve::Base> &curve,
+		                const std::shared_ptr<shape::Base> &shape,
+		                bool light_from_left,
+		                const std::shared_ptr<material::Base> &metal,
+		                const std::shared_ptr<material::Base> &air)
+			: OpticalSurface (p, curve, shape, light_from_left ? air : metal,
+			                  light_from_left ? metal : air)
+		{
+		}
 
-Mirror::Mirror (const math::VectorPair3 &p,
-                const std::shared_ptr<curve::Base> &curve, double ap_radius,
-                bool light_from_left,
-                const std::shared_ptr<material::Base> &metal,
-                const std::shared_ptr<material::Base> &air)
-    : OpticalSurface (p, curve, ap_radius, light_from_left ? air : metal,
-                      light_from_left ? metal : air)
-{
-}
+		Mirror::Mirror (const math::VectorPair3 &p,
+		                const std::shared_ptr<curve::Base> &curve, double ap_radius,
+		                bool light_from_left,
+		                const std::shared_ptr<material::Base> &metal,
+		                const std::shared_ptr<material::Base> &air)
+			: OpticalSurface (p, curve, ap_radius, light_from_left ? air : metal,
+			                  light_from_left ? metal : air)
+		{
+		}
 
-Mirror::Mirror (const math::VectorPair3 &p, double roc, double sc,
-                double ap_radius, bool light_from_left,
-                const std::shared_ptr<material::Base> &metal,
-                const std::shared_ptr<material::Base> &air)
-    : OpticalSurface (p,
-                      roc == 0. ? std::shared_ptr<curve::Base> (curve::flat)
-                                : std::shared_ptr<curve::Base> (
-                                    std::make_shared<curve::Conic> (roc, sc)),
-                      std::make_shared<shape::Disk> (ap_radius),
-                      light_from_left ? air : metal,
-                      light_from_left ? metal : air)
-{
-}
+		Mirror::Mirror (const math::VectorPair3 &p, double roc, double sc,
+		                double ap_radius, bool light_from_left,
+		                const std::shared_ptr<material::Base> &metal,
+		                const std::shared_ptr<material::Base> &air)
+			: OpticalSurface (p,
+			                  roc == 0. ? std::shared_ptr<curve::Base> (curve::flat)
+			                  : std::shared_ptr<curve::Base> (
+			                      std::make_shared<curve::Conic> (roc, sc)),
+			                  std::make_shared<shape::Disk> (ap_radius),
+			                  light_from_left ? air : metal,
+			                  light_from_left ? metal : air)
+		{
+		}
 
-}
+	}
 
 }

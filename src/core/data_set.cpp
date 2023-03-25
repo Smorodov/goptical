@@ -31,95 +31,93 @@
 namespace goptical
 {
 
-namespace data
-{
+	namespace data
+	{
 
-Set::Set () : _version (0) {}
+		Set::Set () : _version (0) {}
 
-Set::~Set () {}
+		Set::~Set () {}
 
-math::range_t
-Set::get_y_range () const
-{
-  math::range_t r (std::numeric_limits<double>::max (),
-                   std::numeric_limits<double>::min ());
+		math::range_t
+		Set::get_y_range () const
+		{
+			math::range_t r (std::numeric_limits<double>::max (),
+			                 std::numeric_limits<double>::min ());
+			unsigned int d = get_dimensions ();
+			// unsigned int x[d];
+			unsigned int *x = (unsigned int *)calloc (d, sizeof (unsigned int));
+			// unsigned int c[d];
+			unsigned int *c = (unsigned int *)calloc (d, sizeof (unsigned int));
+			for (unsigned int i = 0; i < d; i++)
+			{
+				if (get_count (i) == 0)
+				{
+					throw Error ("data set contains no data");
+				}
+				x[i] = 0;
+				c[i] = get_count (i) - 1;
+			}
+			while (1)
+			{
+				double y = get_y_value (x);
+				if (y < r.first)
+				{
+					r.first = y;
+				}
+				if (y > r.second)
+				{
+					r.second = y;
+				}
+				for (unsigned int i = 0;;)
+				{
+					if (x[i] < c[i])
+					{
+						x[i]++;
+						break;
+					}
+					else
+					{
+						x[i++] = 0;
+						if (i == d)
+						{
+							return r;
+						}
+					}
+				}
+			}
+			free (x);
+			free (c);
+		}
 
-  unsigned int d = get_dimensions ();
-  // unsigned int x[d];
-  unsigned int *x = (unsigned int *)calloc (d, sizeof (unsigned int));
-  // unsigned int c[d];
-  unsigned int *c = (unsigned int *)calloc (d, sizeof (unsigned int));
+		std::ostream &
+		operator<< (std::ostream &o, const Set &s)
+		{
+			switch (s.get_dimensions ())
+			{
+				case 2:
+					for (unsigned int x1 = 0; x1 < s.get_count (0); x1++)
+					{
+						for (unsigned int x2 = 0; x2 < s.get_count (1); x2++)
+						{
+							unsigned int t[2];
+							t[0] = x1;
+							t[1] = x2;
+							o << s.get_x_value (x1, 0) << " " << s.get_x_value (x2, 1) << " "
+							  << s.get_y_value (t) << " " << std::endl;
+						}
+						o << std::endl;
+					}
+					break;
+				case 1:
+					for (unsigned int x = 0; x < s.get_count (0); x++)
+					{
+						o << s.get_x_value (x, 0) << " " << s.get_y_value (&x) << std::endl;
+					}
+					break;
+			}
+			return o;
+		}
 
-  for (unsigned int i = 0; i < d; i++)
-    {
-      if (get_count (i) == 0)
-        throw Error ("data set contains no data");
-
-      x[i] = 0;
-      c[i] = get_count (i) - 1;
-    }
-
-  while (1)
-    {
-      double y = get_y_value (x);
-
-      if (y < r.first)
-        r.first = y;
-
-      if (y > r.second)
-        r.second = y;
-
-      for (unsigned int i = 0;;)
-        {
-          if (x[i] < c[i])
-            {
-              x[i]++;
-              break;
-            }
-          else
-            {
-              x[i++] = 0;
-
-              if (i == d)
-                return r;
-            }
-        }
-    }
-  free (x);
-  free (c);
-}
-
-std::ostream &
-operator<< (std::ostream &o, const Set &s)
-{
-  switch (s.get_dimensions ())
-    {
-    case 2:
-      for (unsigned int x1 = 0; x1 < s.get_count (0); x1++)
-        {
-          for (unsigned int x2 = 0; x2 < s.get_count (1); x2++)
-            {
-              unsigned int t[2];
-
-              t[0] = x1;
-              t[1] = x2;
-
-              o << s.get_x_value (x1, 0) << " " << s.get_x_value (x2, 1) << " "
-                << s.get_y_value (t) << " " << std::endl;
-            }
-          o << std::endl;
-        }
-      break;
-
-    case 1:
-      for (unsigned int x = 0; x < s.get_count (0); x++)
-        o << s.get_x_value (x, 0) << " " << s.get_y_value (&x) << std::endl;
-      break;
-    }
-
-  return o;
-}
-
-}
+	}
 
 }

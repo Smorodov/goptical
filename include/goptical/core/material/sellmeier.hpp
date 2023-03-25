@@ -32,71 +32,69 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Sellmeier model for optical glass material
-   @header <goptical/core/material/Sellmeier
-   @module {Core}
-   @main
+		/**
+		   @short Sellmeier model for optical glass material
+		   @header <goptical/core/material/Sellmeier
+		   @module {Core}
+		   @main
 
-   This class models optical properties of dielectric
-   materials using @url http://en.wikipedia.org/wiki/Sellmeier_equation
-   {Sellmeier} refractive index dispersion formula:
+		   This class models optical properties of dielectric
+		   materials using @url http://en.wikipedia.org/wiki/Sellmeier_equation
+		   {Sellmeier} refractive index dispersion formula:
 
-   @math $ n_\lambda = \sqrt{ A + \sum\limits_{i}^{} \frac{B_i \times
-   \lambda^2}{\lambda^2 - C_i}} $
+		   @math $ n_\lambda = \sqrt{ A + \sum\limits_{i}^{} \frac{B_i \times
+		   \lambda^2}{\lambda^2 - C_i}} $
 
-   with @math $\lambda$ the micrometer wavelength.
+		   with @math $\lambda$ the micrometer wavelength.
 
-   @see SellmeierMod
- */
+		   @see SellmeierMod
+		 */
 
-class Sellmeier : public Dielectric
-{
-public:
-  /** Create an empty sellmeier model */
-  Sellmeier ();
+		class Sellmeier : public Dielectric
+		{
+			public:
+				/** Create an empty sellmeier model */
+				Sellmeier ();
 
-  /** Create an 3rd order sellmeier model with given coefficients
-      and 1.0 constant */
-  Sellmeier (double K1, double L1, double K2, double L2, double K3, double L3);
+				/** Create an 3rd order sellmeier model with given coefficients
+				    and 1.0 constant */
+				Sellmeier (double K1, double L1, double K2, double L2, double K3, double L3);
 
-  /** Set terms count */
-  void set_terms_count (unsigned int c);
+				/** Set terms count */
+				void set_terms_count (unsigned int c);
 
-  /** Change sellmeier constant term */
-  inline void set_contant_term (double A);
+				/** Change sellmeier constant term */
+				inline void set_contant_term (double A);
 
-  /** Set term coefficients */
-  inline void set_term (unsigned int i, double B, double C);
+				/** Set term coefficients */
+				inline void set_term (unsigned int i, double B, double C);
 
-  /** @override */
-  double get_measurement_index (double wavelen) const;
+				/** @override */
+				double get_measurement_index (double wavelen) const;
 
-private:
-  std::vector<double> _coeff;
-  double _constant;
-};
-void
-Sellmeier::set_contant_term (double A)
-{
-  _constant = A;
-}
+			private:
+				std::vector<double> _coeff;
+				double _constant;
+		};
+		void
+		Sellmeier::set_contant_term (double A)
+		{
+			_constant = A;
+		}
 
-void
-Sellmeier::set_term (unsigned int term, double K, double L)
-{
-  term *= 2;
+		void
+		Sellmeier::set_term (unsigned int term, double K, double L)
+		{
+			term *= 2;
+			assert (term + 1 < _coeff.size ());
+			_coeff[term] = K;
+			_coeff[term + 1] = L;
+		}
 
-  assert (term + 1 < _coeff.size ());
-
-  _coeff[term] = K;
-  _coeff[term + 1] = L;
-}
-
-}
+	}
 }
 
 #endif

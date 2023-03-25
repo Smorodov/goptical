@@ -33,114 +33,109 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-/**
-   @short Enable definition of curve as composition of other curves
-   @header <goptical/core/curve/Composer
-   @module {Core}
-   @main
+		/**
+		   @short Enable definition of curve as composition of other curves
+		   @header <goptical/core/curve/Composer
+		   @module {Core}
+		   @main
 
-   This class allows definition of a surface curve using the sum
-   of several base curves. Each base curve involved can be
-   translated, rotated and scaled individually.
-*/
-class Composer : public Base
-{
-public:
-  /**
-     @short curve::Composer base curve attributes.
-     @header <goptical/core/curve/Composer
+		   This class allows definition of a surface curve using the sum
+		   of several base curves. Each base curve involved can be
+		   translated, rotated and scaled individually.
+		*/
+		class Composer : public Base
+		{
+			public:
+				/**
+				   @short curve::Composer base curve attributes.
+				   @header <goptical/core/curve/Composer
 
-     This class enables access to Composer base curve
-     transformations. Sagitta (z) scaling and (x, y) affine
-     transforms (translation, rotation, scaling) can be applied as
-     needed in any order.
-   */
-  class Attributes
-  {
-    friend class Composer;
+				   This class enables access to Composer base curve
+				   transformations. Sagitta (z) scaling and (x, y) affine
+				   transforms (translation, rotation, scaling) can be applied as
+				   needed in any order.
+				 */
+				class Attributes
+				{
+						friend class Composer;
 
-  public:
-    /** Apply sagitta (z) offset. default is 0 */
-    inline Attributes &z_offset (double zoffset);
-    /** Apply sagitta (z) scale factor. default is 1 */
-    inline Attributes &z_scale (double zfactor);
-    /** Apply scaling affine transform using scale factors (xscale, yscale) */
-    inline Attributes &xy_scale (const math::Vector2 &factor);
-    /** Apply rotation affine transform. Angle is in degree. */
-    inline Attributes &rotate (double dangle);
-    /** Apply translation transform */
-    inline Attributes &xy_translate (const math::Vector2 &offset);
+					public:
+						/** Apply sagitta (z) offset. default is 0 */
+						inline Attributes &z_offset (double zoffset);
+						/** Apply sagitta (z) scale factor. default is 1 */
+						inline Attributes &z_scale (double zfactor);
+						/** Apply scaling affine transform using scale factors (xscale, yscale) */
+						inline Attributes &xy_scale (const math::Vector2 &factor);
+						/** Apply rotation affine transform. Angle is in degree. */
+						inline Attributes &rotate (double dangle);
+						/** Apply translation transform */
+						inline Attributes &xy_translate (const math::Vector2 &offset);
 
-  private:
-    std::shared_ptr<Base> _curve;
-    math::Transform<2> _transform;
-    math::Transform<2> _inv_transform;
+					private:
+						std::shared_ptr<Base> _curve;
+						math::Transform<2> _transform;
+						math::Transform<2> _inv_transform;
 
-    double _z_scale;
-    double _z_offset;
-  };
+						double _z_scale;
+						double _z_offset;
+				};
 
-  Composer ();
+				Composer ();
 
-  /** Add a base curve to use for composition. The returned
-      Composer::Attributes object may be used to apply base curve
-      transformations. */
-  Attributes &add_curve (const std::shared_ptr<Base> &curve);
+				/** Add a base curve to use for composition. The returned
+				    Composer::Attributes object may be used to apply base curve
+				    transformations. */
+				Attributes &add_curve (const std::shared_ptr<Base> &curve);
 
-  double sagitta (const math::Vector2 &xy) const;
-  void derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const;
+				double sagitta (const math::Vector2 &xy) const;
+				void derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const;
 
-private:
-  std::list<Attributes> _list;
-};
+			private:
+				std::list<Attributes> _list;
+		};
 
-Composer::Attributes &
-Composer::Attributes::z_scale (double zfactor)
-{
-  _z_scale *= zfactor;
+		Composer::Attributes &
+		Composer::Attributes::z_scale (double zfactor)
+		{
+			_z_scale *= zfactor;
+			return *this;
+		}
 
-  return *this;
-}
+		Composer::Attributes &
+		Composer::Attributes::z_offset (double zoffset)
+		{
+			_z_offset += zoffset;
+			return *this;
+		}
 
-Composer::Attributes &
-Composer::Attributes::z_offset (double zoffset)
-{
-  _z_offset += zoffset;
+		Composer::Attributes &
+		Composer::Attributes::xy_scale (const math::Vector2 &factor)
+		{
+			_transform.affine_scaling (factor);
+			_inv_transform = _transform.inverse ();
+			return *this;
+		}
 
-  return *this;
-}
+		Composer::Attributes &
+		Composer::Attributes::rotate (double angle)
+		{
+			_transform.affine_rotation (0, angle);
+			_inv_transform = _transform.inverse ();
+			return *this;
+		}
 
-Composer::Attributes &
-Composer::Attributes::xy_scale (const math::Vector2 &factor)
-{
-  _transform.affine_scaling (factor);
-  _inv_transform = _transform.inverse ();
+		Composer::Attributes &
+		Composer::Attributes::xy_translate (const math::Vector2 &offset)
+		{
+			_transform.apply_translation (offset);
+			_inv_transform = _transform.inverse ();
+			return *this;
+		}
 
-  return *this;
-}
-
-Composer::Attributes &
-Composer::Attributes::rotate (double angle)
-{
-  _transform.affine_rotation (0, angle);
-  _inv_transform = _transform.inverse ();
-
-  return *this;
-}
-
-Composer::Attributes &
-Composer::Attributes::xy_translate (const math::Vector2 &offset)
-{
-  _transform.apply_translation (offset);
-  _inv_transform = _transform.inverse ();
-
-  return *this;
-}
-
-}
+	}
 }
 
 #endif

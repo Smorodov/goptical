@@ -27,43 +27,43 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-Mirror::Mirror () : Base ("mirror") {}
+		Mirror::Mirror () : Base ("mirror") {}
 
-bool
-Mirror::is_opaque () const
-{
-  return true;
-}
+		bool
+		Mirror::is_opaque () const
+		{
+			return true;
+		}
 
-bool
-Mirror::is_reflecting () const
-{
-  return true;
-}
+		bool
+		Mirror::is_reflecting () const
+		{
+			return true;
+		}
 
-double
-Mirror::get_internal_transmittance (double wavelen, double thickness) const
-{
-  return 0.0;
-}
+		double
+		Mirror::get_internal_transmittance (double wavelen, double thickness) const
+		{
+			return 0.0;
+		}
 
-double
-Mirror::get_refractive_index (double wavelen) const
-{
-  return 1.0;
-}
+		double
+		Mirror::get_refractive_index (double wavelen) const
+		{
+			return 1.0;
+		}
 
-double
-Mirror::get_extinction_coef (double wavelen) const
-{
-  return 9999.0;
-}
+		double
+		Mirror::get_extinction_coef (double wavelen) const
+		{
+			return 9999.0;
+		}
 
-std::shared_ptr<Mirror> mirror = std::make_shared<Mirror> ();
+		std::shared_ptr<Mirror> mirror = std::make_shared<Mirror> ();
 
-}
+	}
 
 }

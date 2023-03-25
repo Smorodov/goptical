@@ -36,67 +36,67 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Hold a glass material catalog
-   @header <goptical/core/material/Catalog
-   @module {Core}
-   @main
- */
-class Catalog
-{
-public:
-  /** Create a catalog with given name */
-  Catalog (const std::string &name = "");
+		/**
+		   @short Hold a glass material catalog
+		   @header <goptical/core/material/Catalog
+		   @module {Core}
+		   @main
+		 */
+		class Catalog
+		{
+			public:
+				/** Create a catalog with given name */
+				Catalog (const std::string &name = "");
 
-  /** Get catalog name */
-  inline const std::string &get_name () const;
-  /** Set catalog name */
-  inline void set_name (const std::string &name);
+				/** Get catalog name */
+				inline const std::string &get_name () const;
+				/** Set catalog name */
+				inline void set_name (const std::string &name);
 
-  /** Get material with given name */
-  inline const Base &get_material (const std::string &material_name);
+				/** Get material with given name */
+				inline const Base &get_material (const std::string &material_name);
 
-  /** Add a material to catalog. material object will be deleted
-      on catalog destruction if owner is set. */
-  void add_material (const std::string &material_name,
-                     const std::shared_ptr<Base> &material);
+				/** Add a material to catalog. material object will be deleted
+				    on catalog destruction if owner is set. */
+				void add_material (const std::string &material_name,
+				                   const std::shared_ptr<Base> &material);
 
-  /** Remove a material from catalog */
-  void del_material (const std::string &material_name);
+				/** Remove a material from catalog */
+				void del_material (const std::string &material_name);
 
-private:
-  typedef std::map<std::string, std::shared_ptr<Base> > catalog_map_t;
+			private:
+				typedef std::map<std::string, std::shared_ptr<Base> > catalog_map_t;
 
-  std::string _name;
-  catalog_map_t _list;
-};
-inline const std::string &
-Catalog::get_name () const
-{
-  return _name;
-}
+				std::string _name;
+				catalog_map_t _list;
+		};
+		inline const std::string &
+		Catalog::get_name () const
+		{
+			return _name;
+		}
 
-inline void
-Catalog::set_name (const std::string &name)
-{
-  _name = name;
-}
+		inline void
+		Catalog::set_name (const std::string &name)
+		{
+			_name = name;
+		}
 
-inline const Base &
-Catalog::get_material (const std::string &material_name)
-{
-  catalog_map_t::iterator i = _list.find (material_name);
+		inline const Base &
+		Catalog::get_material (const std::string &material_name)
+		{
+			catalog_map_t::iterator i = _list.find (material_name);
+			if (i == _list.end ())
+			{
+				throw Error ("No such material in catalog");
+			}
+			return *i->second;
+		}
 
-  if (i == _list.end ())
-    throw Error ("No such material in catalog");
-
-  return *i->second;
-}
-
-}
+	}
 
 }
 

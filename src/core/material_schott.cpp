@@ -29,62 +29,55 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-Schott::Schott () : _coeff (), _first (0) {}
+		Schott::Schott () : _coeff (), _first (0) {}
 
-Schott::Schott (double A, double B, double C, double D, double E, double F)
-    : _coeff (), _first (-8)
-{
-  _coeff.reserve (6);
-  _coeff.push_back (F);
-  _coeff.push_back (E);
-  _coeff.push_back (D);
-  _coeff.push_back (C);
-  _coeff.push_back (A);
-  _coeff.push_back (B);
-}
+		Schott::Schott (double A, double B, double C, double D, double E, double F)
+			: _coeff (), _first (-8)
+		{
+			_coeff.reserve (6);
+			_coeff.push_back (F);
+			_coeff.push_back (E);
+			_coeff.push_back (D);
+			_coeff.push_back (C);
+			_coeff.push_back (A);
+			_coeff.push_back (B);
+		}
 
-void
-Schott::set_terms_range (int first, int last)
-{
-  unsigned int c = last - first;
+		void
+		Schott::set_terms_range (int first, int last)
+		{
+			unsigned int c = last - first;
+			assert (first % 2 == 0);
+			assert (last % 2 == 0);
+			_coeff.resize (c / 2 + 1, 0.0);
+			_first = first;
+			_last_wavelen = 0;
+			_last_wavelen_val = 0;
+		}
 
-  assert (first % 2 == 0);
-  assert (last % 2 == 0);
+		double
+		Schott::get_measurement_index (double wavelen) const
+		{
+			if (_last_wavelen == wavelen)
+			{
+				return _last_wavelen_val;
+			}
+			double wl = wavelen / 1000.0;
+			double n = 0;
+			double x = (double)_first;
+			for (unsigned int i = 0; i < _coeff.size (); i++)
+			{
+				n += _coeff[i] * pow (wl, x);
+				x += 2.0;
+			}
+			_last_wavelen = wavelen;
+			_last_wavelen_val = sqrt (n);
+			return _last_wavelen_val;
+		}
 
-  _coeff.resize (c / 2 + 1, 0.0);
-  _first = first;
-
-  _last_wavelen = 0;
-  _last_wavelen_val = 0;
-}
-
-double
-Schott::get_measurement_index (double wavelen) const
-{
-  if (_last_wavelen == wavelen)
-    {
-      return _last_wavelen_val;
-    }
-
-  double wl = wavelen / 1000.0;
-  double n = 0;
-  double x = (double)_first;
-
-  for (unsigned int i = 0; i < _coeff.size (); i++)
-    {
-      n += _coeff[i] * pow (wl, x);
-      x += 2.0;
-    }
-
-  _last_wavelen = wavelen;
-  _last_wavelen_val = sqrt (n);
-
-  return _last_wavelen_val;
-}
-
-}
+	}
 
 }

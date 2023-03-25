@@ -30,59 +30,59 @@
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-/**
-   @short Base class for Disk, Ring, Ellipse and EllipticalRing
-   @header <goptical/core/shapeRound
-   @module {Core}
-   @internal
+		/**
+		   @short Base class for Disk, Ring, Ellipse and EllipticalRing
+		   @header <goptical/core/shapeRound
+		   @module {Core}
+		   @internal
 
-   This class contains common code for round shaped classes.
- */
+		   This class contains common code for round shaped classes.
+		 */
 
-template <class X, bool hole> class Round : public X
-{
-public:
-  /** @override */
-  unsigned int get_contour_count () const;
-  /** @override */
-  void get_pattern (const math::Vector2::put_delegate_t &v,
-                    const trace::Distribution &d, bool unobstructed) const;
-  /** @override */
-  void get_contour (unsigned int contour,
-                    const math::Vector2::put_delegate_t &f,
-                    double resolution) const;
-  /** @override */
-  void get_triangles (const math::Triangle<2>::put_delegate_t &f,
-                      double resolution) const;
+		template <class X, bool hole> class Round : public X
+		{
+			public:
+				/** @override */
+				unsigned int get_contour_count () const;
+				/** @override */
+				void get_pattern (const math::Vector2::put_delegate_t &v,
+				                  const trace::Distribution &d, bool unobstructed) const;
+				/** @override */
+				void get_contour (unsigned int contour,
+				                  const math::Vector2::put_delegate_t &f,
+				                  double resolution) const;
+				/** @override */
+				void get_triangles (const math::Triangle<2>::put_delegate_t &f,
+				                    double resolution) const;
 
-private:
-  double get_radial_step (double resolution) const;
-};
+			private:
+				double get_radial_step (double resolution) const;
+		};
 
-//    Round::Round(double radius)
-//      : _radius(radius)
-//    {
-//    }
-//
-//    void Round::set_radius(double r)
-//    {
-//      _radius = r;
-//    }
-//
-//    double Round::get_radius(void) const
-//    {
-//      return _radius;
-//    }
-//
-//    double Round::max_radius() const
-//    {
-//      return _radius;
-//    }
+		//    Round::Round(double radius)
+		//      : _radius(radius)
+		//    {
+		//    }
+		//
+		//    void Round::set_radius(double r)
+		//    {
+		//      _radius = r;
+		//    }
+		//
+		//    double Round::get_radius(void) const
+		//    {
+		//      return _radius;
+		//    }
+		//
+		//    double Round::max_radius() const
+		//    {
+		//      return _radius;
+		//    }
 
-}
+	}
 
 }
 

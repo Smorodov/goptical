@@ -32,37 +32,37 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Mil glass code material model
-   @header <goptical/core/material/Mil
-   @module {Core}
-   @main
+		/**
+		   @short Mil glass code material model
+		   @header <goptical/core/material/Mil
+		   @module {Core}
+		   @main
 
-   This class is able to extract @em nd index and @em vd Abbe
-   number values from glass code in order to model mil glass
-   material. Glass code format is described in "@em{MIL-G-174B}"
-   standard.
+		   This class is able to extract @em nd index and @em vd Abbe
+		   number values from glass code in order to model mil glass
+		   material. Glass code format is described in "@em{MIL-G-174B}"
+		   standard.
 
-   @see Abbe
- */
+		   @see Abbe
+		 */
 
-class Mil : public AbbeVd
-{
-public:
-  /** Create a glass model based on glass code with "@em{nnnnvvv}" format. */
-  inline Mil (unsigned int code);
-};
+		class Mil : public AbbeVd
+		{
+			public:
+				/** Create a glass model based on glass code with "@em{nnnnvvv}" format. */
+				inline Mil (unsigned int code);
+		};
 
-Mil::Mil (unsigned int code)
-    : AbbeVd (1. + (double)(code / 1000) / 1000., (double)(code % 1000) / 10.,
-              0.)
-{
-}
+		Mil::Mil (unsigned int code)
+			: AbbeVd (1. + (double)(code / 1000) / 1000., (double)(code % 1000) / 10.,
+			          0.)
+		{
+		}
 
-}
+	}
 }
 
 #endif

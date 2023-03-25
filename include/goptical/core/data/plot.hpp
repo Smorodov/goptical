@@ -37,154 +37,154 @@
 namespace goptical
 {
 
-namespace data
-{
+	namespace data
+	{
 
-/**
-   @short data plots container
-   @header <goptical/core/data/Plot
-   @module {Core}
-   @main
+		/**
+		   @short data plots container
+		   @header <goptical/core/data/Plot
+		   @module {Core}
+		   @main
 
-   This class is used to describe a data plot. It contains a list
-   of @ref Plotdata objects and describes some plot properties
-   (title, range, ...).
+		   This class is used to describe a data plot. It contains a list
+		   of @ref Plotdata objects and describes some plot properties
+		   (title, range, ...).
 
-   Plots can be built from data sets or obtained directly from
-   various analysis functions. They can be rendered on a @ref
-   io::RendererViewport object with the @ref draw function.
- */
-class Plot
-{
-public:
-  /** Create a new empty plot */
-  Plot ();
+		   Plots can be built from data sets or obtained directly from
+		   various analysis functions. They can be rendered on a @ref
+		   io::RendererViewport object with the @ref draw function.
+		 */
+		class Plot
+		{
+			public:
+				/** Create a new empty plot */
+				Plot ();
 
-  /** Create and add plot data from specified data set. */
-  Plotdata &add_plot_data (const std::shared_ptr<Set> &data,
-                           const io::Rgb &color = io::rgb_red,
-                           const std::string &label = "data",
-                           PlotStyleMask style = InterpolatePlot | PointPlot);
+				/** Create and add plot data from specified data set. */
+				Plotdata &add_plot_data (const std::shared_ptr<Set> &data,
+				                         const io::Rgb &color = io::rgb_red,
+				                         const std::string &label = "data",
+				                         PlotStyleMask style = InterpolatePlot | PointPlot);
 
-  /** Add plot data */
-  void add_plot_data (Plotdata &data);
+				/** Add plot data */
+				void add_plot_data (Plotdata &data);
 
-  /** Discard all plot data set */
-  void erase_plot_data ();
+				/** Discard all plot data set */
+				void erase_plot_data ();
 
-  /** Get plot data set count */
-  inline unsigned int get_plot_count () const;
+				/** Get plot data set count */
+				inline unsigned int get_plot_count () const;
 
-  /** Get plot data set at given index */
-  inline Plotdata &get_plot_data (unsigned int index);
+				/** Get plot data set at given index */
+				inline Plotdata &get_plot_data (unsigned int index);
 
-  /** Get plot data set at given index */
-  inline const Plotdata &get_plot_data (unsigned int index) const;
+				/** Get plot data set at given index */
+				inline const Plotdata &get_plot_data (unsigned int index) const;
 
-  /** Set plot main title */
-  void set_title (const std::string &title);
+				/** Set plot main title */
+				void set_title (const std::string &title);
 
-  /** Get plot main title */
-  inline const std::string &get_title () const;
+				/** Get plot main title */
+				inline const std::string &get_title () const;
 
-  /** Set color for all plots */
-  void set_color (const io::Rgb &color);
+				/** Set color for all plots */
+				void set_color (const io::Rgb &color);
 
-  /** Automatically choose different colors for each plot */
-  void set_different_colors ();
+				/** Automatically choose different colors for each plot */
+				void set_different_colors ();
 
-  /** Set plot style for all plot */
-  void set_style (PlotStyleMask style);
+				/** Set plot style for all plot */
+				void set_style (PlotStyleMask style);
 
-  /** Swap x and y axis for 2d plots */
-  inline void set_xy_swap (bool doswap);
+				/** Swap x and y axis for 2d plots */
+				inline void set_xy_swap (bool doswap);
 
-  /** Get x and y axis swap state for 2d plots */
-  inline bool get_xy_swap () const;
+				/** Get x and y axis swap state for 2d plots */
+				inline bool get_xy_swap () const;
 
-  /** Set axis position to dataset range */
-  void fit_axes_range ();
+				/** Set axis position to dataset range */
+				void fit_axes_range ();
 
-  /** Get plot axes object */
-  inline io::RendererAxes &get_axes ();
+				/** Get plot axes object */
+				inline io::RendererAxes &get_axes ();
 
-  /** Get plot axes object */
-  inline const io::RendererAxes &get_axes () const;
+				/** Get plot axes object */
+				inline const io::RendererAxes &get_axes () const;
 
-  /** Get data sets dimensions, return 0 if inconsistent */
-  unsigned int get_dimensions () const;
+				/** Get data sets dimensions, return 0 if inconsistent */
+				unsigned int get_dimensions () const;
 
-  /** Get range of x data in sets */
-  math::range_t get_x_data_range (unsigned int dimension = 0) const;
+				/** Get range of x data in sets */
+				math::range_t get_x_data_range (unsigned int dimension = 0) const;
 
-  /** Get range of y data in sets */
-  math::range_t get_y_data_range () const;
+				/** Get range of y data in sets */
+				math::range_t get_y_data_range () const;
 
-  /** draw */
-  void draw (io::RendererViewport &r);
+				/** draw */
+				void draw (io::RendererViewport &r);
 
-private:
-  double get_tic_step (const math::range_t &r) const;
+			private:
+				double get_tic_step (const math::range_t &r) const;
 
-  std::string _title;
-  std::vector<Plotdata> _plots;
+				std::string _title;
+				std::vector<Plotdata> _plots;
 
-  io::RendererAxes _axes;
+				io::RendererAxes _axes;
 
-  bool _xy_swap;
-};
+				bool _xy_swap;
+		};
 
-const std::string &
-Plot::get_title () const
-{
-  return _title;
-}
+		const std::string &
+		Plot::get_title () const
+		{
+			return _title;
+		}
 
-unsigned int
-Plot::get_plot_count () const
-{
-  return _plots.size ();
-}
+		unsigned int
+		Plot::get_plot_count () const
+		{
+			return _plots.size ();
+		}
 
-io::RendererAxes &
-Plot::get_axes ()
-{
-  return _axes;
-}
+		io::RendererAxes &
+		Plot::get_axes ()
+		{
+			return _axes;
+		}
 
-const io::RendererAxes &
-Plot::get_axes () const
-{
-  return _axes;
-}
+		const io::RendererAxes &
+		Plot::get_axes () const
+		{
+			return _axes;
+		}
 
-Plotdata &
-Plot::get_plot_data (unsigned int index)
-{
-  assert (index < _plots.size ());
-  return _plots[index];
-}
+		Plotdata &
+		Plot::get_plot_data (unsigned int index)
+		{
+			assert (index < _plots.size ());
+			return _plots[index];
+		}
 
-const Plotdata &
-Plot::get_plot_data (unsigned int index) const
-{
-  assert (index < _plots.size ());
-  return _plots[index];
-}
+		const Plotdata &
+		Plot::get_plot_data (unsigned int index) const
+		{
+			assert (index < _plots.size ());
+			return _plots[index];
+		}
 
-void
-Plot::set_xy_swap (bool doswap)
-{
-  _xy_swap = doswap;
-}
+		void
+		Plot::set_xy_swap (bool doswap)
+		{
+			_xy_swap = doswap;
+		}
 
-bool
-Plot::get_xy_swap () const
-{
-  return _xy_swap;
-}
+		bool
+		Plot::get_xy_swap () const
+		{
+			return _xy_swap;
+		}
 
-}
+	}
 }
 
 #endif

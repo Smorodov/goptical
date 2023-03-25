@@ -30,43 +30,43 @@
 namespace goptical
 {
 
-namespace sys
-{
+	namespace sys
+	{
 
-Image::Image (const math::VectorPair3 &p,
-              const std::shared_ptr<curve::Base> &curve,
-              const std::shared_ptr<shape::Base> &shape)
-    : Surface (p, curve, shape)
-{
-}
+		Image::Image (const math::VectorPair3 &p,
+		              const std::shared_ptr<curve::Base> &curve,
+		              const std::shared_ptr<shape::Base> &shape)
+			: Surface (p, curve, shape)
+		{
+		}
 
-Image::Image (const math::VectorPair3 &p, double radius)
-    : Surface (p, curve::flat,
-               std::make_shared<shape::Rectangle> (radius * 2.))
-{
-}
+		Image::Image (const math::VectorPair3 &p, double radius)
+			: Surface (p, curve::flat,
+			           std::make_shared<shape::Rectangle> (radius * 2.))
+		{
+		}
 
-void
-Image::trace_ray_simple (trace::Result &result, trace::Ray &incident,
-                         const math::VectorPair3 &local,
-                         const math::VectorPair3 &intersect) const
-{
-}
+		void
+		Image::trace_ray_simple (trace::Result &result, trace::Ray &incident,
+		                         const math::VectorPair3 &local,
+		                         const math::VectorPair3 &intersect) const
+		{
+		}
 
-void
-Image::trace_ray_intensity (trace::Result &result, trace::Ray &incident,
-                            const math::VectorPair3 &local,
-                            const math::VectorPair3 &intersect) const
-{
-}
+		void
+		Image::trace_ray_intensity (trace::Result &result, trace::Ray &incident,
+		                            const math::VectorPair3 &local,
+		                            const math::VectorPair3 &intersect) const
+		{
+		}
 
-void
-Image::trace_ray_polarized (trace::Result &result, trace::Ray &incident,
-                            const math::VectorPair3 &local,
-                            const math::VectorPair3 &intersect) const
-{
-}
+		void
+		Image::trace_ray_polarized (trace::Result &result, trace::Ray &incident,
+		                            const math::VectorPair3 &local,
+		                            const math::VectorPair3 &intersect) const
+		{
+		}
 
-}
+	}
 
 }

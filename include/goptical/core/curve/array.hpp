@@ -32,53 +32,53 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-/**
-   @short Enable definition of curve as square and hexagonal array of an other
-   curve
-   @header <goptical/core/curve/Array
-   @module {Core}
-   @main
+		/**
+		   @short Enable definition of curve as square and hexagonal array of an other
+		   curve
+		   @header <goptical/core/curve/Array
+		   @module {Core}
+		   @main
 
-   This class provides a way to build an array of an other
-   curve. It can be used to design lenses array.
- */
-class Array : public Base
-{
-public:
-  /** Specify tessellation pattern used by @ref Array class */
-  enum pattern_e
-  {
-    Square,
-    SquareCenter,
-    Hexagonal,
-  };
+		   This class provides a way to build an array of an other
+		   curve. It can be used to design lenses array.
+		 */
+		class Array : public Base
+		{
+			public:
+				/** Specify tessellation pattern used by @ref Array class */
+				enum pattern_e
+				{
+				    Square,
+				    SquareCenter,
+				    Hexagonal,
+				};
 
-  Array (const std::shared_ptr<Base> &curve, double pitch,
-         enum pattern_e p = Square);
+				Array (const std::shared_ptr<Base> &curve, double pitch,
+				       enum pattern_e p = Square);
 
-  /** @override */
-  double sagitta (const math::Vector2 &xy) const;
-  /** @override */
-  void derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const;
+				/** @override */
+				double sagitta (const math::Vector2 &xy) const;
+				/** @override */
+				void derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const;
 
-private:
-  typedef math::Vector2 (Array::*transform_t) (const math::Vector2 &v) const;
+			private:
+				typedef math::Vector2 (Array::*transform_t) (const math::Vector2 &v) const;
 
-  math::Vector2 transform_square (const math::Vector2 &v) const;
-  math::Vector2 transform_square_center (const math::Vector2 &v) const;
+				math::Vector2 transform_square (const math::Vector2 &v) const;
+				math::Vector2 transform_square_center (const math::Vector2 &v) const;
 
-  math::Vector2 transform_hexagonal (const math::Vector2 &v) const;
-  math::Vector2 transform_hexagonal_center (const math::Vector2 &v) const;
+				math::Vector2 transform_hexagonal (const math::Vector2 &v) const;
+				math::Vector2 transform_hexagonal_center (const math::Vector2 &v) const;
 
-  std::shared_ptr<Base> _curve;
-  double _pitch;
-  transform_t _transform;
-};
+				std::shared_ptr<Base> _curve;
+				double _pitch;
+				transform_t _transform;
+		};
 
-}
+	}
 }
 
 #endif

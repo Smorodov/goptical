@@ -33,102 +33,98 @@
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-/**
-   @short Disk shape base class
-   @header <goptical/core/shape/Disk
-   @module {Core}
-   @internal
- */
+		/**
+		   @short Disk shape base class
+		   @header <goptical/core/shape/Disk
+		   @module {Core}
+		   @internal
+		 */
 
-class DiskBase : public Base
-{
-public:
-  /** Set disk radius */
-  inline void set_radius (double r);
-  /** Get disk radius */
-  inline double get_radius (void) const;
+		class DiskBase : public Base
+		{
+			public:
+				// Set disk radius 
+				inline void set_radius (double r);
+				// Get disk radius 
+				inline double get_radius (void) const;
 
-protected:
-  /** @override */
-  inline double max_radius () const;
-  /** @override */
-  inline double min_radius () const;
-  /** @override */
-  double get_outter_radius (const math::Vector2 &dir) const;
-  /** @override */
-  math::VectorPair2 get_bounding_box () const;
-  /** @override */
-  bool inside (const math::Vector2 &point) const;
+			protected:
+				// override 
+				inline double max_radius () const;
+				// override 
+				inline double min_radius () const;
+				// override 
+				double get_outter_radius (const math::Vector2 &dir) const;
+				// override 
+				math::VectorPair2 get_bounding_box () const;
+				// override 
+				bool inside (const math::Vector2 &point) const;
 
-  inline double get_external_xradius () const;
-  inline double get_internal_xradius () const;
-  inline double get_xy_ratio () const;
+				inline double get_external_xradius () const;
+				inline double get_internal_xradius () const;
+				inline double get_xy_ratio () const;
 
-  double _radius;
-};
+				double _radius;
+		};
 
-/**
-   @short Disk shape
-   @header <goptical/core/shape/Disk
-   @module {Core}
-   @main
+		/**
+		   @short Disk shape
+		   @header <goptical/core/shape/Disk
+		   @module {Core}
+		   @main
 
-   This is the most common lens shape.
- */
+		   This is the most common lens shape.
+		 */
 
-class Disk : public Round<DiskBase, false>
-{
-public:
-  /** Create a new disk with given radius */
-  inline Disk (double radius);
-};
-Disk::Disk (double radius) { _radius = radius; }
+		class Disk : public Round<DiskBase, false>
+		{
+			public:
+				/** Create a new disk with given radius */
+				inline Disk (double radius);
+		};
+		Disk::Disk (double radius)
+		{
+			_radius = radius;
+		}
 
-void
-DiskBase::set_radius (double r)
-{
-  _radius = r;
-}
+		void DiskBase::set_radius (double r)
+		{
+			_radius = r;
+		}
 
-double
-DiskBase::get_radius (void) const
-{
-  return _radius;
-}
+		double DiskBase::get_radius (void) const
+		{
+			return _radius;
+		}
 
-double
-DiskBase::max_radius () const
-{
-  return _radius;
-}
+		double DiskBase::max_radius () const
+		{
+			return _radius;
+		}
 
-double
-DiskBase::min_radius () const
-{
-  return _radius;
-}
+		double DiskBase::min_radius () const
+		{
+			return _radius;
+		}
 
-double
-DiskBase::get_external_xradius () const
-{
-  return _radius;
-}
+		double DiskBase::get_external_xradius () const
+		{
+			return _radius;
+		}
 
-double
-DiskBase::get_internal_xradius () const
-{
-  return 0.0;
-}
+		double DiskBase::get_internal_xradius () const
+		{
+			return 0.0;
+		}
 
-double
-DiskBase::get_xy_ratio () const
-{
-  return 1.0;
-}
-}
+		double DiskBase::get_xy_ratio () const
+		{
+			return 1.0;
+		}
+	}
 }
 
 #endif

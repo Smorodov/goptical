@@ -38,259 +38,267 @@
 namespace goptical
 {
 
-namespace sys
-{
+	namespace sys
+	{
 
-Element::Element (const math::VectorPair3 &plane)
-    : _system (nullptr), _group (nullptr), _enabled (true), _version (0),
-      _system_id (0), _transform ()
-{
-  set_local_plane (plane);
-}
+		Element::Element (const math::VectorPair3 &plane)
+			: _system (nullptr), _group (nullptr), _enabled (true), _version (0),
+			  _system_id (0), _transform ()
+		{
+			set_local_plane (plane);
+		}
 
-Element::~Element () {}
+		Element::~Element () {}
 
-void
-Element::set_local_direction (const math::Vector3 &v)
-{
-  _transform.set_direction (v);
-  system_moved ();
-}
+		void
+		Element::set_local_direction (const math::Vector3 &v)
+		{
+			_transform.set_direction (v);
+			system_moved ();
+		}
 
-math::Vector3
-Element::get_local_direction () const
-{
-  return _transform.transform_linear (math::vector3_001);
-}
+		math::Vector3
+		Element::get_local_direction () const
+		{
+			return _transform.transform_linear (math::vector3_001);
+		}
 
-math::Vector3
-Element::get_position (const Element &e) const
-{
-  return _system->get_transform (*this, e).transform (math::vector3_0);
-}
+		math::Vector3
+		Element::get_position (const Element &e) const
+		{
+			return _system->get_transform (*this, e).transform (math::vector3_0);
+		}
 
-math::Vector3
-Element::get_direction (const Element &e) const
-{
-  return _system->get_transform (*this, e).transform_linear (
-      math::vector3_001);
-}
+		math::Vector3
+		Element::get_direction (const Element &e) const
+		{
+			return _system->get_transform (*this, e).transform_linear (
+			           math::vector3_001);
+		}
 
-math::Vector3
-Element::get_position () const
-{
-  return _system->get_global_transform (*this).transform (math::vector3_0);
-}
+		math::Vector3
+		Element::get_position () const
+		{
+			return _system->get_global_transform (*this).transform (math::vector3_0);
+		}
 
-void
-Element::set_position (const math::Vector3 &v)
-{
-  if (Element *parent = get_parent ())
-    set_local_position (_system->get_local_transform (*parent).transform (v));
-  else
-    set_local_position (v);
-}
+		void
+		Element::set_position (const math::Vector3 &v)
+		{
+			if (Element *parent = get_parent ())
+			{
+				set_local_position (_system->get_local_transform (*parent).transform (v));
+			}
+			else
+			{
+				set_local_position (v);
+			}
+		}
 
-math::Vector3
-Element::get_direction () const
-{
-  return _system->get_global_transform (*this).transform_linear (
-      math::vector3_001);
-}
+		math::Vector3
+		Element::get_direction () const
+		{
+			return _system->get_global_transform (*this).transform_linear (
+			           math::vector3_001);
+		}
 
-void
-Element::set_direction (const math::Vector3 &v)
-{
-  if (Element *parent = get_parent ())
-    set_local_direction (
-        _system->get_local_transform (*parent).transform_linear (v));
-  else
-    set_local_direction (v);
-}
+		void
+		Element::set_direction (const math::Vector3 &v)
+		{
+			if (Element *parent = get_parent ())
+				set_local_direction (
+				    _system->get_local_transform (*parent).transform_linear (v));
+			else
+			{
+				set_local_direction (v);
+			}
+		}
 
-math::VectorPair3
-Element::get_plane () const
-{
-  const math::Transform<3> &t = _system->get_global_transform (*this);
+		math::VectorPair3
+		Element::get_plane () const
+		{
+			const math::Transform<3> &t = _system->get_global_transform (*this);
+			return math::VectorPair3 (t.transform (math::vector3_0),
+			                          t.transform_linear (math::vector3_001));
+		}
 
-  return math::VectorPair3 (t.transform (math::vector3_0),
-                            t.transform_linear (math::vector3_001));
-}
+		math::VectorPair3
+		Element::get_plane (const Element &e) const
+		{
+			const math::Transform<3> &t = _system->get_transform (*this, e);
+			return math::VectorPair3 (t.transform (math::vector3_0),
+			                          t.transform_linear (math::vector3_001));
+		}
 
-math::VectorPair3
-Element::get_plane (const Element &e) const
-{
-  const math::Transform<3> &t = _system->get_transform (*this, e);
+		void
+		Element::set_plane (const math::VectorPair3 &p)
+		{
+			if (Element *parent = get_parent ())
+			{
+				const math::Transform<3> &t = _system->get_local_transform (*parent);
+				_transform.set_translation (t.transform (p[0]));
+				set_local_direction (t.transform_linear (p[1]));
+			}
+			else
+			{
+				set_local_plane (p);
+			}
+			// system_moved(); called in set_local_direction
+		}
 
-  return math::VectorPair3 (t.transform (math::vector3_0),
-                            t.transform_linear (math::vector3_001));
-}
+		math::VectorPair3
+		Element::get_local_plane () const
+		{
+			return math::VectorPair3 (_transform.get_translation (),
+			                          _transform.transform_linear (math::vector3_001));
+		}
 
-void
-Element::set_plane (const math::VectorPair3 &p)
-{
-  if (Element *parent = get_parent ())
-    {
-      const math::Transform<3> &t = _system->get_local_transform (*parent);
-      _transform.set_translation (t.transform (p[0]));
-      set_local_direction (t.transform_linear (p[1]));
-    }
-  else
-    {
-      set_local_plane (p);
-    }
-  // system_moved(); called in set_local_direction
-}
+		void
+		Element::set_local_plane (const math::VectorPair3 &p)
+		{
+			_transform.set_translation (p[0]);
+			set_local_direction (p[1]);
+			// system_moved(); called in set_local_direction
+		}
 
-math::VectorPair3
-Element::get_local_plane () const
-{
-  return math::VectorPair3 (_transform.get_translation (),
-                            _transform.transform_linear (math::vector3_001));
-}
+		math::VectorPair3
+		Element::get_bounding_box () const
+		{
+			return math::VectorPair3 (math::vector3_0, math::vector3_0);
+		}
 
-void
-Element::set_local_plane (const math::VectorPair3 &p)
-{
-  _transform.set_translation (p[0]);
-  set_local_direction (p[1]);
-  // system_moved(); called in set_local_direction
-}
+		const math::Transform<3> &
+		Element::get_transform_to (const Element &e) const
+		{
+			assert (_system);
+			return _system->get_transform (*this, e);
+		}
 
-math::VectorPair3
-Element::get_bounding_box () const
-{
-  return math::VectorPair3 (math::vector3_0, math::vector3_0);
-}
+		const math::Transform<3> &
+		Element::get_transform_from (const Element &e) const
+		{
+			assert (_system);
+			return _system->get_transform (e, *this);
+		}
 
-const math::Transform<3> &
-Element::get_transform_to (const Element &e) const
-{
-  assert (_system);
-  return _system->get_transform (*this, e);
-}
+		const math::Transform<3> &
+		Element::get_transform_to (const Element *e) const
+		{
+			assert (_system);
+			return e ? _system->get_transform (*this, *e)
+			       : _system->get_global_transform (*this);
+		}
 
-const math::Transform<3> &
-Element::get_transform_from (const Element &e) const
-{
-  assert (_system);
-  return _system->get_transform (e, *this);
-}
+		const math::Transform<3> &
+		Element::get_transform_from (const Element *e) const
+		{
+			assert (_system);
+			return e ? _system->get_transform (*e, *this)
+			       : _system->get_local_transform (*this);
+		}
 
-const math::Transform<3> &
-Element::get_transform_to (const Element *e) const
-{
-  assert (_system);
-  return e ? _system->get_transform (*this, *e)
-           : _system->get_global_transform (*this);
-}
+		const math::Transform<3> &
+		Element::get_global_transform () const
+		{
+			assert (_system);
+			return _system->get_global_transform (*this);
+		}
 
-const math::Transform<3> &
-Element::get_transform_from (const Element *e) const
-{
-  assert (_system);
-  return e ? _system->get_transform (*e, *this)
-           : _system->get_local_transform (*this);
-}
+		const math::Transform<3> &
+		Element::get_local_transform () const
+		{
+			assert (_system);
+			return _system->get_local_transform (*this);
+		}
 
-const math::Transform<3> &
-Element::get_global_transform () const
-{
-  assert (_system);
-  return _system->get_global_transform (*this);
-}
+		Group *
+		Element::get_parent () const
+		{
+			return _group;
+		}
 
-const math::Transform<3> &
-Element::get_local_transform () const
-{
-  assert (_system);
-  return _system->get_local_transform (*this);
-}
+		void
+		Element::process_rays_simple (trace::Result &result,
+		                              trace::rays_queue_t *input) const
+		{
+			throw Error ("this element is not designed to process incoming light rays "
+			             "in simple ray trace mode");
+		}
 
-Group *
-Element::get_parent () const
-{
-  return _group;
-}
+		void
+		Element::process_rays_intensity (trace::Result &result,
+		                                 trace::rays_queue_t *input) const
+		{
+			throw Error ("this element is not designed to process incoming light rays "
+			             "in intensity ray trace mode");
+		}
 
-void
-Element::process_rays_simple (trace::Result &result,
-                              trace::rays_queue_t *input) const
-{
-  throw Error ("this element is not designed to process incoming light rays "
-               "in simple ray trace mode");
-}
+		void
+		Element::process_rays_polarized (trace::Result &result,
+		                                 trace::rays_queue_t *input) const
+		{
+			throw Error ("this element is not designed to process incoming light rays "
+			             "in polarized ray trace mode");
+		}
 
-void
-Element::process_rays_intensity (trace::Result &result,
-                                 trace::rays_queue_t *input) const
-{
-  throw Error ("this element is not designed to process incoming light rays "
-               "in intensity ray trace mode");
-}
+		void
+		Element::system_register (System *s)
+		{
+			assert (!_system);
+			_system = s;
+			_system_id = s->index_get (*this);
+		}
 
-void
-Element::process_rays_polarized (trace::Result &result,
-                                 trace::rays_queue_t *input) const
-{
-  throw Error ("this element is not designed to process incoming light rays "
-               "in polarized ray trace mode");
-}
+		void
+		Element::system_unregister ()
+		{
+			assert (_system);
+			_system->index_put (*this);
+			_system = nullptr;
+			_system_id = 0;
+		}
 
-void
-Element::system_register (System *s)
-{
-  assert (!_system);
-  _system = s;
-  _system_id = s->index_get (*this);
-}
+		void
+		Element::system_moved ()
+		{
+			if (_system)
+			{
+				_system->transform_cache_flush (*this);
+			}
+			update_version ();
+		}
 
-void
-Element::system_unregister ()
-{
-  assert (_system);
-  _system->index_put (*this);
-  _system = nullptr;
-  _system_id = 0;
-}
+		void
+		Element::update_version ()
+		{
+			Element *e;
+			for (e = this; e; e = e->_group)
+			{
+				e->_version++;
+			}
+			if (_system)
+			{
+				_system->update_version ();
+			}
+		}
 
-void
-Element::system_moved ()
-{
-  if (_system)
-    _system->transform_cache_flush (*this);
-  update_version ();
-}
+		void
+		Element::draw_2d_e (io::Renderer &r, const Element *ref) const
+		{
+		}
 
-void
-Element::update_version ()
-{
-  Element *e;
+		void
+		Element::draw_3d_e (io::Renderer &r, const Element *ref) const
+		{
+		}
 
-  for (e = this; e; e = e->_group)
-    e->_version++;
+		void
+		Element::print (std::ostream &o) const
+		{
+			o << " [" << id () << "]" << typeid (*this).name () << " at "
+			  << get_position ();
+		}
 
-  if (_system)
-    _system->update_version ();
-}
-
-void
-Element::draw_2d_e (io::Renderer &r, const Element *ref) const
-{
-}
-
-void
-Element::draw_3d_e (io::Renderer &r, const Element *ref) const
-{
-}
-
-void
-Element::print (std::ostream &o) const
-{
-  o << " [" << id () << "]" << typeid (*this).name () << " at "
-    << get_position ();
-}
-
-}
+	}
 
 }

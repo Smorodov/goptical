@@ -28,20 +28,20 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-DispersionTable::DispersionTable () : Dielectric (), _refractive_index ()
-{
-  _refractive_index.set_interpolation (data::Cubic);
-}
+		DispersionTable::DispersionTable () : Dielectric (), _refractive_index ()
+		{
+			_refractive_index.set_interpolation (data::Cubic);
+		}
 
-double
-DispersionTable::get_measurement_index (double wavelen) const
-{
-  return _refractive_index.interpolate (wavelen);
-}
+		double
+		DispersionTable::get_measurement_index (double wavelen) const
+		{
+			return _refractive_index.interpolate (wavelen);
+		}
 
-}
+	}
 
 }

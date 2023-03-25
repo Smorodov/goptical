@@ -39,112 +39,104 @@
 namespace goptical
 {
 
-namespace sys
-{
+	namespace sys
+	{
 
-SourcePoint::SourcePoint (SourceInfinityMode m, const math::Vector3 &pos_dir)
-    : Source (
-        m == SourceAtInfinity
-            // position of infinity source is only used for trace::Sequence
-            // sort See
-            // https://lists.gnu.org/archive/html/goptical/2013-06/msg00004.html
-            ? math::VectorPair3 (pos_dir * -1e9, pos_dir)
-            : math::VectorPair3 (pos_dir, math::vector3_001)),
-      _mode (m)
-{
-}
+		SourcePoint::SourcePoint (SourceInfinityMode m, const math::Vector3 &pos_dir)
+			: Source (
+			    m == SourceAtInfinity
+			    // position of infinity source is only used for trace::Sequence
+			    // sort See
+			    // https://lists.gnu.org/archive/html/goptical/2013-06/msg00004.html
+			    ? math::VectorPair3 (pos_dir * -1e9, pos_dir)
+			    : math::VectorPair3 (pos_dir, math::vector3_001)),
+			      _mode (m)
+		{
+		}
 
-template <SourceInfinityMode mode>
-void
-SourcePoint::get_lightrays_ (trace::Result &result,
-                             const Element &target) const
-{
-  const Surface *starget = dynamic_cast<const Surface *> (&target);
+		template <SourceInfinityMode mode>
+		void
+		SourcePoint::get_lightrays_ (trace::Result &result,
+		                             const Element &target) const
+		{
+			const Surface *starget = dynamic_cast<const Surface *> (&target);
+			if (!starget)
+			{
+				return;
+			}
+			double rlen = result.get_params ().get_lost_ray_length ();
+			const trace::Distribution &d
+			    = result.get_params ().get_distribution (*starget);
+			auto de = [&] (const math::Vector3 &i)
+			{
+				math::Vector3 r = starget->get_transform_to (*this).transform (
+				                      i); // pattern point on target surface
+				math::Vector3 direction;
+				math::Vector3 position;
+				switch (mode)
+				{
+					case (SourceAtFiniteDistance):
+						position = math::vector3_0;
+						direction = r.normalized ();
+						break;
+					case (SourceAtInfinity):
+						direction = math::vector3_001;
+						position = math::VectorPair3 (starget->get_position (*this)
+						                              - math::vector3_001 * rlen,
+						                              math::vector3_001)
+						           .pl_ln_intersect (math::VectorPair3 (r, direction));
+						break;
+				}
+for (auto &l : this->_spectrum)
+				{
+					trace::Ray &r = result.new_ray ();
+					// generated rays use source coordinates
+					r.direction () = direction;
+					r.origin () = position;
+					r.set_creator (this);
+					r.set_intensity (l.get_intensity ()); // FIXME depends on distance from
+					// source and pattern density
+					r.set_wavelen (l.get_wavelen ());
+					r.set_material (_mat.operator bool ()
+					                ? _mat.get ()
+					                : get_system ()->get_environment_proxy ().get ());
+				}
+			};
+			starget->get_pattern (de, d, result.get_params ().get_unobstructed ());
+		}
 
-  if (!starget)
-    return;
+		void
+		SourcePoint::generate_rays_simple (trace::Result &result,
+		                                   const targets_t &entry) const
+		{
+for (auto &l : _spectrum)
+			{
+				result.add_ray_wavelen (l.get_wavelen ());
+			}
+			switch (_mode)
+			{
+				case SourceAtFiniteDistance:
+for (auto &target : entry)
+					{
+						get_lightrays_<SourceAtFiniteDistance> (result, *target);
+					}
+					return;
+				case SourceAtInfinity:
+for (auto &target : entry)
+					{
+						get_lightrays_<SourceAtInfinity> (result, *target);
+					}
+					return;
+			}
+		}
 
-  double rlen = result.get_params ().get_lost_ray_length ();
-  const trace::Distribution &d
-      = result.get_params ().get_distribution (*starget);
+		void
+		SourcePoint::generate_rays_intensity (trace::Result &result,
+		                                      const targets_t &entry) const
+		{
+			generate_rays_simple (result, entry);
+		}
 
-  auto de = [&] (const math::Vector3 &i) {
-    math::Vector3 r = starget->get_transform_to (*this).transform (
-        i); // pattern point on target surface
-    math::Vector3 direction;
-    math::Vector3 position;
-
-    switch (mode)
-      {
-      case (SourceAtFiniteDistance):
-        position = math::vector3_0;
-        direction = r.normalized ();
-        break;
-
-      case (SourceAtInfinity):
-        direction = math::vector3_001;
-        position = math::VectorPair3 (starget->get_position (*this)
-                                          - math::vector3_001 * rlen,
-                                      math::vector3_001)
-                       .pl_ln_intersect (math::VectorPair3 (r, direction));
-        break;
-      }
-
-    for (auto &l : this->_spectrum)
-      {
-        trace::Ray &r = result.new_ray ();
-
-        // generated rays use source coordinates
-        r.direction () = direction;
-        r.origin () = position;
-
-        r.set_creator (this);
-        r.set_intensity (l.get_intensity ()); // FIXME depends on distance from
-                                              // source and pattern density
-        r.set_wavelen (l.get_wavelen ());
-        r.set_material (_mat.operator bool ()
-                            ? _mat.get ()
-                            : get_system ()->get_environment_proxy ().get ());
-      }
-  };
-
-  starget->get_pattern (de, d, result.get_params ().get_unobstructed ());
-}
-
-void
-SourcePoint::generate_rays_simple (trace::Result &result,
-                                   const targets_t &entry) const
-{
-  for (auto &l : _spectrum)
-    {
-      result.add_ray_wavelen (l.get_wavelen ());
-    }
-
-  switch (_mode)
-    {
-    case SourceAtFiniteDistance:
-      for (auto &target : entry)
-        {
-          get_lightrays_<SourceAtFiniteDistance> (result, *target);
-        }
-      return;
-
-    case SourceAtInfinity:
-      for (auto &target : entry)
-        {
-          get_lightrays_<SourceAtInfinity> (result, *target);
-        }
-      return;
-    }
-}
-
-void
-SourcePoint::generate_rays_intensity (trace::Result &result,
-                                      const targets_t &entry) const
-{
-  generate_rays_simple (result, entry);
-}
-
-}
+	}
 
 }

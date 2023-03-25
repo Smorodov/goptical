@@ -32,61 +32,61 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Interpolated refractive index data set model
-   @header <goptical/core/material/DispersionTable
-   @module {Core}
-   @main
+		/**
+		   @short Interpolated refractive index data set model
+		   @header <goptical/core/material/DispersionTable
+		   @module {Core}
+		   @main
 
-   This class models refractive index of optical material using
-   user provided data table.
+		   This class models refractive index of optical material using
+		   user provided data table.
 
-   Known refractive index values are stored and interpolated by a
-   @ref data::DiscreteSet object. Default interpolation is @ref
-   data::Cubic.
- */
+		   Known refractive index values are stored and interpolated by a
+		   @ref data::DiscreteSet object. Default interpolation is @ref
+		   data::Cubic.
+		 */
 
-class DispersionTable : public Dielectric
-{
-public:
-  DispersionTable ();
+		class DispersionTable : public Dielectric
+		{
+			public:
+				DispersionTable ();
 
-  /** Add refractive index data */
-  inline void set_refractive_index (double wavelen, double index);
+				/** Add refractive index data */
+				inline void set_refractive_index (double wavelen, double index);
 
-  /** Clear all refractive index data */
-  inline void clear_refractive_index_table ();
+				/** Clear all refractive index data */
+				inline void clear_refractive_index_table ();
 
-  /** Get refractive index dataset object */
-  inline data::DiscreteSet &get_refractive_index_dataset ();
+				/** Get refractive index dataset object */
+				inline data::DiscreteSet &get_refractive_index_dataset ();
 
-  /** @override */
-  double get_measurement_index (double wavelen) const;
+				/** @override */
+				double get_measurement_index (double wavelen) const;
 
-private:
-  data::DiscreteSet _refractive_index;
-};
-data::DiscreteSet &
-DispersionTable::get_refractive_index_dataset ()
-{
-  return _refractive_index;
-}
+			private:
+				data::DiscreteSet _refractive_index;
+		};
+		data::DiscreteSet &
+		DispersionTable::get_refractive_index_dataset ()
+		{
+			return _refractive_index;
+		}
 
-void
-DispersionTable::set_refractive_index (double wavelen, double index)
-{
-  _refractive_index.add_data (wavelen, index);
-}
+		void
+		DispersionTable::set_refractive_index (double wavelen, double index)
+		{
+			_refractive_index.add_data (wavelen, index);
+		}
 
-void
-DispersionTable::clear_refractive_index_table ()
-{
-  _refractive_index.clear ();
-}
-}
+		void
+		DispersionTable::clear_refractive_index_table ()
+		{
+			_refractive_index.clear ();
+		}
+	}
 }
 
 #endif

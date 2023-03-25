@@ -33,68 +33,68 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-/**
-   @short Base class for conic family of curves
-   @header <goptical/core/curve/ConicBase
-   @module {Core}
+		/**
+		   @short Base class for conic family of curves
+		   @header <goptical/core/curve/ConicBase
+		   @module {Core}
 
-   This base class defines common properties of rotationally
-   symmetric conic curves. These curves are all defined by a
-   radius of curvature and deformation coefficient.
+		   This base class defines common properties of rotationally
+		   symmetric conic curves. These curves are all defined by a
+		   radius of curvature and deformation coefficient.
 
-   Fitting can be used to find best fit conic of an other
-   rotationally symmetric curve either with fixed or free
-   deformation parameter.
- */
+		   Fitting can be used to find best fit conic of an other
+		   rotationally symmetric curve either with fixed or free
+		   deformation parameter.
+		 */
 
-class ConicBase : public Rotational, public curveRoc
-{
-public:
-  /** get Schwarzschild constant */
-  inline double get_schwarzschild () const;
+		class ConicBase : public Rotational, public curveRoc
+		{
+			public:
+				/** get Schwarzschild constant */
+				inline double get_schwarzschild () const;
 
-  /** get eccentricity */
-  inline double get_eccentricity () const;
+				/** get eccentricity */
+				inline double get_eccentricity () const;
 
-  /** Adjust radius of curvature to best fit given
-      curve. Deformation Won't be changed by this function. See
-      Conic::fit() to adjust deformation too.
+				/** Adjust radius of curvature to best fit given
+				    curve. Deformation Won't be changed by this function. See
+				    Conic::fit() to adjust deformation too.
 
-      @param curve curve to fit
-      @param radius Maximum radius used to get sample points
-      @param count Number of sample points to use
-  */
-  double fit_roc (const Rotational &c, double radius, unsigned int count);
+				    @param curve curve to fit
+				    @param radius Maximum radius used to get sample points
+				    @param count Number of sample points to use
+				*/
+				double fit_roc (const Rotational &c, double radius, unsigned int count);
 
-  virtual bool intersect (math::Vector3 &point,
-                          const math::VectorPair3 &ray) const = 0;
-  virtual double sagitta (double r) const = 0;
-  virtual double derivative (double r) const = 0;
+				virtual bool intersect (math::Vector3 &point,
+				                        const math::VectorPair3 &ray) const = 0;
+				virtual double sagitta (double r) const = 0;
+				virtual double derivative (double r) const = 0;
 
-protected:
-  inline ConicBase (double roc, double sc);
+			protected:
+				inline ConicBase (double roc, double sc);
 
-  double _sh; // Schwarzschild constant + 1
-};
+				double _sh; // Schwarzschild constant + 1
+		};
 
-ConicBase::ConicBase (double roc, double sc) : curveRoc (roc), _sh (sc + 1) {}
+		ConicBase::ConicBase (double roc, double sc) : curveRoc (roc), _sh (sc + 1) {}
 
-double
-ConicBase::get_eccentricity () const
-{
-  return sqrt (-_sh + 1.0);
-}
+		double
+		ConicBase::get_eccentricity () const
+		{
+			return sqrt (-_sh + 1.0);
+		}
 
-double
-ConicBase::get_schwarzschild () const
-{
-  return _sh - 1.0;
-}
+		double
+		ConicBase::get_schwarzschild () const
+		{
+			return _sh - 1.0;
+		}
 
-}
+	}
 
 }
 

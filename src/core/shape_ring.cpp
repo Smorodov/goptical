@@ -30,39 +30,37 @@
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-bool
-RingBase::inside (const math::Vector2 &point) const
-{
-  double d = math::square (point.x ()) + math::square (point.y ());
+		bool
+		RingBase::inside (const math::Vector2 &point) const
+		{
+			double d = math::square (point.x ()) + math::square (point.y ());
+			return d <= math::square (_radius) && d >= math::square (_hole_radius);
+		}
 
-  return d <= math::square (_radius) && d >= math::square (_hole_radius);
-}
+		math::VectorPair2
+		RingBase::get_bounding_box () const
+		{
+			math::Vector2 hs (_radius, _radius);
+			return math::VectorPair2 (-hs, hs);
+		}
 
-math::VectorPair2
-RingBase::get_bounding_box () const
-{
-  math::Vector2 hs (_radius, _radius);
+		double
+		RingBase::get_outter_radius (const math::Vector2 &dir) const
+		{
+			return _radius;
+		}
 
-  return math::VectorPair2 (-hs, hs);
-}
+		double
+		RingBase::get_hole_radius (const math::Vector2 &dir) const
+		{
+			return _hole_radius;
+		}
 
-double
-RingBase::get_outter_radius (const math::Vector2 &dir) const
-{
-  return _radius;
-}
+		template class Round<RingBase, true>;
 
-double
-RingBase::get_hole_radius (const math::Vector2 &dir) const
-{
-  return _hole_radius;
-}
-
-template class Round<RingBase, true>;
-
-}
+	}
 
 }

@@ -32,62 +32,62 @@
 namespace goptical
 {
 
-namespace sys
-{
+	namespace sys
+	{
 
-/**
-   @short Point light source
-   @header <goptical/core/sys/SourcePoint
-   @module {Core}
-   @main
+		/**
+		   @short Point light source
+		   @header <goptical/core/sys/SourcePoint
+		   @module {Core}
+		   @main
 
-   This class implement a point light source. The source can
-   either be infinitely far away with a direction vector, or
-   located at a given position but without direction.
+		   This class implement a point light source. The source can
+		   either be infinitely far away with a direction vector, or
+		   located at a given position but without direction.
 
-   A ray is generated for each defined spectrum line for each
-   distribution pattern point on target surface.
+		   A ray is generated for each defined spectrum line for each
+		   distribution pattern point on target surface.
 
-   Default wavelen list contains a single 550nm entry.
-*/
+		   Default wavelen list contains a single 550nm entry.
+		*/
 
-class SourcePoint : public Source
-{
-public:
-  /** Create a point source with given mode. A direction vector
-      must be provided when source is in infinity mode. If not in
-      infinity mode, a position vector must be provided
-      instead. */
-  SourcePoint (SourceInfinityMode m, const math::Vector3 &pos_dir);
+		class SourcePoint : public Source
+		{
+			public:
+				/** Create a point source with given mode. A direction vector
+				    must be provided when source is in infinity mode. If not in
+				    infinity mode, a position vector must be provided
+				    instead. */
+				SourcePoint (SourceInfinityMode m, const math::Vector3 &pos_dir);
 
-  /** Set point source mode to infinity and adjust source direction vector */
-  void set_infinity_direction (const math::Vector3 &dir);
+				/** Set point source mode to infinity and adjust source direction vector */
+				void set_infinity_direction (const math::Vector3 &dir);
 
-  /** Set point source mode to positioned and adjust source position vector */
-  void set_position (const math::Vector3 &pos);
+				/** Set point source mode to positioned and adjust source position vector */
+				void set_position (const math::Vector3 &pos);
 
-  /** Change current point source infinity mode */
-  inline void set_mode (SourceInfinityMode mode);
+				/** Change current point source infinity mode */
+				inline void set_mode (SourceInfinityMode mode);
 
-private:
-  void generate_rays_simple (trace::Result &result,
-                             const targets_t &entry) const;
-  void generate_rays_intensity (trace::Result &result,
-                                const targets_t &entry) const;
+			private:
+				void generate_rays_simple (trace::Result &result,
+				                           const targets_t &entry) const;
+				void generate_rays_intensity (trace::Result &result,
+				                              const targets_t &entry) const;
 
-  template <SourceInfinityMode mode>
-  inline void get_lightrays_ (trace::Result &result,
-                              const Element &target) const;
+				template <SourceInfinityMode mode>
+				inline void get_lightrays_ (trace::Result &result,
+				                            const Element &target) const;
 
-  SourceInfinityMode _mode;
-};
+				SourceInfinityMode _mode;
+		};
 
-void
-SourcePoint::set_mode (SourceInfinityMode mode)
-{
-  _mode = mode;
-}
-}
+		void
+		SourcePoint::set_mode (SourceInfinityMode mode)
+		{
+			_mode = mode;
+		}
+	}
 }
 
 #endif

@@ -35,146 +35,146 @@
 namespace goptical
 {
 
-namespace data
-{
+	namespace data
+	{
 
-/**
-   @short Base class for DiscreteSet
-   @header <goptical/core/data/DiscreteSet
-   @module {Core}
-   @internal
-*/
-class DiscreteSetBase : public Set1d
-{
+		/**
+		   @short Base class for DiscreteSet
+		   @header <goptical/core/data/DiscreteSet
+		   @module {Core}
+		   @internal
+		*/
+		class DiscreteSetBase : public Set1d
+		{
 
-public:
-  DiscreteSetBase ();
-  ~DiscreteSetBase ();
+			public:
+				DiscreteSetBase ();
+				~DiscreteSetBase ();
 
-  /** Insert data pair in data set. If a pair with the same x
-      value exists, it will be replaced by the new
-      value. Derivative value may be provided as well. */
-  void add_data (double x, double y, double yp = 0.0);
+				/** Insert data pair in data set. If a pair with the same x
+				    value exists, it will be replaced by the new
+				    value. Derivative value may be provided as well. */
+				void add_data (double x, double y, double yp = 0.0);
 
-  /** Reserve data entries */
-  inline void reserve (size_t n);
+				/** Reserve data entries */
+				inline void reserve (size_t n);
 
-  /** Clear all data */
-  void clear ();
+				/** Clear all data */
+				void clear ();
 
-  /** Get stored derivative value at index x */
-  inline double get_d_value (unsigned int x) const;
-  /** Get modifiable reference to stored derivative value at index x */
-  inline double &get_d_value (unsigned int x);
+				/** Get stored derivative value at index x */
+				inline double get_d_value (unsigned int x) const;
+				/** Get modifiable reference to stored derivative value at index x */
+				inline double &get_d_value (unsigned int x);
 
-  // inherited from Set1d
-  inline unsigned int get_count () const;
-  inline double get_x_value (unsigned int x) const;
-  inline double get_y_value (unsigned int x) const;
-  inline double &get_y_value (unsigned int x);
-  math::range_t get_x_range () const;
+				// inherited from Set1d
+				inline unsigned int get_count () const;
+				inline double get_x_value (unsigned int x) const;
+				inline double get_y_value (unsigned int x) const;
+				inline double &get_y_value (unsigned int x);
+				math::range_t get_x_range () const;
 
-protected:
-  /** x, y and user prescribed first derivative values */
-  struct entry_s
-  {
-    double x, y, d;
-  };
+			protected:
+				/** x, y and user prescribed first derivative values */
+				struct entry_s
+				{
+					double x, y, d;
+				};
 
-  /** find lower bound index of interval containing value */
-  unsigned int get_interval (double x) const;
-  /** find nearest value index */
-  unsigned int get_nearest (double x) const;
+				/** find lower bound index of interval containing value */
+				unsigned int get_interval (double x) const;
+				/** find nearest value index */
+				unsigned int get_nearest (double x) const;
 
-  virtual void invalidate () = 0;
+				virtual void invalidate () = 0;
 
-  inline double get_x_interval (unsigned int x) const;
-  inline double get_x_interval (unsigned int x1, unsigned int x2) const;
+				inline double get_x_interval (unsigned int x) const;
+				inline double get_x_interval (unsigned int x1, unsigned int x2) const;
 
-  std::vector<struct entry_s> _data;
-};
+				std::vector<struct entry_s> _data;
+		};
 
-/**
-    @short 1d numerical data set with interpolation
-    @header <goptical/core/data/DiscreteSet
-    @module {Core}
-    @main
+		/**
+		    @short 1d numerical data set with interpolation
+		    @header <goptical/core/data/DiscreteSet
+		    @module {Core}
+		    @main
 
-    This class provides a numerical data container
-    where value pairs can be defined at arbitrary positions (x, y).
+		    This class provides a numerical data container
+		    where value pairs can be defined at arbitrary positions (x, y).
 
-    Severals interpolation algorithms are available to guess
-    values between defined knots, see @ref Interpolation.
+		    Severals interpolation algorithms are available to guess
+		    values between defined knots, see @ref Interpolation.
 
-    @see SampleSet
-*/
-class DiscreteSet : public Interpolate1d<DiscreteSetBase>
-{
-public:
-  DiscreteSet () : Interpolate1d<DiscreteSetBase> () {}
-};
+		    @see SampleSet
+		*/
+		class DiscreteSet : public Interpolate1d<DiscreteSetBase>
+		{
+			public:
+				DiscreteSet () : Interpolate1d<DiscreteSetBase> () {}
+		};
 
-void
-DiscreteSetBase::reserve (size_t n)
-{
-  _data.reserve (n);
-}
+		void
+		DiscreteSetBase::reserve (size_t n)
+		{
+			_data.reserve (n);
+		}
 
-unsigned int
-DiscreteSetBase::get_count () const
-{
-  return _data.size ();
-}
+		unsigned int
+		DiscreteSetBase::get_count () const
+		{
+			return _data.size ();
+		}
 
-double
-DiscreteSetBase::get_x_value (unsigned int n) const
-{
-  assert (n < _data.size ());
-  return _data[n].x;
-}
+		double
+		DiscreteSetBase::get_x_value (unsigned int n) const
+		{
+			assert (n < _data.size ());
+			return _data[n].x;
+		}
 
-double
-DiscreteSetBase::get_y_value (unsigned int n) const
-{
-  assert (n < _data.size ());
-  return _data[n].y;
-}
+		double
+		DiscreteSetBase::get_y_value (unsigned int n) const
+		{
+			assert (n < _data.size ());
+			return _data[n].y;
+		}
 
-double
-DiscreteSetBase::get_d_value (unsigned int n) const
-{
-  assert (n < _data.size ());
-  return _data[n].d;
-}
+		double
+		DiscreteSetBase::get_d_value (unsigned int n) const
+		{
+			assert (n < _data.size ());
+			return _data[n].d;
+		}
 
-double &
-DiscreteSetBase::get_y_value (unsigned int n)
-{
-  assert (n < _data.size ());
-  invalidate ();
-  return _data[n].y;
-}
+		double &
+		DiscreteSetBase::get_y_value (unsigned int n)
+		{
+			assert (n < _data.size ());
+			invalidate ();
+			return _data[n].y;
+		}
 
-double &
-DiscreteSetBase::get_d_value (unsigned int n)
-{
-  assert (n < _data.size ());
-  invalidate ();
-  return _data[n].d;
-}
+		double &
+		DiscreteSetBase::get_d_value (unsigned int n)
+		{
+			assert (n < _data.size ());
+			invalidate ();
+			return _data[n].d;
+		}
 
-double
-DiscreteSetBase::get_x_interval (unsigned int x) const
-{
-  return _data[x + 1].x - _data[x].x;
-}
+		double
+		DiscreteSetBase::get_x_interval (unsigned int x) const
+		{
+			return _data[x + 1].x - _data[x].x;
+		}
 
-double
-DiscreteSetBase::get_x_interval (unsigned int x1, unsigned int x2) const
-{
-  return _data[x2].x - _data[x1].x;
-}
-}
+		double
+		DiscreteSetBase::get_x_interval (unsigned int x1, unsigned int x2) const
+		{
+			return _data[x2].x - _data[x1].x;
+		}
+	}
 }
 
 #endif

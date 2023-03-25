@@ -27,97 +27,89 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-template <enum AirFormula m>
-Air<m>::Air (double pressure) : Base ("air"), _pressure (pressure)
-{
-}
+		template <enum AirFormula m>
+		Air<m>::Air (double pressure) : Base ("air"), _pressure (pressure)
+		{
+		}
 
-template <enum AirFormula m>
-bool
-Air<m>::is_opaque () const
-{
-  return false;
-}
+		template <enum AirFormula m>
+		bool
+		Air<m>::is_opaque () const
+		{
+			return false;
+		}
 
-template <enum AirFormula m>
-bool
-Air<m>::is_reflecting () const
-{
-  return false;
-}
+		template <enum AirFormula m>
+		bool
+		Air<m>::is_reflecting () const
+		{
+			return false;
+		}
 
-template <enum AirFormula m>
-double
-Air<m>::get_internal_transmittance (double wavelen, double thickness) const
-{
-  // FIXME find a formula
-  return 1.0;
-}
+		template <enum AirFormula m>
+		double
+		Air<m>::get_internal_transmittance (double wavelen, double thickness) const
+		{
+			// FIXME find a formula
+			return 1.0;
+		}
 
-template <enum AirFormula m>
-double
-Air<m>::get_extinction_coef (double wavelen) const
-{
-  // FIXME find a formula
-  return 0.0;
-}
+		template <enum AirFormula m>
+		double
+		Air<m>::get_extinction_coef (double wavelen) const
+		{
+			// FIXME find a formula
+			return 0.0;
+		}
 
-template <enum AirFormula m>
-double
-Air<m>::get_refractive_index (double wavelen) const
-{
-  switch (m)
-    {
-    case AirBirch94Formula:
-      {
-        // Birch, Metrologia, 1994, 31, 315
+		template <enum AirFormula m>
+		double
+		Air<m>::get_refractive_index (double wavelen) const
+		{
+			switch (m)
+			{
+				case AirBirch94Formula:
+					{
+						// Birch, Metrologia, 1994, 31, 315
+						// _temperature in celsius
+						// _pressure in pascal
+						double s2 = math::square (1 / (wavelen / 1000.0));
+						double ref
+						    = /*1.0 +*/ 1e-8
+						                * (+8342.54 + 2406147.0 / (130.0 - s2) + 15998.0 / (38.9 - s2));
+						return 1.0
+						       + (ref /*- 1.0*/)
+						       * (_pressure
+						          * (1.0
+						             + _pressure * (60.1 - 0.972 * _temperature)
+						             * 1e-10))
+						       / (96095.43 * (1.0 + 0.003661 * _temperature));
+					}
+				case AirKohlrausch68Formula:
+					{
+						// F. Kohlrausch, Praktische Physik, 1968, 1, 408
+						double w2 = math::square (wavelen / 1000.0);
+						double nref = 1.0
+						              + (+6432.8 + (2949810.0 * w2) / (146.0 * w2 - 1.0)
+						                 + (25540.0 * w2) / (41.0 * w2 - 1.0))
+						              * 1e-8;
+						return 1.0
+						       + (((nref - 1.0) * (_pressure / std_pressure))
+						          / (1.0 + (_temperature - 15.0) * 0.0034785));
+					}
+			}
+		}
 
-        // _temperature in celsius
-        // _pressure in pascal
+		template <enum AirFormula m> const double Air<m>::std_pressure = 101325.;
 
-        double s2 = math::square (1 / (wavelen / 1000.0));
+		template class Air<AirBirch94Formula>;
+		template class Air<AirKohlrausch68Formula>;
 
-        double ref
-            = /*1.0 +*/ 1e-8
-              * (+8342.54 + 2406147.0 / (130.0 - s2) + 15998.0 / (38.9 - s2));
+		const std::shared_ptr<AirBirch94> std_air = std::make_shared<AirBirch94> ();
+		std::shared_ptr<AirBirch94> air = std::make_shared<AirBirch94> ();
 
-        return 1.0
-               + (ref /*- 1.0*/)
-                     * (_pressure
-                        * (1.0
-                           + _pressure * (60.1 - 0.972 * _temperature)
-                                 * 1e-10))
-                     / (96095.43 * (1.0 + 0.003661 * _temperature));
-      }
-
-    case AirKohlrausch68Formula:
-      {
-        // F. Kohlrausch, Praktische Physik, 1968, 1, 408
-
-        double w2 = math::square (wavelen / 1000.0);
-
-        double nref = 1.0
-                      + (+6432.8 + (2949810.0 * w2) / (146.0 * w2 - 1.0)
-                         + (25540.0 * w2) / (41.0 * w2 - 1.0))
-                            * 1e-8;
-
-        return 1.0
-               + (((nref - 1.0) * (_pressure / std_pressure))
-                  / (1.0 + (_temperature - 15.0) * 0.0034785));
-      }
-    }
-}
-
-template <enum AirFormula m> const double Air<m>::std_pressure = 101325.;
-
-template class Air<AirBirch94Formula>;
-template class Air<AirKohlrausch68Formula>;
-
-const std::shared_ptr<AirBirch94> std_air = std::make_shared<AirBirch94> ();
-std::shared_ptr<AirBirch94> air = std::make_shared<AirBirch94> ();
-
-}
+	}
 }

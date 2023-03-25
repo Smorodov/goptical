@@ -27,27 +27,26 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-Herzberger::Herzberger () {}
+		Herzberger::Herzberger () {}
 
-Herzberger::Herzberger (double A, double B, double C, double D, double E,
-                        double F)
-    : _a (A), _b (B), _c (C), _d (D), _e (E), _f (F)
-{
-}
+		Herzberger::Herzberger (double A, double B, double C, double D, double E,
+		                        double F)
+			: _a (A), _b (B), _c (C), _d (D), _e (E), _f (F)
+		{
+		}
 
-double
-Herzberger::get_measurement_index (double wavelen) const
-{
-  double w2 = math::square (wavelen / 1000.0);
-  double w4 = math::square (w2);
+		double
+		Herzberger::get_measurement_index (double wavelen) const
+		{
+			double w2 = math::square (wavelen / 1000.0);
+			double w4 = math::square (w2);
+			return (+_a + _b * w2 + _c * w4 + _d * w4 * w2 + _e / (w2 - 0.028)
+			        + _f / math::square (w2 - 0.028));
+		}
 
-  return (+_a + _b * w2 + _c * w4 + _d * w4 * w2 + _e / (w2 - 0.028)
-          + _f / math::square (w2 - 0.028));
-}
-
-}
+	}
 
 }

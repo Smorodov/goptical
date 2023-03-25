@@ -28,64 +28,64 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-Proxy::Proxy (const std::shared_ptr<Base> &m) : _m (m) {}
+		Proxy::Proxy (const std::shared_ptr<Base> &m) : _m (m) {}
 
-bool
-Proxy::is_opaque () const
-{
-  return _m->is_opaque ();
-}
+		bool
+		Proxy::is_opaque () const
+		{
+			return _m->is_opaque ();
+		}
 
-bool
-Proxy::is_reflecting () const
-{
-  return _m->is_reflecting ();
-}
+		bool
+		Proxy::is_reflecting () const
+		{
+			return _m->is_reflecting ();
+		}
 
-double
-Proxy::get_internal_transmittance (double wavelen, double thickness) const
-{
-  return _m->get_internal_transmittance (wavelen, thickness);
-}
+		double
+		Proxy::get_internal_transmittance (double wavelen, double thickness) const
+		{
+			return _m->get_internal_transmittance (wavelen, thickness);
+		}
 
-double
-Proxy::get_refractive_index (double wavelen) const
-{
-  return _m->get_refractive_index (wavelen);
-}
+		double
+		Proxy::get_refractive_index (double wavelen) const
+		{
+			return _m->get_refractive_index (wavelen);
+		}
 
-double
-Proxy::get_extinction_coef (double wavelen) const
-{
-  return _m->get_extinction_coef (wavelen);
-}
+		double
+		Proxy::get_extinction_coef (double wavelen) const
+		{
+			return _m->get_extinction_coef (wavelen);
+		}
 
-double
-Proxy::get_normal_reflectance (const Base *from, double wavelen) const
-{
-  return _m->get_normal_reflectance (from, wavelen);
-}
+		double
+		Proxy::get_normal_reflectance (const Base *from, double wavelen) const
+		{
+			return _m->get_normal_reflectance (from, wavelen);
+		}
 
-double
-Proxy::get_normal_transmittance (const Base *from, double wavelen) const
-{
-  return _m->get_normal_transmittance (from, wavelen);
-}
+		double
+		Proxy::get_normal_transmittance (const Base *from, double wavelen) const
+		{
+			return _m->get_normal_transmittance (from, wavelen);
+		}
 
-double
-Proxy::get_temperature () const
-{
-  return _m->get_temperature ();
-}
+		double
+		Proxy::get_temperature () const
+		{
+			return _m->get_temperature ();
+		}
 
-io::Rgb
-Proxy::get_color () const
-{
-  return _m->get_color ();
-}
+		io::Rgb
+		Proxy::get_color () const
+		{
+			return _m->get_color ();
+		}
 
-}
+	}
 }

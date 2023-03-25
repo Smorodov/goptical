@@ -34,57 +34,56 @@
 namespace goptical
 {
 
-namespace analysis
-{
+	namespace analysis
+	{
 
-/**
-   @short Best focus point analysis
-   @header <goptical/core/analysis/Focus
-   @module {Core}
-   @main
+		/**
+		   @short Best focus point analysis
+		   @header <goptical/core/analysis/Focus
+		   @module {Core}
+		   @main
 
-   This class is designed to find the best point of focus of
-   an optical system.
-*/
-class Focus : public PointImage
-{
-public:
-  Focus (std::shared_ptr<sys::System> &system);
+		   This class is designed to find the best point of focus of
+		   an optical system.
+		*/
+		class Focus : public PointImage
+		{
+			public:
+				Focus (std::shared_ptr<sys::System> &system);
 
-  inline void invalidate ();
+				inline void invalidate ();
 
-  /** Get best point of focus in system global coordinates. */
-  inline const math::VectorPair3 &get_best_focus ();
+				/** Get best point of focus in system global coordinates. */
+				inline const math::VectorPair3 &get_best_focus ();
 
-private:
-  void process_focus ();
+			private:
+				void process_focus ();
 
-  bool _processed_focus;
-  math::VectorPair3 _best_focus;
-};
-void
-Focus::invalidate ()
-{
-  _processed_focus = false;
-  _processed_trace = false;
-}
+				bool _processed_focus;
+				math::VectorPair3 _best_focus;
+		};
+		void
+		Focus::invalidate ()
+		{
+			_processed_focus = false;
+			_processed_trace = false;
+		}
 
-const math::VectorPair3 &
-Focus::get_best_focus ()
-{
-  process_focus ();
-
-  return _best_focus;
-}
-}
+		const math::VectorPair3 &
+		Focus::get_best_focus ()
+		{
+			process_focus ();
+			return _best_focus;
+		}
+	}
 }
 
 namespace goptical
 {
-namespace analysis
-{
-using goptical::analysis::Focus;
-}
+	namespace analysis
+	{
+		using goptical::analysis::Focus;
+	}
 } // namespace goptical
 
 #endif

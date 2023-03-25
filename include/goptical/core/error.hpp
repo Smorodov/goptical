@@ -33,23 +33,23 @@
 namespace goptical
 {
 
-/**
-    @short Base class used for <goptical/core exceptions.
-    @header <goptical/core/Error
-    @module {Core}
- */
+	/**
+	    @short Base class used for <goptical/core exceptions.
+	    @header <goptical/core/Error
+	    @module {Core}
+	 */
 
-class Error : public std::runtime_error
-{
-public:
-  Error (const std::string &msg = "") : std::runtime_error (msg) {}
-};
+	class Error : public std::runtime_error
+	{
+		public:
+			Error (const std::string &msg = "") : std::runtime_error (msg) {}
+	};
 
 }
 
 namespace goptical
 {
-using goptical::Error;
+	using goptical::Error;
 }
 
 #endif

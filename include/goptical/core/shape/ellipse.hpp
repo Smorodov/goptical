@@ -29,107 +29,108 @@
 
 #include "base.hpp"
 #include "shape_round.hpp"
+#include <algorithm>
 
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-/**
-   @short Ellipse shape base class
-   @header <goptical/core/shape/Ellipse
-   @module {Core}
-   @internal
+		/**
+		   @short Ellipse shape base class
+		   @header <goptical/core/shape/Ellipse
+		   @module {Core}
+		   @internal
 
-   @see EllipticalRing
- */
+		   @see EllipticalRing
+		 */
 
-class EllipseBase : public Base
-{
-public:
-  /** Set ellipse radius along x and y axis */
-  void set_radius (double xr, double yr);
-  /** Set ellipse radius along x axis */
-  inline double get_x_radius (void) const;
-  /** Set ellipse radius along y axis */
-  inline double get_y_radius (void) const;
+		class EllipseBase : public Base
+		{
+			public:
+				/** Set ellipse radius along x and y axis */
+				void set_radius (double xr, double yr);
+				/** Set ellipse radius along x axis */
+				inline double get_x_radius (void) const;
+				/** Set ellipse radius along y axis */
+				inline double get_y_radius (void) const;
 
-  /** @override */
-  inline double max_radius () const;
-  /** @override */
-  inline double min_radius () const;
-  /** @override */
-  double get_outter_radius (const math::Vector2 &dir) const;
-  /** @override */
-  math::VectorPair2 get_bounding_box () const;
-  /** @override */
-  bool inside (const math::Vector2 &point) const;
+				/** @override */
+				inline double max_radius () const;
+				/** @override */
+				inline double min_radius () const;
+				/** @override */
+				double get_outter_radius (const math::Vector2 &dir) const;
+				/** @override */
+				math::VectorPair2 get_bounding_box () const;
+				/** @override */
+				bool inside (const math::Vector2 &point) const;
 
-protected:
-  inline double get_external_xradius () const;
-  inline double get_internal_xradius () const;
-  inline double get_xy_ratio () const;
+			protected:
+				inline double get_external_xradius () const;
+				inline double get_internal_xradius () const;
+				inline double get_xy_ratio () const;
 
-  double _xr, _yr;
-  double _xy_ratio;
-  double _e2;
-};
+				double _xr, _yr;
+				double _xy_ratio;
+				double _e2;
+		};
 
-/**
-   @short Ellipse shape
-   @header <goptical/core/shape/Ellipse
-   @module {Core}
-   @main
- */
-class Ellipse : public Round<EllipseBase, false>
-{
-public:
-  /** Create a new ellipse with given radius */
-  Ellipse (double x_radius, double y_radius);
-};
-double
-EllipseBase::get_x_radius (void) const
-{
-  return _xr;
-}
+		/**
+		   @short Ellipse shape
+		   @header <goptical/core/shape/Ellipse
+		   @module {Core}
+		   @main
+		 */
+		class Ellipse : public Round<EllipseBase, false>
+		{
+			public:
+				/** Create a new ellipse with given radius */
+				Ellipse (double x_radius, double y_radius);
+		};
+		double
+		EllipseBase::get_x_radius (void) const
+		{
+			return _xr;
+		}
 
-double
-EllipseBase::get_y_radius (void) const
-{
-  return _yr;
-}
+		double
+		EllipseBase::get_y_radius (void) const
+		{
+			return _yr;
+		}
 
-double
-EllipseBase::max_radius () const
-{
-  return std::max (_yr, _xr);
-}
+		double
+		EllipseBase::max_radius () const
+		{
+			return Max (_yr, _xr);
+		}
 
-double
-EllipseBase::min_radius () const
-{
-  return std::min (_yr, _xr);
-}
+		double
+		EllipseBase::min_radius () const
+		{
+			return Min (_yr, _xr);
+		}
 
-double
-EllipseBase::get_external_xradius () const
-{
-  return _xr;
-}
+		double
+		EllipseBase::get_external_xradius () const
+		{
+			return _xr;
+		}
 
-double
-EllipseBase::get_internal_xradius () const
-{
-  return 0.0;
-}
+		double
+		EllipseBase::get_internal_xradius () const
+		{
+			return 0.0;
+		}
 
-double
-EllipseBase::get_xy_ratio () const
-{
-  return _xy_ratio;
-}
-}
+		double
+		EllipseBase::get_xy_ratio () const
+		{
+			return _xy_ratio;
+		}
+	}
 
 }
 

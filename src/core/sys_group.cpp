@@ -29,71 +29,67 @@
 namespace goptical
 {
 
-namespace sys
-{
+	namespace sys
+	{
 
-Group::~Group () {}
+		Group::~Group () {}
 
-void
-Group::system_register (System *s)
-{
-  Element::system_register (s);
+		void
+		Group::system_register (System *s)
+		{
+			Element::system_register (s);
+			// register all children elements
+for (auto &i : get_element_list ())
+			{
+				i->system_register (s);
+			}
+		}
 
-  // register all children elements
-  for (auto &i : get_element_list ())
-    {
-      i->system_register (s);
-    }
-}
+		void
+		Group::system_unregister ()
+		{
+			assert (_system);
+			// unregister all children elements
+for (auto &i : get_element_list ())
+			{
+				i->system_unregister ();
+			}
+			Element::system_unregister ();
+		}
 
-void
-Group::system_unregister ()
-{
-  assert (_system);
+		void
+		Group::system_moved ()
+		{
+for (auto &i : get_element_list ())
+			{
+				i->system_moved ();
+			}
+			Element::system_moved ();
+		}
 
-  // unregister all children elements
-  for (auto &i : get_element_list ())
-    {
-      i->system_unregister ();
-    }
+		math::VectorPair3
+		Group::get_bounding_box () const
+		{
+			return Container::get_bounding_box ();
+		}
 
-  Element::system_unregister ();
-}
+		void
+		Group::draw_2d_e (io::Renderer &r, const Element *ref) const
+		{
+for (auto &i : get_element_list ())
+			{
+				r.draw_element_2d (*i, ref);
+			}
+		}
 
-void
-Group::system_moved ()
-{
-  for (auto &i : get_element_list ())
-    {
-      i->system_moved ();
-    }
+		void
+		Group::draw_3d_e (io::Renderer &r, const Element *ref) const
+		{
+for (auto &i : get_element_list ())
+			{
+				r.draw_element_3d (*i, ref);
+			}
+		}
 
-  Element::system_moved ();
-}
-
-math::VectorPair3
-Group::get_bounding_box () const
-{
-  return Container::get_bounding_box ();
-}
-
-void
-Group::draw_2d_e (io::Renderer &r, const Element *ref) const
-{
-  for (auto &i : get_element_list ())
-    {
-      r.draw_element_2d (*i, ref);
-    }
-}
-
-void
-Group::draw_3d_e (io::Renderer &r, const Element *ref) const
-{
-  for (auto &i : get_element_list ())
-    {
-      r.draw_element_3d (*i, ref);
-    }
-}
-
-}
+	}
 }

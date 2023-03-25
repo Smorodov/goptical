@@ -32,57 +32,57 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Herzberger model for optical glass material
-   @header <goptical/core/material/Herzberger
-   @module {Core}
-   @main
+		/**
+		   @short Herzberger model for optical glass material
+		   @header <goptical/core/material/Herzberger
+		   @module {Core}
+		   @main
 
-   This class models optical properties of dielectric
-   materials with Herzberger refractive index dispersion formula:
+		   This class models optical properties of dielectric
+		   materials with Herzberger refractive index dispersion formula:
 
-   @math $ n_\lambda = A + B\times\lambda^2 + C\times\lambda^4 +
-   D\times\lambda^6
-           + \frac{E}{\lambda^2-0.028} +
-   \frac{F}{\left(\lambda^2-0.028\right)^2} $
+		   @math $ n_\lambda = A + B\times\lambda^2 + C\times\lambda^4 +
+		   D\times\lambda^6
+		           + \frac{E}{\lambda^2-0.028} +
+		   \frac{F}{\left(\lambda^2-0.028\right)^2} $
 
-   with @math $\lambda$ the micrometer wavelength.
- */
+		   with @math $\lambda$ the micrometer wavelength.
+		 */
 
-class Herzberger : public Dielectric
-{
-public:
-  /** Create an empty herzberger model */
-  Herzberger ();
+		class Herzberger : public Dielectric
+		{
+			public:
+				/** Create an empty herzberger model */
+				Herzberger ();
 
-  /** Create an herzberger model with given coefficients */
-  Herzberger (double A, double B, double C, double D, double E, double F);
+				/** Create an herzberger model with given coefficients */
+				Herzberger (double A, double B, double C, double D, double E, double F);
 
-  /** Change herzberger constant term */
-  inline void set_coefficients (double A, double B, double C, double D,
-                                double E, double F);
+				/** Change herzberger constant term */
+				inline void set_coefficients (double A, double B, double C, double D,
+				                              double E, double F);
 
-  /** @override */
-  double get_measurement_index (double wavelen) const;
+				/** @override */
+				double get_measurement_index (double wavelen) const;
 
-private:
-  double _a, _b, _c, _d, _e, _f;
-};
-void
-Herzberger::set_coefficients (double A, double B, double C, double D, double E,
-                              double F)
-{
-  _a = A;
-  _b = B;
-  _c = C;
-  _d = D;
-  _e = E;
-  _f = F;
-}
-}
+			private:
+				double _a, _b, _c, _d, _e, _f;
+		};
+		void
+		Herzberger::set_coefficients (double A, double B, double C, double D, double E,
+		                              double F)
+		{
+			_a = A;
+			_b = B;
+			_c = C;
+			_d = D;
+			_e = E;
+			_f = F;
+		}
+	}
 }
 
 #endif

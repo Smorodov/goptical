@@ -28,46 +28,46 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-Metal::Metal () : Solid ("metal"), _extinction (), _refractive_index ()
-{
-  _extinction.set_interpolation (data::Cubic);
-  _refractive_index.set_interpolation (data::Cubic);
-}
+		Metal::Metal () : Solid ("metal"), _extinction (), _refractive_index ()
+		{
+			_extinction.set_interpolation (data::Cubic);
+			_refractive_index.set_interpolation (data::Cubic);
+		}
 
-bool
-Metal::is_opaque () const
-{
-  return true;
-}
+		bool
+		Metal::is_opaque () const
+		{
+			return true;
+		}
 
-bool
-Metal::is_reflecting () const
-{
-  return true;
-}
+		bool
+		Metal::is_reflecting () const
+		{
+			return true;
+		}
 
-double
-Metal::get_absolute_refractive_index (double wavelen) const
-{
-  return _refractive_index.interpolate (wavelen);
-}
+		double
+		Metal::get_absolute_refractive_index (double wavelen) const
+		{
+			return _refractive_index.interpolate (wavelen);
+		}
 
-double
-Metal::get_refractive_index (double wavelen) const
-{
-  // FIXME find a formula
-  return _refractive_index.interpolate (wavelen);
-}
+		double
+		Metal::get_refractive_index (double wavelen) const
+		{
+			// FIXME find a formula
+			return _refractive_index.interpolate (wavelen);
+		}
 
-double
-Metal::get_extinction_coef (double wavelen) const
-{
-  return _extinction.interpolate (wavelen);
-}
+		double
+		Metal::get_extinction_coef (double wavelen) const
+		{
+			return _extinction.interpolate (wavelen);
+		}
 
-}
+	}
 
 }

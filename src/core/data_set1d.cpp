@@ -27,9 +27,9 @@
 namespace goptical
 {
 
-namespace data
-{
+	namespace data
+	{
 
-}
+	}
 
 }

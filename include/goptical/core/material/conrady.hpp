@@ -32,52 +32,52 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Conrady model for optical glass material
-   @header <goptical/core/material/Conrady
-   @module {Core}
-   @main
+		/**
+		   @short Conrady model for optical glass material
+		   @header <goptical/core/material/Conrady
+		   @module {Core}
+		   @main
 
-   This class models optical properties of dielectric
-   materials with conrady refractive index dispersion formula.
+		   This class models optical properties of dielectric
+		   materials with conrady refractive index dispersion formula.
 
-   Refractive index formula is:
+		   Refractive index formula is:
 
-   @math $ n_\lambda = A + \frac{B}{\lambda} + \frac{C}{\lambda^{3.5}} $
+		   @math $ n_\lambda = A + \frac{B}{\lambda} + \frac{C}{\lambda^{3.5}} $
 
-   with @math $\lambda$ the micrometer wavelength.
- */
+		   with @math $\lambda$ the micrometer wavelength.
+		 */
 
-class Conrady : public Dielectric
-{
-public:
-  /** Create an empty conrady model */
-  Conrady ();
+		class Conrady : public Dielectric
+		{
+			public:
+				/** Create an empty conrady model */
+				Conrady ();
 
-  /** Create an conrady model with given coefficients */
-  Conrady (double A, double B, double C);
+				/** Create an conrady model with given coefficients */
+				Conrady (double A, double B, double C);
 
-  /** Change conrady constant term */
-  inline void set_coefficients (double A, double B, double C);
+				/** Change conrady constant term */
+				inline void set_coefficients (double A, double B, double C);
 
-  /** @override */
-  double get_measurement_index (double wavelen) const;
+				/** @override */
+				double get_measurement_index (double wavelen) const;
 
-private:
-  double _a, _b, _c;
-};
+			private:
+				double _a, _b, _c;
+		};
 
-void
-Conrady::set_coefficients (double A, double B, double C)
-{
-  _a = A;
-  _b = B;
-  _c = C;
-}
-}
+		void
+		Conrady::set_coefficients (double A, double B, double C)
+		{
+			_a = A;
+			_b = B;
+			_c = C;
+		}
+	}
 }
 
 #endif

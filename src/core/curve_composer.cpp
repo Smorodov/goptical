@@ -29,53 +29,45 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-Composer::Attributes &
-Composer::add_curve (const std::shared_ptr<Base> &curve)
-{
-  Attributes attr;
+		Composer::Attributes &
+		Composer::add_curve (const std::shared_ptr<Base> &curve)
+		{
+			Attributes attr;
+			attr._curve = curve;
+			attr._z_scale = 1.;
+			attr._z_offset = 0.;
+			attr._transform.reset ();
+			attr._inv_transform.reset ();
+			_list.push_back (attr);
+			return _list.back ();
+		}
 
-  attr._curve = curve;
-  attr._z_scale = 1.;
-  attr._z_offset = 0.;
-  attr._transform.reset ();
-  attr._inv_transform.reset ();
+		Composer::Composer () : _list () {}
 
-  _list.push_back (attr);
+		double
+		Composer::sagitta (const math::Vector2 &xy) const
+		{
+			double z = 0;
+for (auto &c : _list)
+				z += c._curve->sagitta (c._inv_transform.transform (xy)) * c._z_scale
+				     + c._z_offset;
+			return z;
+		}
 
-  return _list.back ();
-}
+		void
+		Composer::derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const
+		{
+			dxdy.set (0.0);
+for (auto &c : _list)
+			{
+				math::Vector2 dtmp;
+				c._curve->derivative (c._inv_transform.transform (xy), dtmp);
+				dxdy += c._transform.transform_linear (dtmp) * c._z_scale;
+			}
+		}
 
-Composer::Composer () : _list () {}
-
-double
-Composer::sagitta (const math::Vector2 &xy) const
-{
-  double z = 0;
-
-  for (auto &c : _list)
-    z += c._curve->sagitta (c._inv_transform.transform (xy)) * c._z_scale
-         + c._z_offset;
-
-  return z;
-}
-
-void
-Composer::derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const
-{
-  dxdy.set (0.0);
-
-  for (auto &c : _list)
-    {
-      math::Vector2 dtmp;
-
-      c._curve->derivative (c._inv_transform.transform (xy), dtmp);
-
-      dxdy += c._transform.transform_linear (dtmp) * c._z_scale;
-    }
-}
-
-}
+	}
 }

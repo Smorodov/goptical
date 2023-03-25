@@ -33,64 +33,64 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-/**
-   @short Define surface curve from interpolated grid data set.
-   @header <goptical/core/curve/Grid
-   @module {Core}
-   @main
+		/**
+		   @short Define surface curve from interpolated grid data set.
+		   @header <goptical/core/curve/Grid
+		   @module {Core}
+		   @main
 
-   This class use the @ref data::Grid 2d data set container to
-   define a 3d non-symmetric curve. Several data interpolation
-   algorithms are available allowing use of @ref data::Bicubic spline
-   interpolation with or without prescribed derivative/gradient
-   data. @see data::Grid .
+		   This class use the @ref data::Grid 2d data set container to
+		   define a 3d non-symmetric curve. Several data interpolation
+		   algorithms are available allowing use of @ref data::Bicubic spline
+		   interpolation with or without prescribed derivative/gradient
+		   data. @see data::Grid .
 
-   The @ref Spline curve model is preferred when dealing
-   with @ref Rotational {rotationally symmetric curves}.
-*/
-class Grid : public Base
-{
-public:
-  /** Creates a grid curve with n*n sample points defined over the
-      given radius. */
-  Grid (unsigned int n, double radius);
+		   The @ref Spline curve model is preferred when dealing
+		   with @ref Rotational {rotationally symmetric curves}.
+		*/
+		class Grid : public Base
+		{
+			public:
+				/** Creates a grid curve with n*n sample points defined over the
+				    given radius. */
+				Grid (unsigned int n, double radius);
 
-  ~Grid ();
+				~Grid ();
 
-  /** Get embedded sagitta/gradient data container */
-  inline const data::Grid &get_data () const;
+				/** Get embedded sagitta/gradient data container */
+				inline const data::Grid &get_data () const;
 
-  /** Get embedded sagitta/gradient data container */
-  inline data::Grid &get_data ();
+				/** Get embedded sagitta/gradient data container */
+				inline data::Grid &get_data ();
 
-  /** Set grid values to best fit an other curve. Gradient data
-      will be extracted only if the interpolation have been set to
-      data::BicubicDeriv previously */
-  void fit (const Base &c);
+				/** Set grid values to best fit an other curve. Gradient data
+				    will be extracted only if the interpolation have been set to
+				    data::BicubicDeriv previously */
+				void fit (const Base &c);
 
-  double sagitta (const math::Vector2 &xy) const;
-  void derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const;
+				double sagitta (const math::Vector2 &xy) const;
+				void derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const;
 
-protected:
-  data::Grid _data;
-};
+			protected:
+				data::Grid _data;
+		};
 
-const data::Grid &
-Grid::get_data () const
-{
-  return _data;
-}
+		const data::Grid &
+		Grid::get_data () const
+		{
+			return _data;
+		}
 
-data::Grid &
-Grid::get_data ()
-{
-  return _data;
-}
+		data::Grid &
+		Grid::get_data ()
+		{
+			return _data;
+		}
 
-}
+	}
 
 }
 

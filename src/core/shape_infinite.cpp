@@ -30,54 +30,54 @@
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-bool
-Infinite::inside (const math::Vector2 &point) const
-{
-  return true;
-}
+		bool
+		Infinite::inside (const math::Vector2 &point) const
+		{
+			return true;
+		}
 
-math::VectorPair2
-Infinite::get_bounding_box () const
-{
-  return math::vector2_pair_00;
-}
+		math::VectorPair2
+		Infinite::get_bounding_box () const
+		{
+			return math::vector2_pair_00;
+		}
 
-void
-Infinite::get_pattern (const math::Vector2::put_delegate_t &f,
-                       const trace::Distribution &d, bool unobstructed) const
-{
-  throw Error ("can not distribute rays accross an infinite surface shape");
-}
+		void
+		Infinite::get_pattern (const math::Vector2::put_delegate_t &f,
+		                       const trace::Distribution &d, bool unobstructed) const
+		{
+			throw Error ("can not distribute rays accross an infinite surface shape");
+		}
 
-unsigned int
-Infinite::get_contour_count () const
-{
-  return 0;
-}
+		unsigned int
+		Infinite::get_contour_count () const
+		{
+			return 0;
+		}
 
-void
-Infinite::get_contour (unsigned int contour,
-                       const math::Vector2::put_delegate_t &f,
-                       double resolution) const
-{
-}
+		void
+		Infinite::get_contour (unsigned int contour,
+		                       const math::Vector2::put_delegate_t &f,
+		                       double resolution) const
+		{
+		}
 
-void
-Infinite::get_triangles (const math::Triangle<2>::put_delegate_t &t,
-                         double resolution) const
-{
-}
+		void
+		Infinite::get_triangles (const math::Triangle<2>::put_delegate_t &t,
+		                         double resolution) const
+		{
+		}
 
-double
-Infinite::get_outter_radius (const math::Vector2 &dir) const
-{
-  return 0;
-}
+		double
+		Infinite::get_outter_radius (const math::Vector2 &dir) const
+		{
+			return 0;
+		}
 
-std::shared_ptr<Infinite> infinite = std::make_shared<Infinite> ();
+		std::shared_ptr<Infinite> infinite = std::make_shared<Infinite> ();
 
-}
+	}
 }

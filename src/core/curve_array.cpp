@@ -28,93 +28,86 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-Array::Array (const std::shared_ptr<Base> &curve, double pitch,
-              enum pattern_e p)
-    : _curve (curve), _pitch (pitch)
-{
-  switch (p)
-    {
-    case Square:
-      _transform = &Array::transform_square;
-      break;
+		Array::Array (const std::shared_ptr<Base> &curve, double pitch,
+		              enum pattern_e p)
+			: _curve (curve), _pitch (pitch)
+		{
+			switch (p)
+			{
+				case Square:
+					_transform = &Array::transform_square;
+					break;
+				case SquareCenter:
+					_transform = &Array::transform_square_center;
+					break;
+				case Hexagonal:
+					_transform = &Array::transform_hexagonal;
+					break;
+			}
+		}
 
-    case SquareCenter:
-      _transform = &Array::transform_square_center;
-      break;
+		static inline double
+		mod (double x, double n)
+		{
+			x = x - trunc (x / n) * n;
+			return x < 0 ? x + n : x;
+		}
 
-    case Hexagonal:
-      _transform = &Array::transform_hexagonal;
-      break;
-    }
-}
+		math::Vector2
+		Array::transform_square (const math::Vector2 &v) const
+		{
+			double h = _pitch / 2.0;
+			return math::Vector2 (mod (v.x (), _pitch) - h, mod (v.y (), _pitch) - h);
+		}
 
-static inline double
-mod (double x, double n)
-{
-  x = x - trunc (x / n) * n;
-  return x < 0 ? x + n : x;
-}
+		math::Vector2
+		Array::transform_square_center (const math::Vector2 &v) const
+		{
+			double h = _pitch / 2.0;
+			return math::Vector2 (mod (v.x () - h, _pitch) - h,
+			                      mod (v.y () - h, _pitch) - h);
+		}
 
-math::Vector2
-Array::transform_square (const math::Vector2 &v) const
-{
-  double h = _pitch / 2.0;
+		math::Vector2
+		Array::transform_hexagonal (const math::Vector2 &v) const
+		{
+			double pitch = _pitch / 2.0;
+			double h1 = pitch * 0.86602540378443864676;
+			double h2 = pitch * 1.73205080756887729352;
+			double h3 = pitch * 1.5;
+			double x, y = mod (v.y (), h3 * 2.0);
+			if (y > h3)
+			{
+				y -= h3;
+				x = mod (v.x () - h1, h2);
+			}
+			else
+			{
+				x = mod (v.x (), h2);
+			}
+			if (y > pitch && (h3 - y) * h1 < fabs ((h1 - x) * pitch / 2.0))
+			{
+				y -= h3;
+				x = x > h1 ? x - h1 : x + h1;
+			}
+			return math::Vector2 (x - h1, y - pitch / 2.0);
+		}
 
-  return math::Vector2 (mod (v.x (), _pitch) - h, mod (v.y (), _pitch) - h);
-}
+		double
+		Array::sagitta (const math::Vector2 &xy) const
+		{
+			return _curve->sagitta ((this->*_transform) (xy));
+		}
 
-math::Vector2
-Array::transform_square_center (const math::Vector2 &v) const
-{
-  double h = _pitch / 2.0;
+		void
+		Array::derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const
+		{
+			_curve->derivative ((this->*_transform) (xy), dxdy);
+		}
 
-  return math::Vector2 (mod (v.x () - h, _pitch) - h,
-                        mod (v.y () - h, _pitch) - h);
-}
-
-math::Vector2
-Array::transform_hexagonal (const math::Vector2 &v) const
-{
-  double pitch = _pitch / 2.0;
-  double h1 = pitch * 0.86602540378443864676;
-  double h2 = pitch * 1.73205080756887729352;
-  double h3 = pitch * 1.5;
-  double x, y = mod (v.y (), h3 * 2.0);
-
-  if (y > h3)
-    {
-      y -= h3;
-      x = mod (v.x () - h1, h2);
-    }
-  else
-    {
-      x = mod (v.x (), h2);
-    }
-
-  if (y > pitch && (h3 - y) * h1 < fabs ((h1 - x) * pitch / 2.0))
-    {
-      y -= h3;
-      x = x > h1 ? x - h1 : x + h1;
-    }
-
-  return math::Vector2 (x - h1, y - pitch / 2.0);
-}
-
-double
-Array::sagitta (const math::Vector2 &xy) const
-{
-  return _curve->sagitta ((this->*_transform) (xy));
-}
-
-void
-Array::derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const
-{
-  _curve->derivative ((this->*_transform) (xy), dxdy);
-}
-
-}
+	}
 
 }

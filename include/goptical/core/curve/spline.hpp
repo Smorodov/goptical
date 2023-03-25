@@ -33,75 +33,75 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-/**
-   @short Rotationally symmetric spline curve implementation
-   @header <goptical/core/curve/Spline
-   @module {Core}
-   @main
+		/**
+		   @short Rotationally symmetric spline curve implementation
+		   @header <goptical/core/curve/Spline
+		   @module {Core}
+		   @main
 
-   This class uses a 1d discrete data set to define a rotationally
-   symmetric sagitta/gradient curve. Several data interpolations
-   algorithm are available allowing use of Smooth Cubic spline
-   interpolation with or without prescribed derivative/gradient
-   data.
+		   This class uses a 1d discrete data set to define a rotationally
+		   symmetric sagitta/gradient curve. Several data interpolations
+		   algorithm are available allowing use of Smooth Cubic spline
+		   interpolation with or without prescribed derivative/gradient
+		   data.
 
-   @see data::DiscreteSet
-*/
-class Spline : public Rotational
-{
-public:
-  /** Create an empty spline curve with no defined point */
-  Spline ();
-  ~Spline ();
+		   @see data::DiscreteSet
+		*/
+		class Spline : public Rotational
+		{
+			public:
+				/** Create an empty spline curve with no defined point */
+				Spline ();
+				~Spline ();
 
-  /** Get sagitta/derivative data container */
-  inline const data::DiscreteSet &get_data () const;
+				/** Get sagitta/derivative data container */
+				inline const data::DiscreteSet &get_data () const;
 
-  /** get sagitta/derivative data container */
-  inline data::DiscreteSet &get_data ();
+				/** get sagitta/derivative data container */
+				inline data::DiscreteSet &get_data ();
 
-  /** Clear all points and fit to an other rotationally symmetric curve.
-      @param c curve to fit
-      @param radius Maximum radius where curve is defined
-      @param points Number of sample points
-  */
-  void fit (const Rotational &c, double radius, unsigned int points);
+				/** Clear all points and fit to an other rotationally symmetric curve.
+				    @param c curve to fit
+				    @param radius Maximum radius where curve is defined
+				    @param points Number of sample points
+				*/
+				void fit (const Rotational &c, double radius, unsigned int points);
 
-  inline double sagitta (double r) const;
-  inline double derivative (double r) const;
+				inline double sagitta (double r) const;
+				inline double derivative (double r) const;
 
-protected:
-  data::DiscreteSet _data;
-};
+			protected:
+				data::DiscreteSet _data;
+		};
 
-const data::DiscreteSet &
-Spline::get_data () const
-{
-  return _data;
-}
+		const data::DiscreteSet &
+		Spline::get_data () const
+		{
+			return _data;
+		}
 
-data::DiscreteSet &
-Spline::get_data ()
-{
-  return _data;
-}
+		data::DiscreteSet &
+		Spline::get_data ()
+		{
+			return _data;
+		}
 
-double
-Spline::sagitta (double r) const
-{
-  return _data.interpolate (r);
-}
+		double
+		Spline::sagitta (double r) const
+		{
+			return _data.interpolate (r);
+		}
 
-double
-Spline::derivative (double r) const
-{
-  return _data.interpolate (r, 1);
-}
+		double
+		Spline::derivative (double r) const
+		{
+			return _data.interpolate (r, 1);
+		}
 
-}
+	}
 }
 
 #endif

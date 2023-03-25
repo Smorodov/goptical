@@ -33,76 +33,76 @@
 namespace goptical
 {
 
-namespace analysis
-{
+	namespace analysis
+	{
 
-/**
-   @short Point image analysis base class
-   @header goptical/core/analysis/PointImage
-   @module {Core}
-   @internal
-*/
-class PointImage
-{
-public:
-  PointImage (std::shared_ptr<sys::System> &system);
-  virtual ~PointImage ();
+		/**
+		   @short Point image analysis base class
+		   @header goptical/core/analysis/PointImage
+		   @module {Core}
+		   @internal
+		*/
+		class PointImage
+		{
+			public:
+				PointImage (std::shared_ptr<sys::System> &system);
+				virtual ~PointImage ();
 
-  /** set Image which collect rays for analysis */
-  inline void set_image (sys::Image *image);
+				/** set Image which collect rays for analysis */
+				inline void set_image (sys::Image *image);
 
-  /** return tracer object used for ray tracing. This will
-      invalidate current analysis data */
-  inline trace::Tracer &get_tracer ();
+				/** return tracer object used for ray tracing. This will
+				    invalidate current analysis data */
+				inline trace::Tracer &get_tracer ();
 
-  /** return tracer object used for ray tracing */
-  inline const trace::Tracer &get_tracer () const;
+				/** return tracer object used for ray tracing */
+				inline const trace::Tracer &get_tracer () const;
 
-  /** invalidate current analysis data */
-  virtual void invalidate () = 0;
+				/** invalidate current analysis data */
+				virtual void invalidate () = 0;
 
-protected:
-  void get_default_image ();
-  void trace ();
+			protected:
+				void get_default_image ();
+				void trace ();
 
-  std::shared_ptr<sys::System> _system;
-  trace::Tracer _tracer;
-  bool _processed_trace;
-  sys::Image *_image;
-  const trace::rays_queue_t *_intercepts;
+				std::shared_ptr<sys::System> _system;
+				trace::Tracer _tracer;
+				bool _processed_trace;
+				sys::Image *_image;
+				const trace::rays_queue_t *_intercepts;
 
-private:
-};
+			private:
+		};
 
-void
-PointImage::set_image (sys::Image *image)
-{
-  _image = image;
-}
+		void
+		PointImage::set_image (sys::Image *image)
+		{
+			_image = image;
+		}
 
-trace::Tracer &
-PointImage::get_tracer ()
-{
-  invalidate ();
-  return _tracer;
-}
+		trace::Tracer &
+		PointImage::get_tracer ()
+		{
+			invalidate ();
+			return _tracer;
+		}
 
-/** return tracer object used for ray tracing */
-const trace::Tracer &
-PointImage::get_tracer () const
-{
-  return _tracer;
-}
+		/** return tracer object used for ray tracing */
+		const trace::Tracer &
+		PointImage::get_tracer () const
+		{
+			return _tracer;
+		}
 
-}
+	}
 }
 
 namespace goptical
 {
-namespace analysis
-{
-using goptical::analysis::PointImage;
-}
+	namespace analysis
+	{
+		using goptical::analysis::PointImage;
+	}
 }
 
 #endif

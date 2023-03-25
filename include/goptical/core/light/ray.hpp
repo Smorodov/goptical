@@ -32,75 +32,75 @@
 namespace goptical
 {
 
-namespace light
-{
+	namespace light
+	{
 
-/**
-   @short Describe a ray of light
-   @header <goptical/core/light/Ray
-   @module {Core}
-   @main
+		/**
+		   @short Describe a ray of light
+		   @header <goptical/core/light/Ray
+		   @module {Core}
+		   @main
 
-   This class is used to describe a ray of light. It contains
-   geometrical and physical informations about a light ray.
- */
+		   This class is used to describe a ray of light. It contains
+		   geometrical and physical informations about a light ray.
+		 */
 
-class Ray : public math::VectorPair3
-{
-public:
-  inline Ray ();
+		class Ray : public math::VectorPair3
+		{
+			public:
+				inline Ray ();
 
-  /** Create a ray of light with specified properties */
-  inline Ray (const math::VectorPair3 &ray, double intensity = 1,
-              double wavelen = 550);
+				/** Create a ray of light with specified properties */
+				inline Ray (const math::VectorPair3 &ray, double intensity = 1,
+				            double wavelen = 550);
 
-  /** Get light ray intensity */
-  inline double get_intensity () const;
-  /** Set light ray intensity */
-  inline void set_intensity (double intensity);
+				/** Get light ray intensity */
+				inline double get_intensity () const;
+				/** Set light ray intensity */
+				inline void set_intensity (double intensity);
 
-  /** Set light ray wavelen */
-  inline double get_wavelen () const;
-  /** Get light ray wavelen */
-  inline void set_wavelen (double wavelen);
+				/** Set light ray wavelen */
+				inline double get_wavelen () const;
+				/** Get light ray wavelen */
+				inline void set_wavelen (double wavelen);
 
-private:
-  // nanometer
-  double _wavelen;
-  // FIXME unit ?
-  double _intensity;
-};
-Ray::Ray () {}
+			private:
+				// nanometer
+				double _wavelen;
+				// FIXME unit ?
+				double _intensity;
+		};
+		Ray::Ray () {}
 
-Ray::Ray (const math::VectorPair3 &ray, double intensity, double wavelen)
-    : math::VectorPair3 (ray), _wavelen (wavelen), _intensity (intensity)
-{
-}
+		Ray::Ray (const math::VectorPair3 &ray, double intensity, double wavelen)
+			: math::VectorPair3 (ray), _wavelen (wavelen), _intensity (intensity)
+		{
+		}
 
-double
-Ray::get_intensity () const
-{
-  return _intensity;
-}
+		double
+		Ray::get_intensity () const
+		{
+			return _intensity;
+		}
 
-void
-Ray::set_intensity (double intensity)
-{
-  _intensity = intensity;
-}
+		void
+		Ray::set_intensity (double intensity)
+		{
+			_intensity = intensity;
+		}
 
-double
-Ray::get_wavelen () const
-{
-  return _wavelen;
-}
+		double
+		Ray::get_wavelen () const
+		{
+			return _wavelen;
+		}
 
-void
-Ray::set_wavelen (double wavelen)
-{
-  _wavelen = wavelen;
-}
-}
+		void
+		Ray::set_wavelen (double wavelen)
+		{
+			_wavelen = wavelen;
+		}
+	}
 }
 
 #endif

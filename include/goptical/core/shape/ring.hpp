@@ -33,120 +33,119 @@
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-/**
-   @short Ring shape base class
-   @header <goptical/core/shape/Ring
-   @module {Core}
-   @internal
- */
+		/**
+		   @short Ring shape base class
+		   @header <goptical/core/shape/Ring
+		   @module {Core}
+		   @internal
+		 */
 
-class RingBase : public Base
-{
-public:
-  /** Set ring external radius and hole radius */
-  inline void set_radius (double radius, double hole_radius);
+		class RingBase : public Base
+		{
+			public:
+				/** Set ring external radius and hole radius */
+				inline void set_radius (double radius, double hole_radius);
 
-  /** Get ring external radius */
-  inline double get_radius () const;
-  /** Get hole radius */
-  inline double get_hole_radius () const;
+				/** Get ring external radius */
+				inline double get_radius () const;
+				/** Get hole radius */
+				inline double get_hole_radius () const;
 
-  /** @override */
-  inline double max_radius () const;
-  /** @override */
-  inline double min_radius () const;
-  /** @override */
-  double get_outter_radius (const math::Vector2 &dir) const;
-  /** @override */
-  double get_hole_radius (const math::Vector2 &dir) const;
-  /** @override */
-  math::VectorPair2 get_bounding_box () const;
-  /** @override */
-  bool inside (const math::Vector2 &point) const;
+				/** @override */
+				inline double max_radius () const;
+				/** @override */
+				inline double min_radius () const;
+				/** @override */
+				double get_outter_radius (const math::Vector2 &dir) const;
+				/** @override */
+				double get_hole_radius (const math::Vector2 &dir) const;
+				/** @override */
+				math::VectorPair2 get_bounding_box () const;
+				/** @override */
+				bool inside (const math::Vector2 &point) const;
 
-protected:
-  inline double get_external_xradius () const;
-  inline double get_internal_xradius () const;
-  inline double get_xy_ratio () const;
+			protected:
+				inline double get_external_xradius () const;
+				inline double get_internal_xradius () const;
+				inline double get_xy_ratio () const;
 
-  double _radius, _hole_radius;
-};
+				double _radius, _hole_radius;
+		};
 
-/**
-   @short Ring shape
-   @header <goptical/core/shape/Ring
-   @module {Core}
-   @main
+		/**
+		   @short Ring shape
+		   @header <goptical/core/shape/Ring
+		   @module {Core}
+		   @main
 
-   This is a disk shape with a hole in center.
- */
+		   This is a disk shape with a hole in center.
+		 */
 
-class Ring : public Round<RingBase, true>
-{
-public:
-  /** Create a new ring with given external radius and hole radius. */
-  inline Ring (double radius, double hole_radius);
-};
-Ring::Ring (double radius, double hole_radius)
-{
-  set_radius (radius, hole_radius);
-}
+		class Ring : public Round<RingBase, true>
+		{
+			public:
+				/** Create a new ring with given external radius and hole radius. */
+				inline Ring (double radius, double hole_radius);
+		};
+		Ring::Ring (double radius, double hole_radius)
+		{
+			set_radius (radius, hole_radius);
+		}
 
-void
-RingBase::set_radius (double radius, double hole_radius)
-{
-  assert (radius > hole_radius);
+		void
+		RingBase::set_radius (double radius, double hole_radius)
+		{
+			assert (radius > hole_radius);
+			_radius = radius;
+			_hole_radius = hole_radius;
+		}
 
-  _radius = radius;
-  _hole_radius = hole_radius;
-}
+		double
+		RingBase::get_radius (void) const
+		{
+			return _radius;
+		}
 
-double
-RingBase::get_radius (void) const
-{
-  return _radius;
-}
+		double
+		RingBase::get_hole_radius (void) const
+		{
+			return _hole_radius;
+		}
 
-double
-RingBase::get_hole_radius (void) const
-{
-  return _hole_radius;
-}
+		double
+		RingBase::max_radius () const
+		{
+			return _radius;
+		}
 
-double
-RingBase::max_radius () const
-{
-  return _radius;
-}
+		double
+		RingBase::min_radius () const
+		{
+			return _radius;
+		}
 
-double
-RingBase::min_radius () const
-{
-  return _radius;
-}
+		double
+		RingBase::get_external_xradius () const
+		{
+			return _radius;
+		}
 
-double
-RingBase::get_external_xradius () const
-{
-  return _radius;
-}
+		double
+		RingBase::get_internal_xradius () const
+		{
+			return _hole_radius;
+		}
 
-double
-RingBase::get_internal_xradius () const
-{
-  return _hole_radius;
-}
+		double
+		RingBase::get_xy_ratio () const
+		{
+			return 1.0;
+		}
 
-double
-RingBase::get_xy_ratio () const
-{
-  return 1.0;
-}
-
-}
+	}
 }
 
 #endif

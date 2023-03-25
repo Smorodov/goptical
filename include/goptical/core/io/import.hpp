@@ -32,28 +32,28 @@
 namespace goptical
 {
 
-namespace io
-{
+	namespace io
+	{
 
-/**
-   @short File import class interface
-   @header <goptical/core/io/Import
-   @module {Core}
- */
-class Import
-{
-public:
-  /** Import optical design from file */
-  virtual sys::system &import_design (const std::string &filename) = 0;
+		/**
+		   @short File import class interface
+		   @header <goptical/core/io/Import
+		   @module {Core}
+		 */
+		class Import
+		{
+			public:
+				/** Import optical design from file */
+				virtual sys::system &import_design (const std::string &filename) = 0;
 
-  /** Import material catalog from file */
-  virtual material::Catalog &import_catalog (const std::string &filename) = 0;
+				/** Import material catalog from file */
+				virtual material::Catalog &import_catalog (const std::string &filename) = 0;
 
-  /** Import dataset from file */
-  virtual Set &import_dataset (const std::string &filename) = 0;
-};
+				/** Import dataset from file */
+				virtual Set &import_dataset (const std::string &filename) = 0;
+		};
 
-}
+	}
 
 }
 

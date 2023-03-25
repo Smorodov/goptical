@@ -27,21 +27,20 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-Conrady::Conrady () {}
+		Conrady::Conrady () {}
 
-Conrady::Conrady (double A, double B, double C) : _a (A), _b (B), _c (C) {}
+		Conrady::Conrady (double A, double B, double C) : _a (A), _b (B), _c (C) {}
 
-double
-Conrady::get_measurement_index (double wavelen) const
-{
-  double wl = wavelen / 1000.0;
+		double
+		Conrady::get_measurement_index (double wavelen) const
+		{
+			double wl = wavelen / 1000.0;
+			return _a + _b / wl + _c / pow (wl, 3.5);
+		}
 
-  return _a + _b / wl + _c / pow (wl, 3.5);
-}
-
-}
+	}
 
 }

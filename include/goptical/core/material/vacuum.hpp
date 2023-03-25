@@ -32,41 +32,41 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Vacuum optical material model
-   @header <goptical/core/material/Vacuum
-   @module {Core}
-   @main
+		/**
+		   @short Vacuum optical material model
+		   @header <goptical/core/material/Vacuum
+		   @module {Core}
+		   @main
 
-   This class models optical properties of vacuum.
-   A global variable @ref vacuum is available.
-*/
+		   This class models optical properties of vacuum.
+		   A global variable @ref vacuum is available.
+		*/
 
-class Vacuum : public Base
-{
-public:
-  Vacuum ();
+		class Vacuum : public Base
+		{
+			public:
+				Vacuum ();
 
-  /** @override */
-  bool is_opaque () const;
-  /** @override */
-  bool is_reflecting () const;
+				/** @override */
+				bool is_opaque () const;
+				/** @override */
+				bool is_reflecting () const;
 
-  /** @override */
-  double get_internal_transmittance (double wavelen, double thickness) const;
-  /** @override */
-  double get_refractive_index (double wavelen) const;
-  /** @override */
-  double get_extinction_coef (double wavelen) const;
-};
+				/** @override */
+				double get_internal_transmittance (double wavelen, double thickness) const;
+				/** @override */
+				double get_refractive_index (double wavelen) const;
+				/** @override */
+				double get_extinction_coef (double wavelen) const;
+		};
 
-/** A global instance of material::Vacuum material. */
-extern Vacuum vacuum;
+		/** A global instance of material::Vacuum material. */
+		extern Vacuum vacuum;
 
-}
+	}
 }
 
 #endif

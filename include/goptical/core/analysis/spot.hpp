@@ -36,138 +36,134 @@
 namespace goptical
 {
 
-namespace analysis
-{
+	namespace analysis
+	{
 
-/**
-   @short Spot diagram analysis
-   @header <goptical/core/analysis/Spot
-   @module {Core}
-   @main
+		/**
+		   @short Spot diagram analysis
+		   @header <goptical/core/analysis/Spot
+		   @module {Core}
+		   @main
 
-   This class is designed to plot spot diagram and perform
-   related analysis.
+		   This class is designed to plot spot diagram and perform
+		   related analysis.
 
-   @xsee {tuto_spot1, tuto_spot2}
-*/
-class Spot : public PointImage
-{
-public:
-  Spot (std::shared_ptr<sys::System> &system);
+		   @xsee {tuto_spot1, tuto_spot2}
+		*/
+		class Spot : public PointImage
+		{
+			public:
+				Spot (std::shared_ptr<sys::System> &system);
 
-  inline void invalidate ();
+				inline void invalidate ();
 
-  /** Get spot maximum radius */
-  inline double get_max_radius ();
+				/** Get spot maximum radius */
+				inline double get_max_radius ();
 
-  /** Get spot root mean square radius */
-  inline double get_rms_radius ();
+				/** Get spot root mean square radius */
+				inline double get_rms_radius ();
 
-  /** Get amount of light intensity in the whole spot */
-  inline double get_total_intensity ();
+				/** Get amount of light intensity in the whole spot */
+				inline double get_total_intensity ();
 
-  /** Get spot centroid */
-  inline const math::Vector3 &get_centroid ();
+				/** Get spot centroid */
+				inline const math::Vector3 &get_centroid ();
 
-  /** Get spot window center */
-  math::Vector3 get_center ();
+				/** Get spot window center */
+				math::Vector3 get_center ();
 
-  /** Get amount of light intensity which falls in given radius from spot
-   * center */
-  double get_encircled_intensity (double radius);
+				/** Get amount of light intensity which falls in given radius from spot
+				 * center */
+				double get_encircled_intensity (double radius);
 
-  /** Get encircled energy plot */
-  std::shared_ptr<data::Plot> get_encircled_intensity_plot (int zones = 100);
+				/** Get encircled energy plot */
+				std::shared_ptr<data::Plot> get_encircled_intensity_plot (int zones = 100);
 
-  /** Set radius used for diagram drawing and encircled
-      plots. Updated with spot max radius on ray trace */
-  inline void set_useful_radius (double radius);
+				/** Set radius used for diagram drawing and encircled
+				    plots. Updated with spot max radius on ray trace */
+				inline void set_useful_radius (double radius);
 
-  /** draw the rays intersection points only */
-  void draw_spot (io::RendererViewport &renderer);
-  /** draw the spot diagram */
-  void draw_diagram (io::RendererViewport &renderer,
-                     bool centroid_origin = true);
+				/** draw the rays intersection points only */
+				void draw_spot (io::RendererViewport &renderer);
+				/** draw the spot diagram */
+				void draw_diagram (io::RendererViewport &renderer,
+				                   bool centroid_origin = true);
 
-  /** Get a reference to axes object rendered with spot
-      diagram. @ref io::RendererAxes coordinates are updated on
-      ray trace. */
-  inline io::RendererAxes &get_diagram_axes ();
+				/** Get a reference to axes object rendered with spot
+				    diagram. @ref io::RendererAxes coordinates are updated on
+				    ray trace. */
+				inline io::RendererAxes &get_diagram_axes ();
 
-private:
-  void process_trace ();
-  void process_analysis ();
+			private:
+				void process_trace ();
+				void process_analysis ();
 
-  math::Vector3 _centroid;
+				math::Vector3 _centroid;
 
-  bool _processed_analysis;
-  double _max_radius;
-  double _rms_radius;
-  double _tot_intensity;
-  double _useful_radius;
+				bool _processed_analysis;
+				double _max_radius;
+				double _rms_radius;
+				double _tot_intensity;
+				double _useful_radius;
 
-  io::RendererAxes _axes;
-};
+				io::RendererAxes _axes;
+		};
 
-void
-Spot::invalidate ()
-{
-  _processed_trace = false;
-  _processed_analysis = false;
-}
+		void
+		Spot::invalidate ()
+		{
+			_processed_trace = false;
+			_processed_analysis = false;
+		}
 
-double
-Spot::get_max_radius ()
-{
-  process_analysis ();
+		double
+		Spot::get_max_radius ()
+		{
+			process_analysis ();
+			return _max_radius;
+		}
 
-  return _max_radius;
-}
+		double
+		Spot::get_rms_radius ()
+		{
+			process_analysis ();
+			return _rms_radius;
+		}
 
-double
-Spot::get_rms_radius ()
-{
-  process_analysis ();
+		double
+		Spot::get_total_intensity ()
+		{
+			process_analysis ();
+			return _tot_intensity;
+		}
 
-  return _rms_radius;
-}
+		const math::Vector3 &
+		Spot::get_centroid ()
+		{
+			process_analysis ();
+			return _centroid;
+		}
 
-double
-Spot::get_total_intensity ()
-{
-  process_analysis ();
+		void
+		Spot::set_useful_radius (double radius)
+		{
+			_useful_radius = radius;
+		}
 
-  return _tot_intensity;
-}
+		io::RendererAxes &
+		Spot::get_diagram_axes ()
+		{
+			return _axes;
+		}
 
-const math::Vector3 &
-Spot::get_centroid ()
-{
-  process_analysis ();
-
-  return _centroid;
-}
-
-void
-Spot::set_useful_radius (double radius)
-{
-  _useful_radius = radius;
-}
-
-io::RendererAxes &
-Spot::get_diagram_axes ()
-{
-  return _axes;
-}
-
-}
+	}
 }
 
 namespace goptical
 {
-namespace analysis
-{
-using goptical::analysis::Spot;
-}
+	namespace analysis
+	{
+		using goptical::analysis::Spot;
+	}
 }
 #endif

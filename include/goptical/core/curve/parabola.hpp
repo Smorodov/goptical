@@ -32,30 +32,30 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-/**
-   @short Parabola curve model
-   @header <goptical/core/curve/Parabola
-   @module {Core}
-   @main
+		/**
+		   @short Parabola curve model
+		   @header <goptical/core/curve/Parabola
+		   @module {Core}
+		   @main
 
-   This class provides an efficient parabola curve implementation.
- */
-class Parabola : public ConicBase
-{
-public:
-  /** Creates a parabola curve with given radius of curvature */
-  Parabola (double roc);
+		   This class provides an efficient parabola curve implementation.
+		 */
+		class Parabola : public ConicBase
+		{
+			public:
+				/** Creates a parabola curve with given radius of curvature */
+				Parabola (double roc);
 
-  bool intersect (math::Vector3 &point, const math::VectorPair3 &ray) const;
+				bool intersect (math::Vector3 &point, const math::VectorPair3 &ray) const;
 
-  double sagitta (double r) const;
-  double derivative (double r) const;
-};
+				double sagitta (double r) const;
+				double derivative (double r) const;
+		};
 
-}
+	}
 }
 
 #endif

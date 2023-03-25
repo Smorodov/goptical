@@ -30,43 +30,43 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-/**
-   @short Base class for curves with a radius of curvature
-   @header <goptical/core/curve/curveRoc
-   @module {Core}
- */
-class curveRoc
-{
-public:
-  /** Set the radius of curvature */
-  inline void set_roc (double roc);
+		/**
+		   @short Base class for curves with a radius of curvature
+		   @header <goptical/core/curve/curveRoc
+		   @module {Core}
+		 */
+		class curveRoc
+		{
+			public:
+				/** Set the radius of curvature */
+				inline void set_roc (double roc);
 
-  /** Get the radius of curvature */
-  inline double get_roc () const;
+				/** Get the radius of curvature */
+				inline double get_roc () const;
 
-protected:
-  inline curveRoc (double roc);
+			protected:
+				inline curveRoc (double roc);
 
-  double _roc;
-};
+				double _roc;
+		};
 
-curveRoc::curveRoc (double roc) : _roc (roc) {}
+		curveRoc::curveRoc (double roc) : _roc (roc) {}
 
-void
-curveRoc::set_roc (double roc)
-{
-  _roc = roc;
-}
+		void
+		curveRoc::set_roc (double roc)
+		{
+			_roc = roc;
+		}
 
-double
-curveRoc::get_roc () const
-{
-  return _roc;
-}
-}
+		double
+		curveRoc::get_roc () const
+		{
+			return _roc;
+		}
+	}
 }
 
 #endif

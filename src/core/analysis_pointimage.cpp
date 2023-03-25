@@ -35,48 +35,48 @@
 namespace goptical
 {
 
-namespace analysis
-{
-PointImage::PointImage (std::shared_ptr<sys::System> &system)
-    : _system (system), _tracer (system.get ()), _processed_trace (false),
-      _image (0), _intercepts (0)
-{
-  _tracer.get_params ().get_default_distribution ().set_uniform_pattern ();
-}
+	namespace analysis
+	{
+		PointImage::PointImage (std::shared_ptr<sys::System> &system)
+			: _system (system), _tracer (system.get ()), _processed_trace (false),
+			  _image (0), _intercepts (0)
+		{
+			_tracer.get_params ().get_default_distribution ().set_uniform_pattern ();
+		}
 
-PointImage::~PointImage () {}
+		PointImage::~PointImage () {}
 
-void
-PointImage::get_default_image ()
-{
-  if (!_image)
-    _image = _system->find<sys::Image> ();
+		void
+		PointImage::get_default_image ()
+		{
+			if (!_image)
+			{
+				_image = _system->find<sys::Image> ();
+			}
+			if (!_image)
+			{
+				throw Error ("no image found for analysis");
+			}
+		}
 
-  if (!_image)
-    throw Error ("no image found for analysis");
-}
+		void
+		PointImage::trace ()
+		{
+			if (_processed_trace)
+			{
+				return;
+			}
+			trace::Result &result = _tracer.get_trace_result ();
+			get_default_image ();
+			result.set_intercepted_save_state (*_image, true);
+			_tracer.trace ();
+			//      if (_sys_system.has_exit_pupil())
+			//        result.discard_intercepts_not_from(*_image,
+			//        _system.get_exit_pupil());
+			_intercepts = &result.get_intercepted (*_image);
+			_processed_trace = true;
+		}
 
-void
-PointImage::trace ()
-{
-  if (_processed_trace)
-    return;
-
-  trace::Result &result = _tracer.get_trace_result ();
-
-  get_default_image ();
-  result.set_intercepted_save_state (*_image, true);
-  _tracer.trace ();
-
-  //      if (_sys_system.has_exit_pupil())
-  //        result.discard_intercepts_not_from(*_image,
-  //        _system.get_exit_pupil());
-
-  _intercepts = &result.get_intercepted (*_image);
-
-  _processed_trace = true;
-}
-
-}
+	}
 
 }

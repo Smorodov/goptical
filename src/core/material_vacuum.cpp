@@ -27,42 +27,42 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-Vacuum::Vacuum () {}
+		Vacuum::Vacuum () {}
 
-bool
-Vacuum::is_opaque () const
-{
-  return false;
-}
+		bool
+		Vacuum::is_opaque () const
+		{
+			return false;
+		}
 
-bool
-Vacuum::is_reflecting () const
-{
-  return false;
-}
+		bool
+		Vacuum::is_reflecting () const
+		{
+			return false;
+		}
 
-double
-Vacuum::get_internal_transmittance (double wavelen, double thickness) const
-{
-  return 1.0;
-}
+		double
+		Vacuum::get_internal_transmittance (double wavelen, double thickness) const
+		{
+			return 1.0;
+		}
 
-double
-Vacuum::get_extinction_coef (double wavelen) const
-{
-  return 0.0;
-}
+		double
+		Vacuum::get_extinction_coef (double wavelen) const
+		{
+			return 0.0;
+		}
 
-double
-Vacuum::get_refractive_index (double wavelen) const
-{
-  return 1.0;
-}
+		double
+		Vacuum::get_refractive_index (double wavelen) const
+		{
+			return 1.0;
+		}
 
-Vacuum vacuum;
-}
+		Vacuum vacuum;
+	}
 
 }

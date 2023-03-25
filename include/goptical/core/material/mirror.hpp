@@ -32,41 +32,41 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Simple mirror optical material model.
-   @header <goptical/core/material/Mirror
-   @module {Core}
-   @main
+		/**
+		   @short Simple mirror optical material model.
+		   @header <goptical/core/material/Mirror
+		   @module {Core}
+		   @main
 
-   This class models optical properties of a perfect reflecting material.
+		   This class models optical properties of a perfect reflecting material.
 
-   A global @ref mirror variable is available.
- */
+		   A global @ref mirror variable is available.
+		 */
 
-class Mirror : public Base
-{
-public:
-  Mirror ();
+		class Mirror : public Base
+		{
+			public:
+				Mirror ();
 
-  /** @override */
-  bool is_opaque () const;
-  /** @override */
-  bool is_reflecting () const;
-  /** @override */
-  double get_internal_transmittance (double wavelen, double thickness) const;
-  /** @override */
-  double get_refractive_index (double wavelen) const;
-  /** @override */
-  double get_extinction_coef (double wavelen) const;
-};
+				/** @override */
+				bool is_opaque () const;
+				/** @override */
+				bool is_reflecting () const;
+				/** @override */
+				double get_internal_transmittance (double wavelen, double thickness) const;
+				/** @override */
+				double get_refractive_index (double wavelen) const;
+				/** @override */
+				double get_extinction_coef (double wavelen) const;
+		};
 
-/** A global instance of material::Mirror material. */
-extern std::shared_ptr<Mirror> mirror;
+		/** A global instance of material::Mirror material. */
+		extern std::shared_ptr<Mirror> mirror;
 
-}
+	}
 }
 
 #endif

@@ -33,79 +33,78 @@
 namespace goptical
 {
 
-namespace io
-{
+	namespace io
+	{
 
-/**
-   @short Base class for 2d rendering drivers
-   @header <goptical/core/io/Renderer2d
-   @module {Core}
-   @internal
+		/**
+		   @short Base class for 2d rendering drivers
+		   @header <goptical/core/io/Renderer2d
+		   @module {Core}
+		   @internal
 
-   This class provide default implementations for 3d projection
-   and 3d drawing primitives. It's designed to be used as a base
-   class for 2d only renderers so that they can perform 3d
-   rendering too.
- */
+		   This class provide default implementations for 3d projection
+		   and 3d drawing primitives. It's designed to be used as a base
+		   class for 2d only renderers so that they can perform 3d
+		   rendering too.
+		 */
 
-class Renderer2d : public RendererViewport
-{
-protected:
-  Renderer2d ();
+		class Renderer2d : public RendererViewport
+		{
+			protected:
+				Renderer2d ();
 
-  using Renderer::draw_point;
-  using Renderer::draw_segment;
-  using Renderer::draw_text;
+				using Renderer::draw_point;
+				using Renderer::draw_segment;
+				using Renderer::draw_text;
 
-  /** project in 2d space and scale for ploting to 2d output */
-  inline math::Vector2 project_scale (const math::Vector3 &v);
+				/** project in 2d space and scale for ploting to 2d output */
+				inline math::Vector2 project_scale (const math::Vector3 &v);
 
-  /** project in 2d space */
-  inline math::Vector2 project (const math::Vector3 &v);
+				/** project in 2d space */
+				inline math::Vector2 project (const math::Vector3 &v);
 
-  /** @override */
-  void set_perspective ();
-  /** @override */
-  void set_orthographic ();
-  /** @override */
-  math::Transform<3> get_camera_transform () const;
-  /** @override */
-  void set_camera_transform (const math::Transform<3> &t);
+				/** @override */
+				void set_perspective ();
+				/** @override */
+				void set_orthographic ();
+				/** @override */
+				math::Transform<3> get_camera_transform () const;
+				/** @override */
+				void set_camera_transform (const math::Transform<3> &t);
 
-  /** @override */
-  void draw_point (const math::Vector3 &p, const Rgb &rgb, enum PointStyle s);
-  /** @override */
-  void draw_segment (const math::VectorPair3 &l, const Rgb &rgb);
-  /** @override */
-  void draw_text (const math::Vector3 &pos, const math::Vector3 &dir,
-                  const std::string &str, TextAlignMask a, int size,
-                  const Rgb &rgb);
+				/** @override */
+				void draw_point (const math::Vector3 &p, const Rgb &rgb, enum PointStyle s);
+				/** @override */
+				void draw_segment (const math::VectorPair3 &l, const Rgb &rgb);
+				/** @override */
+				void draw_text (const math::Vector3 &pos, const math::Vector3 &dir,
+				                const std::string &str, TextAlignMask a, int size,
+				                const Rgb &rgb);
 
-private:
-  math::Vector2 projection_ortho (const math::Vector3 &v) const;
-  math::Vector2 projection_perspective (const math::Vector3 &v) const;
+			private:
+				math::Vector2 projection_ortho (const math::Vector3 &v) const;
+				math::Vector2 projection_perspective (const math::Vector3 &v) const;
 
-  math::Vector2 (Renderer2d::*_projection) (const math::Vector3 &v) const;
+				math::Vector2 (Renderer2d::*_projection) (const math::Vector3 &v) const;
 
-  math::Transform<3> _cam_transform;
-  double _eye_dist;
-};
+				math::Transform<3> _cam_transform;
+				double _eye_dist;
+		};
 
-math::Vector2
-Renderer2d::project_scale (const math::Vector3 &v)
-{
-  math::Vector2 v2d (project (v));
+		math::Vector2
+		Renderer2d::project_scale (const math::Vector3 &v)
+		{
+			math::Vector2 v2d (project (v));
+			return math::Vector2 (x_trans_pos (v2d.x ()), y_trans_pos (v2d.y ()));
+		}
 
-  return math::Vector2 (x_trans_pos (v2d.x ()), y_trans_pos (v2d.y ()));
-}
+		math::Vector2
+		Renderer2d::project (const math::Vector3 &v)
+		{
+			return (this->*_projection) (v);
+		}
 
-math::Vector2
-Renderer2d::project (const math::Vector3 &v)
-{
-  return (this->*_projection) (v);
-}
-
-}
+	}
 }
 
 #endif

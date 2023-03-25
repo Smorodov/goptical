@@ -28,42 +28,39 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-template <enum SellmeierModFormula m> SellmeierMod<m>::SellmeierMod () {}
+		template <enum SellmeierModFormula m> SellmeierMod<m>::SellmeierMod () {}
 
-template <enum SellmeierModFormula m>
-SellmeierMod<m>::SellmeierMod (double A, double B, double C, double D,
-                               double E)
-    : _a (A), _b (B), _c (C), _d (D), _e (E)
-{
-}
+		template <enum SellmeierModFormula m>
+		SellmeierMod<m>::SellmeierMod (double A, double B, double C, double D,
+		                               double E)
+			: _a (A), _b (B), _c (C), _d (D), _e (E)
+		{
+		}
 
-template <enum SellmeierModFormula m>
-double
-SellmeierMod<m>::get_measurement_index (double wavelen) const
-{
-  double w2 = math::square (wavelen / 1000.0);
+		template <enum SellmeierModFormula m>
+		double
+		SellmeierMod<m>::get_measurement_index (double wavelen) const
+		{
+			double w2 = math::square (wavelen / 1000.0);
+			switch (m)
+			{
+				case SellmeierMod2Formula:
+					return sqrt (_a + (_b * w2) / (w2 - math::square (_c))
+					             + _d / (w2 - math::square (_e)));
+				case Handbook1Formula:
+					return sqrt (_a + (_b * w2) + _c / (w2 - _d));
+				case Handbook2Formula:
+					return sqrt (_a + (_b * w2) + (_c * w2) / (w2 - _d));
+			}
+		}
 
-  switch (m)
-    {
-    case SellmeierMod2Formula:
-      return sqrt (_a + (_b * w2) / (w2 - math::square (_c))
-                   + _d / (w2 - math::square (_e)));
+		template class SellmeierMod<SellmeierMod2Formula>;
+		template class SellmeierMod<Handbook1Formula>;
+		template class SellmeierMod<Handbook2Formula>;
 
-    case Handbook1Formula:
-      return sqrt (_a + (_b * w2) + _c / (w2 - _d));
-
-    case Handbook2Formula:
-      return sqrt (_a + (_b * w2) + (_c * w2) / (w2 - _d));
-    }
-}
-
-template class SellmeierMod<SellmeierMod2Formula>;
-template class SellmeierMod<Handbook1Formula>;
-template class SellmeierMod<Handbook2Formula>;
-
-}
+	}
 
 }

@@ -38,156 +38,157 @@
 namespace goptical
 {
 
-namespace data
-{
+	namespace data
+	{
 
-Plot::Plot () : _title (), _plots (), _axes (), _xy_swap (false) {}
+		Plot::Plot () : _title (), _plots (), _axes (), _xy_swap (false) {}
 
-void
-Plot::set_title (const std::string &title)
-{
-  _title = title;
-}
+		void
+		Plot::set_title (const std::string &title)
+		{
+			_title = title;
+		}
 
-Plotdata &
-Plot::add_plot_data (const std::shared_ptr<Set> &data, const io::Rgb &color,
-                     const std::string &label, PlotStyleMask style)
-{
-  _plots.push_back (Plotdata (data));
+		Plotdata &
+		Plot::add_plot_data (const std::shared_ptr<Set> &data, const io::Rgb &color,
+		                     const std::string &label, PlotStyleMask style)
+		{
+			_plots.push_back (Plotdata (data));
+			_plots.back ().set_color (color);
+			_plots.back ().set_label (label);
+			_plots.back ().set_style (style);
+			return _plots.back ();
+		}
 
-  _plots.back ().set_color (color);
-  _plots.back ().set_label (label);
-  _plots.back ().set_style (style);
+		void
+		Plot::add_plot_data (Plotdata &data)
+		{
+			_plots.push_back (data);
+		}
 
-  return _plots.back ();
-}
+		void
+		Plot::erase_plot_data ()
+		{
+			_plots.clear ();
+		}
 
-void
-Plot::add_plot_data (Plotdata &data)
-{
-  _plots.push_back (data);
-}
+		math::range_t
+		Plot::get_x_data_range (unsigned int dimension) const
+		{
+			math::range_t r (std::numeric_limits<double>::max (),
+			                 std::numeric_limits<double>::min ());
+for (auto &i : _plots)
+			{
+				math::range_t ri = i.get_set ().get_x_range (dimension);
+				if (ri.first < r.first)
+				{
+					r.first = ri.first;
+				}
+				if (ri.second > r.second)
+				{
+					r.second = ri.second;
+				}
+			}
+			return r;
+		}
 
-void
-Plot::erase_plot_data ()
-{
-  _plots.clear ();
-}
+		math::range_t
+		Plot::get_y_data_range () const
+		{
+			math::range_t r (std::numeric_limits<double>::max (),
+			                 std::numeric_limits<double>::min ());
+for (auto &i : _plots)
+			{
+				math::range_t ri = i.get_set ().get_y_range ();
+				if (ri.first < r.first)
+				{
+					r.first = ri.first;
+				}
+				if (ri.second > r.second)
+				{
+					r.second = ri.second;
+				}
+			}
+			return r;
+		}
 
-math::range_t
-Plot::get_x_data_range (unsigned int dimension) const
-{
-  math::range_t r (std::numeric_limits<double>::max (),
-                   std::numeric_limits<double>::min ());
+		unsigned int
+		Plot::get_dimensions () const
+		{
+			unsigned int dimension = 0;
+for (auto &i : _plots)
+			{
+				unsigned int d = i.get_set ().get_dimensions ();
+				if (dimension == 0)
+				{
+					dimension = d;
+				}
+				else if (dimension != d)
+				{
+					return 0;
+				}
+			}
+			return dimension;
+		}
 
-  for (auto &i : _plots)
-    {
-      math::range_t ri = i.get_set ().get_x_range (dimension);
+		void
+		Plot::set_color (const io::Rgb &color)
+		{
+for (auto &i : _plots)
+			{
+				i.set_color (color);
+			}
+		}
 
-      if (ri.first < r.first)
-        r.first = ri.first;
+		void
+		Plot::set_different_colors ()
+		{
+			io::Rgb color;
+			unsigned int n = 1;
+for (auto &i : _plots)
+			{
+				color.r = (double)((n >> 0) & 0x01);
+				color.g = (double)((n >> 1) & 0x01);
+				color.b = (double)((n >> 2) & 0x01);
+				i.set_color (color);
+				n++;
+			}
+		}
 
-      if (ri.second > r.second)
-        r.second = ri.second;
-    }
+		void
+		Plot::set_style (PlotStyleMask style)
+		{
+for (auto &i : _plots)
+			{
+				i.set_style (style);
+			}
+		}
 
-  return r;
-}
+		void
+		Plot::fit_axes_range ()
+		{
+			switch (get_dimensions ())
+			{
+				case 1:
+					_axes.set_range (get_x_data_range (0), io::RendererAxes::X);
+					_axes.set_range (get_y_data_range (), io::RendererAxes::Y);
+					break;
+				case 2:
+					_axes.set_range (get_x_data_range (0), io::RendererAxes::X);
+					_axes.set_range (get_x_data_range (1), io::RendererAxes::Y);
+					_axes.set_range (get_y_data_range (), io::RendererAxes::Z);
+					break;
+				default:
+					throw Error ("inconsistent dimensions of data sets in plot");
+			}
+		}
 
-math::range_t
-Plot::get_y_data_range () const
-{
-  math::range_t r (std::numeric_limits<double>::max (),
-                   std::numeric_limits<double>::min ());
+		void
+		Plot::draw (io::RendererViewport &r)
+		{
+			r.draw_plot (*this);
+		}
 
-  for (auto &i : _plots)
-    {
-      math::range_t ri = i.get_set ().get_y_range ();
-
-      if (ri.first < r.first)
-        r.first = ri.first;
-
-      if (ri.second > r.second)
-        r.second = ri.second;
-    }
-
-  return r;
-}
-
-unsigned int
-Plot::get_dimensions () const
-{
-  unsigned int dimension = 0;
-
-  for (auto &i : _plots)
-    {
-      unsigned int d = i.get_set ().get_dimensions ();
-
-      if (dimension == 0)
-        dimension = d;
-      else if (dimension != d)
-        return 0;
-    }
-
-  return dimension;
-}
-
-void
-Plot::set_color (const io::Rgb &color)
-{
-  for (auto &i : _plots)
-    i.set_color (color);
-}
-
-void
-Plot::set_different_colors ()
-{
-  io::Rgb color;
-  unsigned int n = 1;
-
-  for (auto &i : _plots)
-    {
-      color.r = (double)((n >> 0) & 0x01);
-      color.g = (double)((n >> 1) & 0x01);
-      color.b = (double)((n >> 2) & 0x01);
-
-      i.set_color (color);
-      n++;
-    }
-}
-
-void
-Plot::set_style (PlotStyleMask style)
-{
-  for (auto &i : _plots)
-    i.set_style (style);
-}
-
-void
-Plot::fit_axes_range ()
-{
-  switch (get_dimensions ())
-    {
-    case 1:
-      _axes.set_range (get_x_data_range (0), io::RendererAxes::X);
-      _axes.set_range (get_y_data_range (), io::RendererAxes::Y);
-      break;
-    case 2:
-      _axes.set_range (get_x_data_range (0), io::RendererAxes::X);
-      _axes.set_range (get_x_data_range (1), io::RendererAxes::Y);
-      _axes.set_range (get_y_data_range (), io::RendererAxes::Z);
-      break;
-    default:
-      throw Error ("inconsistent dimensions of data sets in plot");
-    }
-}
-
-void
-Plot::draw (io::RendererViewport &r)
-{
-  r.draw_plot (*this);
-}
-
-}
+	}
 
 }

@@ -30,100 +30,106 @@
 namespace goptical
 {
 
-namespace data
-{
+	namespace data
+	{
 
-SampleSetBase::SampleSetBase () : Set1d (), _origin (0), _step (1.0), _data ()
-{
-}
+		SampleSetBase::SampleSetBase () : Set1d (), _origin (0), _step (1.0), _data ()
+		{
+		}
 
-SampleSetBase::~SampleSetBase () {}
+		SampleSetBase::~SampleSetBase () {}
 
-math::range_t
-SampleSetBase::get_x_range () const
-{
-  if (_data.empty ())
-    throw Error ("data set contains no data");
+		math::range_t
+		SampleSetBase::get_x_range () const
+		{
+			if (_data.empty ())
+			{
+				throw Error ("data set contains no data");
+			}
+			return math::range_t (_origin, _origin + _step * (_data.size () - 1));
+		}
 
-  return math::range_t (_origin, _origin + _step * (_data.size () - 1));
-}
+		inline unsigned int
+		SampleSetBase::get_interval (double x) const
+		{
+			int n = (int)floor ((x - _origin) / _step);
+			if (n < 0)
+			{
+				return 0;
+			}
+			else if (n >= (int)_data.size ())
+			{
+				return _data.size ();
+			}
+			else
+			{
+				return n + 1;
+			}
+		}
 
-inline unsigned int
-SampleSetBase::get_interval (double x) const
-{
-  int n = (int)floor ((x - _origin) / _step);
+		inline unsigned int
+		SampleSetBase::get_nearest (double x) const
+		{
+			int n = (int)round ((x - _origin) / _step);
+			if (n < 0)
+			{
+				return 0;
+			}
+			else if (n >= (int)_data.size ())
+			{
+				return _data.size () - 1;
+			}
+			else
+			{
+				return n;
+			}
+		}
 
-  if (n < 0)
-    return 0;
-  else if (n >= (int)_data.size ())
-    return _data.size ();
-  else
-    return n + 1;
-}
+		void
+		SampleSetBase::set_value (unsigned int x, double y, double d)
+		{
+			struct entry_s ze = { 0.0, 0.0 };
+			if (x >= _data.size ())
+			{
+				_data.resize (x + 1, ze);
+			}
+			struct entry_s e = { y, d };
+			_data[x] = e;
+			invalidate ();
+		}
 
-inline unsigned int
-SampleSetBase::get_nearest (double x) const
-{
-  int n = (int)round ((x - _origin) / _step);
+		void
+		SampleSetBase::set_value_near (double x, double y, double d)
+		{
+			assert (x >= _origin);
+			struct entry_s ze = { 0.0, 0.0 };
+			int n = (int)round ((x - _origin) / _step);
+			if (n >= (int)_data.size ())
+			{
+				_data.resize (n + 1, ze);
+			}
+			struct entry_s e = { y, d };
+			_data[n] = e;
+			invalidate ();
+		}
 
-  if (n < 0)
-    return 0;
-  else if (n >= (int)_data.size ())
-    return _data.size () - 1;
-  else
-    return n;
-}
+		void
+		SampleSetBase::clear ()
+		{
+			_data.clear ();
+			invalidate ();
+		}
 
-void
-SampleSetBase::set_value (unsigned int x, double y, double d)
-{
-  struct entry_s ze = { 0.0, 0.0 };
+		void
+		SampleSetBase::resize (unsigned int n)
+		{
+			struct entry_s ze = { 0.0, 0.0 };
+			_data.resize (n, ze);
+			invalidate ();
+		}
 
-  if (x >= _data.size ())
-    _data.resize (x + 1, ze);
+		template class Interpolate1d<SampleSetBase>;
 
-  struct entry_s e = { y, d };
-
-  _data[x] = e;
-  invalidate ();
-}
-
-void
-SampleSetBase::set_value_near (double x, double y, double d)
-{
-  assert (x >= _origin);
-
-  struct entry_s ze = { 0.0, 0.0 };
-
-  int n = (int)round ((x - _origin) / _step);
-
-  if (n >= (int)_data.size ())
-    _data.resize (n + 1, ze);
-
-  struct entry_s e = { y, d };
-
-  _data[n] = e;
-  invalidate ();
-}
-
-void
-SampleSetBase::clear ()
-{
-  _data.clear ();
-  invalidate ();
-}
-
-void
-SampleSetBase::resize (unsigned int n)
-{
-  struct entry_s ze = { 0.0, 0.0 };
-
-  _data.resize (n, ze);
-  invalidate ();
-}
-
-template class Interpolate1d<SampleSetBase>;
-
-}
+	}
 
 }

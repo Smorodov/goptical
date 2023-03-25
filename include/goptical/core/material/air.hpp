@@ -32,66 +32,66 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Air optical material model
-   @header <goptical/core/material/Air
-   @module {Core}
-   @main
+		/**
+		   @short Air optical material model
+		   @header <goptical/core/material/Air
+		   @module {Core}
+		   @main
 
-   This class models optical properties of air. Refractive index
-   of air depends on temperature and pressure.
+		   This class models optical properties of air. Refractive index
+		   of air depends on temperature and pressure.
 
-   This class provides different formulas:
-   @list
-     @item @ref AirBirch94 : described in "@em{Birch, Metrologia, 1994, 31,
-   315}".
-     @item @ref AirKohlrausch68 : described in "@em{F. Kohlrausch, Praktische
-   Physik, 1968, 1, 408}".
-   @end list
+		   This class provides different formulas:
+		   @list
+		     @item @ref AirBirch94 : described in "@em{Birch, Metrologia, 1994, 31,
+		   315}".
+		     @item @ref AirKohlrausch68 : described in "@em{F. Kohlrausch, Praktische
+		   Physik, 1968, 1, 408}".
+		   @end list
 
-   Global variables @ref air and @ref std_air are available with
-   default parameters and Birch model.
- */
+		   Global variables @ref air and @ref std_air are available with
+		   default parameters and Birch model.
+		 */
 
-template <enum AirFormula m = AirBirch94Formula> class Air : public Base
-{
-public:
-  /** Standard air pressure is 101325 @em Pa */
-  static const double std_pressure;
+		template <enum AirFormula m = AirBirch94Formula> class Air : public Base
+		{
+			public:
+				/** Standard air pressure is 101325 @em Pa */
+				static const double std_pressure;
 
-  /** Create a new air material model with 101325 Pa pressure. */
-  Air (double pressure = std_pressure);
+				/** Create a new air material model with 101325 Pa pressure. */
+				Air (double pressure = std_pressure);
 
-  /** @override */
-  bool is_opaque () const;
-  /** @override */
-  bool is_reflecting () const;
+				/** @override */
+				bool is_opaque () const;
+				/** @override */
+				bool is_reflecting () const;
 
-  /** @override */
-  double get_internal_transmittance (double wavelen, double thickness) const;
-  /** @override */
-  double get_refractive_index (double wavelen) const;
-  /** @override */
-  double get_extinction_coef (double wavelen) const;
+				/** @override */
+				double get_internal_transmittance (double wavelen, double thickness) const;
+				/** @override */
+				double get_refractive_index (double wavelen) const;
+				/** @override */
+				double get_extinction_coef (double wavelen) const;
 
-  GOPTICAL_ACCESSORS (double, pressure,
-                      "relative air pressure in @em Pa @see std_pressure")
+				GOPTICAL_ACCESSORS (double, pressure,
+				                    "relative air pressure in @em Pa @see std_pressure")
 
-private:
-  double _pressure;
-};
+			private:
+				double _pressure;
+		};
 
-/** A global read only instance of @ref AirBirch94 material with standard
- * parameters. */
-extern const std::shared_ptr<AirBirch94> std_air;
+		/** A global read only instance of @ref AirBirch94 material with standard
+		 * parameters. */
+		extern const std::shared_ptr<AirBirch94> std_air;
 
-/** A global instance of @ref AirBirch94 material. */
-extern std::shared_ptr<AirBirch94> air;
+		/** A global instance of @ref AirBirch94 material. */
+		extern std::shared_ptr<AirBirch94> air;
 
-}
+	}
 }
 
 #endif

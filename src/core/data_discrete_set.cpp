@@ -32,87 +32,90 @@
 namespace goptical
 {
 
-namespace data
-{
+	namespace data
+	{
 
-DiscreteSetBase::DiscreteSetBase () : Set1d (), _data () {}
+		DiscreteSetBase::DiscreteSetBase () : Set1d (), _data () {}
 
-DiscreteSetBase::~DiscreteSetBase () {}
+		DiscreteSetBase::~DiscreteSetBase () {}
 
-inline unsigned int
-DiscreteSetBase::get_interval (double x) const
-{
-  int min_idx = 0;
-  int max_idx = _data.size () + 1;
+		inline unsigned int
+		DiscreteSetBase::get_interval (double x) const
+		{
+			int min_idx = 0;
+			int max_idx = _data.size () + 1;
+			while (max_idx - min_idx > 1)
+			{
+				unsigned int p = (max_idx + min_idx) / 2;
+				if (x >= _data[p - 1].x)
+				{
+					min_idx = p;
+				}
+				else
+				{
+					max_idx = p;
+				}
+			}
+			return min_idx;
+		}
 
-  while (max_idx - min_idx > 1)
-    {
-      unsigned int p = (max_idx + min_idx) / 2;
+		inline unsigned int
+		DiscreteSetBase::get_nearest (double x) const
+		{
+			int min_idx = 0;
+			int max_idx = _data.size ();
+			while (max_idx - min_idx > 1)
+			{
+				unsigned int p = (max_idx + min_idx) / 2;
+				if (x + x >= _data[p - 1].x + _data[p].x)
+				{
+					min_idx = p;
+				}
+				else
+				{
+					max_idx = p;
+				}
+			}
+			return min_idx;
+		}
 
-      if (x >= _data[p - 1].x)
-        min_idx = p;
-      else
-        max_idx = p;
-    }
+		void
+		DiscreteSetBase::add_data (double x, double y, double d)
+		{
+			const struct entry_s e = { x, y, d };
+			_version++;
+			unsigned int di = get_interval (x);
+			if (di && (_data[di - 1].x == x))
+			{
+				_data[di - 1] = e;
+			}
+			else
+			{
+				_data.insert (_data.begin () + di, e);
+			}
+			invalidate ();
+		}
 
-  return min_idx;
-}
+		void
+		DiscreteSetBase::clear ()
+		{
+			_data.clear ();
+			_version++;
+			invalidate ();
+		}
 
-inline unsigned int
-DiscreteSetBase::get_nearest (double x) const
-{
-  int min_idx = 0;
-  int max_idx = _data.size ();
+		math::range_t
+		DiscreteSetBase::get_x_range () const
+		{
+			if (_data.empty ())
+			{
+				throw Error ("_data set contains no _data");
+			}
+			return math::range_t (_data.front ().x, _data.back ().x);
+		}
 
-  while (max_idx - min_idx > 1)
-    {
-      unsigned int p = (max_idx + min_idx) / 2;
+		template class Interpolate1d<DiscreteSetBase>;
 
-      if (x + x >= _data[p - 1].x + _data[p].x)
-        min_idx = p;
-      else
-        max_idx = p;
-    }
-
-  return min_idx;
-}
-
-void
-DiscreteSetBase::add_data (double x, double y, double d)
-{
-  const struct entry_s e = { x, y, d };
-
-  _version++;
-
-  unsigned int di = get_interval (x);
-
-  if (di && (_data[di - 1].x == x))
-    _data[di - 1] = e;
-  else
-    _data.insert (_data.begin () + di, e);
-
-  invalidate ();
-}
-
-void
-DiscreteSetBase::clear ()
-{
-  _data.clear ();
-  _version++;
-  invalidate ();
-}
-
-math::range_t
-DiscreteSetBase::get_x_range () const
-{
-  if (_data.empty ())
-    throw Error ("_data set contains no _data");
-
-  return math::range_t (_data.front ().x, _data.back ().x);
-}
-
-template class Interpolate1d<DiscreteSetBase>;
-
-}
+	}
 
 }

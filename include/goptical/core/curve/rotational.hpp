@@ -35,63 +35,63 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-/**
-   @short Base class for rotationally symmetric curves.
-   @header <goptical/core/curve/rotational.hpp>
-   @module {Core}
+		/**
+		   @short Base class for rotationally symmetric curves.
+		   @header <goptical/core/curve/rotational.hpp>
+		   @module {Core}
 
-   This class defines rotationally symmetric curve interface and
-   provide default implementation as generic non symmetric curve.
-   A derived curve need only implement the sagitta(double r) method.
-   In this case the derivatives will be computed numerically.
- */
-class Rotational : public Base
-{
-public:
-  Rotational ();
+		   This class defines rotationally symmetric curve interface and
+		   provide default implementation as generic non symmetric curve.
+		   A derived curve need only implement the sagitta(double r) method.
+		   In this case the derivatives will be computed numerically.
+		 */
+		class Rotational : public Base
+		{
+			public:
+				Rotational ();
 
-  /** Get normal to curve surface at specified point. */
-  virtual void normal (math::Vector3 &normal,
-                       const math::Vector3 &point) const;
+				/** Get normal to curve surface at specified point. */
+				virtual void normal (math::Vector3 &normal,
+				                     const math::Vector3 &point) const;
 
-  /** Get curve sagitta (z) at specified distance from origin.
-   *  A derived class need only implement this method, in which case
-   *  derivatives will be computed numerically. Derived classes may of course
-   *  provide analytic implementations of derivatives.
-   *
-   *  @param s distance from curve origin (0, 0), s = sqrt(x^2 + y^2).
-   */
-  virtual double sagitta (double s) const = 0;
+				/** Get curve sagitta (z) at specified distance from origin.
+				 *  A derived class need only implement this method, in which case
+				 *  derivatives will be computed numerically. Derived classes may of course
+				 *  provide analytic implementations of derivatives.
+				 *
+				 *  @param s distance from curve origin (0, 0), s = sqrt(x^2 + y^2).
+				 */
+				virtual double sagitta (double s) const = 0;
 
-  /** Get curve derivative dz/ds at specified distance from origin.
-      @param s distance from curve origin (0, 0), s = sqrt(x^2 + y^2).
-  */
-  virtual double derivative (double s) const;
+				/** Get curve derivative dz/ds at specified distance from origin.
+				    @param s distance from curve origin (0, 0), s = sqrt(x^2 + y^2).
+				*/
+				virtual double derivative (double s) const;
 
-  /** Get curve sagitta (z) at specified point */
-  virtual double sagitta (const math::Vector2 &xy) const;
+				/** Get curve sagitta (z) at specified point */
+				virtual double sagitta (const math::Vector2 &xy) const;
 
-  /** Get curve dz/dx and dx/dy partial derivatives (gradient) at specified
-   * point */
-  virtual void derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const;
+				/** Get curve dz/dx and dx/dy partial derivatives (gradient) at specified
+				 * point */
+				virtual void derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const;
 
-  // FIXME sample points
-  /** Get number of available sample points. Samples points may be
-      used by curve fitting algorithms and are choosen to avoid
-      using interpolated points. return 0 when not applicable. */
-  virtual unsigned int get_sample_count () const;
-  /** Get a sample point on curve. (0,0) is not included. */
-  virtual void get_sample (unsigned int index, double &r, double &z) const;
+				// FIXME sample points
+				/** Get number of available sample points. Samples points may be
+				    used by curve fitting algorithms and are choosen to avoid
+				    using interpolated points. return 0 when not applicable. */
+				virtual unsigned int get_sample_count () const;
+				/** Get a sample point on curve. (0,0) is not included. */
+				virtual void get_sample (unsigned int index, double &r, double &z) const;
 
-private:
-  static double gsl_func_sagitta (double x, void *params);
-  gsl_function gsl_func;
-};
+			private:
+				static double gsl_func_sagitta (double x, void *params);
+				gsl_function gsl_func;
+		};
 
-}
+	}
 }
 
 #endif

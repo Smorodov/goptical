@@ -30,50 +30,49 @@
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-Ellipse::Ellipse (double x_radius, double y_radius)
-{
-  set_radius (x_radius, y_radius);
-}
+		Ellipse::Ellipse (double x_radius, double y_radius)
+		{
+			set_radius (x_radius, y_radius);
+		}
 
-void
-EllipseBase::set_radius (double x_radius, double y_radius)
-{
-  _xr = x_radius;
-  _yr = y_radius;
-  _xy_ratio = x_radius / y_radius;
-  _e2 = math::square (sqrt (fabs (_xr * _xr - _yr * _yr))
-                      / std::max (_xr, _yr));
-}
+		void
+		EllipseBase::set_radius (double x_radius, double y_radius)
+		{
+			_xr = x_radius;
+			_yr = y_radius;
+			_xy_ratio = x_radius / y_radius;
+			_e2 = math::square (sqrt (fabs (_xr * _xr - _yr * _yr))
+			                    / std::max (_xr, _yr));
+		}
 
-bool
-EllipseBase::inside (const math::Vector2 &point) const
-{
-  return (math::square (point.x ()) + math::square (point.y () * _xy_ratio)
-          <= math::square (_xr));
-}
+		bool
+		EllipseBase::inside (const math::Vector2 &point) const
+		{
+			return (math::square (point.x ()) + math::square (point.y () * _xy_ratio)
+			        <= math::square (_xr));
+		}
 
-math::VectorPair2
-EllipseBase::get_bounding_box () const
-{
-  math::Vector2 hs (_xr, _yr);
+		math::VectorPair2
+		EllipseBase::get_bounding_box () const
+		{
+			math::Vector2 hs (_xr, _yr);
+			return math::VectorPair2 (-hs, hs);
+		}
 
-  return math::VectorPair2 (-hs, hs);
-}
+		double
+		EllipseBase::get_outter_radius (const math::Vector2 &dir) const
+		{
+			return _xr > _yr
+			       ? sqrt (math::square (_yr) / (1. - _e2 * math::square (dir.x ())))
+			       : sqrt (math::square (_xr)
+			               / (1. - _e2 * math::square (dir.y ())));
+		}
 
-double
-EllipseBase::get_outter_radius (const math::Vector2 &dir) const
-{
-  return _xr > _yr
-             ? sqrt (math::square (_yr) / (1. - _e2 * math::square (dir.x ())))
-             : sqrt (math::square (_xr)
-                     / (1. - _e2 * math::square (dir.y ())));
-}
+		template class Round<EllipseBase, false>;
 
-template class Round<EllipseBase, false>;
-
-}
+	}
 
 }

@@ -17,7 +17,6 @@ set(MODULE_SOURCES
         curve_rotational.cpp
         curve_sphere.cpp
         curve_spline.cpp
-        # curve_zernike.cpp
         data_discrete_set.cpp
         data_grid.cpp
         data_interpolate_1d_.hxx
@@ -27,19 +26,11 @@ set(MODULE_SOURCES
         data_set.cpp
         drand48.cpp
         io_import_bclaff.cpp
-        # io_import_oslo.cpp
-        # io_import_zemax.cpp
         io_renderer_2d.cpp
         io_renderer_axes.cpp
         io_renderer.cpp
-        # io_renderer_dxf.cpp
-        # io_renderer_gd.cpp
-        # io_renderer_opengl.cpp
-        # io_renderer_plplot.cpp
         io_renderer_svg.cpp
         io_renderer_viewport.cpp
-        # io_renderer_x11.cpp
-        # io_renderer_x3d.cpp
         io_rgb.cpp
         light_ray.cpp
         light_spectral_line.cpp

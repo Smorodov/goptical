@@ -30,32 +30,31 @@
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-bool
-DiskBase::inside (const math::Vector2 &point) const
-{
-  return (math::square (point.x ()) + math::square (point.y ())
-          <= math::square (_radius));
-}
+		bool
+		DiskBase::inside (const math::Vector2 &point) const
+		{
+			return (math::square (point.x ()) + math::square (point.y ())
+			        <= math::square (_radius));
+		}
 
-math::VectorPair2
-DiskBase::get_bounding_box () const
-{
-  math::Vector2 hs (_radius, _radius);
+		math::VectorPair2
+		DiskBase::get_bounding_box () const
+		{
+			math::Vector2 hs (_radius, _radius);
+			return math::VectorPair2 (-hs, hs);
+		}
 
-  return math::VectorPair2 (-hs, hs);
-}
+		double
+		DiskBase::get_outter_radius (const math::Vector2 &dir) const
+		{
+			return _radius;
+		}
 
-double
-DiskBase::get_outter_radius (const math::Vector2 &dir) const
-{
-  return _radius;
-}
+		template class Round<DiskBase, false>;
 
-template class Round<DiskBase, false>;
-
-}
+	}
 
 }

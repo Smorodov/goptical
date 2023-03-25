@@ -30,66 +30,63 @@
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-EllipticalRing::EllipticalRing (double x_radius, double y_radius,
-                                double x_hole_radius)
-{
-  set_radius (x_radius, y_radius, x_hole_radius);
-}
+		EllipticalRing::EllipticalRing (double x_radius, double y_radius,
+		                                double x_hole_radius)
+		{
+			set_radius (x_radius, y_radius, x_hole_radius);
+		}
 
-void
-EllipticalRingBase::set_radius (double x_radius, double y_radius,
-                                double x_hole_radius)
-{
-  assert (x_radius > x_hole_radius);
+		void
+		EllipticalRingBase::set_radius (double x_radius, double y_radius,
+		                                double x_hole_radius)
+		{
+			assert (x_radius > x_hole_radius);
+			_xr = x_radius;
+			_xhr = x_hole_radius;
+			_yr = y_radius;
+			_xy_ratio = x_radius / y_radius;
+			_e2 = math::square (sqrt (fabs (_xr * _xr - _yr * _yr))
+			                    / std::max (_xr, _yr));
+		}
 
-  _xr = x_radius;
-  _xhr = x_hole_radius;
-  _yr = y_radius;
-  _xy_ratio = x_radius / y_radius;
-  _e2 = math::square (sqrt (fabs (_xr * _xr - _yr * _yr))
-                      / std::max (_xr, _yr));
-}
+		bool
+		EllipticalRingBase::inside (const math::Vector2 &point) const
+		{
+			double d = sqrt (math::square (point.x ())
+			                 + math::square (point.y () * _xy_ratio));
+			return (d <= _xr && d >= _xhr);
+		}
 
-bool
-EllipticalRingBase::inside (const math::Vector2 &point) const
-{
-  double d = sqrt (math::square (point.x ())
-                   + math::square (point.y () * _xy_ratio));
+		math::VectorPair2
+		EllipticalRingBase::get_bounding_box () const
+		{
+			math::Vector2 hs (_xr, _yr);
+			return math::VectorPair2 (-hs, hs);
+		}
 
-  return (d <= _xr && d >= _xhr);
-}
+		double
+		EllipticalRingBase::get_outter_radius (const math::Vector2 &dir) const
+		{
+			return _xr > _yr
+			       ? sqrt (math::square (_yr) / (1. - _e2 * math::square (dir.x ())))
+			       : sqrt (math::square (_xr)
+			               / (1. - _e2 * math::square (dir.y ())));
+		}
 
-math::VectorPair2
-EllipticalRingBase::get_bounding_box () const
-{
-  math::Vector2 hs (_xr, _yr);
+		double
+		EllipticalRingBase::get_hole_radius (const math::Vector2 &dir) const
+		{
+			return _xr > _yr ? sqrt (math::square (_xhr / _xy_ratio)
+			                         / (1. - _e2 * math::square (dir.x ())))
+			       : sqrt (math::square (_xhr)
+			               / (1. - _e2 * math::square (dir.y ())));
+		}
 
-  return math::VectorPair2 (-hs, hs);
-}
+		template class Round<EllipticalRingBase, true>;
 
-double
-EllipticalRingBase::get_outter_radius (const math::Vector2 &dir) const
-{
-  return _xr > _yr
-             ? sqrt (math::square (_yr) / (1. - _e2 * math::square (dir.x ())))
-             : sqrt (math::square (_xr)
-                     / (1. - _e2 * math::square (dir.y ())));
-}
-
-double
-EllipticalRingBase::get_hole_radius (const math::Vector2 &dir) const
-{
-  return _xr > _yr ? sqrt (math::square (_xhr / _xy_ratio)
-                           / (1. - _e2 * math::square (dir.x ())))
-                   : sqrt (math::square (_xhr)
-                           / (1. - _e2 * math::square (dir.y ())));
-}
-
-template class Round<EllipticalRingBase, true>;
-
-}
+	}
 
 }

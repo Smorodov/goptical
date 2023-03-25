@@ -28,83 +28,77 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-Rotational::Rotational ()
-{
-  gsl_func.function = gsl_func_sagitta;
-  gsl_func.params = this;
-}
+		Rotational::Rotational ()
+		{
+			gsl_func.function = gsl_func_sagitta;
+			gsl_func.params = this;
+		}
 
-void
-Rotational::normal (math::Vector3 &normal, const math::Vector3 &point) const
-{
-  const double r
-      = sqrt (math::square (point.x ()) + math::square (point.y ()));
+		void
+		Rotational::normal (math::Vector3 &normal, const math::Vector3 &point) const
+		{
+			const double r
+			    = sqrt (math::square (point.x ()) + math::square (point.y ()));
+			if (r == 0)
+			{
+				normal = math::Vector3 (0, 0, -1);
+			}
+			else
+			{
+				const double p = derivative (r);
+				normal = math::Vector3 (point.x () * p / r, point.y () * p / r, -1.0);
+				normal.normalize (); // FIXME simplify ?
+			}
+		}
 
-  if (r == 0)
-    normal = math::Vector3 (0, 0, -1);
-  else
-    {
-      const double p = derivative (r);
+		double
+		Rotational::sagitta (const math::Vector2 &xy) const
+		{
+			return sagitta (xy.len ());
+		}
 
-      normal = math::Vector3 (point.x () * p / r, point.y () * p / r, -1.0);
-      normal.normalize (); // FIXME simplify ?
-    }
-}
+		void
+		Rotational::derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const
+		{
+			const double r = xy.len ();
+			if (r == 0)
+			{
+				dxdy.x () = dxdy.y () = 0.0;
+				return;
+			}
+			const double p = derivative (r);
+			dxdy = xy * (p / r);
+		}
 
-double
-Rotational::sagitta (const math::Vector2 &xy) const
-{
-  return sagitta (xy.len ());
-}
+		double
+		Rotational::gsl_func_sagitta (double x, void *params)
+		{
+			Rotational *c = static_cast<Rotational *> (params);
+			return c->sagitta (x);
+		}
 
-void
-Rotational::derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const
-{
-  const double r = xy.len ();
+		double
+		Rotational::derivative (double r) const
+		{
+			double result, abserr;
+			gsl_deriv_central (&gsl_func, r, 1e-4, &result, &abserr);
+			return result;
+		}
 
-  if (r == 0)
-    {
-      dxdy.x () = dxdy.y () = 0.0;
-      return;
-    }
+		unsigned int
+		Rotational::get_sample_count () const
+		{
+			return 0;
+		}
 
-  const double p = derivative (r);
+		void
+		Rotational::get_sample (unsigned int index, double &r, double &z) const
+		{
+		}
 
-  dxdy = xy * (p / r);
-}
-
-double
-Rotational::gsl_func_sagitta (double x, void *params)
-{
-  Rotational *c = static_cast<Rotational *> (params);
-
-  return c->sagitta (x);
-}
-
-double
-Rotational::derivative (double r) const
-{
-  double result, abserr;
-
-  gsl_deriv_central (&gsl_func, r, 1e-4, &result, &abserr);
-
-  return result;
-}
-
-unsigned int
-Rotational::get_sample_count () const
-{
-  return 0;
-}
-
-void
-Rotational::get_sample (unsigned int index, double &r, double &z) const
-{
-}
-
-}
+	}
 
 }

@@ -29,9 +29,9 @@
 namespace goptical
 {
 
-namespace light
-{
+	namespace light
+	{
 
-}
+	}
 
 }

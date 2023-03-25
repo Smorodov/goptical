@@ -33,67 +33,67 @@
 namespace goptical
 {
 
-namespace sys
-{
+	namespace sys
+	{
 
-/**
-   @short Reflecting optical surface element
-   @header <goptical/core/sys/Mirror
-   @module {Core}
-   @main
+		/**
+		   @short Reflecting optical surface element
+		   @header <goptical/core/sys/Mirror
+		   @module {Core}
+		   @main
 
-   This class provide a convenient way to describe a reflecting
-   optical surface. light is reflected only on 1 side of the
-   surface.
- */
+		   This class provide a convenient way to describe a reflecting
+		   optical surface. light is reflected only on 1 side of the
+		   surface.
+		 */
 
-class Mirror : public OpticalSurface
-{
-public:
+		class Mirror : public OpticalSurface
+		{
+			public:
 #if 0
-      /**
-         Specifies direction of incoming light rays that will be reflected.
-       */
-      enum Direction
-        {
-          /** The mirror will reflect light with negative Z direction
-              in its local coordinates */
-          lightFromRight = 0,
-          /** The mirror will reflect light with positive Z direction
-              in its local coordinates */
-          lightFromLeft = 1,
-        };
+				/**
+				   Specifies direction of incoming light rays that will be reflected.
+				 */
+				enum Direction
+				{
+				    /** The mirror will reflect light with negative Z direction
+				        in its local coordinates */
+				    lightFromRight = 0,
+				    /** The mirror will reflect light with positive Z direction
+				        in its local coordinates */
+				    lightFromLeft = 1,
+				};
 #endif
 
-  /** Create a mirror at given position with given shape and
-      curve. Default is to reflect light coming from left using
-      @ref material::mirror material. */
-  Mirror (const math::VectorPair3 &p,
-          const std::shared_ptr<curve::Base> &curve,
-          const std::shared_ptr<shape::Base> &shape,
-          bool light_from_left = true,
-          const std::shared_ptr<material::Base> &metal = material::mirror,
-          const std::shared_ptr<material::Base> &env = material::none);
+				/** Create a mirror at given position with given shape and
+				    curve. Default is to reflect light coming from left using
+				    @ref material::mirror material. */
+				Mirror (const math::VectorPair3 &p,
+				        const std::shared_ptr<curve::Base> &curve,
+				        const std::shared_ptr<shape::Base> &shape,
+				        bool light_from_left = true,
+				        const std::shared_ptr<material::Base> &metal = material::mirror,
+				        const std::shared_ptr<material::Base> &env = material::none);
 
-  /** Create a circular aperture mirror at given position with
-      given curve. Default is to reflect light coming from left
-      using @ref material::mirror material. */
-  Mirror (const math::VectorPair3 &p,
-          const std::shared_ptr<curve::Base> &curve, double ap_radius,
-          bool light_from_left = true,
-          const std::shared_ptr<material::Base> &metal = material::mirror,
-          const std::shared_ptr<material::Base> &env = material::none);
+				/** Create a circular aperture mirror at given position with
+				    given curve. Default is to reflect light coming from left
+				    using @ref material::mirror material. */
+				Mirror (const math::VectorPair3 &p,
+				        const std::shared_ptr<curve::Base> &curve, double ap_radius,
+				        bool light_from_left = true,
+				        const std::shared_ptr<material::Base> &metal = material::mirror,
+				        const std::shared_ptr<material::Base> &env = material::none);
 
-  /** Create a conic mirror with circular aperture at given
-      position. Default is to reflect light coming from left using @ref
-      material::mirror material. */
-  Mirror (const math::VectorPair3 &p, double roc, double sc, double ap_radius,
-          bool light_from_left = true,
-          const std::shared_ptr<material::Base> &metal = material::mirror,
-          const std::shared_ptr<material::Base> &env = material::none);
-};
+				/** Create a conic mirror with circular aperture at given
+				    position. Default is to reflect light coming from left using @ref
+				    material::mirror material. */
+				Mirror (const math::VectorPair3 &p, double roc, double sc, double ap_radius,
+				        bool light_from_left = true,
+				        const std::shared_ptr<material::Base> &metal = material::mirror,
+				        const std::shared_ptr<material::Base> &env = material::none);
+		};
 
-}
+	}
 }
 
 #endif

@@ -32,101 +32,100 @@
 namespace goptical
 {
 
-namespace trace
-{
+	namespace trace
+	{
 
-/**
-   @short Defines light propagation elemets order for sequential light
-   propagation
-   @header <goptical/core/trace/Sequence
-   @module {Core}
-   @main
+		/**
+		   @short Defines light propagation elemets order for sequential light
+		   propagation
+		   @header <goptical/core/trace/Sequence
+		   @module {Core}
+		   @main
 
-   There are two light propagation modes in common use: sequential
-   and non sequential. When using the sequential mode, light only
-   interacts with sequence elements in given sequence order.
+		   There are two light propagation modes in common use: sequential
+		   and non sequential. When using the sequential mode, light only
+		   interacts with sequence elements in given sequence order.
 
-   This class will hold the user defined ordered list of elements
-   used by sequential light propagation algorithm implemented in
-   the @ref tracer class.
- */
-class Sequence
-{
-  friend std::ostream &operator<< (std::ostream &o, const Sequence &s);
-  friend class Tracer;
+		   This class will hold the user defined ordered list of elements
+		   used by sequential light propagation algorithm implemented in
+		   the @ref tracer class.
+		 */
+		class Sequence
+		{
+				friend std::ostream &operator<< (std::ostream &o, const Sequence &s);
+				friend class Tracer;
 
-public:
-  /** Create a new empty sequence */
-  Sequence ();
+			public:
+				/** Create a new empty sequence */
+				Sequence ();
 
-  /** Create a new sequence and insert all elements present in the
-      system. This is equivalent to calling add() on empty sequence. */
-  Sequence (const sys::System &system);
+				/** Create a new sequence and insert all elements present in the
+				    system. This is equivalent to calling add() on empty sequence. */
+				Sequence (const sys::System &system);
 
-  /** Add all elements from the given system. Element are sorted
-      in axis order starting from left; reflecting elements do reverse
-      direction. */
-  void add (const sys::System &system);
+				/** Add all elements from the given system. Element are sorted
+				    in axis order starting from left; reflecting elements do reverse
+				    direction. */
+				void add (const sys::System &system);
 
-  /** Insert an element at end of sequence.
-      @return position of the element in the sequence
-  */
-  inline unsigned int append (const std::shared_ptr<sys::Element> &element);
+				/** Insert an element at end of sequence.
+				    @return position of the element in the sequence
+				*/
+				inline unsigned int append (const std::shared_ptr<sys::Element> &element);
 
-  /** Insert an element in sequence at given position */
-  inline void insert (unsigned int index,
-                      const std::shared_ptr<sys::Element> &element);
+				/** Insert an element in sequence at given position */
+				inline void insert (unsigned int index,
+				                    const std::shared_ptr<sys::Element> &element);
 
-  /** Remove an element from sequence */
-  inline void remove (unsigned int index);
+				/** Remove an element from sequence */
+				inline void remove (unsigned int index);
 
-  /** Remove all elements from sequence */
-  inline void clear ();
+				/** Remove all elements from sequence */
+				inline void clear ();
 
-  /** Get a reference to an element in sequence */
-  inline const sys::Element &get_element (unsigned int index) const;
+				/** Get a reference to an element in sequence */
+				inline const sys::Element &get_element (unsigned int index) const;
 
-private:
-  void add (const sys::Container &c);
+			private:
+				void add (const sys::Container &c);
 
-  std::vector<std::shared_ptr<sys::Element> > _list;
-};
+				std::vector<std::shared_ptr<sys::Element> > _list;
+		};
 
-std::ostream &operator<< (std::ostream &o, const Sequence &s);
-unsigned int
-Sequence::append (const std::shared_ptr<sys::Element> &element)
-{
-  _list.push_back (element);
+		std::ostream &operator<< (std::ostream &o, const Sequence &s);
+		unsigned int
+		Sequence::append (const std::shared_ptr<sys::Element> &element)
+		{
+			_list.push_back (element);
+			return _list.size () - 1;
+		}
 
-  return _list.size () - 1;
-}
+		void
+		Sequence::insert (unsigned int index,
+		                  const std::shared_ptr<sys::Element> &element)
+		{
+			_list.insert (_list.begin () + index, element);
+		}
 
-void
-Sequence::insert (unsigned int index,
-                  const std::shared_ptr<sys::Element> &element)
-{
-  _list.insert (_list.begin () + index, element);
-}
+		void
+		Sequence::remove (unsigned int index)
+		{
+			_list.erase (_list.begin () + index);
+		}
 
-void
-Sequence::remove (unsigned int index)
-{
-  _list.erase (_list.begin () + index);
-}
+		const sys::Element &
+		Sequence::get_element (unsigned int index) const
+		{
+			return *_list.at (index);
+		}
 
-const sys::Element &
-Sequence::get_element (unsigned int index) const
-{
-  return *_list.at (index);
-}
+		void
+		Sequence::clear ()
+		{
+			_list.clear ();
+		}
 
-void
-Sequence::clear ()
-{
-  _list.clear ();
-}
-
-}
+	}
 
 }
 

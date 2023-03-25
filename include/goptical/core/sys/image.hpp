@@ -34,40 +34,40 @@
 namespace goptical
 {
 
-namespace sys
-{
+	namespace sys
+	{
 
-/**
-   @short Image plane optical element
-   @header <goptical/core/sys/Image
-   @module {Core}
-   @main
- */
-class Image : public Surface
-{
-public:
-  /** Create a new image plane at given position. */
-  Image (const math::VectorPair3 &position,
-         const std::shared_ptr<curve::Base> &curve,
-         const std::shared_ptr<shape::Base> &shape);
+		/**
+		   @short Image plane optical element
+		   @header <goptical/core/sys/Image
+		   @module {Core}
+		   @main
+		 */
+		class Image : public Surface
+		{
+			public:
+				/** Create a new image plane at given position. */
+				Image (const math::VectorPair3 &position,
+				       const std::shared_ptr<curve::Base> &curve,
+				       const std::shared_ptr<shape::Base> &shape);
 
-  /** Create a new flat square image plane at given position with given half
-   * width */
-  Image (const math::VectorPair3 &position, double radius);
+				/** Create a new flat square image plane at given position with given half
+				 * width */
+				Image (const math::VectorPair3 &position, double radius);
 
-private:
-  void trace_ray_simple (trace::Result &result, trace::Ray &incident,
-                         const math::VectorPair3 &local,
-                         const math::VectorPair3 &intersect) const;
-  void trace_ray_intensity (trace::Result &result, trace::Ray &incident,
-                            const math::VectorPair3 &local,
-                            const math::VectorPair3 &intersect) const;
-  void trace_ray_polarized (trace::Result &result, trace::Ray &incident,
-                            const math::VectorPair3 &local,
-                            const math::VectorPair3 &intersect) const;
-};
+			private:
+				void trace_ray_simple (trace::Result &result, trace::Ray &incident,
+				                       const math::VectorPair3 &local,
+				                       const math::VectorPair3 &intersect) const;
+				void trace_ray_intensity (trace::Result &result, trace::Ray &incident,
+				                          const math::VectorPair3 &local,
+				                          const math::VectorPair3 &intersect) const;
+				void trace_ray_polarized (trace::Result &result, trace::Ray &incident,
+				                          const math::VectorPair3 &local,
+				                          const math::VectorPair3 &intersect) const;
+		};
 
-}
+	}
 }
 
 #endif

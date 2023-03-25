@@ -27,23 +27,27 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-Spline::Spline () : _data () { _data.set_interpolation (data::Cubic); }
+		Spline::Spline () : _data ()
+		{
+			_data.set_interpolation (data::Cubic);
+		}
 
-Spline::~Spline () {}
+		Spline::~Spline () {}
 
-void
-Spline::fit (const Rotational &c, double radius, unsigned int points)
-{
-  double step = radius / points;
-  _data.clear ();
+		void
+		Spline::fit (const Rotational &c, double radius, unsigned int points)
+		{
+			double step = radius / points;
+			_data.clear ();
+			for (double x = 0; x < radius + step / 2; x += step)
+			{
+				_data.add_data (x, c.sagitta (x));
+			}
+		}
 
-  for (double x = 0; x < radius + step / 2; x += step)
-    _data.add_data (x, c.sagitta (x));
-}
-
-}
+	}
 
 }

@@ -33,54 +33,54 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Metal optical material model.
-   @header <goptical/core/material/Metal
-   @module {Core}
-   @main
+		/**
+		   @short Metal optical material model.
+		   @header <goptical/core/material/Metal
+		   @module {Core}
+		   @main
 
-   This class models optical properties of metal
-   materials. Extinction and refractive index are stored as
-   interpolated data sets.
- */
+		   This class models optical properties of metal
+		   materials. Extinction and refractive index are stored as
+		   interpolated data sets.
+		 */
 
-class Metal : public Solid
-{
-public:
-  Metal ();
+		class Metal : public Solid
+		{
+			public:
+				Metal ();
 
-  bool is_opaque () const;
-  bool is_reflecting () const;
+				bool is_opaque () const;
+				bool is_reflecting () const;
 
-  double get_absolute_refractive_index (double wavelen) const;
-  double get_refractive_index (double wavelen) const;
-  double get_extinction_coef (double wavelen) const;
+				double get_absolute_refractive_index (double wavelen) const;
+				double get_refractive_index (double wavelen) const;
+				double get_extinction_coef (double wavelen) const;
 
-  /** Get refractive index dataset object */
-  inline data::DiscreteSet &get_refractive_index_dataset ();
-  /** Get extinction dataset object */
-  inline data::DiscreteSet &get_extinction_coef_dataset ();
+				/** Get refractive index dataset object */
+				inline data::DiscreteSet &get_refractive_index_dataset ();
+				/** Get extinction dataset object */
+				inline data::DiscreteSet &get_extinction_coef_dataset ();
 
-protected:
-  data::DiscreteSet _extinction;
-  data::DiscreteSet _refractive_index;
-};
+			protected:
+				data::DiscreteSet _extinction;
+				data::DiscreteSet _refractive_index;
+		};
 
-data::DiscreteSet &
-Metal::get_extinction_coef_dataset ()
-{
-  return _extinction;
-}
+		data::DiscreteSet &
+		Metal::get_extinction_coef_dataset ()
+		{
+			return _extinction;
+		}
 
-data::DiscreteSet &
-Metal::get_refractive_index_dataset ()
-{
-  return _refractive_index;
-}
-}
+		data::DiscreteSet &
+		Metal::get_refractive_index_dataset ()
+		{
+			return _refractive_index;
+		}
+	}
 }
 
 #endif

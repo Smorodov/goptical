@@ -33,117 +33,117 @@
 namespace goptical
 {
 
-namespace data
-{
+	namespace data
+	{
 
-/**
-    @short data set plot
-    @header <goptical/core/data/Plotdata
-    @module {Core}
-    @main
+		/**
+		    @short data set plot
+		    @header <goptical/core/data/Plotdata
+		    @module {Core}
+		    @main
 
-    This class is used to describe a data set as part of a data
-    plot. It contains a pointer to the data set and plotting
-    informations (title, color, ...)
- */
-class Plotdata
-{
-  friend class Plot;
+		    This class is used to describe a data set as part of a data
+		    plot. It contains a pointer to the data set and plotting
+		    informations (title, color, ...)
+		 */
+		class Plotdata
+		{
+				friend class Plot;
 
-public:
-  /** Create a new data plot descriptor which describe the
-      specified dataset. */
-  inline Plotdata (const std::shared_ptr<Set> &s);
+			public:
+				/** Create a new data plot descriptor which describe the
+				    specified dataset. */
+				inline Plotdata (const std::shared_ptr<Set> &s);
 
-  /** Get the described data set */
-  inline const Set &get_set () const;
+				/** Get the described data set */
+				inline const Set &get_set () const;
 
-  /** Set data set plotting label */
-  inline void set_label (const std::string &title);
-  /** Get data set plotting label */
-  inline const std::string &get_label () const;
+				/** Set data set plotting label */
+				inline void set_label (const std::string &title);
+				/** Get data set plotting label */
+				inline const std::string &get_label () const;
 
-  /** Set data set plotting color */
-  inline void set_color (const io::Rgb &color);
-  /** Set data set plotting color */
-  inline const io::Rgb &get_color () const;
+				/** Set data set plotting color */
+				inline void set_color (const io::Rgb &color);
+				/** Set data set plotting color */
+				inline const io::Rgb &get_color () const;
 
-  /** Enable a plotting style */
-  inline void enable_style (PlotStyleMask style);
-  /** Disable a plotting style */
-  inline void disable_style (PlotStyleMask style);
-  /** Set the plotting style mask */
-  inline void set_style (PlotStyleMask style);
-  /** Get the plotting style mask */
-  inline PlotStyleMask get_style () const;
+				/** Enable a plotting style */
+				inline void enable_style (PlotStyleMask style);
+				/** Disable a plotting style */
+				inline void disable_style (PlotStyleMask style);
+				/** Set the plotting style mask */
+				inline void set_style (PlotStyleMask style);
+				/** Get the plotting style mask */
+				inline PlotStyleMask get_style () const;
 
-private:
-  std::shared_ptr<Set> _set;
-  io::Rgb _color;
-  PlotStyleMask _style;
-  std::string _label;
-};
+			private:
+				std::shared_ptr<Set> _set;
+				io::Rgb _color;
+				PlotStyleMask _style;
+				std::string _label;
+		};
 
-Plotdata::Plotdata (const std::shared_ptr<Set> &s)
-    : _set (s), _color (io::rgb_red), _style (InterpolatePlot | PointPlot),
-      _label ("")
-{
-}
+		Plotdata::Plotdata (const std::shared_ptr<Set> &s)
+			: _set (s), _color (io::rgb_red), _style (InterpolatePlot | PointPlot),
+			  _label ("")
+		{
+		}
 
-const Set &
-Plotdata::get_set () const
-{
-  return *_set;
-}
+		const Set &
+		Plotdata::get_set () const
+		{
+			return *_set;
+		}
 
-void
-Plotdata::set_label (const std::string &label)
-{
-  _label = label;
-}
+		void
+		Plotdata::set_label (const std::string &label)
+		{
+			_label = label;
+		}
 
-const std::string &
-Plotdata::get_label () const
-{
-  return _label;
-}
+		const std::string &
+		Plotdata::get_label () const
+		{
+			return _label;
+		}
 
-void
-Plotdata::set_color (const io::Rgb &color)
-{
-  _color = color;
-}
+		void
+		Plotdata::set_color (const io::Rgb &color)
+		{
+			_color = color;
+		}
 
-const io::Rgb &
-Plotdata::get_color () const
-{
-  return _color;
-}
+		const io::Rgb &
+		Plotdata::get_color () const
+		{
+			return _color;
+		}
 
-void
-Plotdata::enable_style (PlotStyleMask style)
-{
-  _style = _style | style;
-}
+		void
+		Plotdata::enable_style (PlotStyleMask style)
+		{
+			_style = _style | style;
+		}
 
-void
-Plotdata::disable_style (PlotStyleMask style)
-{
-  _style = _style & ~style;
-}
+		void
+		Plotdata::disable_style (PlotStyleMask style)
+		{
+			_style = _style & ~style;
+		}
 
-void
-Plotdata::set_style (PlotStyleMask style)
-{
-  _style = style;
-}
+		void
+		Plotdata::set_style (PlotStyleMask style)
+		{
+			_style = style;
+		}
 
-PlotStyleMask
-Plotdata::get_style () const
-{
-  return _style;
-}
-}
+		PlotStyleMask
+		Plotdata::get_style () const
+		{
+			return _style;
+		}
+	}
 
 }
 

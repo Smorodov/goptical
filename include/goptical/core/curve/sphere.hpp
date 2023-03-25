@@ -32,31 +32,31 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-/**
-   @short Spherical curve model
-   @header <goptical/core/curve/Sphere
-   @module {Core}
-   @main
+		/**
+		   @short Spherical curve model
+		   @header <goptical/core/curve/Sphere
+		   @module {Core}
+		   @main
 
-   This class provides an efficient spherical curve implementation.
- */
-class Sphere : public ConicBase
-{
-public:
-  /** Creates a spherical curve with given radius of curvature */
-  Sphere (double roc);
+		   This class provides an efficient spherical curve implementation.
+		 */
+		class Sphere : public ConicBase
+		{
+			public:
+				/** Creates a spherical curve with given radius of curvature */
+				Sphere (double roc);
 
-  bool intersect (math::Vector3 &point, const math::VectorPair3 &ray) const;
-  void normal (math::Vector3 &normal, const math::Vector3 &point) const;
+				bool intersect (math::Vector3 &point, const math::VectorPair3 &ray) const;
+				void normal (math::Vector3 &normal, const math::Vector3 &point) const;
 
-  double sagitta (double r) const;
-  double derivative (double r) const;
-};
+				double sagitta (double r) const;
+				double derivative (double r) const;
+		};
 
-}
+	}
 }
 
 #endif

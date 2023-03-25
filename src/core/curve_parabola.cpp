@@ -29,70 +29,66 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-Parabola::Parabola (double roc) : ConicBase (roc, -1.0) {}
+		Parabola::Parabola (double roc) : ConicBase (roc, -1.0) {}
 
-double
-Parabola::sagitta (double r) const
-{
-  return math::square (r) / (2.0 * _roc);
-}
+		double
+		Parabola::sagitta (double r) const
+		{
+			return math::square (r) / (2.0 * _roc);
+		}
 
-double
-Parabola::derivative (double r) const
-{
-  return r / _roc;
-}
+		double
+		Parabola::derivative (double r) const
+		{
+			return r / _roc;
+		}
 
-bool
-Parabola::intersect (math::Vector3 &point, const math::VectorPair3 &ray) const
-{
-  const double ax = ray.origin ().x ();
-  const double ay = ray.origin ().y ();
-  const double az = ray.origin ().z ();
-  const double bx = ray.direction ().x ();
-  const double by = ray.direction ().y ();
-  const double bz = ray.direction ().z ();
+		bool
+		Parabola::intersect (math::Vector3 &point, const math::VectorPair3 &ray) const
+		{
+			const double ax = ray.origin ().x ();
+			const double ay = ray.origin ().y ();
+			const double az = ray.origin ().z ();
+			const double bx = ray.direction ().x ();
+			const double by = ray.direction ().y ();
+			const double bz = ray.direction ().z ();
+			/*
+			  find intersection point between conical section and line,
+			  telescope optics, page 266
+			*/
+			double a = (math::square (by) + math::square (bx));
+			double b = ((by * ay + bx * ax) / _roc - bz) * 2.0;
+			double c = (math::square (ay) + math::square (ax)) / _roc - 2.0 * az;
+			double t;
+			if (a == 0)
+			{
+				t = -c / b;
+			}
+			else
+			{
+				double d = math::square (b) - 4.0 * a * c / _roc;
+				if (d < 0)
+				{
+					return false;    // no intersection
+				}
+				double s = sqrt (d);
+				if (a * bz < 0)
+				{
+					s = -s;
+				}
+				t = (2 * c) / (s - b);
+			}
+			if (t <= 0) // ignore intersection if before ray origin
+			{
+				return false;
+			}
+			point = ray.origin () + ray.direction () * t;
+			return true;
+		}
 
-  /*
-    find intersection point between conical section and line,
-    telescope optics, page 266
-  */
-  double a = (math::square (by) + math::square (bx));
-  double b = ((by * ay + bx * ax) / _roc - bz) * 2.0;
-  double c = (math::square (ay) + math::square (ax)) / _roc - 2.0 * az;
-
-  double t;
-
-  if (a == 0)
-    {
-      t = -c / b;
-    }
-  else
-    {
-      double d = math::square (b) - 4.0 * a * c / _roc;
-
-      if (d < 0)
-        return false; // no intersection
-
-      double s = sqrt (d);
-
-      if (a * bz < 0)
-        s = -s;
-
-      t = (2 * c) / (s - b);
-    }
-
-  if (t <= 0) // ignore intersection if before ray origin
-    return false;
-
-  point = ray.origin () + ray.direction () * t;
-
-  return true;
-}
-
-}
+	}
 
 }

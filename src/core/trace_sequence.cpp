@@ -32,49 +32,57 @@
 namespace goptical
 {
 
-namespace trace
-{
+	namespace trace
+	{
 
-Sequence::Sequence () : _list () {}
+		Sequence::Sequence () : _list () {}
 
-Sequence::Sequence (const sys::System &system) : _list () { add (system); }
+		Sequence::Sequence (const sys::System &system) : _list ()
+		{
+			add (system);
+		}
 
-static bool
-seq_sort (const std::shared_ptr<sys::Element> &a,
-          const std::shared_ptr<sys::Element> &b)
-{
-  return a->get_position ().z () < b->get_position ().z ();
-}
+		static bool
+		seq_sort (const std::shared_ptr<sys::Element> &a,
+		          const std::shared_ptr<sys::Element> &b)
+		{
+			return a->get_position ().z () < b->get_position ().z ();
+		}
 
-void
-Sequence::add (const sys::System &system)
-{
-  _list.clear ();
-  add (static_cast<const sys::Container &> (system));
-  std::sort (_list.begin (), _list.end (), seq_sort);
-}
+		void
+		Sequence::add (const sys::System &system)
+		{
+			_list.clear ();
+			add (static_cast<const sys::Container &> (system));
+			std::sort (_list.begin (), _list.end (), seq_sort);
+		}
 
-void
-Sequence::add (const sys::Container &c)
-{
-  for (auto &i : c.get_element_list ())
-    {
-      if (const sys::Container *cc
-          = dynamic_cast<const sys::Container *> (i.get ()))
-        add (*cc);
-      else
-        _list.push_back (i);
-    }
-}
+		void
+		Sequence::add (const sys::Container &c)
+		{
+for (auto &i : c.get_element_list ())
+			{
+				if (const sys::Container *cc
+				        = dynamic_cast<const sys::Container *> (i.get ()))
+				{
+					add (*cc);
+				}
+				else
+				{
+					_list.push_back (i);
+				}
+			}
+		}
 
-std::ostream &
-operator<< (std::ostream &o, const Sequence &s)
-{
-  for (auto &i : s._list)
-    o << "  " << *i << std::endl;
+		std::ostream &
+		operator<< (std::ostream &o, const Sequence &s)
+		{
+for (auto &i : s._list)
+			{
+				o << "  " << *i << std::endl;
+			}
+			return o;
+		}
 
-  return o;
-}
-
-}
+	}
 }

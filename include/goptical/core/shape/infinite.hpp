@@ -32,69 +32,69 @@
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-/**
-   @short Borderless shape
-   @header <goptical/core/shape/Infinite
-   @module {Core}
-   @main
+		/**
+		   @short Borderless shape
+		   @header <goptical/core/shape/Infinite
+		   @module {Core}
+		   @main
 
-   This class implements an infinite shape with no edge. Any 2d
-   points is located inside the shape. It is useful to describe
-   unbounded image plane for instance.
+		   This class implements an infinite shape with no edge. Any 2d
+		   points is located inside the shape. It is useful to describe
+		   unbounded image plane for instance.
 
-   The global variable @ref infinite provides an instance of this
-   class.
- */
+		   The global variable @ref infinite provides an instance of this
+		   class.
+		 */
 
-class Infinite : public Base
-{
-public:
-  /** Create an infinite shape */
-  inline Infinite ();
+		class Infinite : public Base
+		{
+			public:
+				/** Create an infinite shape */
+				inline Infinite ();
 
-  /** @override */
-  inline double max_radius () const;
-  /** @override */
-  inline double min_radius () const;
-  /** @override */
-  double get_outter_radius (const math::Vector2 &dir) const;
-  /** @override */
-  math::VectorPair2 get_bounding_box () const;
-  /** @override */
-  bool inside (const math::Vector2 &point) const;
-  /** @override */
-  void get_pattern (const math::Vector2::put_delegate_t &v,
-                    const trace::Distribution &d, bool unobstructed) const;
-  /** @override */
-  unsigned int get_contour_count () const;
-  /** @override */
-  void get_contour (unsigned int contour,
-                    const math::Vector2::put_delegate_t &f,
-                    double resolution) const;
-  /** @override */
-  void get_triangles (const math::Triangle<2>::put_delegate_t &f,
-                      double resolution) const;
-};
+				/** @override */
+				inline double max_radius () const;
+				/** @override */
+				inline double min_radius () const;
+				/** @override */
+				double get_outter_radius (const math::Vector2 &dir) const;
+				/** @override */
+				math::VectorPair2 get_bounding_box () const;
+				/** @override */
+				bool inside (const math::Vector2 &point) const;
+				/** @override */
+				void get_pattern (const math::Vector2::put_delegate_t &v,
+				                  const trace::Distribution &d, bool unobstructed) const;
+				/** @override */
+				unsigned int get_contour_count () const;
+				/** @override */
+				void get_contour (unsigned int contour,
+				                  const math::Vector2::put_delegate_t &f,
+				                  double resolution) const;
+				/** @override */
+				void get_triangles (const math::Triangle<2>::put_delegate_t &f,
+				                    double resolution) const;
+		};
 
-extern std::shared_ptr<Infinite> infinite;
-Infinite::Infinite () {}
+		extern std::shared_ptr<Infinite> infinite;
+		Infinite::Infinite () {}
 
-double
-Infinite::max_radius () const
-{
-  return 0;
-}
+		double
+		Infinite::max_radius () const
+		{
+			return 0;
+		}
 
-double
-Infinite::min_radius () const
-{
-  return 0;
-}
+		double
+		Infinite::min_radius () const
+		{
+			return 0;
+		}
 
-}
+	}
 }
 
 #endif

@@ -32,36 +32,36 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-/**
-   @short Flat curve
-   @header <goptical/core/curve/Flat
-   @module {Core}
-   @main
+		/**
+		   @short Flat curve
+		   @header <goptical/core/curve/Flat
+		   @module {Core}
+		   @main
 
-   The global variable @ref flat provides an instance of this
-   class.
- */
+		   The global variable @ref flat provides an instance of this
+		   class.
+		 */
 
-class Flat : public Rotational
-{
-public:
-  /** Creates a flat curve */
-  Flat ();
+		class Flat : public Rotational
+		{
+			public:
+				/** Creates a flat curve */
+				Flat ();
 
-  bool intersect (math::Vector3 &point, const math::VectorPair3 &ray) const;
-  void normal (math::Vector3 &normal, const math::Vector3 &point) const;
+				bool intersect (math::Vector3 &point, const math::VectorPair3 &ray) const;
+				void normal (math::Vector3 &normal, const math::Vector3 &point) const;
 
-  double sagitta (double r) const;
-  double derivative (double r) const;
-};
+				double sagitta (double r) const;
+				double derivative (double r) const;
+		};
 
-/** Preallocated flat curve object */
-extern std::shared_ptr<Flat> flat;
+		/** Preallocated flat curve object */
+		extern std::shared_ptr<Flat> flat;
 
-}
+	}
 }
 
 #endif

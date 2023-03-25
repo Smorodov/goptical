@@ -34,96 +34,96 @@
 namespace goptical
 {
 
-namespace data
-{
+	namespace data
+	{
 
-std::ostream &operator<< (std::ostream &o, const Set &s);
+		std::ostream &operator<< (std::ostream &o, const Set &s);
 
-/**
-   @short Base class for numerical data sets.
-   @header <goptical/core/data/Set
-   @module {Core}
+		/**
+		   @short Base class for numerical data sets.
+		   @header <goptical/core/data/Set
+		   @module {Core}
 
-   This class is a base class for all numerical data sets
-   implementations. It defines an interface to access data in a
-   way independent from data storage and dimensions count.
+		   This class is a base class for all numerical data sets
+		   implementations. It defines an interface to access data in a
+		   way independent from data storage and dimensions count.
 
-   Each data set implementation may define a alternative specific
-   interface to access their data.
+		   Each data set implementation may define a alternative specific
+		   interface to access their data.
 
-   Here x is seen as value used to access the container.
-   Containers with more than one dimension will require x0, x1,
-   ..., xn known parameters to access the stored y value.
-*/
-class Set
-{
-  friend std::ostream &operator<< (std::ostream &o, const Set &s);
+		   Here x is seen as value used to access the container.
+		   Containers with more than one dimension will require x0, x1,
+		   ..., xn known parameters to access the stored y value.
+		*/
+		class Set
+		{
+				friend std::ostream &operator<< (std::ostream &o, const Set &s);
 
-public:
-  virtual ~Set ();
+			public:
+				virtual ~Set ();
 
-  /** Get total number of dimensions */
-  virtual unsigned int get_dimensions () const = 0;
+				/** Get total number of dimensions */
+				virtual unsigned int get_dimensions () const = 0;
 
-  /** Get total number of data stored for dimension n in data set */
-  virtual unsigned int get_count (unsigned int dim = 0) const = 0;
+				/** Get total number of data stored for dimension n in data set */
+				virtual unsigned int get_count (unsigned int dim = 0) const = 0;
 
-  /** Get data stored at position n on dimension dim in data set */
-  virtual double get_x_value (unsigned int n, unsigned int dim = 0) const = 0;
+				/** Get data stored at position n on dimension dim in data set */
+				virtual double get_x_value (unsigned int n, unsigned int dim = 0) const = 0;
 
-  /** Get y data stored at position (x0, x1, ...) in data set */
-  virtual double get_y_value (const unsigned int x[]) const = 0;
+				/** Get y data stored at position (x0, x1, ...) in data set */
+				virtual double get_y_value (const unsigned int x[]) const = 0;
 
-  /** Interpolate y value corresponding to given x value(s) in data set. */
-  virtual double interpolate (const double x[]) const = 0;
+				/** Interpolate y value corresponding to given x value(s) in data set. */
+				virtual double interpolate (const double x[]) const = 0;
 
-  /** Interpolate y value corresponding to given x value in data
-      set. data may be differentiated several times along the requested
-     dimension.
-      @param deriv Differentiation count, 0 means y value, 1 means 1st
-     derivative...
-      @param dim Differentiation dimension
-  */
-  virtual double interpolate (const double x[], unsigned int deriv,
-                              unsigned int dim) const = 0;
+				/** Interpolate y value corresponding to given x value in data
+				    set. data may be differentiated several times along the requested
+				   dimension.
+				    @param deriv Differentiation count, 0 means y value, 1 means 1st
+				   derivative...
+				    @param dim Differentiation dimension
+				*/
+				virtual double interpolate (const double x[], unsigned int deriv,
+				                            unsigned int dim) const = 0;
 
-  /** Get minimal and maximal x values on dimension n found in data set */
-  virtual math::range_t get_x_range (unsigned int dim = 0) const = 0;
+				/** Get minimal and maximal x values on dimension n found in data set */
+				virtual math::range_t get_x_range (unsigned int dim = 0) const = 0;
 
-  /** Get minimal and maximal y values found in data set */
-  virtual math::range_t get_y_range () const;
+				/** Get minimal and maximal y values found in data set */
+				virtual math::range_t get_y_range () const;
 
-  /** Select interpolation method */
-  virtual void set_interpolation (Interpolation i) = 0;
+				/** Select interpolation method */
+				virtual void set_interpolation (Interpolation i) = 0;
 
-  /** Get current interpolation method */
-  inline Interpolation get_interpolation ();
+				/** Get current interpolation method */
+				inline Interpolation get_interpolation ();
 
-  // FIXME dataset version number
-  /** Return version number which is incremented on each data set change/clear
-   */
-  inline unsigned int get_version () const;
+				// FIXME dataset version number
+				/** Return version number which is incremented on each data set change/clear
+				 */
+				inline unsigned int get_version () const;
 
-protected:
-  Set ();
+			protected:
+				Set ();
 
-  unsigned int _version;
-  Interpolation _interpolation;
-};
+				unsigned int _version;
+				Interpolation _interpolation;
+		};
 
-unsigned int
-Set::get_version () const
-{
-  return _version;
-}
+		unsigned int
+		Set::get_version () const
+		{
+			return _version;
+		}
 
-Interpolation
-Set::get_interpolation ()
-{
-  return _interpolation;
-}
+		Interpolation
+		Set::get_interpolation ()
+		{
+			return _interpolation;
+		}
 
-}
+	}
 }
 
 #endif

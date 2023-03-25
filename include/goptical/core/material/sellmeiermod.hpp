@@ -32,68 +32,68 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Modified sellmeier model for optical glass material
-   @header <goptical/core/material/SellmeierMod
-   @module {Core}
-   @main
+		/**
+		   @short Modified sellmeier model for optical glass material
+		   @header <goptical/core/material/SellmeierMod
+		   @module {Core}
+		   @main
 
-   This class models optical properties of dielectric
-   materials with various modified Sellmeier formulas:
+		   This class models optical properties of dielectric
+		   materials with various modified Sellmeier formulas:
 
-   @list
-     @item @ref SellmeierMod2 : @math $ n_\lambda = \sqrt{A +
-   \frac{B\times\lambda^2}{\lambda^2 - C^2}
-                             + \frac{D}{\lambda^2 - E^2}} $
+		   @list
+		     @item @ref SellmeierMod2 : @math $ n_\lambda = \sqrt{A +
+		   \frac{B\times\lambda^2}{\lambda^2 - C^2}
+		                             + \frac{D}{\lambda^2 - E^2}} $
 
-     @item @ref Handbook1 : @math $ n_\lambda = \sqrt{A + B\times\lambda^2 +
-   \frac{C}{\lambda^2-D}} $
+		     @item @ref Handbook1 : @math $ n_\lambda = \sqrt{A + B\times\lambda^2 +
+		   \frac{C}{\lambda^2-D}} $
 
-     @item @ref Handbook2 : @math $ n_\lambda = \sqrt{A + B\times\lambda^2 +
-   \frac{C\times\lambda^2}{\lambda^2-D}} $
-   @end list
+		     @item @ref Handbook2 : @math $ n_\lambda = \sqrt{A + B\times\lambda^2 +
+		   \frac{C\times\lambda^2}{\lambda^2-D}} $
+		   @end list
 
-   with @math $\lambda$ the micrometer wavelength.
+		   with @math $\lambda$ the micrometer wavelength.
 
-   @see Sellmeier
- */
+		   @see Sellmeier
+		 */
 
-template <enum SellmeierModFormula m> class SellmeierMod : public Dielectric
-{
-public:
-  /** Create an empty modified sellmeier model */
-  SellmeierMod ();
+		template <enum SellmeierModFormula m> class SellmeierMod : public Dielectric
+		{
+			public:
+				/** Create an empty modified sellmeier model */
+				SellmeierMod ();
 
-  /** Create a modified sellmeier model with given coefficients */
-  SellmeierMod (double A, double B, double C, double D, double E = 0.0);
+				/** Create a modified sellmeier model with given coefficients */
+				SellmeierMod (double A, double B, double C, double D, double E = 0.0);
 
-  /** Change coefficients */
-  inline void set_coefficients (double A, double B, double C, double D,
-                                double E = 0.0);
+				/** Change coefficients */
+				inline void set_coefficients (double A, double B, double C, double D,
+				                              double E = 0.0);
 
-  /** @override */
-  double get_measurement_index (double wavelen) const;
+				/** @override */
+				double get_measurement_index (double wavelen) const;
 
-private:
-  double _a, _b, _c, _d, _e;
-};
+			private:
+				double _a, _b, _c, _d, _e;
+		};
 
-template <enum SellmeierModFormula m>
-void
-SellmeierMod<m>::set_coefficients (double A, double B, double C, double D,
-                                   double E)
-{
-  _a = A;
-  _b = B;
-  _c = C;
-  _d = D;
-  _e = E;
-}
+		template <enum SellmeierModFormula m>
+		void
+		SellmeierMod<m>::set_coefficients (double A, double B, double C, double D,
+		                                   double E)
+		{
+			_a = A;
+			_b = B;
+			_c = C;
+			_d = D;
+			_e = E;
+		}
 
-}
+	}
 }
 
 #endif

@@ -33,75 +33,75 @@
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-/**
-   @short Rectangle and square shape
-   @header <goptical/core/shape/Rectangle
-   @module {Core}
-   @main
- */
+		/**
+		   @short Rectangle and square shape
+		   @header <goptical/core/shape/Rectangle
+		   @module {Core}
+		   @main
+		 */
 
-class Rectangle : public Base
-{
-public:
-  /** Create a rectangle with given width and height */
-  inline Rectangle (double width, double height);
-  /** Create a square with given side length */
-  inline Rectangle (double sqsize);
+		class Rectangle : public Base
+		{
+			public:
+				/** Create a rectangle with given width and height */
+				inline Rectangle (double width, double height);
+				/** Create a square with given side length */
+				inline Rectangle (double sqsize);
 
-  /** @override */
-  inline double max_radius () const;
-  /** @override */
-  inline double min_radius () const;
-  /** @override */
-  double get_outter_radius (const math::Vector2 &dir) const;
-  /** @override */
-  math::VectorPair2 get_bounding_box () const;
-  /** @override */
-  bool inside (const math::Vector2 &point) const;
-  /** @override */
-  void get_pattern (const math::Vector2::put_delegate_t &v,
-                    const trace::Distribution &d, bool unobstructed) const;
-  /** @override */
-  unsigned int get_contour_count () const;
-  /** @override */
-  void get_contour (unsigned int contour,
-                    const math::Vector2::put_delegate_t &f,
-                    double resolution) const;
-  /** @override */
-  void get_triangles (const math::Triangle<2>::put_delegate_t &f,
-                      double resolution) const;
+				/** @override */
+				inline double max_radius () const;
+				/** @override */
+				inline double min_radius () const;
+				/** @override */
+				double get_outter_radius (const math::Vector2 &dir) const;
+				/** @override */
+				math::VectorPair2 get_bounding_box () const;
+				/** @override */
+				bool inside (const math::Vector2 &point) const;
+				/** @override */
+				void get_pattern (const math::Vector2::put_delegate_t &v,
+				                  const trace::Distribution &d, bool unobstructed) const;
+				/** @override */
+				unsigned int get_contour_count () const;
+				/** @override */
+				void get_contour (unsigned int contour,
+				                  const math::Vector2::put_delegate_t &f,
+				                  double resolution) const;
+				/** @override */
+				void get_triangles (const math::Triangle<2>::put_delegate_t &f,
+				                    double resolution) const;
 
-private:
-  math::Vector2 get_step (double resolution) const;
+			private:
+				math::Vector2 get_step (double resolution) const;
 
-  math::Vector2 _halfsize;
-};
-Rectangle::Rectangle (double sqsize)
-    : _halfsize (math::Vector2 (sqsize / 2., sqsize / 2.))
-{
-}
+				math::Vector2 _halfsize;
+		};
+		Rectangle::Rectangle (double sqsize)
+			: _halfsize (math::Vector2 (sqsize / 2., sqsize / 2.))
+		{
+		}
 
-Rectangle::Rectangle (double width, double height)
-    : _halfsize (math::Vector2 (width / 2., height / 2.))
-{
-}
+		Rectangle::Rectangle (double width, double height)
+			: _halfsize (math::Vector2 (width / 2., height / 2.))
+		{
+		}
 
-double
-Rectangle::max_radius () const
-{
-  return _halfsize.len ();
-}
+		double
+		Rectangle::max_radius () const
+		{
+			return _halfsize.len ();
+		}
 
-double
-Rectangle::min_radius () const
-{
-  return std::min (_halfsize.x (), _halfsize.y ());
-}
+		double
+		Rectangle::min_radius () const
+		{
+			return std::min (_halfsize.x (), _halfsize.y ());
+		}
 
-}
+	}
 
 }
 

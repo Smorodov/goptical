@@ -32,30 +32,30 @@
 namespace goptical
 {
 
-namespace io
-{
+	namespace io
+	{
 
-/**
-   @short File export class interface
-   @header <goptical/core/io/Export
-   @module {Core}
- */
+		/**
+		   @short File export class interface
+		   @header <goptical/core/io/Export
+		   @module {Core}
+		 */
 
-class Export
-{
-public:
-  /** Export optical design to file */
-  virtual void export_design (const sys::system &sys,
-                              const std::string &filename)
-      = 0;
+		class Export
+		{
+			public:
+				/** Export optical design to file */
+				virtual void export_design (const sys::system &sys,
+				                            const std::string &filename)
+				    = 0;
 
-  /** Export material catalog to file */
-  virtual void export_catalog (const material::Catalog &catalog,
-                               const std::string &filename)
-      = 0;
-};
+				/** Export material catalog to file */
+				virtual void export_catalog (const material::Catalog &catalog,
+				                             const std::string &filename)
+				    = 0;
+		};
 
-}
+	}
 
 }
 

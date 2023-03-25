@@ -7,7 +7,7 @@
 *.exe
 Makefile
 build/
-
+vs2022/
 CMakeCache.txt
 CMakeFiles/
 CMakeScripts
@@ -21,6 +21,5 @@ _deps
 .idea/
 out/
 cmake-build-*/
-
 # VSCode
 .vscode/

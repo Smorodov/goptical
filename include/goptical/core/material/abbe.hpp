@@ -32,62 +32,62 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Abbe model for optical glass material
-   @header <goptical/core/material/Abbe
-   @module {Core}
-   @main
+		/**
+		   @short Abbe model for optical glass material
+		   @header <goptical/core/material/Abbe
+		   @module {Core}
+		   @main
 
-   This class models optical properties of glass materials
-   using known refractive index value,
-   @url http://en.wikipedia.org/wiki/Abbe_number {Abbe number}
-   and partial dispersion deviation (dpgF).
+		   This class models optical properties of glass materials
+		   using known refractive index value,
+		   @url http://en.wikipedia.org/wiki/Abbe_number {Abbe number}
+		   and partial dispersion deviation (dpgF).
 
-   @ref AbbeVd and @ref AbbeVe template instances are available for
-   @em d and @em e line definitions of Abbe number.
+		   @ref AbbeVd and @ref AbbeVe template instances are available for
+		   @em d and @em e line definitions of Abbe number.
 
-   The following formula is used to determine refractive index at
-   any wavelen in visible spectrum:
+		   The following formula is used to determine refractive index at
+		   any wavelen in visible spectrum:
 
-   @math $ n_\lambda = n_d + \frac{\left( n_d-1\right)}{v_d}\times\left(
-   c_1+a\times c_0 + \frac{c_3+a\times c_2}{\lambda} + \frac{c_5+a\times
-   c_4}{{\lambda}^{2}} + \frac{c_7+a\times c_6}{{\lambda}^{3}} \right) $
+		   @math $ n_\lambda = n_d + \frac{\left( n_d-1\right)}{v_d}\times\left(
+		   c_1+a\times c_0 + \frac{c_3+a\times c_2}{\lambda} + \frac{c_5+a\times
+		   c_4}{{\lambda}^{2}} + \frac{c_7+a\times c_6}{{\lambda}^{3}} \right) $
 
-   with @math $ a = a_1\times v_d+a_0+\Delta P_{g,F} $
-   and @math $\lambda$ the micrometer wavelength.
+		   with @math $ a = a_1\times v_d+a_0+\Delta P_{g,F} $
+		   and @math $\lambda$ the micrometer wavelength.
 
-   @em a0 and @em a1 values are given in Schott "@em{TIE-29:
-   Refractive Index and Dispersion}" technical information document.
+		   @em a0 and @em a1 values are given in Schott "@em{TIE-29:
+		   Refractive Index and Dispersion}" technical information document.
 
-   @em c0 to @em c7 values were determined using least square
-   fitting on indexes obtained using Sellmeier data from 118 glass
-   materials from the Schott catalog for 360 wavelengths between
-   390nm and 750nm. Two different coefficients sets are used for
-   @em nd/vd and @em ne/ve pairs.
+		   @em c0 to @em c7 values were determined using least square
+		   fitting on indexes obtained using Sellmeier data from 118 glass
+		   materials from the Schott catalog for 360 wavelengths between
+		   390nm and 750nm. Two different coefficients sets are used for
+		   @em nd/vd and @em ne/ve pairs.
 
-   Mean error is less than 0.00002 from Sellmeier indexes and
-   largest error found across fitted glasses and wavelengths is
-   0.0008. When dpgF is set to 0, mean error becomes 0.0001 and
-   largest error is close to 0.006.
- */
+		   Mean error is less than 0.00002 from Sellmeier indexes and
+		   largest error found across fitted glasses and wavelengths is
+		   0.0008. When dpgF is set to 0, mean error becomes 0.0001 and
+		   largest error is close to 0.006.
+		 */
 
-template <enum AbbeFormula m = AbbeVdFormula> class Abbe : public Dielectric
-{
-public:
-  /** Create an abbe glass model */
-  Abbe (double n, double v, double dpgF = 0.);
+		template <enum AbbeFormula m = AbbeVdFormula> class Abbe : public Dielectric
+		{
+			public:
+				/** Create an abbe glass model */
+				Abbe (double n, double v, double dpgF = 0.);
 
-  /** @override */
-  double get_measurement_index (double wavelen) const;
+				/** @override */
+				double get_measurement_index (double wavelen) const;
 
-private:
-  double _n, _q, _a;
-};
+			private:
+				double _n, _q, _a;
+		};
 
-}
+	}
 }
 
 #endif

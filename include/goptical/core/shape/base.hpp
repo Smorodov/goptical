@@ -33,68 +33,68 @@
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-/**
-   @short Base class for contour 2d shapes
-   @header <goptical/core/shape/Base
-   @module {Core}
-   @main
+		/**
+		   @short Base class for contour 2d shapes
+		   @header <goptical/core/shape/Base
+		   @module {Core}
+		   @main
 
-   This class defines an interface for all 2d shape
-   implementations. It is mainly used to describe 2d contours of
-   optical surfaces and provides distribution pattern for ray
-   tracing.
- */
-class Base
-{
-public:
-  inline Base ();
+		   This class defines an interface for all 2d shape
+		   implementations. It is mainly used to describe 2d contours of
+		   optical surfaces and provides distribution pattern for ray
+		   tracing.
+		 */
+		class Base
+		{
+			public:
+				inline Base ();
 
-  virtual ~Base () {}
+				virtual ~Base () {}
 
-  /** Check if the (x,y) 2d point is inside 2d shape area */
-  virtual bool inside (const math::Vector2 &point) const = 0;
+				/** Check if the (x,y) 2d point is inside 2d shape area */
+				virtual bool inside (const math::Vector2 &point) const = 0;
 
-  /** Get points distributed on shape area with given pattern */
-  virtual void get_pattern (const math::Vector2::put_delegate_t &f,
-                            const trace::Distribution &d,
-                            bool unobstructed = false) const;
+				/** Get points distributed on shape area with given pattern */
+				virtual void get_pattern (const math::Vector2::put_delegate_t &f,
+				                          const trace::Distribution &d,
+				                          bool unobstructed = false) const;
 
-  /** Get distance between origin and farthest shape edge */
-  virtual double max_radius () const = 0;
+				/** Get distance between origin and farthest shape edge */
+				virtual double max_radius () const = 0;
 
-  /** Get distance between origin and nearest shape outter edge */
-  virtual double min_radius () const = 0;
+				/** Get distance between origin and nearest shape outter edge */
+				virtual double min_radius () const = 0;
 
-  /** Get distance between origin and farthest shape edge in specified
-   * direction */
-  virtual double get_outter_radius (const math::Vector2 &dir) const = 0;
+				/** Get distance between origin and farthest shape edge in specified
+				 * direction */
+				virtual double get_outter_radius (const math::Vector2 &dir) const = 0;
 
-  /** Get distance between origin and nearest shape outter edge in specified
-   * direction */
-  virtual double get_hole_radius (const math::Vector2 &dir) const;
+				/** Get distance between origin and nearest shape outter edge in specified
+				 * direction */
+				virtual double get_hole_radius (const math::Vector2 &dir) const;
 
-  /** Get shape bounding box */
-  virtual math::VectorPair2 get_bounding_box () const = 0;
+				/** Get shape bounding box */
+				virtual math::VectorPair2 get_bounding_box () const = 0;
 
-  /** Get number of contours polygones. This function returns
-      value is greater than 1 if shape has hole(s). @see get_contour */
-  virtual unsigned int get_contour_count () const = 0;
+				/** Get number of contours polygones. This function returns
+				    value is greater than 1 if shape has hole(s). @see get_contour */
+				virtual unsigned int get_contour_count () const = 0;
 
-  /** Get contour polygone points for specified contour id. First
-      contour is always outter edge. @see get_contour_count */
-  virtual void get_contour (unsigned int contour,
-                            const math::Vector2::put_delegate_t &f,
-                            double resolution) const = 0;
+				/** Get contour polygone points for specified contour id. First
+				    contour is always outter edge. @see get_contour_count */
+				virtual void get_contour (unsigned int contour,
+				                          const math::Vector2::put_delegate_t &f,
+				                          double resolution) const = 0;
 
-  /** Get shape teselation triangles */
-  virtual void get_triangles (const math::Triangle<2>::put_delegate_t &f,
-                              double resolution) const = 0;
-};
-Base::Base () {}
-}
+				/** Get shape teselation triangles */
+				virtual void get_triangles (const math::Triangle<2>::put_delegate_t &f,
+				                            double resolution) const = 0;
+		};
+		Base::Base () {}
+	}
 }
 
 #endif

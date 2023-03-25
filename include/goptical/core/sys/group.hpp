@@ -33,46 +33,46 @@
 namespace goptical
 {
 
-namespace sys
-{
+	namespace sys
+	{
 
-/**
-   @short Optical elements group element
-   @header <goptical/core/sys/Group
-   @module {Core}
-   @main
+		/**
+		   @short Optical elements group element
+		   @header <goptical/core/sys/Group
+		   @module {Core}
+		   @main
 
-   This class is used to form a group of optical elements. A group
-   is a special kind of optical element which can contains other
-   elements. A group has its own local coordinate system.
+		   This class is used to form a group of optical elements. A group
+		   is a special kind of optical element which can contains other
+		   elements. A group has its own local coordinate system.
 
-   @xsee {tuto_group}
- */
-class Group : public Element, public Container
-{
-public:
-  /** Create a new group at given position */
-  inline Group (const math::VectorPair3 &p);
+		   @xsee {tuto_group}
+		 */
+		class Group : public Element, public Container
+		{
+			public:
+				/** Create a new group at given position */
+				inline Group (const math::VectorPair3 &p);
 
-  virtual ~Group ();
+				virtual ~Group ();
 
-  math::VectorPair3 get_bounding_box () const;
+				math::VectorPair3 get_bounding_box () const;
 
-protected:
-  /** @override */
-  void draw_2d_e (io::Renderer &r, const Element *ref) const;
-  /** @override */
-  void draw_3d_e (io::Renderer &r, const Element *ref) const;
+			protected:
+				/** @override */
+				void draw_2d_e (io::Renderer &r, const Element *ref) const;
+				/** @override */
+				void draw_3d_e (io::Renderer &r, const Element *ref) const;
 
-private:
-  virtual void system_register (System *s) override;
-  virtual void system_unregister () override;
-  void system_moved ();
-};
+			private:
+				virtual void system_register (System *s) override;
+				virtual void system_unregister () override;
+				void system_moved ();
+		};
 
-Group::Group (const math::VectorPair3 &p) : Element (p), Container () {}
+		Group::Group (const math::VectorPair3 &p) : Element (p), Container () {}
 
-}
+	}
 }
 
 #endif

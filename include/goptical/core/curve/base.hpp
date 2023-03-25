@@ -30,53 +30,53 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-/**
-   @short Base class for surface curvature models
-   @header <goptical/core/curve/base.hpp>
-   @module {Core}
-   @main
+		/**
+		   @short Base class for surface curvature models
+		   @header <goptical/core/curve/base.hpp>
+		   @module {Core}
+		   @main
 
-   This class defines an interface for surface curvature
-   implementations. Curvature is defined as a surface curve in
-   three dimensional space. It is mainly used by the @ref sys::Surface
-   class to describe optical surface curvature.
+		   This class defines an interface for surface curvature
+		   implementations. Curvature is defined as a surface curve in
+		   three dimensional space. It is mainly used by the @ref sys::Surface
+		   class to describe optical surface curvature.
 
-   It provides access to sagitta (z) and gradient data on any
-   curved surface point (x, y). Ability to find point of
-   intersection between a given 3d ray and the curve is also
-   provided.
+		   It provides access to sagitta (z) and gradient data on any
+		   curved surface point (x, y). Ability to find point of
+		   intersection between a given 3d ray and the curve is also
+		   provided.
 
-   @xsee {tuto_usercurve}
-*/
-class Base
-{
-public:
-  virtual inline ~Base ();
+		   @xsee {tuto_usercurve}
+		*/
+		class Base
+		{
+			public:
+				virtual inline ~Base ();
 
-  /** Get curve sagitta (z) at specified point */
-  virtual double sagitta (const math::Vector2 &xy) const = 0;
+				/** Get curve sagitta (z) at specified point */
+				virtual double sagitta (const math::Vector2 &xy) const = 0;
 
-  /** Get curve dz/dx and dx/dy partial derivatives (gradient) at specified
-   * point */
-  virtual void derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const;
+				/** Get curve dz/dx and dx/dy partial derivatives (gradient) at specified
+				 * point */
+				virtual void derivative (const math::Vector2 &xy, math::Vector2 &dxdy) const;
 
-  /** Get intersection point between curve and 3d ray. Return
-      false if no intersection occurred. ray must have a position vector and
-      direction vector (cosines). */
-  virtual bool intersect (math::Vector3 &point,
-                          const math::VectorPair3 &ray) const;
+				/** Get intersection point between curve and 3d ray. Return
+				    false if no intersection occurred. ray must have a position vector and
+				    direction vector (cosines). */
+				virtual bool intersect (math::Vector3 &point,
+				                        const math::VectorPair3 &ray) const;
 
-  /** Get normal to curve surface at specified point. */
-  virtual void normal (math::Vector3 &normal,
-                       const math::Vector3 &point) const;
-};
+				/** Get normal to curve surface at specified point. */
+				virtual void normal (math::Vector3 &normal,
+				                     const math::Vector3 &point) const;
+		};
 
-Base::~Base () {}
+		Base::~Base () {}
 
-}
+	}
 }
 
 #endif

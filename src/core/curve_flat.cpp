@@ -29,66 +29,65 @@
 namespace goptical
 {
 
-namespace curve
-{
+	namespace curve
+	{
 
-Flat::Flat () {}
+		Flat::Flat () {}
 
-double
-Flat::sagitta (double r) const
-{
-  return 0;
-}
+		double
+		Flat::sagitta (double r) const
+		{
+			return 0;
+		}
 
-double
-Flat::derivative (double r) const
-{
-  return 1.0;
-}
+		double
+		Flat::derivative (double r) const
+		{
+			return 1.0;
+		}
 
-/*
+		/*
 
-intersection d'un plan defini par :
+		intersection d'un plan defini par :
 
-P(Px, Py, Pz) appartenant au plan
-N(Px, Py, Pz) normal au plan
+		P(Px, Py, Pz) appartenant au plan
+		N(Px, Py, Pz) normal au plan
 
-avec une droite AB definie par l'ensemble des points tel que:
+		avec une droite AB definie par l'ensemble des points tel que:
 
-A + * t B
+		A + * t B
 
-on a :
+		on a :
 
-t=(Nz*Pz+Ny*Py+Nx*Px-Az*Nz-Ay*Ny-Ax*Nx)/(Bz*Nz+By*Ny+Bx*Nx)
+		t=(Nz*Pz+Ny*Py+Nx*Px-Az*Nz-Ay*Ny-Ax*Nx)/(Bz*Nz+By*Ny+Bx*Nx)
 
-*/
+		*/
 
-bool
-Flat::intersect (math::Vector3 &point, const math::VectorPair3 &ray) const
-{
-  double s = ray.direction ().z ();
+		bool
+		Flat::intersect (math::Vector3 &point, const math::VectorPair3 &ray) const
+		{
+			double s = ray.direction ().z ();
+			if (s == 0)
+			{
+				return false;
+			}
+			double a = -ray.origin ().z () / s;
+			if (a < 0)
+			{
+				return false;
+			}
+			point = ray.origin () + ray.direction () * a;
+			return true;
+		}
 
-  if (s == 0)
-    return false;
+		void
+		Flat::normal (math::Vector3 &normal, const math::Vector3 &point) const
+		{
+			normal = math::Vector3 (0, 0, -1);
+		}
 
-  double a = -ray.origin ().z () / s;
+		std::shared_ptr<Flat> flat = std::make_shared<Flat> ();
 
-  if (a < 0)
-    return false;
-
-  point = ray.origin () + ray.direction () * a;
-
-  return true;
-}
-
-void
-Flat::normal (math::Vector3 &normal, const math::Vector3 &point) const
-{
-  normal = math::Vector3 (0, 0, -1);
-}
-
-std::shared_ptr<Flat> flat = std::make_shared<Flat> ();
-
-}
+	}
 
 }

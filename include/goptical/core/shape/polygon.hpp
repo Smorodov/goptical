@@ -33,88 +33,88 @@
 namespace goptical
 {
 
-namespace shape
-{
+	namespace shape
+	{
 
-/**
-   @short Polygon shape
-   @header <goptical/core/shape/Polygon
-   @module {Core}
-   @main
+		/**
+		   @short Polygon shape
+		   @header <goptical/core/shape/Polygon
+		   @module {Core}
+		   @main
 
-   This class implements the polygon shape.
+		   This class implements the polygon shape.
 
-   Triangle tessellation required for proper 3d display only works
-   with convex polygons yet.
+		   Triangle tessellation required for proper 3d display only works
+		   with convex polygons yet.
 
-   @see RegularPolygon
- */
+		   @see RegularPolygon
+		 */
 
-class Polygon : public Base
-{
-public:
-  /** Create a polygon with given radius and edge count */
-  Polygon ();
+		class Polygon : public Base
+		{
+			public:
+				/** Create a polygon with given radius and edge count */
+				Polygon ();
 
-  unsigned int add_vertex (const math::Vector2 &v);
-  void insert_vertex (const math::Vector2 &v, unsigned int id);
-  void delete_vertex (unsigned int id);
+				unsigned int add_vertex (const math::Vector2 &v);
+				void insert_vertex (const math::Vector2 &v, unsigned int id);
+				void delete_vertex (unsigned int id);
 
-  inline unsigned int get_vertices_count () const;
-  inline const math::Vector2 &get_vertex (unsigned int id);
+				inline unsigned int get_vertices_count () const;
+				inline const math::Vector2 &get_vertex (unsigned int id);
 
-private:
-  /** @override */
-  double max_radius () const;
-  /** @override */
-  double min_radius () const;
-  /** @override */
-  double get_outter_radius (const math::Vector2 &dir) const;
-  /** @override */
-  math::VectorPair2 get_bounding_box () const;
-  /** @override */
-  bool inside (const math::Vector2 &point) const;
-  /** @override */
-  inline unsigned int get_contour_count () const;
-  /** @override */
-  void get_contour (unsigned int contour,
-                    const math::Vector2::put_delegate_t &f,
-                    double resolution) const;
-  /** @override */
-  void get_triangles (const math::Triangle<2>::put_delegate_t &f,
-                      double resolution) const;
+			private:
+				/** @override */
+				double max_radius () const;
+				/** @override */
+				double min_radius () const;
+				/** @override */
+				double get_outter_radius (const math::Vector2 &dir) const;
+				/** @override */
+				math::VectorPair2 get_bounding_box () const;
+				/** @override */
+				bool inside (const math::Vector2 &point) const;
+				/** @override */
+				inline unsigned int get_contour_count () const;
+				/** @override */
+				void get_contour (unsigned int contour,
+				                  const math::Vector2::put_delegate_t &f,
+				                  double resolution) const;
+				/** @override */
+				void get_triangles (const math::Triangle<2>::put_delegate_t &f,
+				                    double resolution) const;
 
-  /** update _min_radius and bounding box */
-  void update ();
+				/** update _min_radius and bounding box */
+				void update ();
 
-  typedef std::vector<math::Vector2> vertices_t;
+				typedef std::vector<math::Vector2> vertices_t;
 
-  bool _updated;
-  vertices_t _vertices;
-  math::VectorPair2 _bbox;
-  double _max_radius;
-  double _min_radius;
-};
-unsigned int
-Polygon::get_vertices_count () const
-{
-  return _vertices.size ();
-}
+				bool _updated;
+				vertices_t _vertices;
+				math::VectorPair2 _bbox;
+				double _max_radius;
+				double _min_radius;
+		};
+		unsigned int
+		Polygon::get_vertices_count () const
+		{
+			return _vertices.size ();
+		}
 
-const math::Vector2 &
-Polygon::get_vertex (unsigned int id)
-{
-  assert (id < _vertices.size ());
-  return _vertices[id];
-}
+		const math::Vector2 &
+		Polygon::get_vertex (unsigned int id)
+		{
+			assert (id < _vertices.size ());
+			return _vertices[id];
+		}
 
-unsigned int
-Polygon::get_contour_count () const
-{
-  return 1;
-}
+		unsigned int
+		Polygon::get_contour_count () const
+		{
+			return 1;
+		}
 
-}
+	}
 
 }
 

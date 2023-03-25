@@ -35,166 +35,166 @@
 namespace goptical
 {
 
-namespace data
-{
+	namespace data
+	{
 
-/**
-   @short Base class for SampleSet
-   @header <goptical/core/data/SampleSet
-   @module {Core}
-   @internal
- */
-class SampleSetBase : public Set1d
-{
-public:
-  SampleSetBase ();
-  ~SampleSetBase ();
+		/**
+		   @short Base class for SampleSet
+		   @header <goptical/core/data/SampleSet
+		   @module {Core}
+		   @internal
+		 */
+		class SampleSetBase : public Set1d
+		{
+			public:
+				SampleSetBase ();
+				~SampleSetBase ();
 
-  /** Set y value and its derivative at index x */
-  void set_value (unsigned int x, double y, double d = 0.0);
+				/** Set y value and its derivative at index x */
+				void set_value (unsigned int x, double y, double d = 0.0);
 
-  /** Set y value and its derivative at nearest x value */
-  void set_value_near (double x, double y, double d = 0.0);
+				/** Set y value and its derivative at nearest x value */
+				void set_value_near (double x, double y, double d = 0.0);
 
-  /** Clear all data */
-  void clear ();
+				/** Clear all data */
+				void clear ();
 
-  /** Set number of samples */
-  void resize (unsigned int n);
+				/** Set number of samples */
+				void resize (unsigned int n);
 
-  /** Set x origin and step values */
-  inline void set_metrics (double origin, double step);
+				/** Set x origin and step values */
+				inline void set_metrics (double origin, double step);
 
-  /** Get step size between consecutive x values */
-  inline double get_step () const;
+				/** Get step size between consecutive x values */
+				inline double get_step () const;
 
-  /** Get x value of first sample */
-  inline double get_origin () const;
+				/** Get x value of first sample */
+				inline double get_origin () const;
 
-  /** Get stored derivative value at index x */
-  inline double get_d_value (unsigned int x) const;
-  /** Get modifiable reference to stored derivative value at index x */
-  inline double &get_d_value (unsigned int x);
+				/** Get stored derivative value at index x */
+				inline double get_d_value (unsigned int x) const;
+				/** Get modifiable reference to stored derivative value at index x */
+				inline double &get_d_value (unsigned int x);
 
-  // inherited from Set1d
-  inline unsigned int get_count () const;
-  inline double get_x_value (unsigned int x) const;
-  inline double get_y_value (unsigned int x) const;
-  inline double &get_y_value (unsigned int x);
-  math::range_t get_x_range () const;
+				// inherited from Set1d
+				inline unsigned int get_count () const;
+				inline double get_x_value (unsigned int x) const;
+				inline double get_y_value (unsigned int x) const;
+				inline double &get_y_value (unsigned int x);
+				math::range_t get_x_range () const;
 
-protected:
-  /* y and prescribed first derivative values */
-  struct entry_s
-  {
-    double y, d;
-  };
+			protected:
+				/* y and prescribed first derivative values */
+				struct entry_s
+				{
+					double y, d;
+				};
 
-  /** find lower bound index of interval containing value */
-  unsigned int get_interval (double x) const;
-  /** find nearest value index */
-  unsigned int get_nearest (double x) const;
+				/** find lower bound index of interval containing value */
+				unsigned int get_interval (double x) const;
+				/** find nearest value index */
+				unsigned int get_nearest (double x) const;
 
-  virtual void invalidate () = 0;
+				virtual void invalidate () = 0;
 
-  inline double get_x_interval (unsigned int x) const;
-  inline double get_x_interval (unsigned int x1, unsigned int x2) const;
+				inline double get_x_interval (unsigned int x) const;
+				inline double get_x_interval (unsigned int x1, unsigned int x2) const;
 
-  double _origin, _step;
-  std::vector<struct entry_s> _data;
-};
+				double _origin, _step;
+				std::vector<struct entry_s> _data;
+		};
 
-/**
-   @short 1d fixed interval numerical data set with interpolation
-   @header <goptical/core/data/SampleSet
-   @module {Core}
-   @main
+		/**
+		   @short 1d fixed interval numerical data set with interpolation
+		   @header <goptical/core/data/SampleSet
+		   @module {Core}
+		   @main
 
-   This class provides a numerical data container
-   where sample values (y) are defined for uniformly
-   distributed (x) values.
+		   This class provides a numerical data container
+		   where sample values (y) are defined for uniformly
+		   distributed (x) values.
 
-   Severals interpolation algorithms are available to guess
-   values between defined knots, see @ref Interpolation.
+		   Severals interpolation algorithms are available to guess
+		   values between defined knots, see @ref Interpolation.
 
-   @see DiscreteSet
-*/
-class SampleSet : public Interpolate1d<SampleSetBase>
-{
-public:
-  SampleSet () : Interpolate1d<SampleSetBase> () {}
-};
+		   @see DiscreteSet
+		*/
+		class SampleSet : public Interpolate1d<SampleSetBase>
+		{
+			public:
+				SampleSet () : Interpolate1d<SampleSetBase> () {}
+		};
 
-void
-SampleSetBase::set_metrics (double origin, double step)
-{
-  _origin = origin;
-  _step = step;
-  invalidate ();
-}
+		void
+		SampleSetBase::set_metrics (double origin, double step)
+		{
+			_origin = origin;
+			_step = step;
+			invalidate ();
+		}
 
-unsigned int
-SampleSetBase::get_count () const
-{
-  return _data.size ();
-}
+		unsigned int
+		SampleSetBase::get_count () const
+		{
+			return _data.size ();
+		}
 
-double
-SampleSetBase::get_x_value (unsigned int n) const
-{
-  return _origin + (double)n * _step;
-}
+		double
+		SampleSetBase::get_x_value (unsigned int n) const
+		{
+			return _origin + (double)n * _step;
+		}
 
-double
-SampleSetBase::get_y_value (unsigned int n) const
-{
-  return _data[n].y;
-}
+		double
+		SampleSetBase::get_y_value (unsigned int n) const
+		{
+			return _data[n].y;
+		}
 
-double &
-SampleSetBase::get_y_value (unsigned int n)
-{
-  invalidate ();
-  return _data[n].y;
-}
+		double &
+		SampleSetBase::get_y_value (unsigned int n)
+		{
+			invalidate ();
+			return _data[n].y;
+		}
 
-double
-SampleSetBase::get_d_value (unsigned int n) const
-{
-  return _data[n].d;
-}
+		double
+		SampleSetBase::get_d_value (unsigned int n) const
+		{
+			return _data[n].d;
+		}
 
-double &
-SampleSetBase::get_d_value (unsigned int n)
-{
-  invalidate ();
-  return _data[n].d;
-}
+		double &
+		SampleSetBase::get_d_value (unsigned int n)
+		{
+			invalidate ();
+			return _data[n].d;
+		}
 
-double
-SampleSetBase::get_step () const
-{
-  return _step;
-}
+		double
+		SampleSetBase::get_step () const
+		{
+			return _step;
+		}
 
-double
-SampleSetBase::get_origin () const
-{
-  return _origin;
-}
+		double
+		SampleSetBase::get_origin () const
+		{
+			return _origin;
+		}
 
-double
-SampleSetBase::get_x_interval (unsigned int x) const
-{
-  return _step;
-}
+		double
+		SampleSetBase::get_x_interval (unsigned int x) const
+		{
+			return _step;
+		}
 
-double
-SampleSetBase::get_x_interval (unsigned int x1, unsigned int x2) const
-{
-  return _step * (double)(x2 - x1);
-}
-}
+		double
+		SampleSetBase::get_x_interval (unsigned int x1, unsigned int x2) const
+		{
+			return _step * (double)(x2 - x1);
+		}
+	}
 }
 
 #endif

@@ -32,6 +32,9 @@
 #include <stdexcept>
 #include <vector>
 
+//#include <goptical/core/trace/ray.hpp>
+//class Ray;
+
 /** @file @module{Vector pool} */
 
 namespace dpp
@@ -228,7 +231,7 @@ public:
 
   /** @This creates a new pool and provide static storage space for
       multiple blocks. */
-  inline vector_pool (block_type block[], size_t count,
+  inline vector_pool (block_type *block, size_t count,
                       const Allocator &a = Allocator (),
                       const PtrAllocator &pa = PtrAllocator ())
       : _blocks (pa), _free_count (block_size * count), _static_size (count),

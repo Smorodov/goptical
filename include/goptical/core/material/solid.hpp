@@ -32,49 +32,49 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Solid optical material base class.
-   @header <goptical/core/material/Solid
-   @module {Core}
+		/**
+		   @short Solid optical material base class.
+		   @header <goptical/core/material/Solid
+		   @module {Core}
 
-   This class is the base class for all solid material models.
- */
+		   This class is the base class for all solid material models.
+		 */
 
-class Solid : public Base
-{
-public:
-  inline Solid (const std::string &name_);
+		class Solid : public Base
+		{
+			public:
+				inline Solid (const std::string &name_);
 
-  GOPTICAL_ACCESSORS (double, thermal_expansion,
-                      "material thermal expansion coefficient");
+				GOPTICAL_ACCESSORS (double, thermal_expansion,
+				                    "material thermal expansion coefficient");
 
-  GOPTICAL_ACCESSORS (double, thermal_conductivity,
-                      "Set material thermal conductivity in W/m.K");
+				GOPTICAL_ACCESSORS (double, thermal_conductivity,
+				                    "Set material thermal conductivity in W/m.K");
 
-  GOPTICAL_ACCESSORS (double, density, "material density in g/cm^3");
+				GOPTICAL_ACCESSORS (double, density, "material density in g/cm^3");
 
-  GOPTICAL_ACCESSORS (double, young_modulus, "material young modulus");
+				GOPTICAL_ACCESSORS (double, young_modulus, "material young modulus");
 
-  GOPTICAL_ACCESSORS (double, poisson_ratio, "material poisson ratio");
+				GOPTICAL_ACCESSORS (double, poisson_ratio, "material poisson ratio");
 
-private:
-  double _thermal_expansion;    // thermal expansion coefficient
-  double _thermal_conductivity; // thermal conductivity W/m.K
-  double _density;              // density g/cm^3
-  double _young_modulus;
-  double _poisson_ratio;
-};
+			private:
+				double _thermal_expansion;    // thermal expansion coefficient
+				double _thermal_conductivity; // thermal conductivity W/m.K
+				double _density;              // density g/cm^3
+				double _young_modulus;
+				double _poisson_ratio;
+		};
 
-Solid::Solid (const std::string &name_)
-    : Base (name_), _thermal_expansion (0.0), _thermal_conductivity (0.0),
-      _density (0.0), _young_modulus (0.0), _poisson_ratio (0.0)
-{
-}
+		Solid::Solid (const std::string &name_)
+			: Base (name_), _thermal_expansion (0.0), _thermal_conductivity (0.0),
+			  _density (0.0), _young_modulus (0.0), _poisson_ratio (0.0)
+		{
+		}
 
-}
+	}
 
 }
 

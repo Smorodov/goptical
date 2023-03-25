@@ -36,128 +36,128 @@
 namespace goptical
 {
 
-namespace trace
-{
+	namespace trace
+	{
 
-/**
-   @short light propagation parameters descriptor
-   @header <goptical/core/trace/Params
-   @module {Core}
-   @main
+		/**
+		   @short light propagation parameters descriptor
+		   @header <goptical/core/trace/Params
+		   @module {Core}
+		   @main
 
-   This class is used to store light progation parameters.  This
-   includes sequential / non-sequential mode, light intensity
-   computation mode and propagation mode (raytracing, diffraction, ...).
+		   This class is used to store light progation parameters.  This
+		   includes sequential / non-sequential mode, light intensity
+		   computation mode and propagation mode (raytracing, diffraction, ...).
 
-   @xsee {tuto_seqtrace}
- */
-class Params
-{
-  friend class Tracer;
+		   @xsee {tuto_seqtrace}
+		 */
+		class Distribution;
+		class Params
+		{
+				friend class Tracer;
 
-public:
-  inline Params ();
+			public:
+				inline Params ();
 
-  GOPTICAL_NOCONST_REF_ACCESSORS (Distribution, default_distribution,
-                                  "default rays distribution pattern");
+				GOPTICAL_NOCONST_REF_ACCESSORS (Distribution, default_distribution,
+				                                "default rays distribution pattern");
 
-  GOPTICAL_ACCESSORS (unsigned int, max_bounce,
-                      "maximum ray bounce count, default is 50");
+				GOPTICAL_ACCESSORS (unsigned int, max_bounce,
+				                    "maximum ray bounce count, default is 50");
 
-  GOPTICAL_ACCESSORS (double, lost_ray_length, "lost ray length");
+				GOPTICAL_ACCESSORS (double, lost_ray_length, "lost ray length");
 
-  GOPTICAL_ACCESSORS (IntensityMode, intensity_mode,
-                      "raytracing intensity mode");
+				GOPTICAL_ACCESSORS (IntensityMode, intensity_mode,
+				                    "raytracing intensity mode");
 
-  GOPTICAL_ACCESSORS (bool, unobstructed,
-                      "unobstructed raytracing mode. Surface shapes are "
-                      "ignored, no rays are stopped");
+				GOPTICAL_ACCESSORS (bool, unobstructed,
+				                    "unobstructed raytracing mode. Surface shapes are "
+				                    "ignored, no rays are stopped");
 
-  GOPTICAL_ACCESSORS (
-      PropagationMode, propagation_mode,
-      "physical light propagation mode. @experimental @hidden");
+				GOPTICAL_ACCESSORS (
+				    PropagationMode, propagation_mode,
+				    "physical light propagation mode. @experimental @hidden");
 
-  /** Set sequential ray tracing mode */
-  inline void set_sequential_mode (const std::shared_ptr<Sequence> &seq);
+				/** Set sequential ray tracing mode */
+				inline void set_sequential_mode (const std::shared_ptr<Sequence> &seq);
 
-  /** Set non sequential ray tracing mode (default) */
-  inline void set_nonsequential_mode ();
+				/** Set non sequential ray tracing mode (default) */
+				inline void set_nonsequential_mode ();
 
-  /** Test if in sequential ray tracing mode */
-  inline bool is_sequential () const;
+				/** Test if in sequential ray tracing mode */
+				inline bool is_sequential () const;
 
-  /** Set distribution pattern for a given surface */
-  inline void set_distribution (const sys::Surface &s,
-                                const Distribution &dist);
+				/** Set distribution pattern for a given surface */
+				inline void set_distribution (const sys::Surface &s,
+				                              const Distribution &dist);
 
-  /** Reset all surface specific distribution settings to default */
-  inline void reset_distribution ();
+				/** Reset all surface specific distribution settings to default */
+				inline void reset_distribution ();
 
-  /** Get distribution pattern for a given surface */
-  inline const Distribution &get_distribution (const sys::Surface &s) const;
+				/** Get distribution pattern for a given surface */
+				inline const Distribution &get_distribution (const sys::Surface &s) const;
 
-private:
-  typedef std::map<const sys::Surface *, Distribution> _s_distribution_map_t;
+			private:
+				typedef std::map<const sys::Surface *, Distribution> _s_distribution_map_t;
 
-  std::shared_ptr<Sequence> _sequence;
-  Distribution _default_distribution;
-  _s_distribution_map_t _s_distribution;
-  unsigned int _max_bounce;
-  IntensityMode _intensity_mode;
-  bool _sequential_mode;
-  PropagationMode _propagation_mode;
-  bool _unobstructed;
-  double _lost_ray_length;
-};
+				std::shared_ptr<Sequence> _sequence;
+				Distribution _default_distribution;
+				_s_distribution_map_t _s_distribution;
+				unsigned int _max_bounce;
+				IntensityMode _intensity_mode;
+				bool _sequential_mode;
+				PropagationMode _propagation_mode;
+				bool _unobstructed;
+				double _lost_ray_length;
+		};
 
-Params::Params ()
-    : _default_distribution (), _s_distribution (), _max_bounce (50),
-      _intensity_mode (Simpletrace), _sequential_mode (false),
-      _propagation_mode (RayPropagation), _unobstructed (false),
-      _lost_ray_length (1000)
-{
-}
+		Params::Params ()
+			: _default_distribution (), _s_distribution (), _max_bounce (50),
+			  _intensity_mode (Simpletrace), _sequential_mode (false),
+			  _propagation_mode (RayPropagation), _unobstructed (false),
+			  _lost_ray_length (1000)
+		{
+		}
 
-void
-Params::set_nonsequential_mode ()
-{
-  _sequential_mode = false;
-}
+		void
+		Params::set_nonsequential_mode ()
+		{
+			_sequential_mode = false;
+		}
 
-void
-Params::set_sequential_mode (const std::shared_ptr<Sequence> &seq)
-{
-  _sequential_mode = true;
-  _sequence = seq;
-}
+		void
+		Params::set_sequential_mode (const std::shared_ptr<Sequence> &seq)
+		{
+			_sequential_mode = true;
+			_sequence = seq;
+		}
 
-bool
-Params::is_sequential () const
-{
-  return _sequential_mode;
-}
+		bool
+		Params::is_sequential () const
+		{
+			return _sequential_mode;
+		}
 
-void
-Params::set_distribution (const sys::Surface &s, const Distribution &dist)
-{
-  _s_distribution[&s] = dist;
-}
+		void
+		Params::set_distribution (const sys::Surface &s, const Distribution &dist)
+		{
+			_s_distribution[&s] = dist;
+		}
 
-void
-Params::reset_distribution ()
-{
-  _s_distribution.clear ();
-}
+		void
+		Params::reset_distribution ()
+		{
+			_s_distribution.clear ();
+		}
 
-const Distribution &
-Params::get_distribution (const sys::Surface &s) const
-{
-  _s_distribution_map_t::const_iterator i = _s_distribution.find (&s);
+		const Distribution &
+		Params::get_distribution (const sys::Surface &s) const
+		{
+			_s_distribution_map_t::const_iterator i = _s_distribution.find (&s);
+			return i == _s_distribution.end () ? _default_distribution : i->second;
+		}
 
-  return i == _s_distribution.end () ? _default_distribution : i->second;
-}
-
-}
+	}
 }
 
 #endif

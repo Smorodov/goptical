@@ -32,66 +32,66 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-/**
-   @short Optical material proxy class.
-   @header <goptical/core/material/Proxy
-   @module {Core}
- */
+		/**
+		   @short Optical material proxy class.
+		   @header <goptical/core/material/Proxy
+		   @module {Core}
+		 */
 
-class Proxy : public Base
-{
-public:
-  Proxy (const std::shared_ptr<Base> &m);
+		class Proxy : public Base
+		{
+			public:
+				Proxy (const std::shared_ptr<Base> &m);
 
-  inline void set_material (const std::shared_ptr<Base> &m);
-  inline const std::shared_ptr<Base> &get_material () const;
+				inline void set_material (const std::shared_ptr<Base> &m);
+				inline const std::shared_ptr<Base> &get_material () const;
 
-  /** @override */
-  bool is_opaque () const;
+				/** @override */
+				bool is_opaque () const;
 
-  /** @override */
-  bool is_reflecting () const;
+				/** @override */
+				bool is_reflecting () const;
 
-  /** @override */
-  double get_internal_transmittance (double wavelen, double thickness) const;
+				/** @override */
+				double get_internal_transmittance (double wavelen, double thickness) const;
 
-  /** @override */
-  double get_refractive_index (double wavelen) const;
+				/** @override */
+				double get_refractive_index (double wavelen) const;
 
-  /** @override */
-  double get_extinction_coef (double wavelen) const;
+				/** @override */
+				double get_extinction_coef (double wavelen) const;
 
-  /** @override */
-  double get_normal_reflectance (const Base *from, double wavelen) const;
+				/** @override */
+				double get_normal_reflectance (const Base *from, double wavelen) const;
 
-  /** @override */
-  double get_normal_transmittance (const Base *from, double wavelen) const;
+				/** @override */
+				double get_normal_transmittance (const Base *from, double wavelen) const;
 
-  /** @override */
-  double get_temperature () const;
+				/** @override */
+				double get_temperature () const;
 
-  /** @override */
-  io::Rgb get_color () const;
+				/** @override */
+				io::Rgb get_color () const;
 
-private:
-  std::shared_ptr<Base> _m;
-};
+			private:
+				std::shared_ptr<Base> _m;
+		};
 
-void
-Proxy::set_material (const std::shared_ptr<material::Base> &m)
-{
-  _m = m;
-}
+		void
+		Proxy::set_material (const std::shared_ptr<material::Base> &m)
+		{
+			_m = m;
+		}
 
-const std::shared_ptr<Base> &
-Proxy::get_material () const
-{
-  return _m;
-}
-}
+		const std::shared_ptr<Base> &
+		Proxy::get_material () const
+		{
+			return _m;
+		}
+	}
 
 }
 

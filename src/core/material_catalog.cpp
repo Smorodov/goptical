@@ -28,26 +28,28 @@
 namespace goptical
 {
 
-namespace material
-{
+	namespace material
+	{
 
-Catalog::Catalog (const std::string &name) : _name (name), _list () {}
+		Catalog::Catalog (const std::string &name) : _name (name), _list () {}
 
-void
-Catalog::add_material (const std::string &material_name,
-                       const std::shared_ptr<Base> &material)
-{
-  if (!_list.insert (catalog_map_t::value_type (material_name, material))
-           .second)
-    throw Error ("material already present in catalog");
-}
+		void
+		Catalog::add_material (const std::string &material_name,
+		                       const std::shared_ptr<Base> &material)
+		{
+			if (!_list.insert (catalog_map_t::value_type (material_name, material))
+			        .second)
+			{
+				throw Error ("material already present in catalog");
+			}
+		}
 
-void
-Catalog::del_material (const std::string &material_name)
-{
-  _list.erase (material_name);
-}
+		void
+		Catalog::del_material (const std::string &material_name)
+		{
+			_list.erase (material_name);
+		}
 
-}
+	}
 
 }
