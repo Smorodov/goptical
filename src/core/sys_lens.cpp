@@ -133,8 +133,7 @@ namespace goptical
 			return add_stop (std::make_shared<shape::Disk> (radius), thickness);
 		}
 
-		double
-		Lens::get_thickness (unsigned int index) const
+		double Lens::get_thickness (unsigned int index) const
 		{
 			double z = index + 1 == _surfaces.size ()
 			           ? _last_pos
@@ -142,8 +141,7 @@ namespace goptical
 			return z - _surfaces.at (index)->get_local_position ().z ();
 		}
 
-		void
-		Lens::set_thickness (double thickness, unsigned int index)
+		void Lens::set_thickness (double thickness, unsigned int index)
 		{
 			double diff = thickness - get_thickness (index);
 			for (unsigned int i = index; i < _surfaces.size (); i++)
@@ -155,46 +153,39 @@ namespace goptical
 			_last_pos += diff;
 		}
 
-		void
-		Lens::set_left_material (const std::shared_ptr<material::Base> &m)
+		void Lens::set_left_material (const std::shared_ptr<material::Base> &m)
 		{
 			_surfaces.front ()->set_material (0, m);
 		}
 
-		void
-		Lens::set_right_material (const std::shared_ptr<material::Base> &m)
+		void Lens::set_right_material (const std::shared_ptr<material::Base> &m)
 		{
 			_surfaces.back ()->set_material (1, m);
 		}
 
-		void
-		Lens::set_glass_material (const std::shared_ptr<material::Base> &m,
+		void Lens::set_glass_material (const std::shared_ptr<material::Base> &m,
 		                          unsigned int index)
 		{
 			_surfaces.at (index + 1)->set_material (0, m);
 			_surfaces.at (index)->set_material (1, m);
 		}
 
-		void
-		Lens::set_left_curve (const std::shared_ptr<curve::Base> &c)
+		void Lens::set_left_curve (const std::shared_ptr<curve::Base> &c)
 		{
 			_surfaces.front ()->set_curve (c);
 		}
 
-		void
-		Lens::set_right_curve (const std::shared_ptr<curve::Base> &c)
+		void Lens::set_right_curve (const std::shared_ptr<curve::Base> &c)
 		{
 			_surfaces.back ()->set_curve (c);
 		}
 
-		void
-		Lens::set_curve (const std::shared_ptr<curve::Base> &c, unsigned int index)
+		void Lens::set_curve (const std::shared_ptr<curve::Base> &c, unsigned int index)
 		{
 			_surfaces.at (index)->set_curve (c);
 		}
 
-		void
-		Lens::set_shape (const std::shared_ptr<shape::Base> &s)
+		void Lens::set_shape (const std::shared_ptr<shape::Base> &s)
 		{
 			for (unsigned int i = 0; i < _surfaces.size (); i++)
 			{
@@ -202,21 +193,18 @@ namespace goptical
 			}
 		}
 
-		void
-		Lens::set_shape (const std::shared_ptr<shape::Base> &s, unsigned int index)
+		void Lens::set_shape (const std::shared_ptr<shape::Base> &s, unsigned int index)
 		{
 			_surfaces.at (index)->set_shape (s);
 		}
 
-		math::VectorPair3
-		Lens::get_exit_plane () const
+		math::VectorPair3 Lens::get_exit_plane () const
 		{
 			return get_transform ().transform_line (
 			           math::VectorPair3 (0., 0., _last_pos));
 		}
 
-		void
-		Lens::draw_3d_e (io::Renderer &r, const Element *ref) const
+		void Lens::draw_3d_e (io::Renderer &r, const Element *ref) const
 		{
 			// surfaces
 			Group::draw_3d_e (r, ref);
@@ -228,6 +216,7 @@ namespace goptical
 				std::shared_ptr<Surface> right  = _surfaces[i + 1];
 				const shape::Base &s = left->get_shape();
 				io::Rgb color = left->get_color (r);
+				
 				if (&s == &(right->get_shape ()) )
 				{
 					continue;
@@ -277,6 +266,7 @@ namespace goptical
 						curn = nextn;
 					}
 				}
+				
 			}
 #endif
 		}

@@ -34,16 +34,17 @@ namespace goptical
 
 		Sphere::Sphere (double roc) : ConicBase (roc, 0.0) {}
 
-		double
-		Sphere::sagitta (double r) const
+		double Sphere::sagitta (double r) const
 		{
-			double x = fabs (_roc) - sqrt (math::square (_roc) - math::square (r));
+			double x = fabs (_roc) - sqrt (_roc*_roc - r*r );
+			if( r > fabs(_roc)) {x=0;}
 			return _roc < 0 ? -x : x;
 		}
 
-		double
-		Sphere::derivative (double r) const
+		double Sphere::derivative (double r) const
 		{
+			if(fabs(r)>fabs(_roc)){return 0;}
+			if( fabs(_roc)-fabs(r)< 1e-6 ){return 1e6;}
 			return r / sqrt (math::square (_roc) - math::square (r));
 		}
 
